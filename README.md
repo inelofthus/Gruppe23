@@ -1,2 +1,12 @@
-# Gruppe23
-TDT4140
+#RateChill Read Me
+TODO: Write a project description
+
+##Installation
+---------------------------------
+TODO: Describe the installation process
+
+##Usage
+---------------------------------
+TODO: Write usage instructions
+
+
