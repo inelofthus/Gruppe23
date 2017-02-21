@@ -20,6 +20,7 @@ public class main extends Application {
 		primaryStage.setTitle("RateChill");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		//hei
 		
 	}
 	
