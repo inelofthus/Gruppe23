@@ -174,6 +174,35 @@ public class DBController {
 		return hasNext;
 	}
 	
+	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode){
+		ArrayList<Integer> lectures = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("SELECT * FROM Lecture WHERE courseCode = '").append(courseCode).append("' ")
+			.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
+			
+			String query = sb.toString();
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			lectures.add(rs.getInt(1)); 
+			rs.next();
+			lectures.add(rs.getInt(1));	
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	
+		return lectures;
+		
+	}
+	
 	//Lecture info
 	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID){
 		
@@ -697,7 +726,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getCompletedLecturesForCourseByProfessor("tdt4140", "pekkaa"));
+		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4140"));
 	}
 
 }

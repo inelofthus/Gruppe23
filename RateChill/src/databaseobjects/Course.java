@@ -37,7 +37,11 @@ public class Course extends DatabaseUser{
 			System.out.println(e.getMessage());	
 		}
 	}
-
+	
+	public ArrayList<Integer> getLastTwoCompletedLectures() {
+		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
+	}
+	
 	public String getCourseCode() {
 		return courseCode;
 	}
@@ -60,6 +64,11 @@ public class Course extends DatabaseUser{
 
 	public ArrayList<String> getLectureIDs() {
 		return lectureIDs;
+	}
+	
+	public static void main(String[] args) {
+		Course course = new Course("tdt4140");
+		System.out.println(course.getLastTwoCompletedLectures());
 	}
 
 }
