@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 
 public class Lecture extends DatabaseUser {
 	
