@@ -33,6 +33,7 @@ public class Student extends DatabaseUser{
 		}
 				
 	}
+	
 	public void giveEvaluation(int lectureID, String rating, String comment){
 		DBC.insertEvaluation(getEmail(), lectureID, rating, comment);
 		//TODO: Form validation
