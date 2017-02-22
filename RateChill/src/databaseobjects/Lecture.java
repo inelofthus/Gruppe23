@@ -1,15 +1,18 @@
 package databaseobjects;
 
-import database.DBController;
+import java.awt.List;
 
-public class Lecture {
+public class Lecture extends DatabaseUser {
 	
 	int lectureID;
-	
-	DBController DBC;
+	String lectureDate;
+	String lectureTime;
+	String courseCode;
+	String Professor;
+	List Evaluations;
 	
 	public Lecture () {
-		DBC = new DBController();
-		DBC.connect();
+		
 	}
+	
 }
