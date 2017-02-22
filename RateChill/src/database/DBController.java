@@ -30,6 +30,8 @@ public class DBController {
 	Statement stmt = null;
 	ResultSet rs = null;
 
+	//Course info
+	
 	public void getCourseInfo() {
 		try {
 			stmt = conn.createStatement();
@@ -52,32 +54,6 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-	}
-
-	public int getLectureHoursForCourse(String courseCode){
-		
-		int hours =0;
-		
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureHours FROM Course WHERE courseCode = '" + courseCode +"';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-			
-			rs.next();
-			hours = rs.getInt(1);
-			
-						
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		
-		//System.out.println(hours);
-		return hours;
-		
 	}
 	
 	public List<String> getProfessorsForCourse(String courseCode){
@@ -105,30 +81,6 @@ public class DBController {
 		return professor;
 	}
 	
-	public List<String> getCoursestaughtByProfessor(String professorUsername){
-		ArrayList<String> courses = new ArrayList<>();
-		
-			try {
-				stmt = conn.createStatement();
-	
-				String query = "SELECT courseCode FROM CourseProfessor WHERE professorUsername = '" + professorUsername +"';";
-				if (stmt.execute(query)) {
-					rs = stmt.getResultSet();
-				}
-				
-				while(rs.next()){
-					courses.add(rs.getString(1)); 
-				}
-				
-	
-			} catch (Exception e) {
-				System.out.println("SQLException: " + e.getMessage());
-			}
-		
-		//System.out.println(courses);
-		return courses;
-	}
-	
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
 		try {
 
@@ -149,42 +101,32 @@ public class DBController {
 		}
 
 	}
-
-	public void insertProfessor(String professorUsername) {
+	
+	//Lecture info
+	public int getLectureHoursForCourse(String courseCode){
+		
+		int hours =0;
+		
 		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Professor VALUES('")
-			.append(professorUsername).append("');");
-
-			String query = sb.toString();
-			//System.out.println(query);
-
 			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+
+			String query = "SELECT lectureHours FROM Course WHERE courseCode = '" + courseCode +"';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			hours = rs.getInt(1);
+			
+						
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-	}
-
-	public void insertStudent(String studentUsername, String studyProgramCode){
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Student VALUES('")
-			.append(studentUsername).append("@stud.ntnu.no").append("','")
-			.append(studyProgramCode).append("');");
-
-			String query = sb.toString();
-			//System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
+		
+		//System.out.println(hours);
+		return hours;
+		
 	}
 	
 	public void insertLecture(String date, String time, String courseCode, String professorUsername){
@@ -233,93 +175,6 @@ public class DBController {
 		
 	} */
 	
-	public void insertCourseProfessor (String professorUsername, String courseCode){
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into CourseProfessor (professorUsername, courseCode)")
-			.append(" SELECT Professor.professorUsername, Course.courseCode")
-			.append(" FROM Course, Professor")
-			.append(" WHERE courseCode = '").append(courseCode).append("'")
-			.append("AND professorUsername = '").append(professorUsername).append("'")
-			;
-
-			String query = sb.toString();
-			//System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-	}
-	
-	public void insertCourseStudent (String studentEmail, String courseCode){
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into CourseStudent (studentEmail, courseCode)")
-			.append(" SELECT Student.studentEmail, Course.courseCode")
-			.append(" FROM Course, Student")
-			.append(" WHERE courseCode = '").append(courseCode).append("'")
-			.append("AND studentEmail = '").append(studentEmail).append("'")
-			;
-
-			String query = sb.toString();
-			//System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-	}
-	
-	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment){
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
-			.append(" SELECT Student.studentEmail, Lecture.lectureID, '")
-			.append(rating).append("', '")
-			.append(studentComment).append("'")
-			.append(" FROM Student, Lecture")
-			.append(" WHERE studentEmail = '").append(studentEmail)
-			.append("' AND lectureID = ").append(lectureID).append(";")
-			;
-
-			String query = sb.toString();
-			//System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-	}
-	
-	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername){
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO Lecture (lectureDate, lectureTime, Lecture.courseCode, professorUsername) ")
-		.append("SELECT '").append(date)
-		.append("','").append(time).append("',Course.courseCode, Professor.professorUsername ")
-		.append("FROM Course, Professor ")
-		.append("WHERE courseCode = '").append(courseCode)
-		.append("' AND professorUsername =  '").append(professorUsername)
-		.append("';")
-		;
-
-		String query = sb.toString();
-		//System.out.println(query);
-		
-		return query;
-		
-	}
-	
 	private List<String> getStartDate(){
 		//Return SQL friendly list of date Strings of next Monday, Wednesday and Friday  YYYY-MM-DD
 		ArrayList<String> startDates = new ArrayList<>();
@@ -362,7 +217,223 @@ public class DBController {
 		//System.out.println(startDates);
 		return startDates;
 	}
+			
+	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername){
 		
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO Lecture (lectureDate, lectureTime, Lecture.courseCode, professorUsername) ")
+		.append("SELECT '").append(date)
+		.append("','").append(time).append("',Course.courseCode, Professor.professorUsername ")
+		.append("FROM Course, Professor ")
+		.append("WHERE courseCode = '").append(courseCode)
+		.append("' AND professorUsername =  '").append(professorUsername)
+		.append("';")
+		;
+
+		String query = sb.toString();
+		//System.out.println(query);
+		
+		return query;
+		
+	}
+	
+
+	//Professor info
+	public List<String> getCoursestaughtByProfessor(String professorUsername){
+		ArrayList<String> courses = new ArrayList<>();
+		
+			try {
+				stmt = conn.createStatement();
+	
+				String query = "SELECT courseCode FROM CourseProfessor WHERE professorUsername = '" + professorUsername +"';";
+				if (stmt.execute(query)) {
+					rs = stmt.getResultSet();
+				}
+				
+				while(rs.next()){
+					courses.add(rs.getString(1)); 
+				}
+				
+	
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+			}
+		
+		//System.out.println(courses);
+		return courses;
+	}
+	
+	public void insertProfessor(String professorUsername) {
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("INSERT INTO Professor VALUES('")
+			.append(professorUsername).append("');");
+
+			String query = sb.toString();
+			//System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	}
+
+	//Student info
+	public void insertStudent(String studentUsername, String studyProgramCode){
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("INSERT INTO Student VALUES('")
+			.append(studentUsername).append("@stud.ntnu.no").append("','")
+			.append(studyProgramCode).append("');");
+
+			String query = sb.toString();
+			//System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	}
+	public boolean studentExists(String studentEmail){
+		boolean hasNext = false;
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT studentEmail FROM Student WHERE studentEmail = '" + studentEmail +"';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return hasNext;
+	}
+	public String getStudyProgram(String studentEmail){
+		String studyProgram = "";
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + studentEmail +"';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			studyProgram = rs.getString(1);
+			
+						
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return studyProgram;
+	}
+	public ArrayList<String> getStudentCourses(String studentEmail){
+		ArrayList<String> studentCourses = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT courseCode FROM CourseStudent WHERE studentEmail = '" + studentEmail +"';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				studentCourses.add(rs.getString(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		return studentCourses;
+	}
+	
+	
+	//CourseProfessor info
+	public void insertCourseProfessor (String professorUsername, String courseCode){
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("Insert into CourseProfessor (professorUsername, courseCode)")
+			.append(" SELECT Professor.professorUsername, Course.courseCode")
+			.append(" FROM Course, Professor")
+			.append(" WHERE courseCode = '").append(courseCode).append("'")
+			.append("AND professorUsername = '").append(professorUsername).append("'")
+			;
+
+			String query = sb.toString();
+			//System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	}
+	
+	//CourseStudent info
+	public void insertCourseStudent (String studentEmail, String courseCode){
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("Insert into CourseStudent (studentEmail, courseCode)")
+			.append(" SELECT Student.studentEmail, Course.courseCode")
+			.append(" FROM Course, Student")
+			.append(" WHERE courseCode = '").append(courseCode).append("'")
+			.append("AND studentEmail = '").append(studentEmail).append("'")
+			;
+
+			String query = sb.toString();
+			//System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	}
+	
+	//Evaluation info
+	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment){
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
+			.append(" SELECT Student.studentEmail, Lecture.lectureID, '")
+			.append(rating).append("', '")
+			.append(studentComment).append("'")
+			.append(" FROM Student, Lecture")
+			.append(" WHERE studentEmail = '").append(studentEmail)
+			.append("' AND lectureID = ").append(lectureID).append(";")
+			;
+
+			String query = sb.toString();
+			//System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	}
+
+	
+	//Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
 		test.connect();
@@ -381,6 +452,9 @@ public class DBController {
 		//test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow this is the most boring and stupid lecture ever");
 		//test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
 		//test.insertStudent("magnutvi", "MLREAL");
+		
+		
+		System.out.println(test.getStudentCourses("karimj@stud.ntnu.no"));
 	}
 
 }
