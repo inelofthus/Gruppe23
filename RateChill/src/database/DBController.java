@@ -81,14 +81,14 @@ public class DBController {
 		return professor;
 	}
 	
-	public ArrayList<String> getCourseCodeNameAndLocation(String courseCode) {
+	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
 			
 			ArrayList<String> result = new ArrayList<>();
 			
 			try {
 				stmt = conn.createStatement();
 	
-				String query = "SELECT * FROM Course WHERE courseCode = " + "'" + courseCode +"';";
+				String query = "SELECT courseName, courseLocation FROM Course WHERE courseCode = " + "'" + courseCode +"';";
 				
 				if (stmt.execute(query)) {
 					rs = stmt.getResultSet();
@@ -97,7 +97,7 @@ public class DBController {
 				while (rs.next()) {
 					result.add(rs.getString(1));
 					result.add(rs.getString(2));
-					result.add(rs.getString(3));
+					
 	
 					}
 	
@@ -504,7 +504,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getStudentCourses("karimj@stud.ntnu.no"));
+		System.out.println(test.getCourseNameAndLocation("tdt4140"));
 	}
 
 }
