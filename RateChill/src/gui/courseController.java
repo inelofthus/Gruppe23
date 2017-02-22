@@ -25,31 +25,30 @@ public class courseController implements Initializable {
 	Button fag4;
 	
 	@FXML
-	 private void handleButtonAction(ActionEvent event) throws IOException{
-	     Stage stage; 
-	     Parent root;
-	     if(event.getSource()==fag1){
-	        //get reference to the button's stage         
+	private void handleButtonAction(ActionEvent event) throws IOException{
+		Stage stage; 
+	    Parent root;
+	    if(event.getSource()==fag1){
+	    	//get reference to the button's stage         
 	        stage=(Stage) fag1.getScene().getWindow();
-	        //load up OTHER FXML document
-	  root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-	      }
-	     else if (event.getSource()==fag2){
-	       stage=(Stage) fag2.getScene().getWindow();
-	  root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-	      }
-	     else if (event.getSource()==fag3){
-		       stage=(Stage) fag3.getScene().getWindow();
-		  root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-		      }
-	     else{
-		       stage=(Stage) fag4.getScene().getWindow();
-		  root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-		      }
-	      //create a new scene with root and set the stage
-	      Scene scene = new Scene(root);
-	      stage.setScene(scene);
-	      stage.show();
+	    }
+	    else if (event.getSource()==fag2){
+	    	stage=(Stage) fag2.getScene().getWindow();
+	    }
+	    else if (event.getSource()==fag3){
+	    	stage=(Stage) fag3.getScene().getWindow();
+		}
+	    else {
+	    	stage=(Stage) fag4.getScene().getWindow();
+		}
+	    
+	    //load up OTHER FXML document
+        root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
+	    
+	    //create a new scene with root and set the stage
+	    Scene scene = new Scene(root);
+	    stage.setScene(scene);
+	    stage.show();
 	    } 
 	
 	@Override
