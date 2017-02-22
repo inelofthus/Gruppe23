@@ -547,6 +547,30 @@ public class DBController {
 		}
 	}
 
+	public ArrayList<String> getEvaluationRatingAndComment(int lectureid, String studentEmail){
+		ArrayList<String> evaluation = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = " + lectureid + " AND studentEmail ='" + studentEmail +"' ;";
+			//System.out.println(query);
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			evaluation.add(rs.getString(1));
+			evaluation.add(rs.getString(2));
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		return evaluation;
+	}
+	
 	
 	//Main for testing
 	public static void main(String[] args) throws ParseException {
@@ -569,7 +593,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getLectureDateAndTime(2));
+		System.out.println(test.getEvaluationRatingAndComment(2, "negative@stud.ntnu.no"));
 	}
 
 }

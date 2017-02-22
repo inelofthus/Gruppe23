@@ -12,7 +12,7 @@ public class Lecture extends DatabaseUser {
 	GregorianCalendar lectureDateAndTime;
 	String courseCode;
 	String Professor;
-	ArrayList<String> Evaluations;
+	ArrayList<Evaluation> Evaluations;
 	
 	//Constructor
 	public Lecture () {
