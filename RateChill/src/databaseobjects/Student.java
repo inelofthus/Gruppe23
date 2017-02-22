@@ -38,5 +38,16 @@ public class Student extends DatabaseUser{
 		//TODO: Form validation
 	}
 
-	
+	public String getUsername() {
+		return username;
+	}
+
+	public String getStudyProgram() {
+		return studyProgram;
+	}
+
+	public ArrayList<String> getCourseIDs() {
+		return courseIDs;
+	}
+
 }
