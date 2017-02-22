@@ -56,7 +56,7 @@ public class DBController {
 		}
 	}
 	
-	public List<String> getProfessorsForCourse(String courseCode){
+	public ArrayList<String> getProfessorsForCourse(String courseCode){
 		
 		ArrayList<String> professor = new ArrayList<>();
 		
