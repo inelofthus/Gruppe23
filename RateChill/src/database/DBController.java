@@ -174,27 +174,29 @@ public class DBController {
 	}
 	
 	//Lecture info
-	public String getLectureDate(int lectureID){
+	public ArrayList<String> getLectureDateAndTime(int lectureID){
 		
-		String date = null;
+		ArrayList<String> dateAndTime = new ArrayList<>();
 		
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT lectureDate FROM Lecture WHERE lectureID = " + lectureID + ";";
+			String query = "SELECT lectureDate, lectureTime FROM Lecture WHERE lectureID = " + lectureID + ";";
+			System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 			
 			rs.next();
-			date = rs.getString(1);
+			dateAndTime.add(rs.getString(1));
+			dateAndTime.add(rs.getString(2));
 			
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
-		return date;
+		return dateAndTime;
 		
 	}
 	
@@ -567,7 +569,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getLectureDate(2));
+		System.out.println(test.getLectureDateAndTime(2));
 	}
 
 }
