@@ -1,5 +1,7 @@
 package databaseobjects;
 
+import java.util.NoSuchElementException;
+
 import database.DBController;
 
 public class Evaluation extends DatabaseUser {
@@ -16,16 +18,20 @@ public class Evaluation extends DatabaseUser {
 	public void loadInfo(){
 		try {
 			rating = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);
-			comment = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);
+			comment = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(1);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			if (!existsInDB()) {
-				throw new IllegalAccessError("User does not exist in database");
+				throw new NoSuchElementException("Evaluation does not exist in database");
 			}
 			System.out.println(e.getMessage());
 		}
 				
+	}
+
+	private boolean existsInDB() {
+		return DBC.evaluationExists(lectureid, studentEmail);
 	}
 	
 }

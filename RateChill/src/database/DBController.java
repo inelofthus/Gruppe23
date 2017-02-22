@@ -571,6 +571,25 @@ public class DBController {
 		return evaluation;
 	}
 	
+	public boolean evaluationExists(int lectureid, String studentEmail){
+		boolean hasNext = false;
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureID FROM Evaluation WHERE lectureID = " + lectureid + " AND studentEmail ='" + studentEmail +"' ;";
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return hasNext;
+	}
+	
 	
 	//Main for testing
 	public static void main(String[] args) throws ParseException {
@@ -593,7 +612,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getEvaluationRatingAndComment(2, "negative@stud.ntnu.no"));
+		System.out.println(test.evaluationExists(2, "negative@stud.ntnu.no"));
 	}
 
 }
