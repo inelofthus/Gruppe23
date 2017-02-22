@@ -356,7 +356,7 @@ public class DBController {
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode +"';";
+			String query = "SELECT professorUsername FROM Professor WHERE professorUsername = '" + professorUsername +"';";
 			
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -543,7 +543,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.courseExists("tdt4140"));
+		System.out.println(test.professorExists("asdf"));
 	}
 
 }
