@@ -309,7 +309,7 @@ public class DBController {
 	
 
 	//Professor info
-	public List<String> getCoursestaughtByProfessor(String professorUsername){
+	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername){
 		ArrayList<String> courses = new ArrayList<>();
 		
 			try {
@@ -351,6 +351,25 @@ public class DBController {
 		}
 	}
 
+	public boolean professorExists(String professorUsername){
+		boolean hasNext = false;
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode +"';";
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return hasNext;
+	}
+	
 	//Student info
 	public void insertStudent(String studentUsername, String studyProgramCode){
 		try {
