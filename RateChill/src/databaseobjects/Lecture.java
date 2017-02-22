@@ -1,6 +1,6 @@
 package databaseobjects;
 
-import java.awt.List;
+import java.util.ArrayList;
 
 public class Lecture extends DatabaseUser {
 	
@@ -9,7 +9,7 @@ public class Lecture extends DatabaseUser {
 	String lectureTime;
 	String courseCode;
 	String Professor;
-	List Evaluations;
+	ArrayList<String> Evaluations;
 	
 	public Lecture () {
 		

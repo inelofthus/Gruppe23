@@ -16,7 +16,7 @@ public class Student extends DatabaseUser{
 	private String getEmail(){
 		return username + "@stud.ntnu.no";
 	}
-	private boolean existsInDB(){
+	public boolean existsInDB(){
 		return DBC.studentExists(getEmail());
 	}
 	public void loadInfo(){

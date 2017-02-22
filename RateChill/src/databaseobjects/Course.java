@@ -18,7 +18,7 @@ public class Course extends DatabaseUser{
 		loadInfo();
 	}
 	
-	private boolean existsInDB(){
+	public boolean existsInDB(){
 		return DBC.courseExists(courseCode);
 	}
 	
