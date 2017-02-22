@@ -15,6 +15,13 @@ public class Evaluation extends DatabaseUser {
 		loadInfo();
 	}
 	
+	public Evaluation(String rating, String comment, int lectureid, String studentEmail) {
+		this.rating = rating;
+		this.comment = comment;
+		this.lectureid = lectureid;
+		this.studentEmail = studentEmail;
+	}
+	
 	public void loadInfo(){
 		try {
 			rating = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);

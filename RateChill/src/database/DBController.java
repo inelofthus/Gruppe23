@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import databaseobjects.Evaluation;
+import javafx.collections.ArrayChangeListener;
 
 public class DBController {
 	
@@ -174,29 +176,31 @@ public class DBController {
 	}
 	
 	//Lecture info
-	public ArrayList<String> getLectureDateAndTime(int lectureID){
+	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID){
 		
-		ArrayList<String> dateAndTime = new ArrayList<>();
+		ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
 		
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT lectureDate, lectureTime FROM Lecture WHERE lectureID = " + lectureID + ";";
+			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = " + lectureID + ";";
 			System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 			
 			rs.next();
-			dateAndTime.add(rs.getString(1));
-			dateAndTime.add(rs.getString(2));
+			dateTimeAndCourseCode.add(rs.getString(1));
+			dateTimeAndCourseCode.add(rs.getString(2));
+			dateTimeAndCourseCode.add(rs.getString(3));
+			dateTimeAndCourseCode.add(rs.getString(4));
 			
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
-		return dateAndTime;
+		return dateTimeAndCourseCode;
 		
 	}
 	
@@ -224,6 +228,35 @@ public class DBController {
 		//System.out.println(hours);
 		return hours;
 		
+	}
+	
+	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID){
+		
+		ArrayList<Evaluation> evaluations = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+
+			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = " + lectureID + ";";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				
+				String studentEmail  = rs.getString(1);
+				String rating = rs.getString(2);
+				String studentComment = rs.getString(3);
+				Evaluation eval = new Evaluation(rating, studentComment, lectureID, studentEmail);
+				evaluations.add(eval);
+			
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		return evaluations;
 	}
 	
 	public void insertLecture(String date, String time, String courseCode, String professorUsername){
@@ -631,7 +664,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.lectureExists(2));
+		System.out.println(test.getEvaluationsForLecture(2).get(0).getRating());
 	}
 
 }

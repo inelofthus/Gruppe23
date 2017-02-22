@@ -3,6 +3,7 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.NoSuchElementException;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 
@@ -11,12 +12,32 @@ public class Lecture extends DatabaseUser {
 	int lectureID;
 	GregorianCalendar lectureDateAndTime;
 	String courseCode;
-	String Professor;
-	ArrayList<Evaluation> Evaluations;
+	String professor;
+	ArrayList<Evaluation> evaluations;
 	
 	//Constructor
-	public Lecture () {
-		
+	public Lecture (int lectureID) {
+		this.lectureID = lectureID;
+		loadInfo();
+	}
+	
+	public void loadInfo(){
+		try {
+			String date = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(0);
+			String time = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(1);
+			courseCode = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(2);
+			professor = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(3);
+			lectureDateAndTime = stringToCalender(date, time);
+			evaluations = DBC.getEvaluationsForLecture(lectureID);
+			
+		} catch (Exception e){
+			// TODO:handle exception
+			if (!existsInDB()) {
+				throw new NoSuchElementException("Lecture does not exist in database");
+			}
+			System.out.println(e.getMessage());
+		}
+				
 	}
 	
 	public boolean existsInDB() {
@@ -42,12 +63,34 @@ public class Lecture extends DatabaseUser {
 		
 	}
 	
+	public int getLectureID() {
+		return lectureID;
+	}
+
+	public GregorianCalendar getLectureDateAndTime() {
+		return lectureDateAndTime;
+	}
+
+	public String getCourseCode() {
+		return courseCode;
+	}
+
+	public String getProfessor() {
+		return professor;
+	}
+
+	public ArrayList<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+
 	public static void main(String[] args) {
-		Lecture lec = new Lecture();
-		String date = "2017-02-20";
-	
-		GregorianCalendar greg = lec.stringToCalender("2017-02-20", "00:00:00");
-		System.out.println(greg.get(Calendar.MONTH));
+		Lecture lec = new Lecture(2);
+		System.out.println(lec.getCourseCode());
+		System.out.println(lec.getLectureID());
+		System.out.println(lec.getProfessor());
+		System.out.println(lec.getEvaluations().get(0).getComment());
+		System.out.println(lec.getLectureDateAndTime().get(Calendar.YEAR));
+		
 	}
 	
 }
