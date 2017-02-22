@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -173,6 +174,30 @@ public class DBController {
 	}
 	
 	//Lecture info
+	public String getLectureDate(int lectureID){
+		
+		String date = null;
+		
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureDate FROM Lecture WHERE lectureID = " + lectureID + ";";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			date = rs.getString(1);
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		return date;
+		
+	}
+	
 	public int getLectureHoursForCourse(String courseCode){
 		
 		int hours =0;
@@ -307,7 +332,6 @@ public class DBController {
 		
 	}
 	
-
 	//Professor info
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername){
 		ArrayList<String> courses = new ArrayList<>();
@@ -531,7 +555,7 @@ public class DBController {
 		//test.insertProfessor("sveinbra");
 		//test.getCourseInfo();
 		//test.insertStudent("karimj","MTING");
-		//test.getProfessorsForCourse("tdt4140");
+		//test.getProfessorsForCoursse("tdt4140");
 		//test.getCoursestaughtByProfessor("pekkaa");
 		//test.getLectureHoursForCourse("tdt4140");
 		//test.getStartDate();
@@ -543,7 +567,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.professorExists("asdf"));
+		System.out.println(test.getLectureDate(2));
 	}
 
 }
