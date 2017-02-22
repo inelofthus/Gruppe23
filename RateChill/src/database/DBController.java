@@ -12,7 +12,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import databaseobjects.Evaluation;
-import javafx.collections.ArrayChangeListener;
 
 public class DBController {
 	
@@ -448,6 +447,40 @@ public class DBController {
 		return hasNext;
 	}
 	
+	public ArrayList<Integer> getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername){
+		// returns lectureIDs for all lectures given by this professor that have already passed in specified course
+		// Order is with the newest lecture first
+		
+		ArrayList<Integer> lectures = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("SELECT * FROM Lecture WHERE courseCode = '").append(courseCode).append("' ")
+			.append("AND professorUsername = '").append(professorUsername).append("' ")
+			.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
+			
+			String query = sb.toString();
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				lectures.add(rs.getInt(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+	
+	//System.out.println(courses);
+	return lectures;
+		
+		
+	}
+	
 	//Student info
 	public void insertStudent(String studentUsername, String studyProgramCode){
 		try {
@@ -664,7 +697,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getEvaluationsForLecture(2).get(0).getRating());
+		System.out.println(test.getCompletedLecturesForCourseByProfessor("tdt4140", "pekkaa"));
 	}
 
 }
