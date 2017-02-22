@@ -152,6 +152,26 @@ public class DBController {
 		return lectures;
 	}
 	
+	public boolean courseExists(String courseCode){
+		
+		boolean hasNext = false;
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode +"';";
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return hasNext;
+	}
+	
 	//Lecture info
 	public int getLectureHoursForCourse(String courseCode){
 		
@@ -504,7 +524,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.getCourseNameAndLocation("tdt4140"));
+		System.out.println(test.courseExists("tdt4140"));
 	}
 
 }
