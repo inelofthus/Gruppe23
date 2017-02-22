@@ -244,6 +244,25 @@ public class DBController {
 		
 	}
 	
+	public boolean lectureExists(int lectureID){
+		boolean hasNext = false;
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureID FROM Lecture WHERE lectureID = " + lectureID +";";
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		return hasNext;
+	}
+	
 	/*public void insertLectures(int weeksUntilExam, String courseCode){
 		//TODO Insert number of lectures per week for a whole semester. Automatically set day to Monday, Wednesday, (Friday if 3 lectures per week) 08:00. 
 		//Add lectures until exam date: needs function that gets Exam date from API and calculates number of weeks until Exam.
@@ -612,7 +631,7 @@ public class DBController {
 		//test.insertStudent("magnutvi", "MLREAL");
 		
 		
-		System.out.println(test.evaluationExists(2, "negative@stud.ntnu.no"));
+		System.out.println(test.lectureExists(2));
 	}
 
 }

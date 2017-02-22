@@ -34,8 +34,6 @@ public class Evaluation extends DatabaseUser {
 		return DBC.evaluationExists(lectureid, studentEmail);
 	}
 	
-	
-
 	public String getRating() {
 		return rating;
 	}
