@@ -19,6 +19,10 @@ public class Lecture extends DatabaseUser {
 		
 	}
 	
+	public boolean existsInDB() {
+		return DBC.lectureExists(lectureID);
+	}
+	
 	private GregorianCalendar stringToCalender(String date, String time){
 		// date format: "YYYY-MM-DD"
 		// time format: "hh:mm:ss"

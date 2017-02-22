@@ -2,8 +2,6 @@ package databaseobjects;
 
 import java.util.NoSuchElementException;
 
-import database.DBController;
-
 public class Evaluation extends DatabaseUser {
 
 	private String rating;
@@ -11,8 +9,10 @@ public class Evaluation extends DatabaseUser {
 	private int lectureid;
 	private String studentEmail;
 	
-	public Evaluation() {
-		// TODO Auto-generated constructor stub
+	public Evaluation(int lectureid,String studentEmail) {
+		this.lectureid = lectureid;
+		this.studentEmail = studentEmail;
+		loadInfo();
 	}
 	
 	public void loadInfo(){
@@ -30,8 +30,33 @@ public class Evaluation extends DatabaseUser {
 				
 	}
 
-	private boolean existsInDB() {
+	public boolean existsInDB() {
 		return DBC.evaluationExists(lectureid, studentEmail);
+	}
+	
+	
+
+	public String getRating() {
+		return rating;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public int getLectureid() {
+		return lectureid;
+	}
+
+	public String getStudentEmail() {
+		return studentEmail;
+	}
+	
+	public static void main(String[] args) {
+		//Evaluation e = new Evaluation(2,"negative@stud.ntnu.no");
+		//System.out.println(e.existsInDB());
+		//System.out.println(e.getRating());
+		//System.out.println(e.getComment());
 	}
 	
 }
