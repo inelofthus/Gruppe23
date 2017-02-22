@@ -81,6 +81,33 @@ public class DBController {
 		return professor;
 	}
 	
+	public ArrayList<String> getCourseCodeNameAndLocation(String courseCode) {
+			
+			ArrayList<String> result = new ArrayList<>();
+			
+			try {
+				stmt = conn.createStatement();
+	
+				String query = "SELECT * FROM Course WHERE courseCode = " + "'" + courseCode +"';";
+				
+				if (stmt.execute(query)) {
+					rs = stmt.getResultSet();
+				}
+	
+				while (rs.next()) {
+					result.add(rs.getString(1));
+					result.add(rs.getString(2));
+					result.add(rs.getString(3));
+	
+					}
+	
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+			}
+			
+			return result;
+		}
+	
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
 		try {
 
@@ -100,6 +127,29 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 
+	}
+	
+	public ArrayList<String> getLecturesForCourse(String courseCode){
+		ArrayList<String> lectures = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode +"';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				lectures.add(rs.getString(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		return lectures;
 	}
 	
 	//Lecture info

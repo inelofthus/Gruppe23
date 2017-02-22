@@ -20,4 +20,6 @@ public class Course extends DatabaseUser{
 		
 	}
 	
+	
+	
 }
