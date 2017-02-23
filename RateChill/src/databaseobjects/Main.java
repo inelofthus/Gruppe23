@@ -23,8 +23,7 @@ public class Main {
 		
 		System.out.println(course.getLastTwoCompletedLectures());
 		System.out.println(eval.getStudentEmail());
-		 
-		//System.out.println(course.getCourseLocation());
+		System.out.println(stud.getCourseNames());
 
 	}
 

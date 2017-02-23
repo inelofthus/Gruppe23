@@ -32,6 +32,29 @@ public class DBController {
 	Statement stmt = null;
 	ResultSet rs = null;
 
+	public ArrayList<String> getStringArray(String query){
+		
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				list.add(rs.getString(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		//System.out.println(professor);
+		return list;
+	}
+	
 	//Course info
 	
 	public void getCourseInfo() {
@@ -588,6 +611,7 @@ public class DBController {
 		
 		return studentCourses;
 	}
+	
 	
 	
 	//CourseProfessor info
