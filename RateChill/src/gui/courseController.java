@@ -34,14 +34,6 @@ public class courseController implements Initializable {
 	}*/
 	
 	
-	public void setButtonText(){
-		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
-	}
-	
-	public void loadView(){
-		setButtonText();
-	}
-	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -77,14 +69,16 @@ public class courseController implements Initializable {
 	    //create a new scene with root and set the stage
 	    Scene scene = new Scene(root);
 	    stage.setScene(scene);
-	    loadView();
 	    stage.show();
 	    }
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
+		fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
+		fag3.setText(mainController.getInstance().getStudents().getCourseIDs().get(2));
+		fag4.setText(mainController.getInstance().getStudents().getCourseIDs().get(3));
 	}
 
 }
