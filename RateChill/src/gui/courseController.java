@@ -57,33 +57,33 @@ public class courseController implements Initializable {
 	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
 	    	//get reference to the button's stage
-         /*
+         
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	        stage=(Stage) fag1.getScene().getWindow();
 	        mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
-	       */ 
-
+	       
+/*
 	    	Course course = new Course(loadCourseName(0));
 	        stage=(Stage) fag1.getScene().getWindow();
 	        setLectures(course);
-
+*/
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
 	    	Course course = new Course(loadCourseName(1));
 	    	stage=(Stage) fag2.getScene().getWindow();
 
-	    	//mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
 
-	    	setLectures(course);
+	    	//setLectures(course);
 
 	    }
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
 	    	Course course = new Course(loadCourseName(2));
 	    	stage=(Stage) fag3.getScene().getWindow();
 
-	    	//mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
 
-	    	setLectures(course);
+	    	//setLectures(course);
 
 		}
 	    else if (event.getSource()==fag3 && numberOfCourses>3){
@@ -110,10 +110,10 @@ public class courseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
-		fag1.setText(loadCourseName(0));
-		fag2.setText(loadCourseName(1));
-		fag3.setText(loadCourseName(2));
-		fag4.setText(loadCourseName(3));
+		fag1.setText((mainController.getInstance().getStudents().getCourseIDs().get(0)));
+		fag2.setText((mainController.getInstance().getStudents().getCourseIDs().get(1)));
+		//fag3.setText(loadCourseName(2));
+		//fag4.setText(loadCourseName(3));
 	}
 
 }
