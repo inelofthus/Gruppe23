@@ -14,7 +14,7 @@
          <font>
             <Font size="19.0" />
          </font></TextArea>
-      <Button fx:id="submit" layoutX="334.0" layoutY="337.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="287.0" text="Submit feedback" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="submit" layoutX="334.0" layoutY="337.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="65.0" prefWidth="287.0" text="Submit feedback" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="19.0" />
          </font>

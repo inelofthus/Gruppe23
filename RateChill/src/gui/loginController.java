@@ -41,42 +41,34 @@ public class loginController implements Initializable {
 	public void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage;
 		
-		//load up OTHER FXML document
-		Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
+		Student stud = new Student(username.getText());
 		
 		if(event.getSource()==student){
 	    	
-			//get reference to the button's stage
-	    	stage=(Stage) student.getScene().getWindow();
-	    	
-	    	//here we want to create a new student object and print error msg if it doesn't exist
-	    	
-	    	
-	    	Student stud = new Student(username.getText());
-	    	
-	    	if(stud.existsInDB()) {
-	    		
+			
+	    	//here we want to create a new student object and print error msg if it doesn't exist    	
+			if(stud.existsInDB()) {
 	    		ArrayList<String> courses = stud.getCourseIDs();
 	    		int number = courses.size();
 	    		mainController.getInstance().setStudent(stud);
-	    		for (String course:courses) {
-	    			
-	    		}
 	    		
-	    		System.out.println(stud.getCourseIDs());
-	    		//create a new scene with root and set the stage
+	    	//get reference to the button's stage
+		    	stage=(Stage) student.getScene().getWindow();
+		    	//load up OTHER FXML document
+				Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
+		    	//create a new scene with root and set the stage
 	    		Scene scene = new Scene(root);
 	    		stage.setScene(scene);
 	    		stage.show();
-	    	}
+			}
+	    	
 	    	String errorMsg = "User doesn't exist. Try again";
 	    	error.setText(errorMsg);
-		    
-	    	
 	    }
 	    	
 	    else{
 	    	stage=(Stage) professor.getScene().getWindow();
+	    	Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
 	    	root = FXMLLoader.load(getClass().getResource("course.fxml"));
 	    	/*
 	    	//here we wanna create a new professor object if the professor does not already exist
@@ -90,7 +82,7 @@ public class loginController implements Initializable {
 	    }
 		
 	     
-	    } 
+	} 
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
