@@ -1,46 +1,42 @@
 package databaseobjects;
-
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import database.DBController;
-import javafx.collections.ArrayChangeListener;
-
 
 public class Professor extends DatabaseUser {
 	String username;
 	ArrayList<String> courses;
 	
 	// Constructor1
-	public Professor( String professorUsername) {
+	public Professor(String professorUsername) {
 		this.username = professorUsername;
 		loadInfo();
 	}
 	
 	// Constructor 2
-	public Professor(DBController DBC ,String professorUsername) {
+	public Professor(DBController DBC, String professorUsername) {
 		super(DBC);
 		this.username = professorUsername;
 		loadInfo();
 	}
 	
-	private void loadInfo() {
-		
-		try {
-			courses = DBC.getCoursesTaughtByProfessor(username);
-			
-		} catch (Exception e){
-			// TODO:handle exception
-			if (!existsInDB()) {
-				throw new NoSuchElementException("Lecture does not exist in database");
-			}
-			System.out.println(e.getMessage());
-		}
-		
-	}
 
 	public boolean existsInDB(){
 		return DBC.professorExists(username);
+	}
+	
+	public void loadInfo(){
+		try {
+			courses = DBC.getCoursesTaughtByProfessor(username);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			if (!existsInDB()) {
+				throw new NoSuchElementException("No courses exists for this professor");
+			}
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public ArrayList<Integer> getLecturesForCourse(String courseCode){
@@ -59,8 +55,6 @@ public class Professor extends DatabaseUser {
 		
 		return lastTwoCompleteLectures;
 	}
-
-	
 	
 	public String getUsername() {
 		return username;
@@ -68,14 +62,6 @@ public class Professor extends DatabaseUser {
 
 	public ArrayList<String> getCourses() {
 		return courses;
-	}
-
-	public static void main(String[] args) {
-		Professor prof = new Professor("pekkaa");
-		System.out.println(prof.getUsername());
-		System.out.println(prof.getCourses());
-		System.out.println(prof.getLecturesForCourse(prof.getCourses().get(0)));
-		System.out.println(prof.getLastTwoCompletedLecturesForCourse(prof.getCourses().get(0)));
 	}
 	
 }
