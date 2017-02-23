@@ -32,8 +32,7 @@ public class courseController implements Initializable {
 	/*public courseController() {
 		Student currentUser = getCurrentUser();
 	}*/
-	
-	
+
 	public void setButtonText(){
 		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	}
@@ -84,6 +83,7 @@ public class courseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
 		
 	}
 
