@@ -724,7 +724,7 @@ public class DBController {
 		//test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow this is the most boring and stupid lecture ever");
 		//test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
 		//test.insertStudent("magnutvi", "MLREAL");
-		test.insertEvaluation("karimj@stud.ntnu.no", 2, "Perfect", "This was a very informative lecture. I like it when you write on the blackboard");
+		//test.insertEvaluation("karimj@stud.ntnu.no", 2, "Perfect", "This was a very informative lecture. I like it when you write on the blackboard");
 		
 		System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
