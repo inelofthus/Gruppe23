@@ -2,18 +2,15 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
-import database.DBController;
-
 public class Main {
 
 	public static void main(String[] args) {
 		
-		DBController DBC = new DBController();
-		DBC.connect();
-		Course course = new Course(DBC, "tdt4140");
-		Student stud = new Student(DBC, "karimj");
-		Evaluation eval = new Evaluation(DBC, 2, stud.getEmail());
-		Lecture lec = new Lecture(DBC, 2);
+		
+		Course course = new Course("tdt4140");
+		Student stud = new Student("karimj");
+		Evaluation eval = new Evaluation(2, stud.getEmail());
+		Lecture lec = new Lecture( 2);
 		
 		ArrayList<Evaluation> evals = lec.getEvaluations();
 		
@@ -23,8 +20,7 @@ public class Main {
 		
 		System.out.println(course.getLastTwoCompletedLectures());
 		System.out.println(eval.getStudentEmail());
-		 
-		//System.out.println(course.getCourseLocation());
+		System.out.println(stud.getCourseNames());
 
 	}
 

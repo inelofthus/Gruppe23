@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
 
-import database.DBController;
 
 
 public class Lecture extends DatabaseUser {
@@ -22,12 +21,6 @@ public class Lecture extends DatabaseUser {
 		loadInfo();
 	}
 	
-	//Constructor 2
-	public Lecture (DBController DBC, int lectureID) {
-		super(DBC);
-		this.lectureID = lectureID;
-		loadInfo();
-	}
 	
 	
 	public void loadInfo(){

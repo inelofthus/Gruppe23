@@ -2,12 +2,12 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
-import database.DBController;
 
 public class Student extends DatabaseUser{
 	private String username;
 	private String studyProgram;
 	private ArrayList<String> courseIDs;
+	private ArrayList<String> courseNames;
 	
 	//Constructor1
 	public Student(String username) {
@@ -15,12 +15,12 @@ public class Student extends DatabaseUser{
 		loadInfo();
 	}
 	
-	//Constructor2
-	public Student(DBController DBC ,String username) {
-		super(DBC);
-		this.username = username;
-		loadInfo();
-	}
+//	//Constructor2
+//	public Student(DBController DBC ,String username) {
+//		super(DBC);
+//		this.username = username;
+//		loadInfo();
+//	}
 	
 	
 	public String getEmail(){
@@ -33,6 +33,8 @@ public class Student extends DatabaseUser{
 		try {
 			studyProgram = DBC.getStudyProgram(getEmail());
 			courseIDs = DBC.getStudentCourses(getEmail());
+			String query = "select courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"+ getEmail() + "';";
+			courseNames = DBC.getStringArray(query);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -44,6 +46,10 @@ public class Student extends DatabaseUser{
 				
 	}
 	
+	public ArrayList<String> getCourseNames() {
+		return courseNames;
+	}
+
 	public void giveEvaluation(int lectureID, String rating, String comment){
 		DBC.insertEvaluation(getEmail(), lectureID, rating, comment);
 		//TODO: Form validation

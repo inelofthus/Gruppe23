@@ -19,12 +19,12 @@ public class Evaluation extends DatabaseUser {
 	}
 	
 	//Constructor2
-	public Evaluation(DBController DBC, int lectureid,String studentEmail) {
-		super(DBC);
-		this.lectureid = lectureid;
-		this.studentEmail = studentEmail;
-		loadInfo();
-	}
+//	public Evaluation(DBController DBC, int lectureid,String studentEmail) {
+//		super(DBC);
+//		this.lectureid = lectureid;
+//		this.studentEmail = studentEmail;
+//		loadInfo();
+//	}
 	
 	//Constructor3
 	public Evaluation(DBController DBC, String rating, String comment, int lectureid, String studentEmail) {

@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+
 
 import databaseobjects.Evaluation;
 
@@ -29,12 +27,56 @@ public class DBController {
 		}
 	}
 
+	public void close() {
+		if (rs != null) {
+	        try {
+	            rs.close();
+	        } catch (SQLException e) { /* ignored */}
+	    }
+	    
+	    if (conn != null) {
+	        try {
+	            conn.close();
+	            System.out.println("CONNECTION CLOSED");
+	        } catch (SQLException e) { /* ignored */}
+	    }
+		
+	}
+	
 	Statement stmt = null;
 	ResultSet rs = null;
 
+	public ArrayList<String> getStringArray(String query){
+		
+		connect();
+		
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				list.add(rs.getString(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		close();
+		//System.out.println(professor);
+		return list;
+	}
+	
 	//Course info
 	
 	public void getCourseInfo() {
+		connect();
+		
 		try {
 			stmt = conn.createStatement();
 
@@ -56,9 +98,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	public ArrayList<String> getProfessorsForCourse(String courseCode){
+		
+		connect();
 		
 		ArrayList<String> professor = new ArrayList<>();
 		
@@ -79,12 +124,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		//System.out.println(professor);
 		return professor;
 	}
 	
 	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
 			
+		connect();
 			ArrayList<String> result = new ArrayList<>();
 			
 			try {
@@ -107,10 +154,13 @@ public class DBController {
 				System.out.println("SQLException: " + e.getMessage());
 			}
 			
+			close();
 			return result;
 		}
 	
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
+		connect();
+		
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -128,11 +178,15 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		
+		close();
 
 	}
 	
 	public ArrayList<String> getLecturesForCourse(String courseCode){
 		ArrayList<String> lectures = new ArrayList<>();
+		
+		connect();
 		
 		try {
 			stmt = conn.createStatement();
@@ -151,11 +205,13 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return lectures;
 	}
 	
 	public boolean courseExists(String courseCode){
 		
+		connect();
 		boolean hasNext = false;
 		try {
 			stmt = conn.createStatement();
@@ -171,12 +227,15 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
+		
 	}
 	
 	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode){
 		ArrayList<Integer> lectures = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 			
@@ -199,12 +258,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 	
+		close();		
 		return lectures;
 		
 	}
 	
 	//Lecture info
 	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID){
+		connect();		
 		
 		ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
 		
@@ -228,12 +289,13 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return dateTimeAndCourseCode;
 		
 	}
 	
 	public int getLectureHoursForCourse(String courseCode){
-		
+		connect();
 		int hours =0;
 		
 		try {
@@ -253,6 +315,7 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		//System.out.println(hours);
 		return hours;
 		
@@ -260,6 +323,7 @@ public class DBController {
 	
 	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC){
 		
+		connect();
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
 		
 		try {
@@ -284,13 +348,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return evaluations;
 	}
 	
 	public void insertLecture(String date, String time, String courseCode, String professorUsername){
 		// Date format: "YYYY-MM-DD"
 		// Time format: "HH:MM:SS"
-		
+		connect();
 		try {
 
 			String query = buildLectureQuery(date, time, courseCode, professorUsername);
@@ -302,10 +367,11 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+		close();
 	}
 	
 	public boolean lectureExists(int lectureID){
+		connect();
 		boolean hasNext = false;
 		try {
 			stmt = conn.createStatement();
@@ -321,6 +387,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	
@@ -352,48 +419,48 @@ public class DBController {
 		
 	} */
 	
-	private List<String> getStartDate(){
-		//Return SQL friendly list of date Strings of next Monday, Wednesday and Friday  YYYY-MM-DD
-		ArrayList<String> startDates = new ArrayList<>();
-		String YYYY, MM, DD, Monday, Wednesday, Friday;
+//	private List<String> getStartDate(){
+//		//Return SQL friendly list of date Strings of next Monday, Wednesday and Friday  YYYY-MM-DD
+//		ArrayList<String> startDates = new ArrayList<>();
+//		String YYYY, MM, DD, Monday, Wednesday, Friday;
+//		
+//		GregorianCalendar date =new GregorianCalendar();            
+//		//String CurMonth = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);            
+//		//String CurDay = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//		//String CurYear = String.valueOf(date.get(GregorianCalendar.YEAR));
+//		
+//		//System.out.println("year: " + CurYear + " month: " + CurMonth + " Day: " + CurDay);
+//		
+//		for(int i = 0; i<7; i++ ){
+//			if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.MONDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Monday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Monday);
+//				//System.out.println("Monday: " +Monday);
+//			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.WEDNESDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Wednesday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Wednesday);
+//				//System.out.println("Wednesday: " + Wednesday);
+//			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.FRIDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Friday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Friday);
+//				//System.out.println("Friday: " + Friday);
+//			}
+//			
+//			date.roll(Calendar.DAY_OF_MONTH, true);		
+//		}
 		
-		GregorianCalendar date =new GregorianCalendar();            
-		//String CurMonth = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);            
-		//String CurDay = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-		//String CurYear = String.valueOf(date.get(GregorianCalendar.YEAR));
-		
-		//System.out.println("year: " + CurYear + " month: " + CurMonth + " Day: " + CurDay);
-		
-		for(int i = 0; i<7; i++ ){
-			if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.MONDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Monday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Monday);
-				//System.out.println("Monday: " +Monday);
-			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.WEDNESDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Wednesday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Wednesday);
-				//System.out.println("Wednesday: " + Wednesday);
-			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.FRIDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Friday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Friday);
-				//System.out.println("Friday: " + Friday);
-			}
-			
-			date.roll(Calendar.DAY_OF_MONTH, true);		
-		}
-		
-		//System.out.println(startDates);
-		return startDates;
-	}
+//		//System.out.println(startDates);
+//		return startDates;
+//	}
 			
 	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername){
 		
@@ -418,6 +485,7 @@ public class DBController {
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername){
 		ArrayList<String> courses = new ArrayList<>();
 		
+		connect();
 			try {
 				stmt = conn.createStatement();
 	
@@ -434,12 +502,13 @@ public class DBController {
 			} catch (Exception e) {
 				System.out.println("SQLException: " + e.getMessage());
 			}
-		
+		close();
 		//System.out.println(courses);
 		return courses;
 	}
 	
 	public void insertProfessor(String professorUsername) {
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -455,10 +524,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 
 	public boolean professorExists(String professorUsername){
 		boolean hasNext = false;
+		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -473,6 +545,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	
@@ -482,6 +555,7 @@ public class DBController {
 		
 		ArrayList<Integer> lectures = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 			
@@ -503,6 +577,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	
 	//System.out.println(courses);
 	return lectures;
@@ -512,6 +587,8 @@ public class DBController {
 	
 	//Student info
 	public void insertStudent(String studentUsername, String studyProgramCode){
+		
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -528,9 +605,11 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	public boolean studentExists(String studentEmail){
 		boolean hasNext = false;
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -544,10 +623,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	public String getStudyProgram(String studentEmail){
 		String studyProgram = "";
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -564,11 +645,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return studyProgram;
 	}
 	public ArrayList<String> getStudentCourses(String studentEmail){
 		ArrayList<String> studentCourses = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -586,12 +669,15 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return studentCourses;
 	}
 	
 	
+	
 	//CourseProfessor info
 	public void insertCourseProfessor (String professorUsername, String courseCode){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -611,10 +697,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	//CourseStudent info
 	public void insertCourseStudent (String studentEmail, String courseCode){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -634,10 +722,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	//Evaluation info
 	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -659,11 +749,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 
 	public ArrayList<String> getEvaluationRatingAndComment(int lectureid, String studentEmail){
 		ArrayList<String> evaluation = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -681,12 +773,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+		close();
 		return evaluation;
 	}
 	
 	public boolean evaluationExists(int lectureid, String studentEmail){
 		boolean hasNext = false;
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -701,6 +794,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	

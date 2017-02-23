@@ -2,7 +2,6 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import database.DBController;
 
 public class Professor extends DatabaseUser {
 	String username;
@@ -10,13 +9,6 @@ public class Professor extends DatabaseUser {
 	
 	// Constructor1
 	public Professor(String professorUsername) {
-		this.username = professorUsername;
-		loadInfo();
-	}
-	
-	// Constructor 2
-	public Professor(DBController DBC, String professorUsername) {
-		super(DBC);
 		this.username = professorUsername;
 		loadInfo();
 	}
