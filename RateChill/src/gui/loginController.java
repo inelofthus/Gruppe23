@@ -31,11 +31,14 @@ public class loginController implements Initializable {
 	
 	//String loginInfo;
 	
-	public Button[] buttons = new Button[4];
+	public Student getCurrentUser() {
+		return new Student(username.getText());
+	}
+	
 	
 	
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
+	public void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage;
 		
 		//load up OTHER FXML document
