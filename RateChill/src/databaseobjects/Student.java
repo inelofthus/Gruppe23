@@ -2,18 +2,28 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
+import database.DBController;
+
 public class Student extends DatabaseUser{
 	private String username;
 	private String studyProgram;
 	private ArrayList<String> courseIDs;
 	
-	//Constructor
+	//Constructor1
 	public Student(String username) {
 		this.username = username;
 		loadInfo();
 	}
 	
-	private String getEmail(){
+	//Constructor2
+	public Student(DBController DBC ,String username) {
+		super(DBC);
+		this.username = username;
+		loadInfo();
+	}
+	
+	
+	public String getEmail(){
 		return username + "@stud.ntnu.no";
 	}
 	public boolean existsInDB(){

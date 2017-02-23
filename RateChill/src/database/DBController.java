@@ -212,7 +212,7 @@ public class DBController {
 			stmt = conn.createStatement();
 
 			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = " + lectureID + ";";
-			System.out.println(query);
+			//System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -258,7 +258,7 @@ public class DBController {
 		
 	}
 	
-	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID){
+	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC){
 		
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
 		
@@ -275,7 +275,7 @@ public class DBController {
 				String studentEmail  = rs.getString(1);
 				String rating = rs.getString(2);
 				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(rating, studentComment, lectureID, studentEmail);
+				Evaluation eval = new Evaluation(DBC, rating, studentComment, lectureID, studentEmail);
 				evaluations.add(eval);
 			
 			}
@@ -724,9 +724,9 @@ public class DBController {
 		//test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow this is the most boring and stupid lecture ever");
 		//test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
 		//test.insertStudent("magnutvi", "MLREAL");
+		test.insertEvaluation("karimj@stud.ntnu.no", 2, "Perfect", "This was a very informative lecture. I like it when you write on the blackboard");
 		
-		
-		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4140"));
+		System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
 
 }

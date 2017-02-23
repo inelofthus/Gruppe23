@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.NoSuchElementException;
 
+import database.DBController;
+
 
 public class Lecture extends DatabaseUser {
 	
@@ -14,11 +16,19 @@ public class Lecture extends DatabaseUser {
 	String professor;
 	ArrayList<Evaluation> evaluations;
 	
-	//Constructor
+	//Constructor 1
 	public Lecture (int lectureID) {
 		this.lectureID = lectureID;
 		loadInfo();
 	}
+	
+	//Constructor 2
+	public Lecture (DBController DBC, int lectureID) {
+		super(DBC);
+		this.lectureID = lectureID;
+		loadInfo();
+	}
+	
 	
 	public void loadInfo(){
 		try {
@@ -27,7 +37,7 @@ public class Lecture extends DatabaseUser {
 			courseCode = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(2);
 			professor = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(3);
 			lectureDateAndTime = stringToCalender(date, time);
-			evaluations = DBC.getEvaluationsForLecture(lectureID);
+			evaluations = DBC.getEvaluationsForLecture(lectureID, DBC);
 			
 		} catch (Exception e){
 			// TODO:handle exception
@@ -88,6 +98,7 @@ public class Lecture extends DatabaseUser {
 		System.out.println(lec.getLectureID());
 		System.out.println(lec.getProfessor());
 		System.out.println(lec.getEvaluations().get(0).getComment());
+		System.out.println(lec.getEvaluations().get(1).getComment());
 		System.out.println(lec.getLectureDateAndTime().get(Calendar.YEAR));
 		
 	}

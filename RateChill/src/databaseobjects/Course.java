@@ -3,6 +3,8 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import database.DBController;
+
 public class Course extends DatabaseUser{
 	
 	private String courseCode;
@@ -12,8 +14,15 @@ public class Course extends DatabaseUser{
 	private ArrayList<String> professorUsernames;
 	private ArrayList<String> lectureIDs;
 	
-	//Constructor
+	//Constructor1
 	public Course(String courseCode) {
+		this.courseCode = courseCode;
+		loadInfo();
+	}
+	
+	//Constructor2
+	public Course(DBController DBC, String courseCode) {
+		super(DBC);
 		this.courseCode = courseCode;
 		loadInfo();
 	}

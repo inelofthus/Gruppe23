@@ -2,6 +2,8 @@ package databaseobjects;
 
 import java.util.NoSuchElementException;
 
+import database.DBController;
+
 public class Evaluation extends DatabaseUser {
 
 	private String rating;
@@ -9,13 +11,23 @@ public class Evaluation extends DatabaseUser {
 	private int lectureid;
 	private String studentEmail;
 	
+	//Constructor1
 	public Evaluation(int lectureid,String studentEmail) {
 		this.lectureid = lectureid;
 		this.studentEmail = studentEmail;
 		loadInfo();
 	}
 	
-	public Evaluation(String rating, String comment, int lectureid, String studentEmail) {
+	//Constructor2
+	public Evaluation(DBController DBC, int lectureid,String studentEmail) {
+		super(DBC);
+		this.lectureid = lectureid;
+		this.studentEmail = studentEmail;
+		loadInfo();
+	}
+	
+	//Constructor3
+	public Evaluation(DBController DBC, String rating, String comment, int lectureid, String studentEmail) {
 		this.rating = rating;
 		this.comment = comment;
 		this.lectureid = lectureid;
