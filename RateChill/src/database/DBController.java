@@ -19,7 +19,7 @@ public class DBController {
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
-			System.out.println("connection succesfull :) ");
+			//System.out.println("connection succesfull :) ");
 
 		} catch (SQLException ex) {
 			System.out.println("SQLeXCEPTION: " + ex.getMessage());
@@ -37,7 +37,7 @@ public class DBController {
 	    if (conn != null) {
 	        try {
 	            conn.close();
-	            System.out.println("CONNECTION CLOSED");
+	            //System.out.println("CONNECTION CLOSED");
 	        } catch (SQLException e) { /* ignored */}
 	    }
 		
@@ -70,6 +70,57 @@ public class DBController {
 		close();
 		//System.out.println(professor);
 		return list;
+	}
+	
+	public ArrayList<Integer> getIntArray(String query){
+		
+		connect();
+		
+		ArrayList<Integer> list = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			while(rs.next()){
+				list.add(rs.getInt(1)); 
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		close();
+		//System.out.println(professor);
+		return list;
+	}
+	
+	public int getInt(String query){
+		int ans = 0;
+		connect();
+		
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			
+			rs.next();
+			ans = rs.getInt(1);
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		
+		close();
+		return ans;		
+		
 	}
 	
 	//Course info

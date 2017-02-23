@@ -21,6 +21,8 @@ public class Main {
 		System.out.println(course.getLastTwoCompletedLectures());
 		System.out.println(eval.getStudentEmail());
 		System.out.println(stud.getCourseNames());
+		System.out.println(lec.getRatingCount("Perfect"));
+		System.out.println(lec.getRatingCount("OK"));
 
 	}
 

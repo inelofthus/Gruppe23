@@ -85,6 +85,14 @@ public class Lecture extends DatabaseUser {
 		return evaluations;
 	}
 
+	public int getRatingCount(String ratingValue){
+		
+		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + 2 + " AND rating = '"+ ratingValue +"';";
+		System.out.println(query);
+		return DBC.getInt(query);
+	}
+		
+
 	public static void main(String[] args) {
 		Lecture lec = new Lecture(2);
 		System.out.println(lec.getCourseCode());
@@ -93,6 +101,7 @@ public class Lecture extends DatabaseUser {
 		System.out.println(lec.getEvaluations().get(0).getComment());
 		System.out.println(lec.getEvaluations().get(1).getComment());
 		System.out.println(lec.getLectureDateAndTime().get(Calendar.YEAR));
+		System.out.println(lec.getRatingCount("Perfect"));
 		
 	}
 	
