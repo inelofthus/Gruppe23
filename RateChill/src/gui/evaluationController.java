@@ -1,10 +1,10 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.swing.ButtonModel;
-import database.*;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -16,6 +16,8 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
+import gui.mainController;
+import databaseobjects.*;
 
 public class evaluationController implements Initializable {
 
@@ -34,19 +36,46 @@ public class evaluationController implements Initializable {
 	
 	//Creates an evaluation that can be inserted into the database
 	
-	private void createEvaluation(ActionEvent event){
-		System.out.println(event.getSource());
-		debugText.setText("");
-		if (group.getSelectedToggle() == null) {
-			debugText.setText("Choose a rating");
-			return;
+	private String createEvaluation(ActionEvent event){
+		return null;
+	}
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+		String rating = "";
+		if (event.getSource() == submit){
+			debugText.setText("");
+			if (group.getSelectedToggle() == null) {
+				debugText.setText("Choose a rating");
+			}
+			if (tooSlow.isSelected()){
+				rating = tooSlow.getText(); 
+			}
+			else if (confusing.isSelected()){
+				rating = confusing.getText();
+			}
+			else if (toofast.isSelected()){
+				rating = toofast.getText();
+			}
+			else if (ok.isSelected()){
+				rating = ok.getText();
+			}
+			else if (perfect.isSelected()){
+				rating = perfect.getText();
+			}
+			String comment = feedback.getText();
+			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
+			//insertEvaluation into database
+			mainController.getInstance().getStudents().giveEvaluation(lectureID, rating, comment);
 		}
 	}
 	
 	
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method
 		
 	}
 
