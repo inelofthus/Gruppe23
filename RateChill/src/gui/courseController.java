@@ -13,11 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import databaseobjects.Course;
-import databaseobjects.Student;
-import gui.loginController;
+import gui.mainController;
 
 public class courseController implements Initializable {
 
+	
 	@FXML
 	public Button fag1;
 	@FXML
@@ -27,23 +27,31 @@ public class courseController implements Initializable {
 	@FXML
 	public Button fag4;
 	
+	
 	//an attempt to make a 
 	/*public courseController() {
 		Student currentUser = getCurrentUser();
 	}*/
 	
-	/*fag1.setText();
-	fag2.setText();
-	fag3.setText();
-	fag4.setText();*/
+	
+	public void setButtonText(){
+		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
+	}
+	
+	public void loadView(){
+		setButtonText();
+	}
+	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage; 
 	    Parent root;
+	    
 	    if(event.getSource()==fag1){
 	    	//get reference to the button's stage
-	    	Course course1 = new Course("fag1.getCourseID()");
+	    	System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
+	    	Course course1 = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	        stage=(Stage) fag1.getScene().getWindow();
 	    }
 	    else if (event.getSource()==fag2){
@@ -69,6 +77,7 @@ public class courseController implements Initializable {
 	    //create a new scene with root and set the stage
 	    Scene scene = new Scene(root);
 	    stage.setScene(scene);
+	    loadView();
 	    stage.show();
 	    }
 	

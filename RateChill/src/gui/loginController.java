@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import gui.courseController;
+import gui.mainController;
 
 public class loginController implements Initializable {
 
@@ -58,6 +58,7 @@ public class loginController implements Initializable {
 	    		
 	    		ArrayList<String> courses = stud.getCourseIDs();
 	    		int number = courses.size();
+	    		mainController.getInstance().setStudent(stud);
 	    		for (String course:courses) {
 	    			
 	    		}
