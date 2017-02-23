@@ -12,7 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import databaseobjects.Course;
+import databaseobjects.*;
 import gui.mainController;
 
 public class courseController implements Initializable {
@@ -44,25 +44,25 @@ public class courseController implements Initializable {
 	    
 	    if(event.getSource()==fag1){
 	    	//get reference to the button's stage
-	    	System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	        stage=(Stage) fag1.getScene().getWindow();
-	        course.getLastTwoCompletedLectures();
+	        mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	        
 	    }
 	    else if (event.getSource()==fag2){
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(1));
 	    	stage=(Stage) fag2.getScene().getWindow();
-	    	course.getLastTwoCompletedLectures();
+	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
 	    }
 	    else if (event.getSource()==fag3){
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(2));
 	    	stage=(Stage) fag3.getScene().getWindow();
-	    	course.getLastTwoCompletedLectures();
+	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
 		}
 	    else {
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(3));
 	    	stage=(Stage) fag4.getScene().getWindow();
-	    	course.getLastTwoCompletedLectures();
+	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
 		}
 	    
 	    //load up OTHER FXML document
