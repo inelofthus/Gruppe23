@@ -20,6 +20,9 @@ public class Main {
 		for(Evaluation evaluation : evals){
 			System.out.println(evaluation.getComment());
 		}
+		
+		System.out.println(course.getLastTwoCompletedLectures());
+		System.out.println(eval.getStudentEmail());
 		 
 		//System.out.println(course.getCourseLocation());
 
