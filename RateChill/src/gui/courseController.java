@@ -79,10 +79,11 @@ public class courseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
 		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
 		fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
-		fag3.setText(mainController.getInstance().getStudents().getCourseIDs().get(2));
-		fag4.setText(mainController.getInstance().getStudents().getCourseIDs().get(3));
+		//fag3.setText(mainController.getInstance().getStudents().getCourseIDs().get(2));
+		//fag4.setText(mainController.getInstance().getStudents().getCourseIDs().get(3));
 	}
 
 }
