@@ -2,16 +2,26 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import database.DBController;
 
 public class Professor extends DatabaseUser {
 	String username;
 	ArrayList<String> courses;
 	
-	public Professor(String username) {
-		this.username = username;
-		loadInfo();	
+	// Constructor1
+	public Professor(String professorUsername) {
+		this.username = professorUsername;
+		loadInfo();
 	}
 	
+	// Constructor 2
+	public Professor(DBController DBC, String professorUsername) {
+		super(DBC);
+		this.username = professorUsername;
+		loadInfo();
+	}
+	
+
 	public boolean existsInDB(){
 		return DBC.professorExists(username);
 	}
@@ -28,19 +38,30 @@ public class Professor extends DatabaseUser {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
+	public ArrayList<Integer> getLecturesForCourse(String courseCode){
+		// returns lectureIDs for all lectures given by this professor that have already passed in specified course
+		// Order is with the newest lecture first
+		return DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);
+	}
+	
+	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode){
+		// returns lectureIDs for all lectures given by this professor that have already passed in specified course
+		// Order is with the newest lecture first
+		ArrayList<Integer> lastTwoCompleteLectures = new ArrayList<>();
+		ArrayList<Integer> allCompletedLectures = DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);
+		lastTwoCompleteLectures.add(allCompletedLectures.get(0));
+		lastTwoCompleteLectures.add(allCompletedLectures.get(1));
+		
+		return lastTwoCompleteLectures;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
 
 	public ArrayList<String> getCourses() {
 		return courses;
-	}
-	
-	public static void main(String[] args) {
-		Professor prof = new Professor("pekkaa");
-		System.out.println(prof.getCourses());
-		System.out.println(prof.getUsername());
 	}
 	
 }
