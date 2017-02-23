@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 public class courseController implements Initializable {
 
 	@FXML
-	Button fag1;
+	public Button fag1;
 	@FXML
-	Button fag2;
+	public Button fag2;
 	@FXML
-	Button fag3;
+	public Button fag3;
 	@FXML
-	Button fag4;
+	public Button fag4;
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{

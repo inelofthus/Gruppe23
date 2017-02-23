@@ -4,24 +4,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.courseController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.courseController">
    <children>
-      <Button fx:id="fag1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" text="TDT4140 Programvareutvikling" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="27.0" />
          </font>
       </Button>
-      <Button fx:id="fag2" layoutX="341.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" text="TDT4145 Datamodellering og databaser" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag2" layoutX="341.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="27.0" />
          </font>
       </Button>
-      <Button fx:id="fag3" layoutX="14.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" text="TDT4180 Menneske-maskin interaksjon" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag3" layoutX="14.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="27.0" />
          </font>
       </Button>
-      <Button fx:id="fag4" layoutX="341.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" text="TDT4180 Objektorientert programmering" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag4" layoutX="341.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="196.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="27.0" />
          </font>
