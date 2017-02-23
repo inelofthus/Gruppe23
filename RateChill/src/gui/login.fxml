@@ -6,8 +6,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
    <children>
       <Button fx:id="professor" layoutX="308.0" layoutY="292.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="77.0" prefWidth="272.0" text="Professor">
          <font>
@@ -19,11 +20,12 @@
             <Font size="36.0" />
          </font>
       </Button>
-      <TextField layoutX="172.0" layoutY="226.0" prefHeight="31.0" prefWidth="257.0" promptText="Username" />
+      <TextField fx:id="username" layoutX="172.0" layoutY="226.0" prefHeight="31.0" prefWidth="257.0" promptText="Username" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="201.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
       </ImageView>
+      <Text fx:id="error" fill="#f62323" layoutX="433.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>
