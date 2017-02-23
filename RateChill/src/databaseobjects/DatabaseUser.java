@@ -8,10 +8,9 @@ public abstract class DatabaseUser {
 	
 	public DatabaseUser() {
 		DBC = new DBController();
-		DBC.connect();
 	}
 	
-	public DatabaseUser (DBController DBC) {
+	/*public DatabaseUser (DBController DBC) {
 		this.DBC = DBC;
-	}
+	}*/
 }

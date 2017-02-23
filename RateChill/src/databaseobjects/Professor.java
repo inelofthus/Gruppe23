@@ -14,12 +14,12 @@ public class Professor extends DatabaseUser {
 		loadInfo();
 	}
 	
-	// Constructor 2
-	public Professor(DBController DBC, String professorUsername) {
-		super(DBC);
-		this.username = professorUsername;
-		loadInfo();
-	}
+//	// Constructor 2
+//	public Professor(DBController DBC, String professorUsername) {
+//		super(DBC);
+//		this.username = professorUsername;
+//		loadInfo();
+//	}
 	
 
 	public boolean existsInDB(){

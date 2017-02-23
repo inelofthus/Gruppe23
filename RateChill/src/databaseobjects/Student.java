@@ -16,12 +16,12 @@ public class Student extends DatabaseUser{
 		loadInfo();
 	}
 	
-	//Constructor2
-	public Student(DBController DBC ,String username) {
-		super(DBC);
-		this.username = username;
-		loadInfo();
-	}
+//	//Constructor2
+//	public Student(DBController DBC ,String username) {
+//		super(DBC);
+//		this.username = username;
+//		loadInfo();
+//	}
 	
 	
 	public String getEmail(){

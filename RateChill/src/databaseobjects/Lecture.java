@@ -22,12 +22,12 @@ public class Lecture extends DatabaseUser {
 		loadInfo();
 	}
 	
-	//Constructor 2
-	public Lecture (DBController DBC, int lectureID) {
-		super(DBC);
-		this.lectureID = lectureID;
-		loadInfo();
-	}
+//	//Constructor 2
+//	public Lecture (DBController DBC, int lectureID) {
+//		super(DBC);
+//		this.lectureID = lectureID;
+//		loadInfo();
+//	}
 	
 	
 	public void loadInfo(){

@@ -29,10 +29,28 @@ public class DBController {
 		}
 	}
 
+	public void close() {
+		if (rs != null) {
+	        try {
+	            rs.close();
+	        } catch (SQLException e) { /* ignored */}
+	    }
+	    
+	    if (conn != null) {
+	        try {
+	            conn.close();
+	            System.out.println("CONNECTION CLOSED");
+	        } catch (SQLException e) { /* ignored */}
+	    }
+		
+	}
+	
 	Statement stmt = null;
 	ResultSet rs = null;
 
 	public ArrayList<String> getStringArray(String query){
+		
+		connect();
 		
 		ArrayList<String> list = new ArrayList<>();
 		try {
@@ -51,6 +69,7 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		//System.out.println(professor);
 		return list;
 	}
@@ -58,6 +77,8 @@ public class DBController {
 	//Course info
 	
 	public void getCourseInfo() {
+		connect();
+		
 		try {
 			stmt = conn.createStatement();
 
@@ -79,9 +100,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	public ArrayList<String> getProfessorsForCourse(String courseCode){
+		
+		connect();
 		
 		ArrayList<String> professor = new ArrayList<>();
 		
@@ -102,12 +126,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		//System.out.println(professor);
 		return professor;
 	}
 	
 	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
 			
+		connect();
 			ArrayList<String> result = new ArrayList<>();
 			
 			try {
@@ -130,10 +156,13 @@ public class DBController {
 				System.out.println("SQLException: " + e.getMessage());
 			}
 			
+			close();
 			return result;
 		}
 	
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
+		connect();
+		
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -151,11 +180,15 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		
+		close();
 
 	}
 	
 	public ArrayList<String> getLecturesForCourse(String courseCode){
 		ArrayList<String> lectures = new ArrayList<>();
+		
+		connect();
 		
 		try {
 			stmt = conn.createStatement();
@@ -174,11 +207,13 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return lectures;
 	}
 	
 	public boolean courseExists(String courseCode){
 		
+		connect();
 		boolean hasNext = false;
 		try {
 			stmt = conn.createStatement();
@@ -194,12 +229,15 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
+		
 	}
 	
 	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode){
 		ArrayList<Integer> lectures = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 			
@@ -222,12 +260,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 	
+		close();		
 		return lectures;
 		
 	}
 	
 	//Lecture info
 	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID){
+		connect();		
 		
 		ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
 		
@@ -251,12 +291,13 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return dateTimeAndCourseCode;
 		
 	}
 	
 	public int getLectureHoursForCourse(String courseCode){
-		
+		connect();
 		int hours =0;
 		
 		try {
@@ -276,6 +317,7 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		//System.out.println(hours);
 		return hours;
 		
@@ -283,6 +325,7 @@ public class DBController {
 	
 	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC){
 		
+		connect();
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
 		
 		try {
@@ -307,13 +350,14 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return evaluations;
 	}
 	
 	public void insertLecture(String date, String time, String courseCode, String professorUsername){
 		// Date format: "YYYY-MM-DD"
 		// Time format: "HH:MM:SS"
-		
+		connect();
 		try {
 
 			String query = buildLectureQuery(date, time, courseCode, professorUsername);
@@ -325,10 +369,11 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+		close();
 	}
 	
 	public boolean lectureExists(int lectureID){
+		connect();
 		boolean hasNext = false;
 		try {
 			stmt = conn.createStatement();
@@ -344,6 +389,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	
@@ -441,6 +487,7 @@ public class DBController {
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername){
 		ArrayList<String> courses = new ArrayList<>();
 		
+		connect();
 			try {
 				stmt = conn.createStatement();
 	
@@ -457,12 +504,13 @@ public class DBController {
 			} catch (Exception e) {
 				System.out.println("SQLException: " + e.getMessage());
 			}
-		
+		close();
 		//System.out.println(courses);
 		return courses;
 	}
 	
 	public void insertProfessor(String professorUsername) {
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -478,10 +526,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 
 	public boolean professorExists(String professorUsername){
 		boolean hasNext = false;
+		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -496,6 +547,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	
@@ -505,6 +557,7 @@ public class DBController {
 		
 		ArrayList<Integer> lectures = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 			
@@ -526,6 +579,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	
 	//System.out.println(courses);
 	return lectures;
@@ -535,6 +589,8 @@ public class DBController {
 	
 	//Student info
 	public void insertStudent(String studentUsername, String studyProgramCode){
+		
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -551,9 +607,11 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	public boolean studentExists(String studentEmail){
 		boolean hasNext = false;
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -567,10 +625,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	public String getStudyProgram(String studentEmail){
 		String studyProgram = "";
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -587,11 +647,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return studyProgram;
 	}
 	public ArrayList<String> getStudentCourses(String studentEmail){
 		ArrayList<String> studentCourses = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -609,6 +671,7 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		
+		close();
 		return studentCourses;
 	}
 	
@@ -616,6 +679,7 @@ public class DBController {
 	
 	//CourseProfessor info
 	public void insertCourseProfessor (String professorUsername, String courseCode){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -635,10 +699,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	//CourseStudent info
 	public void insertCourseStudent (String studentEmail, String courseCode){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -658,10 +724,12 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 	
 	//Evaluation info
 	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment){
+		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -683,11 +751,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 	}
 
 	public ArrayList<String> getEvaluationRatingAndComment(int lectureid, String studentEmail){
 		ArrayList<String> evaluation = new ArrayList<>();
 		
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -705,12 +775,13 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+		close();
 		return evaluation;
 	}
 	
 	public boolean evaluationExists(int lectureid, String studentEmail){
 		boolean hasNext = false;
+		connect();
 		try {
 			stmt = conn.createStatement();
 
@@ -725,6 +796,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		close();
 		return hasNext;
 	}
 	

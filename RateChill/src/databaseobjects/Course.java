@@ -21,11 +21,11 @@ public class Course extends DatabaseUser{
 	}
 	
 	//Constructor2
-	public Course(DBController DBC, String courseCode) {
+	/*public Course(DBController DBC, String courseCode) {
 		super(DBC);
 		this.courseCode = courseCode;
 		loadInfo();
-	}
+	}*/
 	
 	public boolean existsInDB(){
 		return DBC.courseExists(courseCode);
