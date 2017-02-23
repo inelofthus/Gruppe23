@@ -2,7 +2,6 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
-import database.DBController;
 
 public class Student extends DatabaseUser{
 	private String username;

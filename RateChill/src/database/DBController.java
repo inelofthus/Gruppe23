@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+
 
 import databaseobjects.Evaluation;
 
@@ -421,48 +419,48 @@ public class DBController {
 		
 	} */
 	
-	private List<String> getStartDate(){
-		//Return SQL friendly list of date Strings of next Monday, Wednesday and Friday  YYYY-MM-DD
-		ArrayList<String> startDates = new ArrayList<>();
-		String YYYY, MM, DD, Monday, Wednesday, Friday;
+//	private List<String> getStartDate(){
+//		//Return SQL friendly list of date Strings of next Monday, Wednesday and Friday  YYYY-MM-DD
+//		ArrayList<String> startDates = new ArrayList<>();
+//		String YYYY, MM, DD, Monday, Wednesday, Friday;
+//		
+//		GregorianCalendar date =new GregorianCalendar();            
+//		//String CurMonth = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);            
+//		//String CurDay = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//		//String CurYear = String.valueOf(date.get(GregorianCalendar.YEAR));
+//		
+//		//System.out.println("year: " + CurYear + " month: " + CurMonth + " Day: " + CurDay);
+//		
+//		for(int i = 0; i<7; i++ ){
+//			if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.MONDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Monday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Monday);
+//				//System.out.println("Monday: " +Monday);
+//			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.WEDNESDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Wednesday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Wednesday);
+//				//System.out.println("Wednesday: " + Wednesday);
+//			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.FRIDAY){
+//				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
+//				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
+//				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
+//				Friday = YYYY + "-" + MM + "-" + DD;
+//				startDates.add(Friday);
+//				//System.out.println("Friday: " + Friday);
+//			}
+//			
+//			date.roll(Calendar.DAY_OF_MONTH, true);		
+//		}
 		
-		GregorianCalendar date =new GregorianCalendar();            
-		//String CurMonth = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);            
-		//String CurDay = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-		//String CurYear = String.valueOf(date.get(GregorianCalendar.YEAR));
-		
-		//System.out.println("year: " + CurYear + " month: " + CurMonth + " Day: " + CurDay);
-		
-		for(int i = 0; i<7; i++ ){
-			if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.MONDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Monday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Monday);
-				//System.out.println("Monday: " +Monday);
-			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.WEDNESDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Wednesday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Wednesday);
-				//System.out.println("Wednesday: " + Wednesday);
-			}if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.FRIDAY){
-				YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-				MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);  
-				DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-				Friday = YYYY + "-" + MM + "-" + DD;
-				startDates.add(Friday);
-				//System.out.println("Friday: " + Friday);
-			}
-			
-			date.roll(Calendar.DAY_OF_MONTH, true);		
-		}
-		
-		//System.out.println(startDates);
-		return startDates;
-	}
+//		//System.out.println(startDates);
+//		return startDates;
+//	}
 			
 	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername){
 		

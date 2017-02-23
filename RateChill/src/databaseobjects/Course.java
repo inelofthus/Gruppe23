@@ -3,7 +3,6 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import database.DBController;
 
 public class Course extends DatabaseUser{
 	

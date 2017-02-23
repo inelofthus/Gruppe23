@@ -2,8 +2,6 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
-import database.DBController;
-
 public class Main {
 
 	public static void main(String[] args) {
