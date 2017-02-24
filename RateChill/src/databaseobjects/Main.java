@@ -2,11 +2,12 @@ package databaseobjects;
 
 import java.util.ArrayList;
 
+import database.DBController;
+
 public class Main {
 
 	public static void main(String[] args) {
-		
-		
+				
 		Course course = new Course("tdt4140");
 		Student stud = new Student("karimj");
 		Evaluation eval = new Evaluation(2, stud.getEmail());

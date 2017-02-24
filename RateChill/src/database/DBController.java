@@ -792,7 +792,7 @@ public class DBController {
 			;
 
 			String query = sb.toString();
-			//System.out.println(query);
+//			System.out.println(query);
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
