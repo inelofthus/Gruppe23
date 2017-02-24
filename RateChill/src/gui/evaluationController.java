@@ -44,9 +44,10 @@ public class evaluationController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		String rating = "";
 		if (event.getSource() == submit){
-			debugText.setText("");
+			String error = "";
 			if (group.getSelectedToggle() == null) {
-				debugText.setText("Choose a rating");
+				error += "Choose a rating";
+				debugText.setText(error);
 			}
 			if (tooSlow.isSelected()){
 				rating = tooSlow.getText(); 
