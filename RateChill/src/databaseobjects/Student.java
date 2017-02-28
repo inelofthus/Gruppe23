@@ -31,7 +31,6 @@ public class Student extends DatabaseUser{
 	}
 	public void loadInfo(){
 		try {
-			//this = DBC.loadStudent(String Username)
 			studyProgram = DBC.getStudyProgram(getEmail());
 			courseIDs = DBC.getStudentCourses(getEmail());
 			String query = "select courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"+ getEmail() + "';";
