@@ -21,7 +21,7 @@ import databaseobjects.*;
 
 public class evaluationController implements Initializable {
 
-	
+	//fxml objects
 	@FXML
 	public TextArea feedback; 
 	public ToggleButton tooSlow;
@@ -35,11 +35,10 @@ public class evaluationController implements Initializable {
 	
 	
 	//Creates an evaluation that can be inserted into the database
-	
 	private String createEvaluation(ActionEvent event){
 		return null;
 	}
-	
+
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		String rating = "";
