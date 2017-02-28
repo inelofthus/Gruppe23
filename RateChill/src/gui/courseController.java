@@ -111,8 +111,9 @@ public class courseController implements Initializable {
 		// TODO Auto-generated method stub
 		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
 		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
-		fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
-		//fag3.setText(loadCourseName(2));
+		
+		//fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
+		fag2.setText(loadCourseName(1));
 		//fag4.setText(loadCourseName(3));
 	}
 
