@@ -2,9 +2,11 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
-import gui.mainController;
-import databaseobjects.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,13 +31,13 @@ public class lectureController implements Initializable {
 	    if(event.getSource()==lecture1){
 	    	//get reference to the button's stage         
 	        stage=(Stage) lecture1.getScene().getWindow();
-	        mainController.getInstance().setChosenStudentLecture(mainController.getInstance().getStudentLectureIDs().get(0));
+	        mainController.getInstance().setChosenStudentLecture(getKeyLec1());
 	        
 	        //here we want to create a 
 	    }
 	    else {
 	    	stage=(Stage) lecture2.getScene().getWindow();
-	    	mainController.getInstance().setChosenStudentLecture(mainController.getInstance().getStudentLectureIDs().get(1));
+	    	mainController.getInstance().setChosenStudentLecture(getKeyLec2());
 	    }
 	    
 	    
@@ -51,12 +53,30 @@ public class lectureController implements Initializable {
 	   
 	
 	
+	private int getKeyLec1() {
+		// helper method that returns the lecture number of the first lecture of lastTwoLectures		
+		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
+		Iterator<Integer> entries = map.keySet().iterator();
+		return entries.next();
+	}
+	
+	private int getKeyLec2() {
+		// helper method that returns the lecture number of the first lecture of lastTwoLectures		
+		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
+		Iterator<Integer> entries = map.keySet().iterator();
+		entries.next();
+		return entries.next();
+	}
+
+
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 		
 	}
+	
 	
 	
 

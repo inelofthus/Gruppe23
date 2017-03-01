@@ -37,7 +37,7 @@ public class courseController implements Initializable {
 		return mainController.getInstance().getStudents().getCourseIDs().get(x);
 	}
 	public void setLectures (Course course) {
-		mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+		mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	}
 	
 	
@@ -60,7 +60,7 @@ public class courseController implements Initializable {
         
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
 	        stage=(Stage) fag1.getScene().getWindow();
-	        mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	        mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	       
 /*
 	    	Course course = new Course(loadCourseName(0));
@@ -72,7 +72,7 @@ public class courseController implements Initializable {
 	    	Course course = new Course(loadCourseName(1));
 	    	stage=(Stage) fag2.getScene().getWindow();
 
-	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 
 	    	//setLectures(course);
 
@@ -81,7 +81,7 @@ public class courseController implements Initializable {
 	    	Course course = new Course(loadCourseName(2));
 	    	stage=(Stage) fag3.getScene().getWindow();
 
-	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 
 	    	//setLectures(course);
 
@@ -90,7 +90,7 @@ public class courseController implements Initializable {
 	    	Course course = new Course(loadCourseName(3));
 	    	stage=(Stage) fag4.getScene().getWindow();
 
-	    	mainController.getInstance().setStudentLectureIDs(course.getLastTwoCompletedLectures());
+	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 
 	    	//setLectures(course);
 

@@ -1,6 +1,8 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
 
 import databaseobjects.*;
 
@@ -12,7 +14,7 @@ public class mainController {
 	private static mainController instance = new mainController();
 
 	private Student student; 
-	private ArrayList<Integer> studentLectureIDs;
+	private LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesStudent;
 	private Integer chosenStudentLecture;
 	
 	//
@@ -33,13 +35,13 @@ public class mainController {
 		this.student = student;
 	}
 	
-	public ArrayList<Integer> getStudentLectureIDs() {
-		return studentLectureIDs;
+	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoLecturesStudent() {
+		return lastTwoLecturesStudent;
 	}
 
 
-	public void setStudentLectureIDs(ArrayList<Integer> studentLectureIDs) {
-		this.studentLectureIDs = studentLectureIDs;
+	public void setlastTwoLecturesStudent(LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesStudent) {
+		this.lastTwoLecturesStudent = lastTwoLecturesStudent;
 	}
 
 

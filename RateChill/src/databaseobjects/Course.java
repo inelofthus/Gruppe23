@@ -1,6 +1,8 @@
 package databaseobjects;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
 
@@ -12,11 +14,16 @@ public class Course extends DatabaseUser{
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
 	private ArrayList<String> lectureIDs;
+	private LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures;
 	
+	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
+		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
+	}
+
 	//Constructor1
 	public Course(String courseCode) {
 		this.courseCode = courseCode;
-		loadInfo();
+		DBC.loadCourseInfo(this);
 	}
 	
 	//Constructor2
@@ -46,12 +53,16 @@ public class Course extends DatabaseUser{
 		}
 	}
 	
-	public ArrayList<Integer> getLastTwoCompletedLectures() {
-		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
-	}
+//	public ArrayList<Integer> getLastTwoCompletedLectures() {
+//		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
+//	}
 	
 	public String getCourseCode() {
 		return courseCode;
+	}
+
+	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoCompletedLectures() {
+		return lastTwoCompletedLectures;
 	}
 
 	public String getCourseName() {
@@ -74,9 +85,34 @@ public class Course extends DatabaseUser{
 		return lectureIDs;
 	}
 	
+	
+	
+	public void setCourseCode(String courseCode) {
+		this.courseCode = courseCode;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public void setCourseLocation(String courseLocation) {
+		this.courseLocation = courseLocation;
+	}
+
+	public void setNumLectureHours(int numLectureHours) {
+		this.numLectureHours = numLectureHours;
+	}
+
+	public void setProfessorUsernames(ArrayList<String> professorUsernames) {
+		this.professorUsernames = professorUsernames;
+	}
+
+	public void setLectureIDs(ArrayList<String> lectureIDs) {
+		this.lectureIDs = lectureIDs;
+	}
+
 	public static void main(String[] args) {
-		Course course = new Course("tdt4140");
-		System.out.println(course.getLastTwoCompletedLectures());
+		
 	}
 
 }
