@@ -32,22 +32,34 @@ public class evaluationController implements Initializable {
 	public ToggleGroup group;
 	public Button submit;
 	public Text debugText;
+	public Text submitted;
+	public Text overwriteText;
 	
 	
 	//Creates an evaluation that can be inserted into the database
-	private String createEvaluation(ActionEvent event){
-		return null;
+	private void insertEvaluation(int lecID, String rating, String comment){
+		mainController.getInstance().getStudents().giveEvaluation(lecID, rating, comment);
 	}
-
+	
+	
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		String rating = "";
 		if (event.getSource() == submit){
 			String error = "";
-			if (group.getSelectedToggle() == null) {
-				error += "Choose a rating";
+			String completed = "";
+			
+			//checks if something is selected and gives error message
+			if (!(tooSlow.isSelected() || confusing.isSelected() || toofast.isSelected() || ok.isSelected()
+					|| perfect.isSelected())) {
+				submitted.setText("");
+				error = "Choose a rating";
 				debugText.setText(error);
+				return;
 			}
+			
+			//checks which rating-button is selected and sets the rating to the selected value
 			if (tooSlow.isSelected()){
 				rating = tooSlow.getText(); 
 			}
@@ -63,11 +75,37 @@ public class evaluationController implements Initializable {
 			else if (perfect.isSelected()){
 				rating = perfect.getText();
 			}
+			//stores the feedback comment and the lecture ID into variables
 			String comment = feedback.getText();
 			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
+			
 			//insertEvaluation into database
-			mainController.getInstance().getStudents().giveEvaluation(lectureID, rating, comment);
+			insertEvaluation(lectureID, rating, comment);
+			
+			//visual confirmation that the evaluation has been submitted
+			debugText.setText("");
+			completed += "Submitted!";
+			submitted.setText(completed);
 		}
+		
+
+		
+/*		//submit-button gets clicked again, gives option to overwrite.
+		if (event.getSource() == submit) {
+			submitted.setText("");
+			String alreadySubmitted = "You already submitted a response, if you want to overwrite, click again!";
+			overwriteText.setText(alreadySubmitted);
+		}
+		if (event.getSource() == submit) {
+			String comment = feedback.getText();
+			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
+			//here we need some code to go past the duplicate in the database and overwrite it somehow
+			mainController.getInstance().getStudents().giveEvaluation(lectureID, rating, comment);
+			overwriteText.setText("");
+			String completed = "Overwritten!";
+			submitted.setText(completed);
+			return;
+		}*/
 	}
 	
 	
