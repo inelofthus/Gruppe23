@@ -54,14 +54,14 @@ public class lectureController implements Initializable {
 	
 	
 	private int getKeyLec1() {
-		// helper method that returns the lecture number of the first lecture of lastTwoLectures		
+		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
 		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
 		Iterator<Integer> entries = map.keySet().iterator();
 		return entries.next();
 	}
 	
 	private int getKeyLec2() {
-		// helper method that returns the lecture number of the first lecture of lastTwoLectures		
+		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
 		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
 		Iterator<Integer> entries = map.keySet().iterator();
 		entries.next();
