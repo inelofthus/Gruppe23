@@ -3,7 +3,6 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
-import java.util.NoSuchElementException;
 
 
 public class Course extends DatabaseUser{
@@ -25,19 +24,12 @@ public class Course extends DatabaseUser{
 		this.courseCode = courseCode;
 		DBC.loadCourseInfo(this);
 	}
-	
-	//Constructor2
-	/*public Course(DBController DBC, String courseCode) {
-		super(DBC);
-		this.courseCode = courseCode;
-		loadInfo();
-	}*/
-	
+		
 	public boolean existsInDB(){
 		return DBC.courseExists(courseCode);
 	}
 	
-	public void loadInfo(){
+	/*public void loadInfo(){
 		try {
 			ArrayList<String> nameLocation = DBC.getCourseNameAndLocation(courseCode);
 			courseName = nameLocation.get(0);
@@ -51,11 +43,11 @@ public class Course extends DatabaseUser{
 			}
 			System.out.println(e.getMessage());	
 		}
-	}
+	}*/
 	
-//	public ArrayList<Integer> getLastTwoCompletedLectures() {
-//		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
-//	}
+    /*	public ArrayList<Integer> getLastTwoCompletedLectures() {
+	return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
+	}*/
 	
 	public String getCourseCode() {
 		return courseCode;

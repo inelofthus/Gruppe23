@@ -152,61 +152,9 @@ public class DBController {
 		close();
 	}
 
-	public ArrayList<String> getProfessorsForCourse(String courseCode) {
+	
 
-		connect();
 
-		ArrayList<String> professor = new ArrayList<>();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				professor.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		// System.out.println(professor);
-		return professor;
-	}
-
-	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
-
-		connect();
-		ArrayList<String> result = new ArrayList<>();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseName, courseLocation FROM Course WHERE courseCode = " + "'" + courseCode
-					+ "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				result.add(rs.getString(1));
-				result.add(rs.getString(2));
-
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return result;
-	}
 
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
 		connect();
@@ -230,30 +178,7 @@ public class DBController {
 
 	}
 
-	public ArrayList<String> getLecturesForCourse(String courseCode) {
-		ArrayList<String> lectures = new ArrayList<>();
-
-		connect();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				lectures.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return lectures;
-	}
+	
 
 	public boolean courseExists(String courseCode) {
 
@@ -459,30 +384,7 @@ public class DBController {
 
 	}
 
-	public int getLectureHoursForCourse(String courseCode) {
-		connect();
-		int hours = 0;
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureHours FROM Course WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			hours = rs.getInt(1);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		// System.out.println(hours);
-		return hours;
-
-	}
+	
 
 	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC) {
 
@@ -555,83 +457,6 @@ public class DBController {
 		return hasNext;
 	}
 
-	/*
-	 * public void insertLectures(int weeksUntilExam, String courseCode){ //TODO
-	 * Insert number of lectures per week for a whole semester. Automatically
-	 * set day to Monday, Wednesday, (Friday if 3 lectures per week) 08:00.
-	 * //Add lectures until exam date: needs function that gets Exam date from
-	 * API and calculates number of weeks until Exam. //If a course is taught by
-	 * more than 1 professer this function will automatically add just the 1st
-	 * professor
-	 * 
-	 * int numLectures = getLectureHoursForCourse(courseCode)/2;
-	 * System.out.println("numLectures: " + numLectures); List<String> firstLec
-	 * = getStartDate(); String Monday = firstLec.get(0); String Wednesday =
-	 * firstLec.get(1); String Friday = firstLec.get(2); String professor =
-	 * getProfessorsForCourse(courseCode).get(0); String query; String time =
-	 * "08:00:00";
-	 * 
-	 * if (numLectures == 1) {
-	 * 
-	 * //Add lectures every monday
-	 * 
-	 * 
-	 * }if (numLectures == 2) {
-	 * 
-	 * //Add lectures every wednesday
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
-
-	// private List<String> getStartDate(){
-	// //Return SQL friendly list of date Strings of next Monday, Wednesday and
-	// Friday YYYY-MM-DD
-	// ArrayList<String> startDates = new ArrayList<>();
-	// String YYYY, MM, DD, Monday, Wednesday, Friday;
-	//
-	// GregorianCalendar date =new GregorianCalendar();
-	// //String CurMonth = String.valueOf(date.get(GregorianCalendar.MONTH) +
-	// 1);
-	// //String CurDay =
-	// String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-	// //String CurYear = String.valueOf(date.get(GregorianCalendar.YEAR));
-	//
-	// //System.out.println("year: " + CurYear + " month: " + CurMonth + " Day:
-	// " + CurDay);
-	//
-	// for(int i = 0; i<7; i++ ){
-	// if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.MONDAY){
-	// YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-	// MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);
-	// DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-	// Monday = YYYY + "-" + MM + "-" + DD;
-	// startDates.add(Monday);
-	// //System.out.println("Monday: " +Monday);
-	// }if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.WEDNESDAY){
-	// YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-	// MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);
-	// DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-	// Wednesday = YYYY + "-" + MM + "-" + DD;
-	// startDates.add(Wednesday);
-	// //System.out.println("Wednesday: " + Wednesday);
-	// }if(date.get(Calendar.DAY_OF_WEEK ) == Calendar.FRIDAY){
-	// YYYY = String.valueOf(date.get(GregorianCalendar.YEAR));
-	// MM = String.valueOf(date.get(GregorianCalendar.MONTH) + 1);
-	// DD = String.valueOf(date.get(GregorianCalendar.DAY_OF_MONTH));
-	// Friday = YYYY + "-" + MM + "-" + DD;
-	// startDates.add(Friday);
-	// //System.out.println("Friday: " + Friday);
-	// }
-	//
-	// date.roll(Calendar.DAY_OF_MONTH, true);
-	// }
-
-	// //System.out.println(startDates);
-	// return startDates;
-	// }
-
 	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername) {
 
 		StringBuilder sb = new StringBuilder();
@@ -642,8 +467,7 @@ public class DBController {
 				.append(professorUsername).append("';");
 
 		String query = sb.toString();
-		// System.out.println(query);
-
+		
 		return query;
 
 	}
@@ -675,6 +499,7 @@ public class DBController {
 	}
 
 	public void insertProfessor(String professorUsername) {
+		// inserts a new professor into database
 		connect();
 		try {
 
@@ -845,7 +670,7 @@ public class DBController {
 			stmt = conn.createStatement();
 
 			String query = "SELECT * FROM Evaluation WHERE studentEmail = '" + studentEmail + "' AND lectureID =" + lecID + ";";
-			System.out.println(query);
+			
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -1010,7 +835,117 @@ public class DBController {
 		close();
 		return hasNext;
 	}
+	
+	
+/*	//Old Load Functions:
+	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
 
+		connect();
+		ArrayList<String> result = new ArrayList<>();
+
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT courseName, courseLocation FROM Course WHERE courseCode = " + "'" + courseCode
+					+ "';";
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				result.add(rs.getString(1));
+				result.add(rs.getString(2));
+
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		close();
+		return result;
+	}
+
+	public int getLectureHoursForCourse(String courseCode) {
+		connect();
+		int hours = 0;
+
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureHours FROM Course WHERE courseCode = '" + courseCode + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			rs.next();
+			hours = rs.getInt(1);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		close();
+		// System.out.println(hours);
+		return hours;
+
+	}
+	
+	public ArrayList<String> getProfessorsForCourse(String courseCode) {
+
+		connect();
+
+		ArrayList<String> professor = new ArrayList<>();
+
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + courseCode + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				professor.add(rs.getString(1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		close();
+		// System.out.println(professor);
+		return professor;
+	}
+	
+	public ArrayList<String> getLecturesForCourse(String courseCode) {
+		ArrayList<String> lectures = new ArrayList<>();
+
+		connect();
+
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				lectures.add(rs.getString(1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		close();
+		return lectures;
+	}
+	
+	*/
+	
 	// Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
@@ -1033,14 +968,6 @@ public class DBController {
 		// this is the most boring and stupid lecture ever");
 		// test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
 		// test.insertStudent("magnutvi", "MLREAL");
-		// test.insertEvaluation("karimj@stud.ntnu.no", 2, "Perfect", "This was
-		// a very informative lecture. I like it when you write on the
-		// blackboard");
-		test.overwriteEvaluation("magnutvi@stud.ntnu.no", 4, "OK", "OVERWRITE");
-		
-		Course course = new Course("tdt4140");
-		System.out.println(course.getLectureIDs());
-
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
 
