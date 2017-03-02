@@ -102,6 +102,10 @@ public class Course extends DatabaseUser{
 	public void setLectureIDs(ArrayList<String> lectureIDs) {
 		this.lectureIDs = lectureIDs;
 	}
+	
+	public GregorianCalendar getLectureDate(int lecID){
+		return lastTwoCompletedLectures.get(lecID);
+	}
 
 	public static void main(String[] args) {
 		
