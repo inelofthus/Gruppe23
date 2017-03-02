@@ -49,5 +49,6 @@
       </ToggleButton>
       <Text fx:id="debugText" fill="RED" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="222.0" />
       <Text fx:id="submitted" fill="#00ff2f" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="222.0" />
+      <Text fx:id="overwriteText" fill="#00b2ff" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="310.0" />
    </children>
 </AnchorPane>

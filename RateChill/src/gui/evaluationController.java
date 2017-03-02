@@ -23,7 +23,7 @@ public class evaluationController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public TextArea feedback; 
+	public TextArea feedback;
 	public ToggleButton tooSlow;
 	public ToggleButton confusing;
 	public ToggleButton perfect;
@@ -36,76 +36,82 @@ public class evaluationController implements Initializable {
 	public Text overwriteText;
 	
 	
+	public int counter;
+	
 	//Creates an evaluation that can be inserted into the database
-	private void insertEvaluation(int lecID, String rating, String comment){
+	private void createEvaluation(int lecID, String rating, String comment){
 		mainController.getInstance().getStudents().giveEvaluation(lecID, rating, comment);
 	}
 	
 	
+	private String selectedButton() {
+		String rating = "";
+		if (tooSlow.isSelected()){
+			rating = tooSlow.getText();
+		}
+		else if (confusing.isSelected()){
+			rating += confusing.getText();
+		}
+		else if (toofast.isSelected()){
+			rating += toofast.getText();
+		}
+		else if (ok.isSelected()){
+			rating += ok.getText();
+		}
+		else if (perfect.isSelected()){
+			rating += perfect.getText();
+		}
+		return rating;
+	}
+	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		String rating = "";
 		if (event.getSource() == submit){
-			String error = "";
-			String completed = "";
 			
 			//checks if something is selected and gives error message
 			if (!(tooSlow.isSelected() || confusing.isSelected() || toofast.isSelected() || ok.isSelected()
 					|| perfect.isSelected())) {
 				submitted.setText("");
-				error = "Choose a rating";
-				debugText.setText(error);
+				debugText.setText("Choose a rating");
 				return;
 			}
 			
+			//if the user already has submitted one or more evaluations on the subject, it gets overwritten
+			if (counter>0) {
+				
+				//increments counter
+				counter+=1;
+				
+				String comment = feedback.getText();
+				Integer lectureID = mainController.getInstance().getChosenStudentLecture();
+				
+				//the actual overwriting function
+				createEvaluation(lectureID, selectedButton(), comment);
+				
+				//removing other messages the GUI displays and setting the overwritten text
+				debugText.setText("");
+				submitted.setText("");
+				String overwritten = "Your submission has been overwritten";
+				overwriteText.setText(overwritten);
+				return;
+			}
 			//checks which rating-button is selected and sets the rating to the selected value
-			if (tooSlow.isSelected()){
-				rating = tooSlow.getText(); 
-			}
-			else if (confusing.isSelected()){
-				rating = confusing.getText();
-			}
-			else if (toofast.isSelected()){
-				rating = toofast.getText();
-			}
-			else if (ok.isSelected()){
-				rating = ok.getText();
-			}
-			else if (perfect.isSelected()){
-				rating = perfect.getText();
-			}
 			//stores the feedback comment and the lecture ID into variables
 			String comment = feedback.getText();
 			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 			
+			counter+=1;
 			//insertEvaluation into database
-			insertEvaluation(lectureID, rating, comment);
+			createEvaluation(lectureID, selectedButton(), comment);
 			
 			//visual confirmation that the evaluation has been submitted
 			debugText.setText("");
-			completed += "Submitted!";
-			submitted.setText(completed);
+			submitted.setText("Submitted!");
+			
+			//sets the text on the submit-button to overwrite
+			submit.setText("Overwrite");
 		}
-		
-
-		
-/*		//submit-button gets clicked again, gives option to overwrite.
-		if (event.getSource() == submit) {
-			submitted.setText("");
-			String alreadySubmitted = "You already submitted a response, if you want to overwrite, click again!";
-			overwriteText.setText(alreadySubmitted);
-		}
-		if (event.getSource() == submit) {
-			String comment = feedback.getText();
-			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
-			//here we need some code to go past the duplicate in the database and overwrite it somehow
-			mainController.getInstance().getStudents().giveEvaluation(lectureID, rating, comment);
-			overwriteText.setText("");
-			String completed = "Overwritten!";
-			submitted.setText(completed);
-			return;
-		}*/
 	}
 	
 	
