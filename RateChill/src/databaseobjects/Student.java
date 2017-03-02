@@ -54,6 +54,10 @@ public class Student extends DatabaseUser{
 		DBC.insertEvaluation(getEmail(), lectureID, rating, comment);
 		//TODO: Form validation
 	}
+	
+	public void overWriteEvaluation(int lectureID, String rating, String comment){
+		DBC.overwriteEvaluation(getEmail(), lectureID, rating, comment);
+	}
 
 	public String getUsername() {
 		return username;

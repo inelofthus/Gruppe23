@@ -885,6 +885,41 @@ public class DBController {
 	}
 
 	// Evaluation info
+	public void overwriteEvaluation(String email, int lectureID, String rating, String comment) {
+		connect();
+		
+		try {
+
+			//delete Evaluation for this student for this lecture
+			StringBuilder sb1 = new StringBuilder();
+			sb1.append("DELETE FROM Evaluation WHERE studentEmail = '").append(email).append("' ")
+			.append( "AND lectureID =").append(lectureID).append(";");
+			
+			String query1 = sb1.toString();
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query1);
+			
+			//insert  new Evaluation
+			StringBuilder sb = new StringBuilder();
+			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
+					.append(" SELECT Student.studentEmail, Lecture.lectureID, '").append(rating).append("', '")
+					.append(comment).append("'").append(" FROM Student, Lecture")
+					.append(" WHERE studentEmail = '").append(email).append("' AND lectureID = ")
+					.append(lectureID).append(";");
+
+			String query2 = sb.toString();
+			// System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query2);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		
+	}
+	
 	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment) {
 		connect();
 		try {
@@ -970,7 +1005,7 @@ public class DBController {
 		// test.getCoursestaughtByProfessor("pekkaa");
 		// test.getLectureHoursForCourse("tdt4140");
 		// test.getStartDate();
-		// test.insertLecture("2017-02-21", "08:00:00", "tdt4145", "sveinbra");
+		// test.insertLecture("2017-02-22", "08:00:00", "tdt4145", "sveinbra");
 		// test.insertCourseProfessor("sveinbra", "tdt4145");
 		// test.insertStudent("negative","MTING");
 		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
@@ -980,12 +1015,15 @@ public class DBController {
 		// test.insertEvaluation("karimj@stud.ntnu.no", 2, "Perfect", "This was
 		// a very informative lecture. I like it when you write on the
 		// blackboard");
+		test.overwriteEvaluation("magnutvi@stud.ntnu.no", 4, "OK", "OVERWRITE");
 		
 		Course course = new Course("tdt4140");
 		System.out.println(course.getLectureIDs());
 
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
+
+	
 
 	
 

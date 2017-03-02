@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class Professor extends DatabaseUser {
 	String username;
-	ArrayList<String> courses;
+	ArrayList<String> courseIDs;
 	
 	// Constructor1
 	public Professor(String professorUsername) {
@@ -20,7 +20,7 @@ public class Professor extends DatabaseUser {
 	
 	public void loadInfo(){
 		try {
-			courses = DBC.getCoursesTaughtByProfessor(username);
+			courseIDs = DBC.getCoursesTaughtByProfessor(username);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -52,8 +52,12 @@ public class Professor extends DatabaseUser {
 		return username;
 	}
 
-	public ArrayList<String> getCourses() {
-		return courses;
+
+	public ArrayList<String> getCourseIDs() {
+		return courseIDs;
 	}
+
+
+	
 	
 }
