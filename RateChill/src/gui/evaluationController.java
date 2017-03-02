@@ -35,12 +35,15 @@ public class evaluationController implements Initializable {
 	public Text submitted;
 	public Text overwriteText;
 	
-	
-	public int counter;
+	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 	
 	//Creates an evaluation that can be inserted into the database
 	private void createEvaluation(int lecID, String rating, String comment){
 		mainController.getInstance().getStudents().giveEvaluation(lecID, rating, comment);
+	}
+	
+	private void overwriting(int lecID, String rating, String comment) {
+		mainController.getInstance().getStudents().overWriteEvaluation(lecID, rating, comment);
 	}
 	
 	
@@ -77,17 +80,15 @@ public class evaluationController implements Initializable {
 				return;
 			}
 			
+			
 			//if the user already has submitted one or more evaluations on the subject, it gets overwritten
-			if (counter>0) {
+			if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 				
-				//increments counter
-				counter+=1;
 				
 				String comment = feedback.getText();
-				Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 				
 				//the actual overwriting function
-				createEvaluation(lectureID, selectedButton(), comment);
+				overwriting(lectureID, selectedButton(), comment);
 				
 				//removing other messages the GUI displays and setting the overwritten text
 				debugText.setText("");
@@ -97,11 +98,9 @@ public class evaluationController implements Initializable {
 				return;
 			}
 			//checks which rating-button is selected and sets the rating to the selected value
-			//stores the feedback comment and the lecture ID into variables
+			//stores the feedback comment
 			String comment = feedback.getText();
-			Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 			
-			counter+=1;
 			//insertEvaluation into database
 			createEvaluation(lectureID, selectedButton(), comment);
 			
@@ -113,14 +112,17 @@ public class evaluationController implements Initializable {
 			submit.setText("Overwrite");
 		}
 	}
-	
+	//
 	
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-		
+		if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+			submit.setText("Overwrite");
+			overwriteText.setText("Evaluation already given, overwrite?");
+		}
 	}
 
 }

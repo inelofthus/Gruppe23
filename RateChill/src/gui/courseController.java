@@ -110,7 +110,7 @@ public class courseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
-		fag1.setText(mainController.getInstance().getStudents().getCourseIDs().get(0));
+		fag1.setText(loadCourseName(0));
 		
 		//fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
 		fag2.setText(loadCourseName(1));

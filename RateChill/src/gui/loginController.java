@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import databaseobjects.Student;
+import databaseobjects.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,30 +30,28 @@ public class loginController implements Initializable {
 	public Text error;
 	
 	
-	//String loginInfo;
-	
-	public Student getCurrentUser() {
-		return new Student(username.getText());
-	}
-	
 	
 	
 	@FXML
 	public void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage;
+		String errorMsg = "User doesn't exist. Try again";
 		
-		Student stud = new Student(username.getText());
+		
 		
 		if(event.getSource()==student){
-	    	
+			Student stud = new Student(username.getText());
 			
-	    	//here we want to create a new student object and print error msg if it doesn't exist    	
+	    	//checks if the student username exists
 			if(stud.existsInDB()) {
-	    		ArrayList<String> courses = stud.getCourseIDs();
+	    		//creates list of courses and an int for number of courses
+				ArrayList<String> courses = stud.getCourseIDs();
 	    		int number = courses.size();
+	    		
+	    		
 	    		mainController.getInstance().setStudent(stud);
 	    		
-	    	//get reference to the button's stage
+	    		//get reference to the button's stage
 		    	stage=(Stage) student.getScene().getWindow();
 		    	//load up OTHER FXML document
 				Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
@@ -62,23 +61,22 @@ public class loginController implements Initializable {
 	    		stage.show();
 			}
 	    	
-	    	String errorMsg = "User doesn't exist. Try again";
 	    	error.setText(errorMsg);
 	    }
 	    	
 	    else{
-	    	stage=(Stage) professor.getScene().getWindow();
-	    	Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
-	    	root = FXMLLoader.load(getClass().getResource("course.fxml"));
-	    	/*
-	    	//here we wanna create a new professor object if the professor does not already exist
-	    	if(!("textfield" == "existing professor")) {
-	    		Professor professorObj = new Professor();
-	    	}
+	    	Professor prof = new Professor(username.getText());
 	    	
-	    	//we want to store the info and use it later, perhaps in a String or use a get method?
-	    	loginInfo = "textfield";
-	    	*/
+	    	if(prof.existsInDB()) {
+	    		ArrayList<String> courses = prof.getCourseIDs();
+	    		int number = courses.size();
+	    		stage=(Stage) professor.getScene().getWindow();
+	    		Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
+	    		Scene scene = new Scene(root);
+	    		stage.setScene(scene);
+	    		stage.show();
+	    	}
+	    	error.setText(errorMsg);
 	    }
 		
 	     
