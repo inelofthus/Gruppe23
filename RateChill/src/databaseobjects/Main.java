@@ -15,6 +15,7 @@ public class Main {
 		
 		System.out.println(course.getLastTwoCompletedLectures().keySet());
 		stud.overWriteEvaluation(4, "Perfect", "hello I overwrite again");
+		System.out.println(stud.hasEvaluatedLecture(5));
 
 	}
 

@@ -838,6 +838,27 @@ public class DBController {
 		return studentCourses;
 	}
 
+	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
+		boolean hasNext = false;
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT * FROM Evaluation WHERE studentEmail = '" + studentEmail + "' AND lectureID =" + lecID + ";";
+			System.out.println(query);
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			hasNext = rs.next();
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		return hasNext;
+		
+	}
 	// CourseProfessor info
 	public void insertCourseProfessor(String professorUsername, String courseCode) {
 		connect();
@@ -1022,6 +1043,8 @@ public class DBController {
 
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
+
+	
 
 	
 

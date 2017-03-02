@@ -70,5 +70,9 @@ public class Student extends DatabaseUser{
 	public ArrayList<String> getCourseIDs() {
 		return courseIDs;
 	}
+	
+	public boolean hasEvaluatedLecture(int lecID){
+		return DBC.studentHasEvaluatedLecture(getEmail(), lecID);
+	}
 
 }
