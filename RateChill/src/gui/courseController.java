@@ -46,13 +46,10 @@ public class courseController implements Initializable {
 		Stage stage = null; 
 	    Parent root;
 	    
-	    
 	    int numberOfCourses = mainController.getInstance().getStudents().getCourseIDs().size();
 	    
-	    if((event.getSource()==fag1 || event.getSource()==fag2 || event.getSource()==fag3 ||
-	    		event.getSource()==fag4) && numberOfCourses == 0) {
-	    	String errorMsg = "You don't have any courses!";
-	    	errorNumber.setText(errorMsg);
+	    if(numberOfCourses == 0) {
+	    	return;
 	    }
 	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
@@ -110,11 +107,28 @@ public class courseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
-		fag1.setText(loadCourseName(0));
-		
-		//fag2.setText(mainController.getInstance().getStudents().getCourseIDs().get(1));
-		fag2.setText(loadCourseName(1));
-		//fag4.setText(loadCourseName(3));
+		int numberOfCourses = mainController.getInstance().getStudents().getCourseIDs().size();
+		if(numberOfCourses == 0) {
+	    	errorNumber.setText("You don't have any courses!");
+		}
+		else if (numberOfCourses<2) {
+			fag1.setText(loadCourseName(0));
+		}
+		else if (numberOfCourses<3) {
+			fag1.setText(loadCourseName(0));
+			fag2.setText(loadCourseName(1));
+		}
+		else if (numberOfCourses<4) {
+			fag1.setText(loadCourseName(0));
+			fag2.setText(loadCourseName(1));
+			fag3.setText(loadCourseName(2));
+		}
+		else {
+			fag1.setText(loadCourseName(0));
+			fag2.setText(loadCourseName(1));
+			fag3.setText(loadCourseName(2));
+			fag4.setText(loadCourseName(3));
+		}
 	}
 
 }
