@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
+import databaseobjects.Student;
 
 public class DBController {
 
@@ -290,10 +292,11 @@ public class DBController {
 				
 				course.setLectureIDs(lectures);
 			
-				// Finally we need to create the linked Hash map with the last 2 completed lectures and their dates
+				// Finally we need to create the list and linked Hash map with the last 2 completed lectures and their dates
 				
 				stmt = conn.createStatement();
 				
+				ArrayList<Integer> lastTwoCompletedLectureIDs = new ArrayList<>();
 				LinkedHashMap<Integer, GregorianCalendar> lastTwolectures = new LinkedHashMap<>();
 				
 				StringBuilder sb = new StringBuilder();
@@ -306,21 +309,26 @@ public class DBController {
 					rs = stmt.getResultSet();
 				}
 
-				rs.next();
-				int lecID = rs.getInt(1);
-				String date = rs.getString(2);
-				String time = rs.getString(3);
+				if(rs.next()){
+					int lecID = rs.getInt(1);
+					String date = rs.getString(2);
+					String time = rs.getString(3);
+	
+					lastTwolectures.put(lecID, stringToCalender(date, time));
+					lastTwoCompletedLectureIDs.add(lecID);
+				}
 				
-				lastTwolectures.put(lecID, stringToCalender(date, time));
-				
-				rs.next();
-				lecID = rs.getInt(1);
-				date = rs.getString(2);
-				time = rs.getString(3);
-				
-				lastTwolectures.put(lecID, stringToCalender(date, time));
-				
+				if(rs.next()){
+					int lecID = rs.getInt(1);
+					String date = rs.getString(2);
+					String time = rs.getString(3);
+	
+					lastTwolectures.put(lecID, stringToCalender(date, time));
+					lastTwoCompletedLectureIDs.add(lecID);
+				}
+								
 				course.setLastTwoCompletedLectures(lastTwolectures);
+				course.setLastTwoCompletedLectureIDs(lastTwoCompletedLectureIDs);
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -618,50 +626,9 @@ public class DBController {
 		return hasNext;
 	}
 
-	public String getStudyProgram(String studentEmail) {
-		String studyProgram = "";
-		connect();
-		try {
-			stmt = conn.createStatement();
+	
 
-			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + studentEmail + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			studyProgram = rs.getString(1);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return studyProgram;
-	}
-
-	public ArrayList<String> getStudentCourses(String studentEmail) {
-		ArrayList<String> studentCourses = new ArrayList<>();
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseCode FROM CourseStudent WHERE studentEmail = '" + studentEmail + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				studentCourses.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return studentCourses;
-	}
+	
 
 	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
 		boolean hasNext = false;
@@ -838,6 +805,53 @@ public class DBController {
 	
 	
 /*	//Old Load Functions:
+	
+	public ArrayList<String> getStudentCourses(String studentEmail) {
+		ArrayList<String> studentCourses = new ArrayList<>();
+
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT courseCode FROM CourseStudent WHERE studentEmail = '" + studentEmail + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				studentCourses.add(rs.getString(1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		close();
+		return studentCourses;
+	}
+	
+	public String getStudyProgram(String studentEmail) {
+		String studyProgram = "";
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + studentEmail + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			rs.next();
+			studyProgram = rs.getString(1);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		return studyProgram;
+	}
+	
+	
 	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
 
 		connect();
@@ -971,10 +985,64 @@ public class DBController {
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 	}
 
-	
+	public void loadStudentInfo(Student student) {
+		// Need to get following info about student and update Student Object accordingly:
+		
+		// String studyProgram;
+		// ArrayList<String> courseIDs;
+		// HashMap<int, String> courseIDNames;
+		
+				
+		connect();
+		try {
+			
+			//First students studyProgram is retrieved from DB
+			stmt = conn.createStatement();
+
+			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + student.getEmail() + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			rs.next();
+			student.setStudyProgram(rs.getString(1)); 
+			
+			// next find the courseCodes and corresponding courseNames for this student
+			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"+ student.getEmail() + "';";
+			
+			
+			if (stmt.execute(query2)) {
+				rs = stmt.getResultSet();
+			}
+			
+			String courseID = null;
+			String courseName = null;
+			ArrayList<String> courseIDs = new ArrayList<>();
+			HashMap<String, String> courseIDNames = new HashMap<>();
+			
+			while (rs.next()) {
+				courseID = rs.getString(1);
+				courseName = rs.getString(2);
+				courseIDs.add(courseID);
+				courseIDNames.put(courseID, courseName);
+			}
+			
+			student.setCourseIDs(courseIDs);
+			student.setCourseIDNames(courseIDNames);
+			
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		
+	}
+		
+	}
 
 	
 
 	
 
-}
+	
+
+

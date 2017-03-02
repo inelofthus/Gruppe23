@@ -13,11 +13,10 @@ public class Course extends DatabaseUser{
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
 	private ArrayList<String> lectureIDs;
+	private ArrayList<Integer> lastTwoCompletedLectureIDs;
 	private LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures;
 	
-	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
-		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
-	}
+
 
 	//Constructor1
 	public Course(String courseCode) {
@@ -27,6 +26,21 @@ public class Course extends DatabaseUser{
 		
 	public boolean existsInDB(){
 		return DBC.courseExists(courseCode);
+	}
+	
+	public ArrayList<Integer> getLastTwoCompletedLectureIDs() {
+		return lastTwoCompletedLectureIDs;
+	}
+	
+	
+
+	public void setLastTwoCompletedLectureIDs(ArrayList<Integer> lastTwoCompletedLectureIDs) {
+		this.lastTwoCompletedLectureIDs = lastTwoCompletedLectureIDs;
+	}
+
+	
+	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
+		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
 	}
 	
 	/*public void loadInfo(){
@@ -77,7 +91,9 @@ public class Course extends DatabaseUser{
 		return lectureIDs;
 	}
 	
-	
+	public GregorianCalendar getLectureDate(int lecID){
+		return lastTwoCompletedLectures.get(lecID);
+	}
 	
 	public void setCourseCode(String courseCode) {
 		this.courseCode = courseCode;
@@ -103,9 +119,7 @@ public class Course extends DatabaseUser{
 		this.lectureIDs = lectureIDs;
 	}
 	
-	public GregorianCalendar getLectureDate(int lecID){
-		return lastTwoCompletedLectures.get(lecID);
-	}
+	
 
 	public static void main(String[] args) {
 		

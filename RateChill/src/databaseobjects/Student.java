@@ -1,35 +1,40 @@
 package databaseobjects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Student extends DatabaseUser{
 	private String username;
 	private String studyProgram;
 	private ArrayList<String> courseIDs;
-	private ArrayList<String> courseNames;
+	private HashMap<String, String> courseIDNames;
 	
 	//Constructor1
 	public Student(String username) {
 		this.username = username;
-		loadInfo();
+		DBC.loadStudentInfo(this);
 	}
 	
-//	//Constructor2
-//	public Student(DBController DBC ,String username) {
-//		super(DBC);
-//		this.username = username;
-//		loadInfo();
-//	}
 	
-	
+	public HashMap<String, String> getCourseIDNames() {
+		return courseIDNames;
+	}
+
+
+	public void setCourseIDNames(HashMap<String, String> courseIDNames) {
+		this.courseIDNames = courseIDNames;
+	}
+
+
 	public String getEmail(){
 		return username + "@stud.ntnu.no";
 	}
 	public boolean existsInDB(){
 		return DBC.studentExists(getEmail());
 	}
-	public void loadInfo(){
+	
+	/*public void loadInfo(){
 		try {
 			studyProgram = DBC.getStudyProgram(getEmail());
 			courseIDs = DBC.getStudentCourses(getEmail());
@@ -44,10 +49,19 @@ public class Student extends DatabaseUser{
 			System.out.println(e.getMessage());
 		}
 				
-	}
+	}*/
 	
-	public ArrayList<String> getCourseNames() {
-		return courseNames;
+	public void setStudyProgram(String studyProgram) {
+		this.studyProgram = studyProgram;
+	}
+
+	public void setCourseIDs(ArrayList<String> courseIDs) {
+		this.courseIDs = courseIDs;
+	}
+
+	public String getCourseNameForCourse(String courseCode) {
+		// will give the corresponding courseName for the students Course
+		return courseIDNames.get(courseCode);
 	}
 
 	public void giveEvaluation(int lectureID, String rating, String comment){
