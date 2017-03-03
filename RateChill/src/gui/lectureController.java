@@ -72,9 +72,20 @@ public class lectureController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Set text of buttons to contain date of lecture
+		// fagButton.setText(courseCodeName);
+		
+		lecture1.setText(getLectureDateText(getKeyLec1()));
+		
+		
+	}
+
+
+
+	private String getLectureDateText(int lecID) {
 		// TODO Auto-generated method stub
-		
-		
+		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
+		return null;
 	}
 	
 	

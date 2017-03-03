@@ -66,7 +66,8 @@ public class courseController implements Initializable {
 	    	//get reference to the button's stage
         
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
-	        stage=(Stage) fag1.getScene().getWindow();
+	        mainController.getInstance().setCourse(course);
+	    	stage=(Stage) fag1.getScene().getWindow();
 	        mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	       
 /*
