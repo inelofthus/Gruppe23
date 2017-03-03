@@ -2,10 +2,13 @@ package testing;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import database.DBController;
 import databaseobjects.Course;
+import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
 import databaseobjects.Professor;
 import databaseobjects.Student;
@@ -31,10 +34,13 @@ public class DBControllerTest {
 		assertEquals("Prosedyre- og objektorientert programmering", course.getCourseName());
 		assertEquals("Trondheim", course.getCourseLocation());
 		assertEquals(4, course.getNumLectureHours());
+		assertTrue(course.existsInDB());
 		
 		//Update
 		
 		//Delete
+		dbc.deleteCourse("TDT4102");
+		assertFalse(dbc.courseExists("TDT4102"));
 			
 	}
 	
@@ -54,6 +60,8 @@ public class DBControllerTest {
 		//Update
 		
 		//Delete
+		dbc.deleteStudent("inela@stud.ntnu.no");
+		assertFalse(dbc.studentExists("inela@stud.ntnu.no"));
 	}
 	
 	@Test
@@ -70,6 +78,8 @@ public class DBControllerTest {
 		//Update
 		
 		//Delete
+		dbc.deleteProfessor("mariusth");
+		assertFalse(dbc.professorExists("mariusth"));
 		
 	}
 	
@@ -79,18 +89,29 @@ public class DBControllerTest {
 		//Create
 		dbc.insertLecture("10-03-2017", "14:15", "TDT4140", "pekkaa");
 		
+		//Delete
+		dbc.deleteLecture 
+		
+		
 	}*/
 	
 	/*@Test
 	public void evaluationCRUD(){
 		
+		TestData.createTestDataEvaluation();
 		//Create
-		dbc.insertEvaluation(studentEmail, lectureID, rating, studentComment);
+		int lectureID = dbc.getLectureID("04-11-2017", "IT2805");
+		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		
+		ArrayList<String> RatingComment = dbc.getEvaluationRatingAndComment(lectureID, "inela@stud.ntnu.no");
+		assertEquals("Perfekt", RatingComment.get(0));
+		assertEquals("Det var perfekt", RatingComment.get(1));
 		//Update
 		 
 		//Delete
-	
+		
+		
+		TestData.deleteTestData();
 	}*/
 	
 }

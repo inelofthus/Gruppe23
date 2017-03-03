@@ -173,7 +173,21 @@ public class DBController {
 		}
 		close();
 		return hasNext;
+	}
+	
+	public void deleteCourse(String courseCode){
+		connect();
+		try {
+			String query = "DELETE FROM Course WHERE courseCode='" + courseCode +"'";
 
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		
 	}
 
 	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode) {
@@ -420,7 +434,48 @@ public class DBController {
 		}
 		close();
 	}
+	
+	//Forutsetter at det kun er én lecture i
+	// et fag per dag. Brukes midlertidig til testing
+	public int getLectureID(String date, String courseCode){
+		connect();
+		int id = -1;
+		try {
+			stmt = conn.createStatement();
 
+			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
+					+ courseCode + "' and lectureDate='" + date + "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+			rs.next();
+			id = rs.getInt(1);
+			return id;
+			
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		close();
+		return id;
+	}
+	
+	public void deleteLecture(int lectureID){
+		connect();
+		try {
+
+			String query = "DELETE FROM Lecture WHERE lectureID='" + lectureID +"'";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+	}
+	
 	public boolean lectureExists(int lectureID) {
 		connect();
 		boolean hasNext = false;
@@ -636,6 +691,22 @@ public class DBController {
 		}
 		close();
 	}
+	
+	public void deleteStudent(String studentEmail){
+		connect();
+		try {
+
+			String query = "DELETE FROM Student WHERE studentEmail='" + studentEmail +"'";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+	}
+	
 
 	public boolean studentExists(String studentEmail) {
 		boolean hasNext = false;
@@ -704,6 +775,22 @@ public class DBController {
 		}
 		close();
 	}
+	
+	public void deleteProfessor(String username){
+		connect();
+		try {
+
+			String query = "DELETE FROM Professor WHERE professorUsername='" + username +"'";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+	}
+	
 
 	// CourseStudent info
 	public void insertCourseStudent(String studentEmail, String courseCode) {
