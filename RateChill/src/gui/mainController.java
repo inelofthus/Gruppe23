@@ -14,6 +14,8 @@ public class mainController {
 	private static mainController instance = new mainController();
 
 	private Student student; 
+	private Professor professor;
+	private Course course;
 	private LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesStudent;
 	private Integer chosenStudentLecture;
 	
@@ -53,7 +55,10 @@ public class mainController {
 	public void setChosenStudentLecture(Integer chosenStudentLecture) {
 		this.chosenStudentLecture = chosenStudentLecture;
 	}
-	
+
+	public Professor getProfessor() {
+		return professor;
+	}
 	
 	
 	

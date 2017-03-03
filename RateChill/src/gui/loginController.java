@@ -46,7 +46,6 @@ public class loginController implements Initializable {
 			if(stud.existsInDB()) {
 	    		//creates list of courses and an int for number of courses
 				ArrayList<String> courses = stud.getCourseIDs();
-	    		int number = courses.size();
 	    		
 	    		
 	    		mainController.getInstance().setStudent(stud);
@@ -63,7 +62,7 @@ public class loginController implements Initializable {
 	    	
 	    	error.setText(errorMsg);
 	    }
-	    	
+	    
 	    else{
 	    	Professor prof = new Professor(username.getText());
 	    	
@@ -71,7 +70,7 @@ public class loginController implements Initializable {
 	    		ArrayList<String> courses = prof.getCourseIDs();
 	    		int number = courses.size();
 	    		stage=(Stage) professor.getScene().getWindow();
-	    		Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
+	    		Parent root = FXMLLoader.load(getClass().getResource("courseProf.fxml"));
 	    		Scene scene = new Scene(root);
 	    		stage.setScene(scene);
 	    		stage.show();
