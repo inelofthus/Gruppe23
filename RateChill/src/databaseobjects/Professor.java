@@ -70,7 +70,11 @@ public class Professor extends DatabaseUser {
 	public ArrayList<String> getCourseIDs() {
 		return courseIDs;
 	}
-
+	
+	public String getCourseNameForCourse(String courseCode) {
+		// will give the corresponding courseName for the students Course
+		return courseIDNames.get(courseCode);
+	}
 
 	
 	
