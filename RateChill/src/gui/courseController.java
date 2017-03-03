@@ -33,13 +33,24 @@ public class courseController implements Initializable {
 	public Text errorNumber;
 	
 	
-	public String loadCourseName(int x) {
+	public String loadCourseCode(int x) {
 		return mainController.getInstance().getStudents().getCourseIDs().get(x);
 	}
 	public void setLectures (Course course) {
 		mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	}
 	
+	public String loadCourseName(int x){
+		Student stud = mainController.getInstance().getStudents();
+		return stud.getCourseNameForCourse(stud.getCourseIDs().get(x));
+	}
+	
+	public void setSubjectButtonText(int x, Button fagButton){
+		String courseCode = loadCourseCode(x);
+		String courseCodeName = courseCode + "\n" + loadCourseName(x);
+		fagButton.setText(courseCodeName);
+		System.out.println(courseCodeName);
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -66,7 +77,7 @@ public class courseController implements Initializable {
 */
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
-	    	Course course = new Course(loadCourseName(1));
+	    	Course course = new Course(loadCourseCode(1));
 	    	stage=(Stage) fag2.getScene().getWindow();
 
 	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
@@ -75,7 +86,7 @@ public class courseController implements Initializable {
 
 	    }
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
-	    	Course course = new Course(loadCourseName(2));
+	    	Course course = new Course(loadCourseCode(2));
 	    	stage=(Stage) fag3.getScene().getWindow();
 
 	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
@@ -84,7 +95,7 @@ public class courseController implements Initializable {
 
 		}
 	    else if (event.getSource()==fag3 && numberOfCourses>3){
-	    	Course course = new Course(loadCourseName(3));
+	    	Course course = new Course(loadCourseCode(3));
 	    	stage=(Stage) fag4.getScene().getWindow();
 
 	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
@@ -112,22 +123,23 @@ public class courseController implements Initializable {
 	    	errorNumber.setText("You don't have any courses!");
 		}
 		else if (numberOfCourses<2) {
-			fag1.setText(loadCourseName(0));
+			setSubjectButtonText(0, fag1);
+			System.out.println(courseCodeName);
 		}
 		else if (numberOfCourses<3) {
-			fag1.setText(loadCourseName(0));
-			fag2.setText(loadCourseName(1));
+			setSubjectButtonText(0, fag1);
+			setSubjectButtonText(1, fag2);
 		}
 		else if (numberOfCourses<4) {
-			fag1.setText(loadCourseName(0));
-			fag2.setText(loadCourseName(1));
-			fag3.setText(loadCourseName(2));
+			setSubjectButtonText(0, fag1);
+			setSubjectButtonText(1, fag2);
+			setSubjectButtonText(2, fag3);
 		}
 		else {
-			fag1.setText(loadCourseName(0));
-			fag2.setText(loadCourseName(1));
-			fag3.setText(loadCourseName(2));
-			fag4.setText(loadCourseName(3));
+			setSubjectButtonText(0, fag1);
+			setSubjectButtonText(1, fag2);
+			setSubjectButtonText(2, fag3);
+			setSubjectButtonText(3, fag4);
 		}
 	}
 
