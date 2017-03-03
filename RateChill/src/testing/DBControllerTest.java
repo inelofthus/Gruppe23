@@ -104,8 +104,8 @@ public class DBControllerTest {
 		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		
 		ArrayList<String> RatingComment = dbc.getEvaluationRatingAndComment(lectureID, "inela@stud.ntnu.no");
-		assertEquals("Perekt", RatingComment.get(0));
-		assertEquals("Det var pefekt", RatingComment.get(1));
+		assertEquals("Perfekt", RatingComment.get(0));
+		assertEquals("Det var perfekt", RatingComment.get(1));
 		//Update
 		 
 		//Delete
