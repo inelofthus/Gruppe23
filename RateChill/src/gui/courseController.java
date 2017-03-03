@@ -124,7 +124,6 @@ public class courseController implements Initializable {
 		}
 		else if (numberOfCourses<2) {
 			setSubjectButtonText(0, fag1);
-			System.out.println(courseCodeName);
 		}
 		else if (numberOfCourses<3) {
 			setSubjectButtonText(0, fag1);
