@@ -35,15 +35,15 @@ public class courseProfController implements Initializable {
 	
 	
 	public String loadCourseCode(int x) {
-		return mainController.getInstance().getPro
+		return mainController.getInstance().getProfessor().getCourseIDs().get(x);
 	}
 	public void setLectures (Course course) {
-		mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
+		mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
 	}
 	
 	public String loadCourseName(int x){
-		Student stud = mainController.getInstance().getStudents();
-		return stud.getCourseNameForCourse(stud.getCourseIDs().get(x));
+		Professor prof = mainController.getInstance().getProfessor();
+		return prof.getCourseNameForCourse(prof.getCourseIDs().get(x));
 	}
 	
 	public void setSubjectButtonText(int x, Button fagButton){
