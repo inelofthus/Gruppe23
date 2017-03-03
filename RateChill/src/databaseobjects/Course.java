@@ -12,7 +12,7 @@ public class Course extends DatabaseUser{
 	private String courseLocation;
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
-	private ArrayList<String> lectureIDs;
+	private ArrayList<Integer> lectureIDs;
 	private ArrayList<Integer> lastTwoCompletedLectureIDs;
 	private LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures;
 	
@@ -87,7 +87,7 @@ public class Course extends DatabaseUser{
 		return professorUsernames;
 	}
 
-	public ArrayList<String> getLectureIDs() {
+	public ArrayList<Integer> getLectureIDs() {
 		return lectureIDs;
 	}
 	
@@ -115,7 +115,7 @@ public class Course extends DatabaseUser{
 		this.professorUsernames = professorUsernames;
 	}
 
-	public void setLectureIDs(ArrayList<String> lectureIDs) {
+	public void setLectureIDs(ArrayList<Integer> lectureIDs) {
 		this.lectureIDs = lectureIDs;
 	}
 	
