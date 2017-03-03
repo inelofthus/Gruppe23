@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -66,6 +68,8 @@ public class lectureController implements Initializable {
 		Iterator<Integer> entries = map.keySet().iterator();
 		entries.next();
 		return entries.next();
+		
+		
 	}
 
 
@@ -76,6 +80,7 @@ public class lectureController implements Initializable {
 		// fagButton.setText(courseCodeName);
 		
 		lecture1.setText(getLectureDateText(getKeyLec1()));
+		lecture1.setText(getLectureDateText(getKeyLec2()));
 		
 		
 	}
@@ -84,8 +89,17 @@ public class lectureController implements Initializable {
 
 	private String getLectureDateText(int lecID) {
 		// TODO Auto-generated method stub
-		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
-		return null;
+		String date = "";
+		
+		try {
+		GregorianCalendar gc = mainController.getInstance().getCourse().getLectureDate(lecID);
+		date = DateFormat.getDateInstance(DateFormat.SHORT).format(gc.getTime());
+		System.out.println(date);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+				
+		return date;
 	}
 	
 	
