@@ -49,7 +49,6 @@ public class courseController implements Initializable {
 		String courseCode = loadCourseCode(x);
 		String courseCodeName = courseCode + "\n" + loadCourseName(x);
 		fagButton.setText(courseCodeName);
-		System.out.println(courseCodeName);
 	}
 	
 	@FXML
