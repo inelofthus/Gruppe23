@@ -50,7 +50,7 @@ public class loginController implements Initializable {
 	    		//get reference to the button's stage
 		    	stage=(Stage) student.getScene().getWindow();
 		    	//load up OTHER FXML document
-				Parent root = FXMLLoader.load(getClass().getResource("course.fxml"));
+				Parent root = FXMLLoader.load(getClass().getResource("courseStud.fxml"));
 		    	//create a new scene with root and set the stage
 	    		Scene scene = new Scene(root);
 	    		stage.setScene(scene);

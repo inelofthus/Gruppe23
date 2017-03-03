@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 
 import gui.mainController;
 
-public class courseController implements Initializable {
+public class courseStudController implements Initializable {
 
 	
 	@FXML
