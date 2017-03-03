@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -18,7 +19,7 @@ import javafx.scene.text.Text;
 
 import gui.mainController;
 
-public class courseController implements Initializable {
+public class courseStudController implements Initializable {
 
 	
 	@FXML
@@ -32,14 +33,23 @@ public class courseController implements Initializable {
 	@FXML
 	public Text errorNumber;
 	
+	//creates a list of buttons to iterate over in initializer
+	ArrayList<Button> buttons = new ArrayList<Button>();
+	
 	
 	public String loadCourseCode(int x) {
 		return mainController.getInstance().getStudents().getCourseIDs().get(x);
 	}
+	
 	public void setLectures (Course course) {
 		mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	}
 	
+	public void loadCourse(Course course) {
+		mainController.getInstance().setCourse(course);
+	}
+	
+	//
 	public String loadCourseName(int x){
 		Student stud = mainController.getInstance().getStudents();
 		return stud.getCourseNameForCourse(stud.getCourseIDs().get(x));
@@ -51,10 +61,21 @@ public class courseController implements Initializable {
 		fagButton.setText(courseCodeName);
 	}
 	
+	public void loadNextScene(Stage stage)  throws IOException{
+		//load up OTHER FXML document
+		Parent root;
+		root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
+	    
+	    //create a new scene with root and set the stage
+	    Scene scene = new Scene(root);
+	    stage.setScene(scene);
+	    stage.show();
+	}
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null; 
-	    Parent root;
+	    
 	    
 	    int numberOfCourses = mainController.getInstance().getStudents().getCourseIDs().size();
 	    
@@ -63,55 +84,53 @@ public class courseController implements Initializable {
 	    }
 	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
-	    	//get reference to the button's stage
-        
+	    	
 	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
-	        mainController.getInstance().setCourse(course);
+	        loadCourse(course);
 	    	stage=(Stage) fag1.getScene().getWindow();
-	        mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
-	       
-/*
-	    	Course course = new Course(loadCourseName(0));
-	        stage=(Stage) fag1.getScene().getWindow();
-	        setLectures(course);
-*/
+	    	
+	    	setLectures(course);
+	    	
+	        loadNextScene(stage);
+	        
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
 	    	Course course = new Course(loadCourseCode(1));
+	    	loadCourse(course);
 	    	stage=(Stage) fag2.getScene().getWindow();
-
-	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
-
-	    	//setLectures(course);
-
+	    	
+	    	setLectures(course);
+	    	 
+	    	loadNextScene(stage);
 	    }
+	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
 	    	Course course = new Course(loadCourseCode(2));
+	    	loadCourse(course);
 	    	stage=(Stage) fag3.getScene().getWindow();
 
-	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
-
-	    	//setLectures(course);
-
+	    	setLectures(course);
+	    	loadNextScene(stage);
+	    	
 		}
 	    else if (event.getSource()==fag3 && numberOfCourses>3){
 	    	Course course = new Course(loadCourseCode(3));
+	    	loadCourse(course);
 	    	stage=(Stage) fag4.getScene().getWindow();
-
-	    	 mainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
-
-	    	//setLectures(course);
-
+	    	
+	    	setLectures(course);
+	    	loadNextScene(stage);
+	    	
 		}
 	    
-	    //load up OTHER FXML document
+	    /*//load up OTHER FXML document
         root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
 	    
         
 	    //create a new scene with root and set the stage
 	    Scene scene = new Scene(root);
 	    stage.setScene(scene);
-	    stage.show();
+	    stage.show();*/
 	    }
 	
 	@Override
@@ -122,23 +141,15 @@ public class courseController implements Initializable {
 		if(numberOfCourses == 0) {
 	    	errorNumber.setText("You don't have any courses!");
 		}
-		else if (numberOfCourses<2) {
-			setSubjectButtonText(0, fag1);
+		buttons.add(fag1);
+		buttons.add(fag2);
+		buttons.add(fag3);
+		buttons.add(fag4);
+		if(numberOfCourses == 0) {
+			errorNumber.setText("You don't have any courses!");
 		}
-		else if (numberOfCourses<3) {
-			setSubjectButtonText(0, fag1);
-			setSubjectButtonText(1, fag2);
-		}
-		else if (numberOfCourses<4) {
-			setSubjectButtonText(0, fag1);
-			setSubjectButtonText(1, fag2);
-			setSubjectButtonText(2, fag3);
-		}
-		else {
-			setSubjectButtonText(0, fag1);
-			setSubjectButtonText(1, fag2);
-			setSubjectButtonText(2, fag3);
-			setSubjectButtonText(3, fag4);
+		for (int x=0; x<numberOfCourses; x++) {
+			setSubjectButtonText(x, buttons.get(x));
 		}
 	}
 

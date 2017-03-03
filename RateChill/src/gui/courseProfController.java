@@ -31,6 +31,7 @@ public class courseProfController implements Initializable {
 	@FXML
 	public Text errorNumber;
 	
+	//creates a list of buttons to iterate over in initializer
 	ArrayList<Button> buttons = new ArrayList<Button>();
 	
 	
@@ -40,6 +41,10 @@ public class courseProfController implements Initializable {
 	
 	public void setLectures (Course course) {
 		mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
+	}
+	
+	public void loadCourse(Course course) {
+		mainController.getInstance().setCourse(course);
 	}
 	
 	public String loadCourseName(int x){
@@ -54,12 +59,12 @@ public class courseProfController implements Initializable {
 		System.out.println(courseCodeName);
 	}
 	
+	//method to go to next GUI
 	public void loadNextScene(Stage stage)  throws IOException{
 		//load up OTHER FXML document
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-	    
-        
+		
 	    //create a new scene with root and set the stage
 	    Scene scene = new Scene(root);
 	    stage.setScene(scene);
@@ -77,45 +82,41 @@ public class courseProfController implements Initializable {
 	    }
 	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
-	    	//get reference to the button's stage
-        
+	    	
 	    	Course course = new Course(loadCourseCode(0));
+	    	loadCourse(course);
 	        stage=(Stage) fag1.getScene().getWindow();
-	        mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
-	        loadNextScene(stage);
-	       
-/*
-	    	Course course = new Course(loadCourseName(0));
-	        stage=(Stage) fag1.getScene().getWindow();
+	        
 	        setLectures(course);
-*/
+	        loadNextScene(stage);
 	    }
+	    
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
 	    	Course course = new Course(loadCourseCode(1));
+	    	loadCourse(course);
 	    	stage=(Stage) fag2.getScene().getWindow();
 
-	    	 mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
-	    	 loadNextScene(stage);
-	    	 //setLectures(course);
-
+	    	setLectures(course);
+	    	loadNextScene(stage);
 	    }
+	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
 	    	Course course = new Course(loadCourseCode(2));
+	    	loadCourse(course);
 	    	stage=(Stage) fag3.getScene().getWindow();
-
-	    	mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
+	    	
+	    	setLectures(course);
 	    	loadNextScene(stage);
-	    	//setLectures(course);
-
+	    	
 		}
+	    
 	    else if (event.getSource()==fag3 && numberOfCourses>3){
 	    	Course course = new Course(loadCourseCode(3));
+	    	loadCourse(course);
 	    	stage=(Stage) fag4.getScene().getWindow();
 	    	
-	    	mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
+	    	setLectures(course);
 	    	loadNextScene(stage);
-	    	 //setLectures(course);
-	    	 
 		}
 	}
 	
