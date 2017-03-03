@@ -80,7 +80,7 @@ public class lectureController implements Initializable {
 		// fagButton.setText(courseCodeName);
 		
 		lecture1.setText(getLectureDateText(getKeyLec1()));
-		lecture1.setText(getLectureDateText(getKeyLec2()));
+		lecture2.setText(getLectureDateText(getKeyLec2()));
 		
 		
 	}
