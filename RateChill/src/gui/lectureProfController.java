@@ -18,7 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class lectureController implements Initializable {
+public class lectureProfController implements Initializable {
 
 	
 	@FXML
@@ -33,19 +33,19 @@ public class lectureController implements Initializable {
 	    if(event.getSource()==lecture1){
 	    	//get reference to the button's stage         
 	        stage=(Stage) lecture1.getScene().getWindow();
-	        mainController.getInstance().setChosenStudentLecture(getKeyLec1());
+	        mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
 	        
 	        //here we want to create a 
 	    }
 	    else {
 	    	stage=(Stage) lecture2.getScene().getWindow();
-	    	mainController.getInstance().setChosenStudentLecture(getKeyLec2());
+	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
 	    }
 	    
 	    
 	    
 	    //load up OTHER FXML document
-		root = FXMLLoader.load(getClass().getResource("evaluation.fxml"));
+		root = FXMLLoader.load(getClass().getResource("evaluationProf.fxml"));
 	    
 	    //create a new scene with root and set the stage
 		Scene scene = new Scene(root);
@@ -57,14 +57,14 @@ public class lectureController implements Initializable {
 	
 	private int getKeyLec1() {
 		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
-		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
+		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesProfessor();
 		Iterator<Integer> entries = map.keySet().iterator();
 		return entries.next();
 	}
 	
 	private int getKeyLec2() {
 		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
-		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesStudent();
+		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesProfessor();
 		Iterator<Integer> entries = map.keySet().iterator();
 		entries.next();
 		return entries.next();
@@ -79,8 +79,12 @@ public class lectureController implements Initializable {
 		// Set text of buttons to contain date of lecture
 		// fagButton.setText(courseCodeName);
 		
+		//here i want to check how many lectures have been completed in the specific course and store them in an int
+		//int numberOfLectures = mainController.getInstance().getProfessor().getLastTwoCompletedLecturesForCourse(courseCode);
+		//int numberOfLectures = mainController.getInstance().getProfessor().getCourses().size();
+		//int numberOfLectures = mainController.getInstance().getProfessor().getCourseID().getLectures().size();
 		lecture1.setText(getLectureDateText(getKeyLec1()));
-		lecture2.setText(getLectureDateText(getKeyLec2()));
+		//lecture2.setText(getLectureDateText(getKeyLec2()));
 		
 		
 	}
@@ -90,6 +94,7 @@ public class lectureController implements Initializable {
 	private String getLectureDateText(int lecID) {
 		// TODO Auto-generated method stub
 		String date = "";
+		
 		
 		try {
 		GregorianCalendar gc = mainController.getInstance().getCourse().getLectureDate(lecID);

@@ -16,10 +16,12 @@ public class mainController {
 	private Student student; 
 	private Professor professor;
 	private Course course;
+	private Lecture lecture;
+	
 	public Course getCourse() {
 		return course;
 	}
-
+	
 
 	public void setCourse(Course course) {
 		this.course = course;
@@ -92,5 +94,10 @@ public class mainController {
 	public void setChosenProfessorLecture(Integer chosenProfessorLecture) {
 		this.chosenProfessorLecture = chosenProfessorLecture;
 	}
+	
+	public Lecture getLecture() {
+		return lecture;
+	}
+	
 	
 }

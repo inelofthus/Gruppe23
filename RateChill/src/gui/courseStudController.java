@@ -64,7 +64,7 @@ public class courseStudController implements Initializable {
 	public void loadNextScene(Stage stage)  throws IOException{
 		//load up OTHER FXML document
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
+		root = FXMLLoader.load(getClass().getResource("lectureStud.fxml"));
 	    
 	    //create a new scene with root and set the stage
 	    Scene scene = new Scene(root);
@@ -75,8 +75,8 @@ public class courseStudController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null; 
-	    
-	    
+		
+		//the number of courses a student has
 	    int numberOfCourses = mainController.getInstance().getStudents().getCourseIDs().size();
 	    
 	    if(numberOfCourses == 0) {
@@ -90,7 +90,6 @@ public class courseStudController implements Initializable {
 	    	stage=(Stage) fag1.getScene().getWindow();
 	    	
 	    	setLectures(course);
-	    	
 	        loadNextScene(stage);
 	        
 	    }
@@ -100,7 +99,6 @@ public class courseStudController implements Initializable {
 	    	stage=(Stage) fag2.getScene().getWindow();
 	    	
 	    	setLectures(course);
-	    	 
 	    	loadNextScene(stage);
 	    }
 	    
@@ -122,16 +120,7 @@ public class courseStudController implements Initializable {
 	    	loadNextScene(stage);
 	    	
 		}
-	    
-	    /*//load up OTHER FXML document
-        root = FXMLLoader.load(getClass().getResource("lecture.fxml"));
-	    
-        
-	    //create a new scene with root and set the stage
-	    Scene scene = new Scene(root);
-	    stage.setScene(scene);
-	    stage.show();*/
-	    }
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

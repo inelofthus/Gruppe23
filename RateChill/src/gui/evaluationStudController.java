@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import gui.mainController;
 import databaseobjects.*;
 
-public class evaluationController implements Initializable {
+public class evaluationStudController implements Initializable {
 
 	//fxml objects
 	@FXML
