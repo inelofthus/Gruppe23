@@ -1,19 +1,21 @@
 package databaseobjects;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 
 public class Professor extends DatabaseUser {
 	String username;
 	ArrayList<String> courseIDs;
+	HashMap<String, String> courseIDNames;
 	
 	// Constructor1
 	public Professor(String professorUsername) {
 		this.username = professorUsername;
-		loadInfo();
+		DBC.loadProfessorInfo(this);
+		
 	}
 	
-
 	public boolean existsInDB(){
 		return DBC.professorExists(username);
 	}
@@ -31,6 +33,18 @@ public class Professor extends DatabaseUser {
 		}
 	}
 	
+	public HashMap<String, String> getCourseIDNames() {
+		return courseIDNames;
+	}
+
+	public void setCourseIDNames(HashMap<String, String> courseIDNames) {
+		this.courseIDNames = courseIDNames;
+	}
+
+	public void setCourseIDs(ArrayList<String> courseIDs) {
+		this.courseIDs = courseIDs;
+	}
+
 	public ArrayList<Integer> getLecturesForCourse(String courseCode){
 		// returns lectureIDs for all lectures given by this professor that have already passed in specified course
 		// Order is with the newest lecture first

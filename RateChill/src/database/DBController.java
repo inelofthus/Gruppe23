@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
+import databaseobjects.Professor;
 import databaseobjects.Student;
 
 public class DBController {
@@ -1018,6 +1019,42 @@ public class DBController {
 		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 		
 		test.close();
+		
+	}
+
+	public void loadProfessorInfo(Professor prof) {
+		// Must retrieve and update the following info from DB: 
+		// courseIDs = list of all courses that professor teaches
+		// courseIDNames = hashmap that maps courseIDs to corresponding names
+		
+		String username = prof.getUsername();
+		ArrayList<String> courseIDs = new ArrayList<>();
+		HashMap<String, String> courseIDNames = new HashMap<>();
+		
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT c.courseCode, c.courseName FROM Course c, CourseProfessor cp WHERE professorUsername = '" + username
+					+ "';";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				String courseCode = rs.getString(1);
+				String courseName = rs.getString(2);
+				courseIDs.add(courseCode);
+				courseIDNames.put(courseCode, courseName);
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		prof.setCourseIDs(courseIDs);
+		prof.setCourseIDNames(courseIDNames);
+		
+		close();
 		
 	}
 
