@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import databaseobjects.Lecture;
+
 public class lectureProfController implements Initializable {
 
 	
@@ -31,13 +33,15 @@ public class lectureProfController implements Initializable {
 		Stage stage; 
 	    Parent root;
 	    if(event.getSource()==lecture1){
-	    	//get reference to the button's stage         
+	    	//get reference to the button's stage
+	    	Lecture lec = new Lecture(mainController.getInstance().getCourse().getLectureIDs().get(0));
 	        stage=(Stage) lecture1.getScene().getWindow();
 	        mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
 	        
 	        //here we want to create a 
 	    }
 	    else {
+	    	Lecture lec = new Lecture(mainController.getInstance().getCourse().getLectureIDs().get(1));
 	    	stage=(Stage) lecture2.getScene().getWindow();
 	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
 	    }
