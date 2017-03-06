@@ -28,49 +28,20 @@ public class Course extends DatabaseUser{
 		return DBC.courseExists(courseCode);
 	}
 	
+	//Getters
+	
 	public ArrayList<Integer> getLastTwoCompletedLectureIDs() {
 		return lastTwoCompletedLectureIDs;
 	}
 	
-	
-
-	public void setLastTwoCompletedLectureIDs(ArrayList<Integer> lastTwoCompletedLectureIDs) {
-		this.lastTwoCompletedLectureIDs = lastTwoCompletedLectureIDs;
-	}
-
-	
-	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
-		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
-	}
-	
-	/*public void loadInfo(){
-		try {
-			ArrayList<String> nameLocation = DBC.getCourseNameAndLocation(courseCode);
-			courseName = nameLocation.get(0);
-			courseLocation = nameLocation.get(1);
-			numLectureHours = DBC.getLectureHoursForCourse(courseCode);
-			professorUsernames = DBC.getProfessorsForCourse(courseCode);
-			lectureIDs = DBC.getLecturesForCourse(courseCode);
-		} catch (Exception e) {
-			if (!existsInDB()) {
-				throw new NoSuchElementException("The course does not exist");
-			}
-			System.out.println(e.getMessage());	
-		}
-	}*/
-	
-    /*	public ArrayList<Integer> getLastTwoCompletedLectures() {
-	return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
-	}*/
-	
 	public String getCourseCode() {
 		return courseCode;
 	}
-
+	
 	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoCompletedLectures() {
 		return lastTwoCompletedLectures;
 	}
-
+	
 	public String getCourseName() {
 		return courseName;
 	}
@@ -93,6 +64,17 @@ public class Course extends DatabaseUser{
 	
 	public GregorianCalendar getLectureDate(int lecID){
 		return lastTwoCompletedLectures.get(lecID);
+	
+		//Setters
+	
+	}
+	public void setLastTwoCompletedLectureIDs(ArrayList<Integer> lastTwoCompletedLectureIDs) {
+		this.lastTwoCompletedLectureIDs = lastTwoCompletedLectureIDs;
+	}
+
+	
+	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
+		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
 	}
 	
 	public void setCourseCode(String courseCode) {
@@ -119,10 +101,28 @@ public class Course extends DatabaseUser{
 		this.lectureIDs = lectureIDs;
 	}
 	
+	//////////////////////////END OF USEFUL CODE ////////////////////////////////////////
 	
-
-	public static void main(String[] args) {
+	// Old load function:
+	
+		/*public void loadInfo(){
+			try {
+				ArrayList<String> nameLocation = DBC.getCourseNameAndLocation(courseCode);
+				courseName = nameLocation.get(0);
+				courseLocation = nameLocation.get(1);
+				numLectureHours = DBC.getLectureHoursForCourse(courseCode);
+				professorUsernames = DBC.getProfessorsForCourse(courseCode);
+				lectureIDs = DBC.getLecturesForCourse(courseCode);
+			} catch (Exception e) {
+				if (!existsInDB()) {
+					throw new NoSuchElementException("The course does not exist");
+				}
+				System.out.println(e.getMessage());	
+			}
+		}*/
 		
-	}
+	    /*	public ArrayList<Integer> getLastTwoCompletedLectures() {
+		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
+		}*/
 
 }
