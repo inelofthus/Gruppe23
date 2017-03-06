@@ -83,9 +83,17 @@ public class lectureProfController implements Initializable {
 		//int numberOfLectures = mainController.getInstance().getProfessor().getLastTwoCompletedLecturesForCourse(courseCode);
 		//int numberOfLectures = mainController.getInstance().getProfessor().getCourses().size();
 		//int numberOfLectures = mainController.getInstance().getProfessor().getCourseID().getLectures().size();
-		lecture1.setText(getLectureDateText(getKeyLec1()));
-		//lecture2.setText(getLectureDateText(getKeyLec2()));
-		
+		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
+		if (numberOfLectures==0) {
+			//textfield.setText("You have not had any lectures in this course");
+		}
+		else if (numberOfLectures<2) {
+			lecture1.setText(getLectureDateText(getKeyLec1()));			
+		}
+		else{
+			lecture1.setText(getLectureDateText(getKeyLec1()));
+			lecture2.setText(getLectureDateText(getKeyLec2()));
+		}
 		
 	}
 

@@ -22,7 +22,6 @@ public class mainController {
 		return course;
 	}
 	
-
 	public void setCourse(Course course) {
 		this.course = course;
 	}
@@ -99,5 +98,8 @@ public class mainController {
 		return lecture;
 	}
 	
+	public void setLecture(Lecture lecture) {
+		this.lecture = lecture;
+	}
 	
 }
