@@ -1,7 +1,5 @@
 package databaseobjects;
 
-import java.util.NoSuchElementException;
-
 import database.DBController;
 
 public class Evaluation extends DatabaseUser {
@@ -11,22 +9,15 @@ public class Evaluation extends DatabaseUser {
 	private int lectureid;
 	private String studentEmail;
 	
-	//Constructor1
+	//Constructor
 	public Evaluation(int lectureid,String studentEmail) {
 		this.lectureid = lectureid;
 		this.studentEmail = studentEmail;
-		loadInfo();
+		DBC.loadEvaluationInfo(this);
+		
 	}
-	
-	//Constructor2
-//	public Evaluation(DBController DBC, int lectureid,String studentEmail) {
-//		super(DBC);
-//		this.lectureid = lectureid;
-//		this.studentEmail = studentEmail;
-//		loadInfo();
-//	}
-	
-	//Constructor3
+		
+	//Constructor2 used in in Loadlecture in DBC
 	public Evaluation(DBController DBC, String rating, String comment, int lectureid, String studentEmail) {
 		this.rating = rating;
 		this.comment = comment;
@@ -34,20 +25,17 @@ public class Evaluation extends DatabaseUser {
 		this.studentEmail = studentEmail;
 	}
 	
-	public void loadInfo(){
-		try {
-			rating = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);
-			comment = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(1);
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			if (!existsInDB()) {
-				throw new NoSuchElementException("Evaluation does not exist in database");
-			}
-			System.out.println(e.getMessage());
-		}
-				
+	
+
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 
 	public boolean existsInDB() {
 		return DBC.evaluationExists(lectureid, studentEmail);
@@ -69,11 +57,21 @@ public class Evaluation extends DatabaseUser {
 		return studentEmail;
 	}
 	
-	public static void main(String[] args) {
-		//Evaluation e = new Evaluation(2,"negative@stud.ntnu.no");
-		//System.out.println(e.existsInDB());
-		//System.out.println(e.getRating());
-		//System.out.println(e.getComment());
-	}
+	//////////////////END OF USEFUL CODE /////////////////////
+	//Old load function
 	
+	/*public void loadInfo(){
+	try {
+		rating = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);
+		comment = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(1);
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		if (!existsInDB()) {
+			throw new NoSuchElementException("Evaluation does not exist in database");
+		}
+		System.out.println(e.getMessage());
+	}
+			
+}*/
 }

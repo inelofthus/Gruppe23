@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Professor;
@@ -416,8 +415,6 @@ public class DBController {
 
 	}
 
-	
-
 	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC) {
 
 		connect();
@@ -546,6 +543,44 @@ public class DBController {
 	}
 
 	// Professor info
+	public void loadProfessorInfo(Professor prof) {
+		// Must retrieve and update the following info from DB: 
+		// courseIDs = list of all courses that professor teaches
+		// courseIDNames = hashmap that maps courseIDs to corresponding names
+		
+		String username = prof.getUsername();
+		ArrayList<String> courseIDs = new ArrayList<>();
+		HashMap<String, String> courseIDNames = new HashMap<>();
+		
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '" + username
+					+ "';";
+			//System.out.println(query);
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				String courseCode = rs.getString(1);
+				String courseName = rs.getString(2);
+				courseIDs.add(courseCode);
+				courseIDNames.put(courseCode, courseName);
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		prof.setCourseIDs(courseIDs);
+		prof.setCourseIDNames(courseIDNames);
+		
+		close();
+		
+	}
+	
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername) {
 		ArrayList<String> courses = new ArrayList<>();
 
@@ -649,6 +684,21 @@ public class DBController {
 
 	}
 
+	public void deleteProfessor(String username){
+		connect();
+		try {
+
+			String query = "DELETE FROM Professor WHERE professorUsername='" + username +"'";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+	}
+	
 	// Student info
 	
 	public void loadStudentInfo(Student student) {
@@ -702,7 +752,6 @@ public class DBController {
 		close();
 		
 	}
-		
 	
 	public void insertStudent(String studentUsername, String studyProgramCode) {
 
@@ -740,7 +789,6 @@ public class DBController {
 		close();
 	}
 	
-
 	public boolean studentExists(String studentEmail) {
 		boolean hasNext = false;
 		connect();
@@ -760,10 +808,6 @@ public class DBController {
 		close();
 		return hasNext;
 	}
-
-	
-
-	
 
 	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
 		boolean hasNext = false;
@@ -786,6 +830,7 @@ public class DBController {
 		return hasNext;
 		
 	}
+	
 	// CourseProfessor info
 	public void insertCourseProfessor(String professorUsername, String courseCode) {
 		connect();
@@ -809,22 +854,6 @@ public class DBController {
 		close();
 	}
 	
-	public void deleteProfessor(String username){
-		connect();
-		try {
-
-			String query = "DELETE FROM Professor WHERE professorUsername='" + username +"'";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-	}
-	
-
 	// CourseStudent info
 	public void insertCourseStudent(String studentEmail, String courseCode) {
 		connect();
@@ -849,6 +878,31 @@ public class DBController {
 	}
 
 	// Evaluation info
+	public void loadEvaluationInfo(Evaluation evaluation) {
+		
+		connect();
+		try {
+			stmt = conn.createStatement();
+
+			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = " + evaluation.getLectureid()
+					+ " AND studentEmail ='" + evaluation.getStudentEmail() + "' ;";
+			// System.out.println(query);
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			rs.next();
+			evaluation.setRating(rs.getString(1));
+			evaluation.setComment(rs.getString(2));
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+			
+		
+	}
+	
 	public void overwriteEvaluation(String email, int lectureID, String rating, String comment) {
 		connect();
 		
@@ -907,31 +961,6 @@ public class DBController {
 		close();
 	}
 
-	public ArrayList<String> getEvaluationRatingAndComment(int lectureid, String studentEmail) {
-		ArrayList<String> evaluation = new ArrayList<>();
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = " + lectureid
-					+ " AND studentEmail ='" + studentEmail + "' ;";
-			// System.out.println(query);
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			evaluation.add(rs.getString(1));
-			evaluation.add(rs.getString(2));
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return evaluation;
-	}
-
 	public boolean evaluationExists(int lectureid, String studentEmail) {
 		boolean hasNext = false;
 		connect();
@@ -954,6 +983,40 @@ public class DBController {
 		return hasNext;
 	}
 	
+	
+	//Main for testing
+	public static void main(String[] args) throws ParseException {
+		DBController test = new DBController();
+		test.connect();
+		// test.insertCourse("tdt4145", "Datamodellering og
+		// databaser","Trondheim", 4);
+		// test.insertCourse("tdt4180", "Menneske-maskin
+		// interaksjon","Trondheim", 4);
+		// test.insertProfessor("sveinbra");
+		// test.getCourseInfo();
+		// test.insertStudent("karimj","MTING");
+		// test.getProfessorsForCoursse("tdt4140");
+		// test.getCoursestaughtByProfessor("pekkaa");
+		// test.getLectureHoursForCourse("tdt4140");
+		// test.getStartDate();
+		// test.insertLecture("2017-02-22", "08:00:00", "tdt4145", "sveinbra");
+		// test.insertCourseProfessor("sveinbra", "tdt4145");
+		// test.insertStudent("negative","MTING");
+		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
+		// this is the most boring and stupid lecture ever");
+		// test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
+		// test.insertStudent("magnutvi", "MLREAL");
+		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
+		
+		
+		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
+		
+		test.close();
+		
+	}
+
+	
+	///////////////END OF USEFUL CODE ////////////////////////////////7
 	
 /*	//Old Load Functions:
 	
@@ -1112,73 +1175,6 @@ public class DBController {
 	*/
 	
 	// Main for testing
-	public static void main(String[] args) throws ParseException {
-		DBController test = new DBController();
-		test.connect();
-		// test.insertCourse("tdt4145", "Datamodellering og
-		// databaser","Trondheim", 4);
-		// test.insertCourse("tdt4180", "Menneske-maskin
-		// interaksjon","Trondheim", 4);
-		// test.insertProfessor("sveinbra");
-		// test.getCourseInfo();
-		// test.insertStudent("karimj","MTING");
-		// test.getProfessorsForCoursse("tdt4140");
-		// test.getCoursestaughtByProfessor("pekkaa");
-		// test.getLectureHoursForCourse("tdt4140");
-		// test.getStartDate();
-		// test.insertLecture("2017-02-22", "08:00:00", "tdt4145", "sveinbra");
-		// test.insertCourseProfessor("sveinbra", "tdt4145");
-		// test.insertStudent("negative","MTING");
-		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
-		// this is the most boring and stupid lecture ever");
-		// test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
-		// test.insertStudent("magnutvi", "MLREAL");
-		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
-		
-		
-		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
-		
-		test.close();
-		
-	}
-
-	public void loadProfessorInfo(Professor prof) {
-		// Must retrieve and update the following info from DB: 
-		// courseIDs = list of all courses that professor teaches
-		// courseIDNames = hashmap that maps courseIDs to corresponding names
-		
-		String username = prof.getUsername();
-		ArrayList<String> courseIDs = new ArrayList<>();
-		HashMap<String, String> courseIDNames = new HashMap<>();
-		
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '" + username
-					+ "';";
-			//System.out.println(query);
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				String courseCode = rs.getString(1);
-				String courseName = rs.getString(2);
-				courseIDs.add(courseCode);
-				courseIDNames.put(courseCode, courseName);
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		
-		prof.setCourseIDs(courseIDs);
-		prof.setCourseIDNames(courseIDNames);
-		
-		close();
-		
-	}
 
 	
 	}
