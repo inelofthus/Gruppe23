@@ -65,7 +65,7 @@ public class Course extends DatabaseUser{
 	public GregorianCalendar getLectureDate(int lecID){
 		return lastTwoCompletedLectures.get(lecID);
 	
-		//Setters
+	//Setters
 	
 	}
 	public void setLastTwoCompletedLectureIDs(ArrayList<Integer> lastTwoCompletedLectureIDs) {
