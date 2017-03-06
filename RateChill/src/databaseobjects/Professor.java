@@ -1,7 +1,6 @@
 package databaseobjects;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 
 public class Professor extends DatabaseUser {

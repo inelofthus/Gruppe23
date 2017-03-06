@@ -23,21 +23,11 @@ public class Evaluation extends DatabaseUser {
 		this.studentEmail = studentEmail;
 	}
 	
-	
-
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
-
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-
 	public boolean existsInDB() {
 		return DBC.evaluationExists(lectureid, studentEmail);
 	}
+	
+	//getters
 	
 	public String getRating() {
 		return rating;
@@ -53,7 +43,17 @@ public class Evaluation extends DatabaseUser {
 
 	public String getStudentEmail() {
 		return studentEmail;
+	}	
+	//setters
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	
 	//////////////////END OF USEFUL CODE /////////////////////
 	//Old load function

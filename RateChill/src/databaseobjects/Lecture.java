@@ -82,20 +82,6 @@ public class Lecture extends DatabaseUser {
 
 	
 	
-
-	public static void main(String[] args) {
-		Lecture lec = new Lecture(2);
-		System.out.println(lec.getCourseCode());
-		System.out.println(lec.getLectureID());
-		System.out.println(lec.getProfessor());
-		System.out.println(lec.getEvaluations().get(0).getComment());
-		System.out.println(lec.getEvaluations().get(1).getComment());
-		System.out.println(lec.getLectureDateAndTime().get(Calendar.YEAR));
-		System.out.println(lec.getRatingCount("Perfect"));
-		
-	}
-	
-	
 	///////////////////////END OF USEFUL CODE //////////////////////////
 	//Old load Funcion:
 	
