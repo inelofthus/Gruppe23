@@ -1,7 +1,5 @@
 package databaseobjects;
 
-import database.DBController;
-
 public class Evaluation extends DatabaseUser {
 
 	private String rating;
@@ -17,8 +15,8 @@ public class Evaluation extends DatabaseUser {
 		
 	}
 		
-	//Constructor2 used in in Loadlecture in DBC
-	public Evaluation(DBController DBC, String rating, String comment, int lectureid, String studentEmail) {
+	//Constructor2 used in in LoadlectureInfo in DBC
+	public Evaluation(String rating, String comment, int lectureid, String studentEmail) {
 		this.rating = rating;
 		this.comment = comment;
 		this.lectureid = lectureid;

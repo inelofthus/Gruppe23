@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
+import databaseobjects.Lecture;
 import databaseobjects.Professor;
 import databaseobjects.Student;
 
@@ -385,44 +386,44 @@ public class DBController {
 	
 	
 	// Lecture info
-	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID) {
-		connect();
 
-		ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
+	public void loadLectureInfo(Lecture lecture) {
+		connect();
 
 		try {
 			stmt = conn.createStatement();
 
 			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
-					+ lectureID + ";";
+					+ lecture.getLectureID() + ";";
 			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 
 			rs.next();
-			dateTimeAndCourseCode.add(rs.getString(1));
-			dateTimeAndCourseCode.add(rs.getString(2));
-			dateTimeAndCourseCode.add(rs.getString(3));
-			dateTimeAndCourseCode.add(rs.getString(4));
-
+			String date = rs.getString(1);
+			String time = rs.getString(2);
+			lecture.setLectureDateAndTime(stringToCalendar(date, time));
+			lecture.setCourseCode(rs.getString(3));
+			lecture.setProfessor(rs.getString(4));			
+			
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		
+			ArrayList<Evaluation> evaluations= getEvaluationsForLecture(lecture.getLectureID());
+			lecture.setEvaluations(evaluations);
 
 		close();
-		return dateTimeAndCourseCode;
-
+		
 	}
+	
+	private ArrayList<Evaluation> getEvaluationsForLecture(int lectureID) {
 
-	public ArrayList<Evaluation> getEvaluationsForLecture(int lectureID, DBController DBC) {
-
-		connect();
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
 
 		try {
-			stmt = conn.createStatement();
-
+			
 			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = " + lectureID
 					+ ";";
 			if (stmt.execute(query)) {
@@ -434,7 +435,7 @@ public class DBController {
 				String studentEmail = rs.getString(1);
 				String rating = rs.getString(2);
 				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(DBC, rating, studentComment, lectureID, studentEmail);
+				Evaluation eval = new Evaluation(rating, studentComment, lectureID, studentEmail);
 				evaluations.add(eval);
 
 			}
@@ -443,7 +444,6 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 
-		close();
 		return evaluations;
 	}
 
@@ -540,6 +540,24 @@ public class DBController {
 		
 		return query;
 
+	}
+	
+	private GregorianCalendar stringToCalendar(String date, String time) {
+		// date format: "YYYY-MM-DD"
+				// time format: "hh:mm:ss"
+				String[] dateSplit = date.split("-");
+				int YYYY = Integer.valueOf(dateSplit[0]);
+				int MM = Integer.valueOf(dateSplit[1]);
+				int DD = Integer.valueOf(dateSplit[2]);
+				
+				String[] timeSplit = time.split(":");
+				int hh = Integer.valueOf(timeSplit[0]);
+				int mm = Integer.valueOf(timeSplit[1]);
+				int ss = Integer.valueOf(timeSplit[2]);
+				
+				GregorianCalendar calendar = new GregorianCalendar(YYYY, MM, DD, hh, mm, ss);
+				
+				return calendar;
 	}
 
 	// Professor info
@@ -1016,6 +1034,8 @@ public class DBController {
 	}
 
 	
+
+	
 	///////////////END OF USEFUL CODE ////////////////////////////////7
 	
 /*	//Old Load Functions:
@@ -1174,7 +1194,36 @@ public class DBController {
 	
 	*/
 	
-	// Main for testing
+	/*	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID) {
+	connect();
+
+	ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
+
+	try {
+		stmt = conn.createStatement();
+
+		String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
+				+ lectureID + ";";
+		// System.out.println(query);
+		if (stmt.execute(query)) {
+			rs = stmt.getResultSet();
+		}
+
+		rs.next();
+		dateTimeAndCourseCode.add(rs.getString(1));
+		dateTimeAndCourseCode.add(rs.getString(2));
+		dateTimeAndCourseCode.add(rs.getString(3));
+		dateTimeAndCourseCode.add(rs.getString(4));
+
+	} catch (Exception e) {
+		System.out.println("SQLException: " + e.getMessage());
+	}
+
+	close();
+	return dateTimeAndCourseCode;
+
+} */
+
 
 	
 	}
