@@ -1122,8 +1122,9 @@ public class DBController {
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT c.courseCode, c.courseName FROM Course c, CourseProfessor cp WHERE professorUsername = '" + username
+			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '" + username
 					+ "';";
+			//System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -1138,6 +1139,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
+		
 		prof.setCourseIDs(courseIDs);
 		prof.setCourseIDNames(courseIDNames);
 		
