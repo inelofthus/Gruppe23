@@ -53,8 +53,9 @@ public class DBController {
 	Statement stmt = null;
 	ResultSet rs = null;
 
+	// Frequently used SQL methods
 	public ArrayList<String> getStringArray(String query) {
-		//tar en gyldig sql query som input. Returnerer en String array som inneholder all data fra første kolonne.
+		//takes an SQL query as input. Returns a string that contains all data from first column of table
 		connect();
 
 		ArrayList<String> list = new ArrayList<>();
@@ -234,95 +235,13 @@ public class DBController {
 		
 		try {
 			stmt = conn.createStatement();
-
-			//This returns courseName, location and numlecture hours for this specific course
-			String query = "SELECT courseName, courseLocation, lectureHours  FROM Course WHERE courseCode = " + "'" + course.getCourseCode()
-					+ "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				course.setCourseName(rs.getString(1));
-				course.setCourseLocation(rs.getString(2));
-				course.setNumLectureHours(rs.getInt(3));
-			}
-			
-						
-			// Next we need to retrieve a list of all the professorIDs for this course
-			ArrayList<String> professor = new ArrayList<>();
-
-			
-				String query2 = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + course.getCourseCode() + "';";
-				if (stmt.execute(query2)) {
-					rs = stmt.getResultSet();
-				}
-
-				while (rs.next()) {
-					professor.add(rs.getString(1));
-				}
-				
-				course.setProfessorUsernames(professor);
-		
-				// Next we need to retrieve a list of lectureIDs for the course
-				
-				ArrayList<Integer> lectures = new ArrayList<>();
-				
-				String query3 = "SELECT lectureID FROM Lecture WHERE courseCode = '" + course.getCourseCode() + "';";
-				if (stmt.execute(query3)) {
-					rs = stmt.getResultSet();
-				}
-
-				while (rs.next()) {
-					lectures.add(rs.getInt(1));
-				}
-				
-				course.setLectureIDs(lectures);
-			
-				// Finally we need to create the list and linked Hash map with the last 2 completed lectures and their dates
-				
-				//stmt = conn.createStatement();
-				
-				ArrayList<Integer> lastTwoCompletedLectureIDs = new ArrayList<>();
-				LinkedHashMap<Integer, GregorianCalendar> lastTwolectures = new LinkedHashMap<>();
-				
-				StringBuilder sb = new StringBuilder();
-				sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
-						" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
-
-				String query4 = sb.toString();
-				
-				if (stmt.execute(query4)) {
-					rs = stmt.getResultSet();
-				}
-
-				if(rs.next()){
-					int lecID = rs.getInt(1);
-					String date = rs.getString(2);
-					System.out.println(date);
-					String time = rs.getString(3);
-	
-					lastTwolectures.put(lecID, stringToCalender(date, time));
-					lastTwoCompletedLectureIDs.add(lecID);
-				}
-				
-				if(rs.next()){
-					int lecID = rs.getInt(1);
-					String date = rs.getString(2);
-					String time = rs.getString(3);
-	
-					lastTwolectures.put(lecID, stringToCalender(date, time));
-					lastTwoCompletedLectureIDs.add(lecID);
-				}
-								
-				course.setLastTwoCompletedLectures(lastTwolectures);
-				course.setLastTwoCompletedLectureIDs(lastTwoCompletedLectureIDs);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+			setCourseNameLocationAndLecHours(course);
+			setProfessorIDsForCourse(course);
+			setLectureIDsForCourse(course);
+			setLastTwoCompletedLecturesForCourse(course); 		
 		
 		close();
 		
@@ -330,6 +249,120 @@ public class DBController {
 		return course;
 	}
 	
+	private void setLastTwoCompletedLecturesForCourse(Course course) {
+			// This creates the list and linked Hash map with the last 2 completed lectures and their dates and sets the result in the course object
+		try {
+						
+			ArrayList<Integer> lastTwoCompletedLectureIDs = new ArrayList<>();
+			LinkedHashMap<Integer, GregorianCalendar> lastTwolectures = new LinkedHashMap<>();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
+					" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
+
+			String query4 = sb.toString();
+			
+			if (stmt.execute(query4)) {
+				rs = stmt.getResultSet();
+			}
+
+			if(rs.next()){
+				int lecID = rs.getInt(1);
+				String date = rs.getString(2);
+				System.out.println(date);
+				String time = rs.getString(3);
+
+				lastTwolectures.put(lecID, stringToCalender(date, time));
+				lastTwoCompletedLectureIDs.add(lecID);
+			}
+			
+			if(rs.next()){
+				int lecID = rs.getInt(1);
+				String date = rs.getString(2);
+				String time = rs.getString(3);
+
+				lastTwolectures.put(lecID, stringToCalender(date, time));
+				lastTwoCompletedLectureIDs.add(lecID);
+			}
+							
+			course.setLastTwoCompletedLectures(lastTwolectures);
+			course.setLastTwoCompletedLectureIDs(lastTwoCompletedLectureIDs);
+		} catch (Exception e) {
+			System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
+		}
+		
+	}
+
+	private void setLectureIDsForCourse(Course course) {
+		// This retrieves a list of lectureIDs for the course and sets the results in the course object
+		
+		try {
+			ArrayList<Integer> lectures = new ArrayList<>();
+		
+		String query3 = "SELECT lectureID FROM Lecture WHERE courseCode = '" + course.getCourseCode() + "';";
+		if (stmt.execute(query3)) {
+			rs = stmt.getResultSet();
+		}
+
+		while (rs.next()) {
+			lectures.add(rs.getInt(1));
+		}
+		
+		course.setLectureIDs(lectures);
+		
+		} catch (Exception e) {
+			System.out.println("error in helper function DBC.setLectureIDsForCourse:" + e.getMessage());
+		}
+		
+		
+		
+	}
+
+	private void setProfessorIDsForCourse(Course course) {
+		// This retrieves a list of all the professorIDs for this course and sets result in course object
+		ArrayList<String> professor = new ArrayList<>();
+
+		try {
+			String query2 = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + course.getCourseCode()
+				+ "';";
+		if (stmt.execute(query2)) {
+			rs = stmt.getResultSet();
+		}
+
+		while (rs.next()) {
+			professor.add(rs.getString(1));
+		}
+		
+		} catch (Exception e) {
+			System.out.println("error in helper function DBC.setProfessorIDsForCourse:" + e.getMessage());
+		}
+		
+		course.setProfessorUsernames(professor);
+				
+	}
+
+	private void setCourseNameLocationAndLecHours(Course course) {
+		//This sets courseName, location and number of lecture hours for this specific course and sets result in course object.
+		String query = "SELECT courseName, courseLocation, lectureHours  FROM Course WHERE courseCode = " + "'" + course.getCourseCode()
+				+ "';";
+		
+		try {
+				if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+	
+			while (rs.next()) {
+				course.setCourseName(rs.getString(1));
+				course.setCourseLocation(rs.getString(2));
+				course.setNumLectureHours(rs.getInt(3));
+			}
+		} catch (Exception e) {
+			System.out.println("error in helper function DBC.setCourseNameLocationAndLecHours:" + e.getMessage());
+		}
+		
+		
+	}
+
 	private GregorianCalendar stringToCalender(String date, String time){
 		// helper function that converts SQL strings of date and time to Gregorian Calendar objects
 		

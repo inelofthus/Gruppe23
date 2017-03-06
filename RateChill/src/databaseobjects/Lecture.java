@@ -87,8 +87,8 @@ public class Lecture extends DatabaseUser {
 
 	public int getRatingCount(String ratingValue){
 		
-		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + 2 + " AND rating = '"+ ratingValue +"';";
-		System.out.println(query);
+		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + lectureID + " AND rating = '"+ ratingValue +"';";
+		//System.out.println(query);
 		return DBC.getInt(query);
 	}
 		
