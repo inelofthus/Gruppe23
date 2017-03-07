@@ -5,11 +5,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.regex.Pattern;
+
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
@@ -467,14 +470,19 @@ public class DBController {
 	
 	//Forutsetter at det kun er én lecture i
 	// et fag per dag. Brukes midlertidig til testing
-	public int getLectureID(String date, String courseCode){
+	public int getLectureID(GregorianCalendar dateTime, String courseCode){
 		connect();
 		int id = -1;
 		try {
 			stmt = conn.createStatement();
-
+			
+			ArrayList<String> dateTimeList = calendarToStringDateTime(dateTime);
+			String date = dateTimeList.get(0);
+			String time = dateTimeList.get(1);
+			
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
-					+ courseCode + "' and lectureDate='" + date + "';";
+					+ courseCode + "' and lectureDate='" + date + 
+					"' and lectureTime = '" + time + "';";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -489,6 +497,30 @@ public class DBController {
 		
 		close();
 		return id;
+	}
+	
+	private ArrayList<String> calendarToStringDateTime(GregorianCalendar dateTime){
+		String year = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(dateTime.getTime());
+		ArrayList<String> dateTimeList = new ArrayList<>();
+		String[] dateSplit = year.split(" ");
+		String YYYY = dateSplit[2];
+		
+		String monthDay = DateFormat.getDateInstance(DateFormat.SHORT).format(dateTime.getTime());
+		
+		String[] dateSplit2 = monthDay.split("[.]");
+		
+		String DD = dateSplit2[0];
+		String MM = dateSplit2[1];
+		
+		String date = YYYY + "-" + MM + "-" + DD;
+		
+		String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(dateTime.getTime());
+		
+		dateTimeList.add(date);
+		dateTimeList.add(time);
+		
+		System.out.println(dateTimeList);
+		return dateTimeList;
 	}
 	
 	public void deleteLecture(int lectureID){
@@ -1027,7 +1059,10 @@ public class DBController {
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 		
 		
-		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
+		//System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
+		GregorianCalendar gc = new GregorianCalendar(2017, 0, 21, 8, 1);
+		test.calendarToStringDateTime(gc);
+		
 		
 		test.close();
 		

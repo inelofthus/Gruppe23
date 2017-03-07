@@ -3,6 +3,7 @@ package testing;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -95,23 +96,32 @@ public class DBControllerTest {
 		
 	}*/
 	
-	/*@Test
+	@Test
 	public void evaluationCRUD(){
 		
 		TestData.createTestDataEvaluation();
 		//Create
-		int lectureID = dbc.getLectureID("04-11-2017", "IT2805");
-		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		
-		ArrayList<String> RatingComment = dbc.getEvaluationRatingAndComment(lectureID, "inela@stud.ntnu.no");
-		assertEquals("Perfekt", RatingComment.get(0));
-		assertEquals("Det var perfekt", RatingComment.get(1));
+		
+		
+		
+		int lectureID = dbc.getLectureID(new GregorianCalendar(2017, 3, 21, 8, 1), "IT2805");
+		Lecture lect = new Lecture(lectureID);
+		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
+		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
+		
+		assertEquals("Perfekt", eval.getRating());
+		assertEquals("Det var perfekt", eval.getComment());
+		assertEquals("inela@stud.ntnu.no", eval.getStudentEmail());
+		assertEquals("IT2805", eval.getLectureid());
+		
+
 		//Update
 		 
 		//Delete
 		
 		
 		TestData.deleteTestData();
-	}*/
+	}
 	
 }
