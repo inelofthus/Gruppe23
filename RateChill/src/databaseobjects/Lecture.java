@@ -62,10 +62,10 @@ public class Lecture extends DatabaseUser {
 		case "Ok":
 			return OkEvaluations.size();
 			
-		case "Too fast!":
+		case "Too Fast!":
 			return TooFastEvaluations.size();
 			
-		case "Too slow!":
+		case "Too Slow!":
 			return TooSlowEvaluations.size();
 			
 		case "Confused.. ?":
