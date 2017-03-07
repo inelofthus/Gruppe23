@@ -14,22 +14,22 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import databaseobjects.*;
+import databaseobjects.Lecture;
 
 public class evaluationProfController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public Text perfect;
-	public Text ok;
-	public Text tooFast;
-	public Text tooSlow;
-	public Text confused;
-	public Text perfectNumber;
-	public Text okNumber;
-	public Text tooFastNumber;
-	public Text tooSlowNumber;
-	public Text confusedNumber;
+	public Button perfect;
+	public Button ok;
+	public Button tooFast;
+	public Button tooSlow;
+	public Button confused;
+	public Button perfectNumber;
+	public Button okNumber;
+	public Button tooFastNumber;
+	public Button tooSlowNumber;
+	public Button confusedNumber;
 	public Button seePerfectComments;
 	public Button seeOkComments;
 	public Button seeFastComments;
@@ -39,53 +39,42 @@ public class evaluationProfController implements Initializable {
 	public Text submitted;
 	public Text overwriteText;
 	
-	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
+	Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
 	
+	private Lecture lecture = new Lecture(lectureID);
 	//ArrayList evaluations = lec.getEvaluations();
+	
+	public void loadNextScene (Stage stage, Button button, String string) throws IOException{
+		Parent root;
+		stage = (Stage) button.getScene().getWindow();
+		root = FXMLLoader.load(getClass().getResource(string));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+	    stage.show();
+	}
 	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage;
-		Parent root;
+		Stage stage = null;
 		if (event.getSource() == seePerfectComments){
-			stage = (Stage) seePerfectComments.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("commentPage.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-		    stage.show();
+			loadNextScene(stage, seePerfectComments, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeOkComments) {
-			stage = (Stage) seeOkComments.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("commentPage.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-		    stage.show();
+			loadNextScene(stage, seeOkComments, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeFastComments) {
-			stage = (Stage) seeFastComments.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("commentPage.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-		    stage.show();
+			loadNextScene(stage, seeFastComments, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeSlowComments) {
-			stage = (Stage) seeSlowComments.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("commentPage.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-		    stage.show();
+			loadNextScene(stage, seeSlowComments, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeConfusedComments) {
-			stage = (Stage) seeConfusedComments.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("commentPage.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-		    stage.show();
+			loadNextScene(stage, seeConfusedComments, "commentPage.fxml");
 		}
 		
 	}
@@ -98,13 +87,21 @@ public class evaluationProfController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
+		//storing the number of evaluations in integers
+		
+		Integer numOfPerfect = lecture.getRatingCount("Perfect");
+		Integer numOfOk = lecture.getRatingCount("Ok");
+		Integer numOfFast = lecture.getRatingCount("Too Fast!");
+		Integer numOfSlow = lecture.getRatingCount("Too Slow!");
+		Integer numOfConfused = lecture.getRatingCount("Confused.. ?");
 		
 		//setting the appropriate number on the textfields
-		//perfectNumber.setText(mainController.getInstance().getCourse().getLecture().getPerfectScore());
-		//okNumber.setText(mainController.getInstance().getCourse().getLecture().getPerfectScore());
-		//tooFastNumber.setText(mainController.getInstance().getCourse().getLecture().getPerfectScore());
-		//tooSlowNumber.setText(mainController.getInstance().getCourse().getLecture().getPerfectScore());
-		//confusedNumber.setText(mainController.getInstance().getCourse().getLecture().getPerfectScore());
+		perfectNumber.setText(numOfPerfect.toString());
+		okNumber.setText(numOfOk.toString());
+		tooFastNumber.setText(numOfFast.toString());
+		tooSlowNumber.setText(numOfSlow.toString());
+		confusedNumber.setText(numOfConfused.toString());
+		
 	}
 
 }

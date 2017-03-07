@@ -111,7 +111,7 @@ public class courseProfController implements Initializable {
 	    	
 		}
 	    
-	    else if (event.getSource()==fag3 && numberOfCourses>3){
+	    else if (event.getSource()==fag4 && numberOfCourses>3){
 	    	Course course = new Course(loadCourseCode(3));
 	    	loadCourse(course);
 	    	stage=(Stage) fag4.getScene().getWindow();

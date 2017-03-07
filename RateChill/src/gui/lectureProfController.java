@@ -28,34 +28,45 @@ public class lectureProfController implements Initializable {
 	@FXML
 	Button lecture2;
 	
-	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage; 
-	    Parent root;
-	    if(event.getSource()==lecture1){
-	    	//get reference to the button's stage
-	    	Lecture lec = new Lecture(mainController.getInstance().getCourse().getLectureIDs().get(0));
-	        stage=(Stage) lecture1.getScene().getWindow();
-	        mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
-	        
-	        //here we want to create a 
-	    }
-	    else {
-	    	Lecture lec = new Lecture(mainController.getInstance().getCourse().getLectureIDs().get(1));
-	    	stage=(Stage) lecture2.getScene().getWindow();
-	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
-	    }
-	    
-	    
-	    
-	    //load up OTHER FXML document
+	
+	public void loadLecture(Lecture lecture) {
+		mainController.getInstance().setLecture(lecture);
+	}
+	
+	public void loadNextScene(Stage stage) throws IOException{
+		Parent root;
 		root = FXMLLoader.load(getClass().getResource("evaluationProf.fxml"));
 	    
 	    //create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-		} 
+	}
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+		Stage stage = null;
+		
+		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
+		
+		if (numberOfLectures<1) {
+			return;
+		}
+		
+		else if(event.getSource()==lecture1 && numberOfLectures > 0){
+			
+			mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
+			//get reference to the button's stage
+			stage=(Stage) lecture1.getScene().getWindow();
+			loadNextScene(stage);
+	    }
+	    else if(event.getSource() == lecture2 && numberOfLectures > 1){
+	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
+
+	    	stage=(Stage) lecture2.getScene().getWindow();
+	    	loadNextScene(stage);
+	    }
+	} 
 	   
 	
 	
@@ -90,6 +101,7 @@ public class lectureProfController implements Initializable {
 		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
 		if (numberOfLectures==0) {
 			//textfield.setText("You have not had any lectures in this course");
+			return;
 		}
 		else if (numberOfLectures<2) {
 			lecture1.setText(getLectureDateText(getKeyLec1()));			
@@ -98,7 +110,6 @@ public class lectureProfController implements Initializable {
 			lecture1.setText(getLectureDateText(getKeyLec1()));
 			lecture2.setText(getLectureDateText(getKeyLec2()));
 		}
-		
 	}
 
 
