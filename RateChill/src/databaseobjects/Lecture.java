@@ -59,7 +59,25 @@ public class Lecture extends DatabaseUser {
 		return DBC.getInt(query);
 	}
 		
+	public ArrayList<Evaluation> getPerfectEvaluations() {
+		return PerfectEvaluations;
+	}
 	
+	public ArrayList<Evaluation> getOkEvaluations() {
+		return OkEvaluations;
+	}
+	
+	public ArrayList<Evaluation> getTooFastEvaluations() {
+		return TooFastEvaluations;
+	}
+	
+	public ArrayList<Evaluation> getTooSlowEvaluations() {
+		return TooSlowEvaluations;
+	}
+	
+	public ArrayList<Evaluation> getConfusedEvaluations() {
+		return ConfusedEvaluations;
+	}
 	//Setters
 	public void setLectureID(int lectureID) {
 		this.lectureID = lectureID;
@@ -85,41 +103,31 @@ public class Lecture extends DatabaseUser {
 		this.evaluations = evaluations;
 	}
 
-	public ArrayList<Evaluation> getPerfectEvaluations() {
-		return PerfectEvaluations;
-	}
+	
 
 	public void setPerfectEvaluations(ArrayList<Evaluation> perfectEvaluations) {
 		PerfectEvaluations = perfectEvaluations;
 	}
 
-	public ArrayList<Evaluation> getOkEvaluations() {
-		return OkEvaluations;
-	}
+	
 
 	public void setOkEvaluations(ArrayList<Evaluation> okEvaluations) {
 		OkEvaluations = okEvaluations;
 	}
 
-	public ArrayList<Evaluation> getTooFastEvaluations() {
-		return TooFastEvaluations;
-	}
+	
 
 	public void setTooFastEvaluations(ArrayList<Evaluation> tooFastEvaluations) {
 		TooFastEvaluations = tooFastEvaluations;
 	}
 
-	public ArrayList<Evaluation> getTooSlowEvaluations() {
-		return TooSlowEvaluations;
-	}
+	
 
 	public void setTooSlowEvaluations(ArrayList<Evaluation> tooSlowEvaluations) {
 		TooSlowEvaluations = tooSlowEvaluations;
 	}
 
-	public ArrayList<Evaluation> getConfusedEvaluations() {
-		return ConfusedEvaluations;
-	}
+	
 
 	public void setConfusedEvaluations(ArrayList<Evaluation> confusedEvaluations) {
 		ConfusedEvaluations = confusedEvaluations;
