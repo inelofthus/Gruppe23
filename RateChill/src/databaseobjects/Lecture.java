@@ -53,10 +53,38 @@ public class Lecture extends DatabaseUser {
 	}
 
 	public int getRatingCount(String ratingValue){
+		int count = -1;
 		
-		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + lectureID + " AND rating = '"+ ratingValue +"';";
-		//System.out.println(query);
-		return DBC.getInt(query);
+		switch (ratingValue) {
+		case "Perfect":
+			return PerfectEvaluations.size();
+			
+		case "Ok":
+			return OkEvaluations.size();
+			
+		case "Too fast!":
+			return TooFastEvaluations.size();
+			
+		case "Too slow!":
+			return TooSlowEvaluations.size();
+			
+		case "Confused.. ?":
+			return ConfusedEvaluations.size();
+
+		default:
+			break;
+		}
+		
+		if(count == -1){
+			throw new IllegalArgumentException("Invalid Rating value");
+		}
+		
+		return count;
+		
+		
+//		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + lectureID + " AND rating = '"+ ratingValue +"';";
+//		//System.out.println(query);
+//		return DBC.getInt(query);
 	}
 		
 	public ArrayList<Evaluation> getPerfectEvaluations() {
