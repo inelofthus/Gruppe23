@@ -508,7 +508,7 @@ public class DBController {
 	
 	//Forutsetter at det kun er én lecture i
 	// et fag per dag. Brukes midlertidig til testing
-	public int getLectureID(GregorianCalendar dateTime, String courseCode){
+	public int getLectureID(Calendar dateTime, String courseCode){
 		connect();
 		int id = -1;
 		try {
@@ -520,6 +520,7 @@ public class DBController {
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
 					+ courseCode + "' and lectureDate='" + date + 
 					 "' and lectureTime = '" + time + "';";
+			System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -537,11 +538,16 @@ public class DBController {
 		return id;
 	}
 	
-	private ArrayList<String> calendarToStringDateTime(GregorianCalendar dateTime){
+	public ArrayList<String> calendarToStringDateTime(Calendar gc){
 		 	
-			Calendar cal = GregorianCalendar.getInstance();
-			String date = new SimpleDateFormat("yyyy-mm-dd").format(cal.getTime());			
-		 	ArrayList<String> dateTimeList = new ArrayList<>();
+//			Calendar cal = dateTime.getInstance();
+//			String date = new SimpleDateFormat("yyyy-mm-dd").format(cal.getTime());			
+			SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+			dateFormat2.setTimeZone(gc.getTimeZone());
+			String date = dateFormat2.format(gc.getTime());
+			
+			
+			ArrayList<String> dateTimeList = new ArrayList<>();
 		 	
 //		 	String year = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(dateTime.getTime());
 //		 	String[] dateSplit = year.split(" ");
@@ -557,12 +563,12 @@ public class DBController {
 //		 
 //		 	String date = YYYY + "-" + MM + "-" + DD;
 		 
-		 	String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(dateTime.getTime());
+		 	String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(gc.getTime());
 		 	
 		 	dateTimeList.add(date);
 		 	dateTimeList.add(time);
 		 	
-		 	System.out.println(dateTimeList);
+//		 	System.out.println(dateTimeList);
 		 	return dateTimeList;
 		 }
 	
@@ -1101,8 +1107,17 @@ public class DBController {
 		 //test.deleteStudent("bolle@stud.ntnu.no");
 		 //test.insertStudent("magnutvi", "MLREAL");
 		
-		GregorianCalendar gc = new GregorianCalendar(2017, 0, 21, 8, 1);
-		 test.calendarToStringDateTime(gc);
+		
+		
+		Calendar gc = new GregorianCalendar(2017, 3, 21, 8, 0);
+		System.out.println(test.getLectureID(gc, "IT2805"));
+		
+		
+//		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+//		dateFormat2.setTimeZone(gc.getTimeZone());
+//		System.out.println(dateFormat2.format(gc.getTime()));
+//		
+//		System.out.println(test.calendarToStringDateTime(gc));
 		 
 	
 		
