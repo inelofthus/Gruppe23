@@ -109,8 +109,6 @@ public class DBControllerTest {
 		String professor = "michailg";
 		int lectureID = dbc.getLectureID(calendar, courseCode);
 		System.out.println(lectureID);
-		dbc.insertLecture(date, time, courseCode, professor);
-		//Lecture lect = new Lecture(lectureID);
 		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
 		
