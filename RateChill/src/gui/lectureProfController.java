@@ -35,7 +35,7 @@ public class lectureProfController implements Initializable {
 	
 	public void loadNextScene(Stage stage) throws IOException{
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource("evaluationProf.fxml"));
+		root = FXMLLoader.load(getClass().getResource("individualCharts.fxml"));
 	    
 	    //create a new scene with root and set the stage
 		Scene scene = new Scene(root);
