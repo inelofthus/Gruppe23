@@ -5,14 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.regex.Pattern;
-
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
@@ -413,21 +410,27 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
-			ArrayList<Evaluation> evaluations= getEvaluationsForLecture(lecture.getLectureID());
-			lecture.setEvaluations(evaluations);
+			
+			// hjelpemetode tar seg av å hente og legge til evaluations:
+			setEvaluationsForLecture(lecture);
+			
 
 		close();
 		
 	}
 	
-	private ArrayList<Evaluation> getEvaluationsForLecture(int lectureID) {
+	private void setEvaluationsForLecture(Lecture lecture) {
 
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
-
+		ArrayList<Evaluation> PerfectEvaluations = new ArrayList<>();
+		ArrayList<Evaluation> OkEvaluations = new ArrayList<>();
+		ArrayList<Evaluation> TooFastEvaluations = new ArrayList<>();
+		ArrayList<Evaluation> TooSlowEvaluations = new ArrayList<>();
+		ArrayList<Evaluation> ConfusedEvaluations = new ArrayList<>();
+		
 		try {
 			
-			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = " + lectureID
+			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = " + lecture.getLectureID()
 					+ ";";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -438,8 +441,33 @@ public class DBController {
 				String studentEmail = rs.getString(1);
 				String rating = rs.getString(2);
 				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(rating, studentComment, lectureID, studentEmail);
+				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentEmail);
 				evaluations.add(eval);
+				
+				switch (rating) {
+				case "Perfect":
+					PerfectEvaluations.add(eval);
+					break;
+					
+				case "Ok":
+					OkEvaluations.add(eval);					
+					break;
+					
+				case "Too fast!":
+					TooFastEvaluations.add(eval);					
+					break;
+					
+				case "Too slow!":
+					TooSlowEvaluations.add(eval);
+					break;
+					
+				case "Confused.. ?":
+					ConfusedEvaluations.add(eval);
+					break;
+
+				default:
+					break;
+				}
 
 			}
 
@@ -447,7 +475,13 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 
-		return evaluations;
+		lecture.setEvaluations(evaluations);
+		lecture.setPerfectEvaluations(PerfectEvaluations);
+		lecture.setOkEvaluations(OkEvaluations);
+		lecture.setTooFastEvaluations(TooFastEvaluations);
+		lecture.setTooSlowEvaluations(TooSlowEvaluations);
+		lecture.setConfusedEvaluations(ConfusedEvaluations);
+		
 	}
 
 	public void insertLecture(String date, String time, String courseCode, String professorUsername) {
@@ -470,19 +504,14 @@ public class DBController {
 	
 	//Forutsetter at det kun er én lecture i
 	// et fag per dag. Brukes midlertidig til testing
-	public int getLectureID(GregorianCalendar dateTime, String courseCode){
+	public int getLectureID(String date, String courseCode){
 		connect();
 		int id = -1;
 		try {
 			stmt = conn.createStatement();
-			
-			ArrayList<String> dateTimeList = calendarToStringDateTime(dateTime);
-			String date = dateTimeList.get(0);
-			String time = dateTimeList.get(1);
-			
+
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
-					+ courseCode + "' and lectureDate='" + date + 
-					"' and lectureTime = '" + time + "';";
+					+ courseCode + "' and lectureDate='" + date + "';";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -497,30 +526,6 @@ public class DBController {
 		
 		close();
 		return id;
-	}
-	
-	private ArrayList<String> calendarToStringDateTime(GregorianCalendar dateTime){
-		String year = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(dateTime.getTime());
-		ArrayList<String> dateTimeList = new ArrayList<>();
-		String[] dateSplit = year.split(" ");
-		String YYYY = dateSplit[2];
-		
-		String monthDay = DateFormat.getDateInstance(DateFormat.SHORT).format(dateTime.getTime());
-		
-		String[] dateSplit2 = monthDay.split("[.]");
-		
-		String DD = dateSplit2[0];
-		String MM = dateSplit2[1];
-		
-		String date = YYYY + "-" + MM + "-" + DD;
-		
-		String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(dateTime.getTime());
-		
-		dateTimeList.add(date);
-		dateTimeList.add(time);
-		
-		System.out.println(dateTimeList);
-		return dateTimeList;
 	}
 	
 	public void deleteLecture(int lectureID){
@@ -1059,10 +1064,7 @@ public class DBController {
 		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
 		
 		
-		//System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
-		GregorianCalendar gc = new GregorianCalendar(2017, 0, 21, 8, 1);
-		test.calendarToStringDateTime(gc);
-		
+		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 		
 		test.close();
 		

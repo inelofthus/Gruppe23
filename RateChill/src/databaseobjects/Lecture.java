@@ -12,6 +12,11 @@ public class Lecture extends DatabaseUser {
 	String courseCode;
 	String professor;
 	ArrayList<Evaluation> evaluations;
+	ArrayList<Evaluation> PerfectEvaluations;
+	ArrayList<Evaluation> OkEvaluations;
+	ArrayList<Evaluation> TooFastEvaluations;
+	ArrayList<Evaluation> TooSlowEvaluations;
+	ArrayList<Evaluation> ConfusedEvaluations;
 	
 	//Constructor 1
 	public Lecture (int lectureID) {
@@ -78,6 +83,46 @@ public class Lecture extends DatabaseUser {
 
 	public void setEvaluations(ArrayList<Evaluation> evaluations) {
 		this.evaluations = evaluations;
+	}
+
+	public ArrayList<Evaluation> getPerfectEvaluations() {
+		return PerfectEvaluations;
+	}
+
+	public void setPerfectEvaluations(ArrayList<Evaluation> perfectEvaluations) {
+		PerfectEvaluations = perfectEvaluations;
+	}
+
+	public ArrayList<Evaluation> getOkEvaluations() {
+		return OkEvaluations;
+	}
+
+	public void setOkEvaluations(ArrayList<Evaluation> okEvaluations) {
+		OkEvaluations = okEvaluations;
+	}
+
+	public ArrayList<Evaluation> getTooFastEvaluations() {
+		return TooFastEvaluations;
+	}
+
+	public void setTooFastEvaluations(ArrayList<Evaluation> tooFastEvaluations) {
+		TooFastEvaluations = tooFastEvaluations;
+	}
+
+	public ArrayList<Evaluation> getTooSlowEvaluations() {
+		return TooSlowEvaluations;
+	}
+
+	public void setTooSlowEvaluations(ArrayList<Evaluation> tooSlowEvaluations) {
+		TooSlowEvaluations = tooSlowEvaluations;
+	}
+
+	public ArrayList<Evaluation> getConfusedEvaluations() {
+		return ConfusedEvaluations;
+	}
+
+	public void setConfusedEvaluations(ArrayList<Evaluation> confusedEvaluations) {
+		ConfusedEvaluations = confusedEvaluations;
 	}
 
 	
