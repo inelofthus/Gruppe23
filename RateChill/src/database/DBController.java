@@ -5,11 +5,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
@@ -504,29 +508,63 @@ public class DBController {
 	
 	//Forutsetter at det kun er én lecture i
 	// et fag per dag. Brukes midlertidig til testing
-	public int getLectureID(String date, String courseCode){
+	public int getLectureID(GregorianCalendar dateTime, String courseCode){
 		connect();
 		int id = -1;
 		try {
 			stmt = conn.createStatement();
-
+			
+			ArrayList<String> dateTimeList = calendarToStringDateTime(dateTime);
+			String date = dateTimeList.get(0);
+			String time = dateTimeList.get(1);
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
-					+ courseCode + "' and lectureDate='" + date + "';";
+					+ courseCode + "' and lectureDate='" + date + 
+					 "' and lectureTime = '" + time + "';";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 			rs.next();
 			id = rs.getInt(1);
-			return id;
 			
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
+		
+		} finally {
+			close();
 		}
 		
-		close();
 		return id;
 	}
+	
+	private ArrayList<String> calendarToStringDateTime(GregorianCalendar dateTime){
+		 	
+			Calendar cal = GregorianCalendar.getInstance();
+			String date = new SimpleDateFormat("yyyy-mm-dd").format(cal.getTime());			
+		 	ArrayList<String> dateTimeList = new ArrayList<>();
+		 	
+//		 	String year = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(dateTime.getTime());
+//		 	String[] dateSplit = year.split(" ");
+//		 	String YYYY = dateSplit[2];
+//		 	System.out.println(YYYY);
+//		 	String monthDay = DateFormat.getDateInstance(DateFormat.SHORT).format(dateTime.getTime());
+//		 	
+//		 	System.out.println(monthDay);
+//		 	String[] dateSplit2 = monthDay.split("[.]");
+//		 	System.out.println(dateSplit2[0]);
+//		 	String DD = dateSplit2[0];
+//		 	String MM = dateSplit2[1];
+//		 
+//		 	String date = YYYY + "-" + MM + "-" + DD;
+		 
+		 	String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(dateTime.getTime());
+		 	
+		 	dateTimeList.add(date);
+		 	dateTimeList.add(time);
+		 	
+		 	System.out.println(dateTimeList);
+		 	return dateTimeList;
+		 }
 	
 	public void deleteLecture(int lectureID){
 		connect();
@@ -1049,7 +1087,7 @@ public class DBController {
 		// interaksjon","Trondheim", 4);
 		// test.insertProfessor("sveinbra");
 		// test.getCourseInfo();
-		// test.insertStudent("karimj","MTING");
+		//test.insertStudent("bolle","MTING");
 		// test.getProfessorsForCoursse("tdt4140");
 		// test.getCoursestaughtByProfessor("pekkaa");
 		// test.getLectureHoursForCourse("tdt4140");
@@ -1059,12 +1097,18 @@ public class DBController {
 		// test.insertStudent("negative","MTING");
 		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
 		// this is the most boring and stupid lecture ever");
-		// test.insertCourseStudent("karimj@stud.ntnu.no ", "tdt4145");
-		// test.insertStudent("magnutvi", "MLREAL");
-		//System.out.println(test.getEvaluationRatingAndComment(2, "karimj@stud.ntnu.no"));
+		 //test.insertCourseStudent("bolle@stud.ntnu.no ", "tdt4140");
+		 //test.deleteStudent("bolle@stud.ntnu.no");
+		 //test.insertStudent("magnutvi", "MLREAL");
+		
+		GregorianCalendar gc = new GregorianCalendar(2017, 0, 21, 8, 1);
+		 test.calendarToStringDateTime(gc);
+		 
+	
 		
 		
-		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
+		
+//		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 		
 		test.close();
 		
