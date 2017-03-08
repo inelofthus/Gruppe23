@@ -84,31 +84,37 @@ public class DBControllerTest {
 		
 	}
 	
-	/*@Test 
+	@Test 
 	public void lectureCRUD(){
 		
+		TestData.createTestDataLecture();
+		
 		//Create
-		dbc.insertLecture("10-03-2017", "14:15", "TDT4140", "pekkaa");
+		
+		GregorianCalendar calendar = new GregorianCalendar(2016, 11, 10, 14, 15);
+		dbc.insertLecture("2016-12-10", "14:15:00", "TTK4100", "tomgra");
+		int lectureID = dbc.getLectureID(calendar, "TTK4100");
+		Lecture lect = new Lecture(lectureID);
+		assertEquals("TTK4100", lect.getCourseCode());
+		//assertEquals(calendar, lect.getLectureDateAndTime()); 
+		assertEquals("tomgra", lect.getProfessor());
 		
 		//Delete
-		dbc.deleteLecture 
+		
+		TestData.deleteTestData();
 		
 		
-	}*/
+	}
 	
 	@Test
 	public void evaluationCRUD(){
 		
 		TestData.createTestDataEvaluation();
+		
 		//Create
 		
 		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
-		String date = dbc.calendarToStringDateTime(calendar).get(0);
-		String time = dbc.calendarToStringDateTime(calendar).get(1);
-		String courseCode = "IT2805";
-		String professor = "michailg";
-		int lectureID = dbc.getLectureID(calendar, courseCode);
-		System.out.println(lectureID);
+		int lectureID = dbc.getLectureID(calendar,"IT2805");
 		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
 		
@@ -116,13 +122,14 @@ public class DBControllerTest {
 		assertEquals("Det var perfekt", eval.getComment());
 		assertEquals("inela@stud.ntnu.no", eval.getStudentEmail());
 		
+		
 
 		//Update
 		 
 		//Delete
 		
-		
 		TestData.deleteTestData();
+		assertFalse(eval.existsInDB());
 	}
 	
 }

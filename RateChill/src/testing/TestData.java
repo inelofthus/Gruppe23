@@ -20,7 +20,15 @@ public class TestData {
 		dbc.insertProfessor("michailg");
 		dbc.insertCourseProfessor("michailg", "IT2805");
 		dbc.insertLecture("2017-04-21", "08:00:00", "IT2805", "michailg");
-		//dbc.insertEvaluation("inela@stud.ntnu.no", dbc.getLectureID(new GregorianCalendar(2017, 03, 21, 8, 0), "IT2805"), "Perfect", "Det var perfekt");
+	}
+	
+	public static void createTestDataLecture(){
+		DBController dbc = new DBController();
+		dbc.insertCourse("TTK4100", "Kybernetikk, introduksjon", "Trondheim", 3);
+		dbc.insertStudent("inela", "BIT");
+		dbc.insertCourseStudent("inela@stud.ntnu.no", "TTK4100");
+		dbc.insertProfessor("tomgra");
+		dbc.insertCourseProfessor("tomgra", "TTK4100");
 	}
 	
 	public static void deleteTestData(){
