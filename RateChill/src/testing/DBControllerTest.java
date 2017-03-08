@@ -102,18 +102,19 @@ public class DBControllerTest {
 		TestData.createTestDataEvaluation();
 		//Create
 		
-		
-		
-		
-		int lectureID = dbc.getLectureID(new GregorianCalendar(2017, 3, 21, 8, 1), "IT2805");
-		Lecture lect = new Lecture(lectureID);
+		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
+		String date = dbc.calendarToStringDateTime(calendar).get(0);
+		String time = dbc.calendarToStringDateTime(calendar).get(1);
+		String courseCode = "IT2805";
+		String professor = "michailg";
+		int lectureID = dbc.getLectureID(calendar, courseCode);
+		System.out.println(lectureID);
 		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
 		
-		assertEquals("Perfekt", eval.getRating());
+		assertEquals("Perfect", eval.getRating());
 		assertEquals("Det var perfekt", eval.getComment());
 		assertEquals("inela@stud.ntnu.no", eval.getStudentEmail());
-		assertEquals("IT2805", eval.getLectureid());
 		
 
 		//Update
