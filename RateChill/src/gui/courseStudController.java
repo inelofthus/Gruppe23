@@ -28,6 +28,8 @@ public class courseStudController implements Initializable {
 	public Button fag3;
 	public Button fag4;
 	public Text errorNumber;
+	public Button logout;
+	public Button exit;
 	
 	
 	//creates a list of buttons to iterate over in initializer
@@ -59,15 +61,22 @@ public class courseStudController implements Initializable {
 	}
 	
 	
-	public void loadNextScene(Stage stage, String string)  throws IOException{
-		//load up OTHER FXML document
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource(string));
-	    
-	    //create a new scene with root and set the stage
-	    Scene scene = new Scene(root);
-	    stage.setScene(scene);
-	    stage.show();
+		
+		//create a new scene with root and set the stage
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();	
+	}
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if (event.getSource() == logout) {
+			loadNextScene(logout, stage, "login.fxml");
+		}
 	}
 	
 	@FXML
@@ -77,6 +86,7 @@ public class courseStudController implements Initializable {
 		//the number of courses a student has
 	    int numberOfCourses = mainController.getInstance().getStudents().getCourseIDs().size();
 	    
+	    userButtons(event, stage);
 	    
 	    if(numberOfCourses == 0) {
 	    	return;
@@ -84,39 +94,35 @@ public class courseStudController implements Initializable {
 	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
 	    	
-	    	Course course = new Course(mainController.getInstance().getStudents().getCourseIDs().get(0));
+	    	Course course = new Course(loadCourseCode(0));
 	        loadCourse(course);
-	    	stage=(Stage) fag1.getScene().getWindow();
 	    	
 	    	setLectures(course);
-	        loadNextScene(stage, "lectureStud.fxml");
+	        loadNextScene(fag1, stage, "lectureStud.fxml");
 	        
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
 	    	Course course = new Course(loadCourseCode(1));
 	    	loadCourse(course);
-	    	stage=(Stage) fag2.getScene().getWindow();
 	    	
 	    	setLectures(course);
-	    	loadNextScene(stage, "lectureStud.fxml");
+	    	loadNextScene(fag2, stage, "lectureStud.fxml");
 	    }
 	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
 	    	Course course = new Course(loadCourseCode(2));
 	    	loadCourse(course);
-	    	stage=(Stage) fag3.getScene().getWindow();
 
 	    	setLectures(course);
-	    	loadNextScene(stage, "lectureStud.fxml");
+	    	loadNextScene(fag3, stage, "lectureStud.fxml");
 	    	
 		}
 	    else if (event.getSource()==fag3 && numberOfCourses>3){
 	    	Course course = new Course(loadCourseCode(3));
 	    	loadCourse(course);
-	    	stage=(Stage) fag4.getScene().getWindow();
 	    	
 	    	setLectures(course);
-	    	loadNextScene(stage, "lectureStud.fxml");
+	    	loadNextScene(fag4, stage, "lectureStud.fxml");
 	    	
 		}
 	}

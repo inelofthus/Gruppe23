@@ -69,6 +69,7 @@ public class evaluationStudController implements Initializable {
 		return rating;
 	}
 	
+	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
 		Parent root;

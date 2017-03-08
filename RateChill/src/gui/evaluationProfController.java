@@ -44,6 +44,11 @@ public class evaluationProfController implements Initializable {
 	public Text debugText;
 	public Text submitted;
 	public Text overwriteText;
+	public Button home;
+	public Button back;
+	public Button logout;
+	public Button exit;
+	
 	
 	@FXML
 	public BarChart<String, Integer> barchart;
@@ -56,40 +61,55 @@ public class evaluationProfController implements Initializable {
 	//ArrayList evaluations = lec.getEvaluations();
 	
 	
-	
-	
-	
-	public void loadNextScene (Stage stage, Button button, String string) throws IOException{
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
 		Parent root;
-		stage = (Stage) button.getScene().getWindow();
 		root = FXMLLoader.load(getClass().getResource(string));
+		
+		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-	    stage.show();
+		stage.show();	
 	}
 	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if (event.getSource() == home) {
+			loadNextScene(home, stage, "courseProf.fxml");
+		}
+		if (event.getSource() == back) {
+			loadNextScene(back, stage, "lectureProf.fxml");
+		}
+		
+		if (event.getSource() == logout) {
+			loadNextScene(logout, stage, "login.fxml");
+		}
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		userButtons(event, stage);
+		
+		
 		if (event.getSource() == seePerfectComments){
-			loadNextScene(stage, seePerfectComments, "commentPage.fxml");
+			loadNextScene(seePerfectComments, stage, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeOkComments) {
-			loadNextScene(stage, seeOkComments, "commentPage.fxml");
+			loadNextScene(seeOkComments, stage, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeFastComments) {
-			loadNextScene(stage, seeFastComments, "commentPage.fxml");
+			loadNextScene(seeFastComments, stage, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeSlowComments) {
-			loadNextScene(stage, seeSlowComments, "commentPage.fxml");
+			loadNextScene(seeSlowComments, stage, "commentPage.fxml");
 		}
 		
 		else if (event.getSource() == seeConfusedComments) {
-			loadNextScene(stage, seeConfusedComments, "commentPage.fxml");
+			loadNextScene(seeConfusedComments, stage, "commentPage.fxml");
 		}
 		
 	}

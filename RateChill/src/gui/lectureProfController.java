@@ -24,24 +24,39 @@ public class lectureProfController implements Initializable {
 
 	
 	@FXML
-	Button lecture1;
-	@FXML
-	Button lecture2;
+	public Button lecture1;
+	public Button lecture2;
+	public Button home;
+	public Button logout;
+	public Button exit;
 	
 	
 	public void loadLecture(Lecture lecture) {
 		mainController.getInstance().setLecture(lecture);
 	}
 	
-	public void loadNextScene(Stage stage) throws IOException{
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource("individualCharts.fxml"));
-	    
-	    //create a new scene with root and set the stage
+		root = FXMLLoader.load(getClass().getResource(string));
+		
+		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		stage.show();
+		stage.show();	
 	}
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if (event.getSource() == home) {
+			loadNextScene(home, stage, "courseProf.fxml");
+		}
+		if (event.getSource() == logout) {
+			loadNextScene(logout, stage, "login.fxml");
+		}
+	}
+	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -49,22 +64,19 @@ public class lectureProfController implements Initializable {
 		
 		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
 		
+		userButtons(event, stage);
+		
 		if (numberOfLectures<1) {
 			return;
 		}
 		
 		else if(event.getSource()==lecture1 && numberOfLectures > 0){
-			
 			mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
-			//get reference to the button's stage
-			stage=(Stage) lecture1.getScene().getWindow();
-			loadNextScene(stage);
+			loadNextScene(lecture1, stage, "individualCharts.fxml");
 	    }
 	    else if(event.getSource() == lecture2 && numberOfLectures > 1){
 	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
-
-	    	stage=(Stage) lecture2.getScene().getWindow();
-	    	loadNextScene(stage);
+	    	loadNextScene(lecture2, stage, "individualCharts.fxml");
 	    }
 	} 
 	   

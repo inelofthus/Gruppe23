@@ -35,9 +35,9 @@ public class lectureStudController implements Initializable {
 		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		stage.show();
-		
+		stage.show();	
 	}
+	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
