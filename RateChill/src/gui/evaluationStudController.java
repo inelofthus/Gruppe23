@@ -4,20 +4,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.ButtonModel;
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
-import gui.mainController;
-import databaseobjects.*;
+import javafx.stage.Stage;
 
 public class evaluationStudController implements Initializable {
 
@@ -34,6 +32,10 @@ public class evaluationStudController implements Initializable {
 	public Text debugText;
 	public Text submitted;
 	public Text overwriteText;
+	public Button home;
+	public Button back;
+	public Button logout;
+	public Button exit;
 	
 	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 	
@@ -67,9 +69,36 @@ public class evaluationStudController implements Initializable {
 		return rating;
 	}
 	
+	public void loadNextScene(Stage stage, String string) throws IOException{
+		stage=(Stage) home.getScene().getWindow();
+		Parent root;
+		root = FXMLLoader.load(getClass().getResource(string));
+	    
+	    //create a new scene with root and set the stage
+	    Scene scene = new Scene(root);
+	    stage.setScene(scene);
+	    stage.show();
+	}
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if(event.getSource() == home) {
+			loadNextScene(stage, "courseStud.fxml");
+		}
+		
+		if (event.getSource() == back) {
+			loadNextScene(stage, "lectureStud.fxml");
+		}
+		
+		if (event.getSource() == logout) {
+			loadNextScene(stage, "login.fxml");
+		}
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
+		Stage stage = null;
+		userButtons(event, stage);
+		
 		if (event.getSource() == submit){
 			
 			//checks if something is selected and gives error message
