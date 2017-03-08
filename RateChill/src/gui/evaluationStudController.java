@@ -69,8 +69,8 @@ public class evaluationStudController implements Initializable {
 		return rating;
 	}
 	
-	public void loadNextScene(Stage stage, String string) throws IOException{
-		stage=(Stage) home.getScene().getWindow();
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource(string));
 	    
@@ -83,15 +83,15 @@ public class evaluationStudController implements Initializable {
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
-			loadNextScene(stage, "courseStud.fxml");
+			loadNextScene(home, stage, "courseStud.fxml");
 		}
 		
 		if (event.getSource() == back) {
-			loadNextScene(stage, "lectureStud.fxml");
+			loadNextScene(back ,stage, "lectureStud.fxml");
 		}
 		
 		if (event.getSource() == logout) {
-			loadNextScene(stage, "login.fxml");
+			loadNextScene(logout, stage, "login.fxml");
 		}
 	}
 	

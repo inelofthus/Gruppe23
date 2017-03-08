@@ -29,5 +29,7 @@
             <Image url="@RateChillLogo.png" />
          </image>
       </ImageView>
+      <Button fx:id="home" layoutX="38.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
+      <Button fx:id="logout" layoutX="507.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
    </children>
 </AnchorPane>

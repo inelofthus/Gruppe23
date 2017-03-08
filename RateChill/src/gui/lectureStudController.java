@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -22,13 +21,16 @@ public class lectureStudController implements Initializable {
 
 	
 	@FXML
-	Button lecture1;
-	@FXML
-	Button lecture2;
+	public Button lecture1;
+	public Button lecture2;
+	public Button home;
+	public Button logout;
 	
-	public void loadNextScene(Stage stage) throws IOException{
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource("evaluationStud.fxml"));
+		root = FXMLLoader.load(getClass().getResource(string));
 		
 		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
@@ -37,20 +39,29 @@ public class lectureStudController implements Initializable {
 		
 	}
 	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if(event.getSource() == home) {
+			loadNextScene(home, stage, "courseStud.fxml");
+		}
+		if (event.getSource() == logout) {
+			loadNextScene(logout, stage, "login.fxml");
+		}
+	}
+	
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		userButtons(event, stage);
 		
 	    if(event.getSource()==lecture1){
 	    	//get reference to the button's stage         
-	        stage=(Stage) lecture1.getScene().getWindow();
 	        mainController.getInstance().setChosenStudentLecture(getKeyLec1());
-	        loadNextScene(stage);
+	        loadNextScene(lecture1, stage, "evaluationStud.fxml");
 	    }
-	    else {
-	    	stage=(Stage) lecture2.getScene().getWindow();
+	    else if(event.getSource() == lecture2){
 	    	mainController.getInstance().setChosenStudentLecture(getKeyLec2());
-	    	loadNextScene(stage);
+	    	loadNextScene(lecture2, stage, "evaluationStud.fxml");
 	    }
 	    
 	} 
