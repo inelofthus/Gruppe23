@@ -61,15 +61,13 @@ public class lectureProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		userButtons(event, stage);
 		
 		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
 		
-		userButtons(event, stage);
-		
-		if (numberOfLectures<1) {
+		if (numberOfLectures==0) {
 			return;
 		}
-		
 		else if(event.getSource()==lecture1 && numberOfLectures > 0){
 			mainController.getInstance().setChosenProfessorLecture(getKeyLec1());
 			loadNextScene(lecture1, stage, "individualCharts.fxml");
@@ -106,11 +104,8 @@ public class lectureProfController implements Initializable {
 		// Set text of buttons to contain date of lecture
 		// fagButton.setText(courseCodeName);
 		
-		//here i want to check how many lectures have been completed in the specific course and store them in an int
-		//int numberOfLectures = mainController.getInstance().getProfessor().getLastTwoCompletedLecturesForCourse(courseCode);
-		//int numberOfLectures = mainController.getInstance().getProfessor().getCourses().size();
-		//int numberOfLectures = mainController.getInstance().getProfessor().getCourseID().getLectures().size();
-		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
+		//check how many lectures have been completed in the specific course and store them in an int
+		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
 		if (numberOfLectures==0) {
 			//textfield.setText("You have not had any lectures in this course");
 			return;

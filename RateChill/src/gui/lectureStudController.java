@@ -54,12 +54,17 @@ public class lectureStudController implements Initializable {
 		Stage stage = null;
 		userButtons(event, stage);
 		
-	    if(event.getSource()==lecture1){
+		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
+		
+		if (numberOfLectures==0) {
+			return;
+		}
+		else if(event.getSource()==lecture1 && numberOfLectures>0){
 	    	//get reference to the button's stage         
 	        mainController.getInstance().setChosenStudentLecture(getKeyLec1());
 	        loadNextScene(lecture1, stage, "evaluationStud.fxml");
 	    }
-	    else if(event.getSource() == lecture2){
+	    else if(event.getSource() == lecture2 && numberOfLectures>1){
 	    	mainController.getInstance().setChosenStudentLecture(getKeyLec2());
 	    	loadNextScene(lecture2, stage, "evaluationStud.fxml");
 	    }
@@ -90,8 +95,7 @@ public class lectureStudController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set text of buttons to contain date of lecture
-		// fagButton.setText(courseCodeName);
-		int numberOfLectures = mainController.getInstance().getLastTwoLecturesStudent().size();
+		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
 		if (numberOfLectures==0) {
 			//textfield.setText("You have not had any lectures yet");
 			return;
