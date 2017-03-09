@@ -457,11 +457,11 @@ public class DBController {
 					OkEvaluations.add(eval);					
 					break;
 					
-				case "Too fast!":
+				case "Too Fast!":
 					TooFastEvaluations.add(eval);					
 					break;
 					
-				case "Too slow!":
+				case "Too Slow!":
 					TooSlowEvaluations.add(eval);
 					break;
 					
@@ -1103,15 +1103,19 @@ public class DBController {
 		// test.insertStudent("negative","MTING");
 		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
 		// this is the most boring and stupid lecture ever");
-		 //test.insertCourseStudent("bolle@stud.ntnu.no ", "tdt4140");
+		 
 		 //test.deleteStudent("bolle@stud.ntnu.no");
-		 //test.insertStudent("magnutvi", "MLREAL");
+		 
+		
+		test.insertStudent("stud14", "MLREAL");
+		test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
+		test.insertStudent("stud15", "MLREAL");
+		test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
+
 		
 		
 		
-		Calendar gc = new GregorianCalendar(2017, 3, 21, 8, 0);
-		System.out.println(test.getLectureID(gc, "IT2805"));
-		
+			
 		
 //		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
 //		dateFormat2.setTimeZone(gc.getTimeZone());
