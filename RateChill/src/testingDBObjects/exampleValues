@@ -1,0 +1,39 @@
+COURSE VALUES:
+	private String courseCode = "TDT4140";
+	private String courseName "Programvareutvikling"
+	private String courseLocation = ';
+	private int numLectureHours = 4;
+	private ArrayList<String> professorUsernames = new ArrayList<>(Arrays.asList("pekkaa")) ;
+		
+	private ArrayList<Integer> lectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
+	private ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));;
+	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate; 1:<01-01-2017, 08:00:00> , 2:<02-01-2017, 08:00:00> , 3:<03-01-2017, 08:00:00>
+
+EVALUATION VALUES:
+	private String rating = "Ok";
+	private String comment = "yeah it was ok";
+	private int lectureid = 1;
+	private String studentEmail = "karimj@stud.ntnu.no";
+	
+LECTURE VALUES:
+	int lectureID = 1;
+	ArrayList<String> lectureDateAndTime = <01-01-2017, 08:00:00> ;
+	String courseCode = "TDT4140";
+	String professor = "pekkaa";
+	ArrayList<Evaluation> evaluations = <Evaluation above>;
+	ArrayList<Evaluation> PerfectEvaluations = null;
+	ArrayList<Evaluation> OkEvaluations = <Evaluation above>;
+	ArrayList<Evaluation> TooFastEvaluations = null;
+	ArrayList<Evaluation> TooSlowEvaluations = null;
+	ArrayList<Evaluation> ConfusedEvaluations = null;
+	
+PROFESSOR VALUES:
+	String username = "pekkaa";
+	ArrayList<String> courseIDs = <TDT4140>;
+	HashMap<String, String> courseIDNames = TDT4140:"Programvareutvikling"
+	
+STUDENT VALUES:
+	private String username = "karimj";
+	private String studyProgram = "MTING";
+	ArrayList<String> courseIDs = <TDT4140>;
+	HashMap<String, String> courseIDNames = TDT4140:"Programvareutvikling"
