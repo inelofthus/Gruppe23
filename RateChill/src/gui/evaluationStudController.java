@@ -150,6 +150,11 @@ public class evaluationStudController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
+		debugText.setText("");
+		if(!mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+			submit.setText("Submit");
+			overwriteText.setText("");
+		}
 		if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Overwrite");
 			overwriteText.setText("Evaluation already given, overwrite?");
