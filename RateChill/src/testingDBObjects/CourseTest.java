@@ -28,9 +28,9 @@ public class CourseTest {
 	public void  TestgetCompletedLecturesIDDate() {
 		LinkedHashMap<Integer, ArrayList<String>> actual = course.getCompletedLecturesIDDate();
 		LinkedHashMap<Integer, ArrayList<String>> expected = new LinkedHashMap<>();
-		expected.put(1, new ArrayList<String>(Arrays.asList("01-01-2017", "08:00:00")));
-		expected.put(2, new ArrayList<String>(Arrays.asList("02-01-2017", "08:00:00")));
-		expected.put(3, new ArrayList<String>(Arrays.asList("03-01-2017", "08:00:00")));
+		expected.put(1, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
+		expected.put(2, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
+		expected.put(3, new ArrayList<String>(Arrays.asList("2017-01-03", "08:00:00")));
 		
 		assertEquals(expected, actual);
 	}
@@ -48,8 +48,8 @@ public class CourseTest {
 		LinkedHashMap<Integer, ArrayList<String>> actual = course.getLastTwoCompletedLectures();
 		
 		LinkedHashMap<Integer, ArrayList<String>> expected = new LinkedHashMap<>();
-		expected.put(1, new ArrayList<String>(Arrays.asList("01-01-2017", "08:00:00")));
-		expected.put(2, new ArrayList<String>(Arrays.asList("02-01-2017", "08:00:00")));
+		expected.put(1, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
+		expected.put(2, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
 		
 		assertEquals(expected, actual);
 	}
@@ -114,7 +114,7 @@ public class CourseTest {
 	@Test
 	public void  TestgetLectureDate() {
 		String actual = course.getLectureDate(1);
-		String expected = "01-01-2017";
+		String expected = "2017-01-01";
 		
 		assertEquals(expected, actual);
 	}

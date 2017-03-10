@@ -73,7 +73,7 @@ public class DummyDBController extends DBController{
 		LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
 		completedLecturesIDDate.put(1, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
 		completedLecturesIDDate.put(2, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
-		completedLecturesIDDate.put(3, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
+		completedLecturesIDDate.put(3, new ArrayList<String>(Arrays.asList("2017-01-03", "08:00:00")));
 		
 		course.setCompletedLectureIDs(completedLectureIDs);
 		course.setCompletedLecturesIDDate(completedLecturesIDDate);
