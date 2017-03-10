@@ -3,6 +3,8 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import database.DBController;
+
 
 public class Student extends DatabaseUser{
 	private String username;
@@ -12,6 +14,13 @@ public class Student extends DatabaseUser{
 	
 	//Constructor1
 	public Student(String username) {
+		this.username = username;
+		DBC.loadStudentInfo(this);
+	}
+	
+	//Constructor2 used in testing
+	public Student(String username, DBController newDBC) {
+		switchDBC(newDBC);
 		this.username = username;
 		DBC.loadStudentInfo(this);
 	}

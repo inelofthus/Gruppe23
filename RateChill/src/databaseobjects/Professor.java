@@ -2,17 +2,25 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import database.DBController;
+
 
 public class Professor extends DatabaseUser {
 	String username;
 	ArrayList<String> courseIDs;
 	HashMap<String, String> courseIDNames;
 	
-	// Constructor
+	// Constructor 1
 	public Professor(String professorUsername) {
 		this.username = professorUsername;
 		DBC.loadProfessorInfo(this);
-		
+	}
+	
+	// Constructor2 for use in testing
+	public Professor(String professorUsername, DBController newDBC) {
+		this.username = professorUsername;
+		switchDBC(newDBC);
+		DBC.loadProfessorInfo(this);
 	}
 	
 	public boolean existsInDB(){

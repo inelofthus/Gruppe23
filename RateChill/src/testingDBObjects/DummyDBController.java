@@ -2,7 +2,7 @@ package testingDBObjects;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import database.DBController;
 import databaseobjects.Course;
@@ -43,7 +43,7 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
-		
+		//does nothing
 	}
 
 	@Override
@@ -62,11 +62,6 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode) {
-		return null;
-	}
-
-	@Override
 	public Course loadCourseInfo(Course course) {
 		course.setCourseName("Programvareutvikling");
 		course.setCourseLocation("Trondheim");
@@ -76,9 +71,9 @@ public class DummyDBController extends DBController{
 		
 		ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
 		LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
-		completedLecturesIDDate.put(1, new ArrayList<String>(Arrays.asList("01-01-2017", "08:00:00")));
-		completedLecturesIDDate.put(2, new ArrayList<String>(Arrays.asList("02-01-2017", "08:00:00")));
-		completedLecturesIDDate.put(3, new ArrayList<String>(Arrays.asList("03-01-2017", "08:00:00")));
+		completedLecturesIDDate.put(1, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
+		completedLecturesIDDate.put(2, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
+		completedLecturesIDDate.put(3, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
 		
 		course.setCompletedLectureIDs(completedLectureIDs);
 		course.setCompletedLecturesIDDate(completedLecturesIDDate);
@@ -88,7 +83,15 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public void loadLectureInfo(Lecture lecture) {
-		// do nothing
+		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-01-01","08:00:00"));
+		lecture.setLectureDateAndTime(dateTime);
+		lecture.setCourseCode("TDT4140");
+		lecture.setProfessor("pekkaa");
+		
+		Evaluation eval = new Evaluation("Ok", "yeah it was ok", 1, "karimj@stud.ntnu.no");
+		lecture.setEvaluations(new ArrayList<>(Arrays.asList(eval)));
+		lecture.setOkEvaluations(new ArrayList<>(Arrays.asList(eval)));
+		
 	}
 
 	@Override
@@ -97,11 +100,10 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public int getLectureID(Calendar dateTime, String courseCode) {
+	public int getLectureID(ArrayList<String> dateTime, String courseCode) {
 		// do nothing
 		return 0;
 	}
-
 
 	@Override
 	public void deleteLecture(int lectureID) {
@@ -110,12 +112,24 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public boolean lectureExists(int lectureID) {
-		return true;
+		boolean ans = false;
+		
+		if(lectureID == 1)
+			ans = true;
+		
+		return ans;
 	}
 
 	@Override
 	public void loadProfessorInfo(Professor prof) {
-		// do nothing
+		ArrayList<String> courseIDs = new ArrayList<>(Arrays.asList("TDT4140"));
+		HashMap<String, String> courseIDNames = new HashMap<>();
+		courseIDNames.put("TDT4140", "Programvareutvikling");
+		
+		prof.setCourseIDs(courseIDs);
+		prof.setCourseIDNames(courseIDNames);
+		
+		
 	}
 
 	@Override
@@ -130,7 +144,12 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public boolean professorExists(String professorUsername) {
-		return true;
+		
+		boolean ans = false;
+		if(professorUsername == "pekkaa" )
+			ans = true;
+		
+		return ans;
 	}
 
 	@Override
@@ -145,7 +164,13 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public void loadStudentInfo(Student student) {
-		// do nothing
+		ArrayList<String> courseIDs = new ArrayList<>(Arrays.asList("TDT4140"));
+		HashMap<String, String> courseIDNames = new HashMap<>();
+		courseIDNames.put("TDT4140", "Programvareutvikling");
+		
+		student.setStudyProgram("MTING");
+		student.setCourseIDs(courseIDs);
+		student.setCourseIDNames(courseIDNames);
 	}
 
 	@Override
@@ -160,12 +185,24 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public boolean studentExists(String studentEmail) {
-		return true;
+		boolean ans = false;
+		
+		if(studentEmail == "karimj@stud.ntnu.no")
+			ans = true;
+		
+		return ans;
 	}
 
 	@Override
 	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
-		return true;
+		boolean ans = false;
+			
+			if(studentEmail == "karimj@stud.ntnu.no" && lecID == 1)
+				ans = true;
+			
+		return ans;
+		
+	
 	}
 
 	@Override
@@ -180,7 +217,8 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public void loadEvaluationInfo(Evaluation evaluation) {
-		// do nothing
+		evaluation.setRating("Ok");
+		evaluation.setComment("yeah it was ok");
 	}
 
 	@Override
@@ -195,41 +233,13 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public boolean evaluationExists(int lectureid, String studentEmail) {
-		return true;
+		boolean ans = false;
+		
+		if(lectureid == 1 && studentEmail == "karimj@stud.ntnu.no")
+			ans = true;
+		
+		return ans;
 	}
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return super.clone();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-	}
-
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
-	
-	
-	
 	
 
 }

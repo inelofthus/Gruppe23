@@ -7,7 +7,7 @@ COURSE VALUES:
 		
 	private ArrayList<Integer> lectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
 	private ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));;
-	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate; 1:<01-01-2017, 08:00:00> , 2:<02-01-2017, 08:00:00> , 3:<03-01-2017, 08:00:00>
+	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate; 1:<2017-01-01, 08:00:00> , 2:<2017-01-02, 08:00:00> , 3:<2017-01-03, 08:00:00>
 
 EVALUATION VALUES:
 	private String rating = "Ok";
@@ -17,7 +17,7 @@ EVALUATION VALUES:
 	
 LECTURE VALUES:
 	int lectureID = 1;
-	ArrayList<String> lectureDateAndTime = <01-01-2017, 08:00:00> ;
+	ArrayList<String> lectureDateAndTime = <2017-01-01, 08:00:00> ;
 	String courseCode = "TDT4140";
 	String professor = "pekkaa";
 	ArrayList<Evaluation> evaluations = <Evaluation above>;

@@ -1,5 +1,7 @@
 package databaseobjects;
 
+import database.DBController;
+
 public class Evaluation extends DatabaseUser {
 
 	private String rating;
@@ -21,6 +23,15 @@ public class Evaluation extends DatabaseUser {
 		this.comment = comment;
 		this.lectureid = lectureid;
 		this.studentEmail = studentEmail;
+	}
+	
+	//Constructor3 used in testing
+	public Evaluation(int lectureid,String studentEmail, DBController newDBC) {
+		this.lectureid = lectureid;
+		this.studentEmail = studentEmail;
+		switchDBC(newDBC);
+		DBC.loadEvaluationInfo(this);
+		
 	}
 	
 	public boolean existsInDB() {

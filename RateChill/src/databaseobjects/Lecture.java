@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import database.DBController;
+
 
 public class Lecture extends DatabaseUser {
 	
@@ -23,6 +25,13 @@ public class Lecture extends DatabaseUser {
 		this.lectureID = lectureID;
 		DBC.loadLectureInfo(this);
 	}
+	
+	//Constructor 2 for use in testing
+		public Lecture (int lectureID, DBController newNBC) {
+			this.lectureID = lectureID;
+			switchDBC(newNBC);
+			DBC.loadLectureInfo(this);
+		}
 	
 	public boolean existsInDB() {
 		return DBC.lectureExists(lectureID);

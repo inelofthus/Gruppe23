@@ -5,12 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -195,41 +191,6 @@ public class DBController {
 		
 	}
 
-	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode) {
-		//retruns a list containing the lectureIDs of the last two completed lectures for the specified course.
-		ArrayList<Integer> lectures = new ArrayList<>();
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("SELECT lectureID FROM Lecture WHERE courseCode = '").append(courseCode).append("' ").append(
-					" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
-
-			String query = sb.toString();
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			if(rs.next()){
-				lectures.add(rs.getInt(1));	
-			}
-			
-			if(rs.next()){
-				lectures.add(rs.getInt(1));	
-			}
-			
-			
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return lectures;
-
-	}
-
 	public Course loadCourseInfo(Course course) {
 		// This method takes in a Course object with a specific courseCode. It
 		// collects all the information about this course and fills in the rest
@@ -363,27 +324,6 @@ public class DBController {
 		
 	}
 
-	/*private GregorianCalendar stringToCalender(String date, String time){
-		// helper function that converts SQL strings of date and time to Gregorian Calendar objects
-		
-		// date format: "YYYY-MM-DD"
-		// time format: "hh:mm:ss"
-		String[] dateSplit = date.split("-");
-		int YYYY = Integer.valueOf(dateSplit[0]);
-		int MM = Integer.valueOf(dateSplit[1]);
-		int DD = Integer.valueOf(dateSplit[2]);
-		
-		String[] timeSplit = time.split(":");
-		int hh = Integer.valueOf(timeSplit[0]);
-		int mm = Integer.valueOf(timeSplit[1]);
-		int ss = Integer.valueOf(timeSplit[2]);
-		
-		GregorianCalendar calendar = new GregorianCalendar(YYYY, MM, DD, hh, mm, ss);
-		
-		return calendar;
-		
-	}*/
-		
 	// Lecture info
 
 	public void loadLectureInfo(Lecture lecture) {
@@ -511,16 +451,15 @@ public class DBController {
 	}
 	
 	//Forutsetter at det kun er én lecture i
-	// et fag per dag. Brukes midlertidig til testing
-	public int getLectureID(Calendar dateTime, String courseCode){
+	// et fag per dag per tidspunkt. Brukes midlertidig til testing
+	public int getLectureID(ArrayList<String> dateTime, String courseCode){
 		connect();
 		int id = -1;
 		try {
 			stmt = conn.createStatement();
 			
-			ArrayList<String> dateTimeList = calendarToStringDateTime(dateTime);
-			String date = dateTimeList.get(0);
-			String time = dateTimeList.get(1);
+			String date = dateTime.get(0);
+			String time = dateTime.get(1);
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
 					+ courseCode + "' and lectureDate='" + date + 
 					 "' and lectureTime = '" + time + "';";
@@ -541,40 +480,6 @@ public class DBController {
 		
 		return id;
 	}
-	
-	public ArrayList<String> calendarToStringDateTime(Calendar gc){
-		 	
-//			Calendar cal = dateTime.getInstance();
-//			String date = new SimpleDateFormat("yyyy-mm-dd").format(cal.getTime());			
-			SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			dateFormat2.setTimeZone(gc.getTimeZone());
-			String date = dateFormat2.format(gc.getTime());
-			
-			
-			ArrayList<String> dateTimeList = new ArrayList<>();
-		 	
-//		 	String year = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(dateTime.getTime());
-//		 	String[] dateSplit = year.split(" ");
-//		 	String YYYY = dateSplit[2];
-//		 	System.out.println(YYYY);
-//		 	String monthDay = DateFormat.getDateInstance(DateFormat.SHORT).format(dateTime.getTime());
-//		 	
-//		 	System.out.println(monthDay);
-//		 	String[] dateSplit2 = monthDay.split("[.]");
-//		 	System.out.println(dateSplit2[0]);
-//		 	String DD = dateSplit2[0];
-//		 	String MM = dateSplit2[1];
-//		 
-//		 	String date = YYYY + "-" + MM + "-" + DD;
-		 
-		 	String time = DateFormat.getTimeInstance(DateFormat.DEFAULT).format(gc.getTime());
-		 	
-		 	dateTimeList.add(date);
-		 	dateTimeList.add(time);
-		 	
-//		 	System.out.println(dateTimeList);
-		 	return dateTimeList;
-		 }
 	
 	public void deleteLecture(int lectureID){
 		connect();
@@ -627,24 +532,7 @@ public class DBController {
 
 	}
 	
-	/*private GregorianCalendar stringToCalendar(String date, String time) {
-		// date format: "YYYY-MM-DD"
-				// time format: "hh:mm:ss"
-				String[] dateSplit = date.split("-");
-				int YYYY = Integer.valueOf(dateSplit[0]);
-				int MM = Integer.valueOf(dateSplit[1]);
-				int DD = Integer.valueOf(dateSplit[2]);
-				
-				String[] timeSplit = time.split(":");
-				int hh = Integer.valueOf(timeSplit[0]);
-				int mm = Integer.valueOf(timeSplit[1]);
-				int ss = Integer.valueOf(timeSplit[2]);
-				
-				GregorianCalendar calendar = new GregorianCalendar(YYYY, MM, DD, hh, mm, ss);
-				
-				return calendar;
-	}*/
-
+	
 	// Professor info
 	public void loadProfessorInfo(Professor prof) {
 		// Must retrieve and update the following info from DB: 
