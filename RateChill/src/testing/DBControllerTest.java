@@ -35,13 +35,16 @@ public class DBControllerTest {
 		assertEquals("Prosedyre- og objektorientert programmering", course.getCourseName());
 		assertEquals("Trondheim", course.getCourseLocation());
 		assertEquals(4, course.getNumLectureHours());
+		
 		assertTrue(course.existsInDB());
+		assertTrue(dbc.courseExists("TDT4102"));
 		
 		//Update
 		
 		//Delete
 		dbc.deleteCourse("TDT4102");
 		assertFalse(dbc.courseExists("TDT4102"));
+		assertFalse(course.existsInDB());
 			
 	}
 	
@@ -58,11 +61,15 @@ public class DBControllerTest {
 		assertEquals("BIT", stud.getStudyProgram());
 		assertEquals("inela@stud.ntnu.no", stud.getEmail());
 		
+		assertTrue(dbc.studentExists("inela@stud.ntnu.no"));
+		assertTrue(stud.existsInDB());
+		
 		//Update
 		
 		//Delete
 		dbc.deleteStudent("inela@stud.ntnu.no");
 		assertFalse(dbc.studentExists("inela@stud.ntnu.no"));
+		assertFalse(stud.existsInDB());
 	}
 	
 	@Test
@@ -76,10 +83,14 @@ public class DBControllerTest {
 		
 		assertEquals("mariusth", prof.getUsername());
 		
+		assertTrue(prof.existsInDB());
+		assertTrue(dbc.professorExists("mariusth"));
+		
 		//Update
 		
 		//Delete
 		dbc.deleteProfessor("mariusth");
+		assertFalse(prof.existsInDB());
 		assertFalse(dbc.professorExists("mariusth"));
 		
 	}
@@ -99,10 +110,14 @@ public class DBControllerTest {
 		//assertEquals(calendar, lect.getLectureDateAndTime()); 
 		assertEquals("tomgra", lect.getProfessor());
 		
+		assertTrue(lect.existsInDB());
+		assertTrue(dbc.lectureExists(lectureID));
+		
 		//Delete
 		
-		TestData.deleteTestData();
-		
+		TestData.deleteTestDataLecture();
+		assertFalse(lect.existsInDB());
+		assertFalse(dbc.lectureExists(lectureID));
 		
 	}
 	
@@ -122,14 +137,27 @@ public class DBControllerTest {
 		assertEquals("Det var perfekt", eval.getComment());
 		assertEquals("inela@stud.ntnu.no", eval.getStudentEmail());
 		
+		assertTrue(eval.existsInDB());
 		
 
 		//Update
-		 
+		
+		Student stud = new Student("inela");
+		stud.overWriteEvaluation(lectureID, "Too Slow", "Nesten perfekt, men det gikk litt for sakte");
+		Evaluation updatedEval = new Evaluation(lectureID, "inela@stud.ntnu.no");
+		assertEquals("Too Slow", updatedEval.getRating());
+		assertEquals("Nesten perfekt, men det gikk litt for sakte", updatedEval.getComment());
+		assertEquals("inela@stud.ntnu.no", updatedEval.getStudentEmail());
+		
+		assertTrue(updatedEval.existsInDB());
+		assertTrue(dbc.evaluationExists(lectureID, "inela@stud.ntnu.no"));
+		
 		//Delete
 		
-		TestData.deleteTestData();
+		TestData.deleteTestDataEvaluation();
 		assertFalse(eval.existsInDB());
+		assertFalse(updatedEval.existsInDB());
+		assertFalse(dbc.evaluationExists(lectureID, "inela@stud.ntnu.no"));
 	}
 	
 }
