@@ -10,7 +10,8 @@ public abstract class DatabaseUser {
 		DBC = new DBController();
 	}
 	
-	/*public DatabaseUser (DBController DBC) {
-		this.DBC = DBC;
-	}*/
+	public void switchDBC(DBController newDBC){
+		DBC = newDBC;
+	}
+	
 }
