@@ -12,9 +12,7 @@ public class Course extends DatabaseUser{
 	private String courseLocation;
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
-	
 	private ArrayList<Integer> lectureIDs;
-	private ArrayList<Integer> lastTwoCompletedLectureIDs;
 	private ArrayList<Integer> completedLectureIDs;
 	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate;
 	
@@ -47,7 +45,10 @@ public class Course extends DatabaseUser{
 	}
 	
 	public ArrayList<Integer> getLastTwoCompletedLectureIDs() {
-		return lastTwoCompletedLectureIDs;
+		ArrayList<Integer> lastTwo = new ArrayList<>();
+		lastTwo.add(completedLectureIDs.get(0));
+		lastTwo.add(completedLectureIDs.get(1));
+		return lastTwo;
 	}
 	
 	public String getCourseCode() {
@@ -80,6 +81,21 @@ public class Course extends DatabaseUser{
 	
 	public String getLectureDate(int lecID){
 		return completedLecturesIDDate.get(lecID).get(0);	
+	}
+	
+	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoCompletedLectures() {
+		LinkedHashMap<Integer, ArrayList<String>> lastTwoHashMap = new LinkedHashMap<>();
+		
+		int id;
+		ArrayList<String> dateTime;
+		
+		for (int i = 0; i<2; i++){
+			id = completedLectureIDs.get(i);
+			dateTime = completedLecturesIDDate.get(id);
+			lastTwoHashMap.put(id, dateTime);	
+		}
+		
+		return lastTwoHashMap;
 	}
 	
 	//Setters
@@ -116,20 +132,7 @@ public class Course extends DatabaseUser{
 		this.lectureIDs = lectureIDs;
 	}
 
-	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoCompletedLectures() {
-		LinkedHashMap<Integer, ArrayList<String>> lastTwoHashMap = new LinkedHashMap<>();
-		
-		int id;
-		ArrayList<String> dateTime;
-		
-		for (int i = 0; i<2; i++){
-			id = completedLectureIDs.get(i);
-			dateTime = completedLecturesIDDate.get(id);
-			lastTwoHashMap.put(id, dateTime);	
-		}
-		
-		return lastTwoHashMap;
-	}
+
 	
 	//////////////////////////END OF USEFUL CODE ////////////////////////////////////////
 	
