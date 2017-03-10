@@ -3,6 +3,7 @@ package testing;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
@@ -102,9 +103,10 @@ public class DBControllerTest {
 		
 		//Create
 		
-		GregorianCalendar calendar = new GregorianCalendar(2016, 11, 10, 14, 15);
+//		GregorianCalendar calendar = new GregorianCalendar(2016, 11, 10, 14, 15);
+		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2016-12-10","14:15:00"));
 		dbc.insertLecture("2016-12-10", "14:15:00", "TTK4100", "tomgra");
-		int lectureID = dbc.getLectureID(calendar, "TTK4100");
+		int lectureID = dbc.getLectureID(dateTime, "TTK4100");
 		Lecture lect = new Lecture(lectureID);
 		assertEquals("TTK4100", lect.getCourseCode());
 		//assertEquals(calendar, lect.getLectureDateAndTime()); 
@@ -128,8 +130,9 @@ public class DBControllerTest {
 		
 		//Create
 		
-		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
-		int lectureID = dbc.getLectureID(calendar,"IT2805");
+//		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
+		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-04-21","08:00:00"));
+		int lectureID = dbc.getLectureID(dateTime,"IT2805");
 		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
 		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
 		
