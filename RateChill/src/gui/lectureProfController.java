@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -81,15 +82,15 @@ public class lectureProfController implements Initializable {
 	
 	
 	private int getKeyLec1() {
-		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
-		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesProfessor();
+		// helper method that returns the lectureID of the first lecture of lastTwoLectures		
+		LinkedHashMap<Integer, ArrayList<String>> map = mainController.getInstance().getLastTwoLecturesProfessor();
 		Iterator<Integer> entries = map.keySet().iterator();
 		return entries.next();
 	}
 	
 	private int getKeyLec2() {
 		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
-		LinkedHashMap<Integer, GregorianCalendar> map = mainController.getInstance().getLastTwoLecturesProfessor();
+		LinkedHashMap<Integer, ArrayList<String>> map = mainController.getInstance().getLastTwoLecturesProfessor();
 		Iterator<Integer> entries = map.keySet().iterator();
 		entries.next();
 		return entries.next();
@@ -125,10 +126,8 @@ public class lectureProfController implements Initializable {
 		// TODO Auto-generated method stub
 		String date = "";
 		
-		
 		try {
-		GregorianCalendar gc = mainController.getInstance().getCourse().getLectureDate(lecID);
-		date = DateFormat.getDateInstance(DateFormat.SHORT).format(gc.getTime());
+		date = mainController.getInstance().getCourse().getLectureDate(lecID);
 		System.out.println(date);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

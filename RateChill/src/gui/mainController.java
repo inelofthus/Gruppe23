@@ -26,8 +26,8 @@ public class mainController {
 		this.course = course;
 	}
 
-	private LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesStudent;
-	private LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesProfessor;
+	private LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesStudent;
+	private LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesProfessor;
 	private Integer chosenStudentLecture;
 	private Integer chosenProfessorLecture;
 	
@@ -49,12 +49,12 @@ public class mainController {
 		this.student = student;
 	}
 	
-	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoLecturesStudent() {
+	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoLecturesStudent() {
 		return lastTwoLecturesStudent;
 	}
 
 
-	public void setlastTwoLecturesStudent(LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesStudent) {
+	public void setlastTwoLecturesStudent(LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesStudent) {
 		this.lastTwoLecturesStudent = lastTwoLecturesStudent;
 	}
 
@@ -78,11 +78,11 @@ public class mainController {
 		this.professor = professor;
 	}
 	
-	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoLecturesProfessor() {
+	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoLecturesProfessor() {
 		return lastTwoLecturesProfessor;
 	}
 	
-	public void setlastTwoLecturesProfessor(LinkedHashMap<Integer, GregorianCalendar> lastTwoLecturesProfessor) {
+	public void setlastTwoLecturesProfessor(LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesProfessor) {
 		this.lastTwoLecturesProfessor = lastTwoLecturesProfessor;
 	}
 	

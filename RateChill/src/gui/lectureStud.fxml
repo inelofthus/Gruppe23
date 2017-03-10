@@ -11,12 +11,12 @@
    <children>
       <Button fx:id="lecture1" layoutX="38.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="128.0" prefWidth="228.0" text="Lecture 1">
          <font>
-            <Font size="36.0" />
+            <Font size="25.0" />
          </font>
       </Button>
       <Button fx:id="lecture2" layoutX="337.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="128.0" prefWidth="228.0" text="Lecture 2">
          <font>
-            <Font size="36.0" />
+            <Font size="25.0" />
          </font>
       </Button>
       <Text layoutX="126.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rate the lecture!">

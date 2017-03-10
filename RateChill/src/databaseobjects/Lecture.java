@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 public class Lecture extends DatabaseUser {
 	
 	int lectureID;
-	GregorianCalendar lectureDateAndTime;
+	ArrayList<String> lectureDateAndTime;
 	String courseCode;
 	String professor;
 	ArrayList<Evaluation> evaluations;
@@ -31,13 +31,20 @@ public class Lecture extends DatabaseUser {
 	//Getters
 
 
-	
 	public int getLectureID() {
 		return lectureID;
 	}
 
-	public GregorianCalendar getLectureDateAndTime() {
+	public ArrayList<String> getLectureDateAndTime() {
 		return lectureDateAndTime;
+	}
+	
+	public String getLectureDate(){
+		return lectureDateAndTime.get(0);
+	}
+	
+	public String getLectureTime(){
+		return lectureDateAndTime.get(1);
 	}
 
 	public String getCourseCode() {
@@ -112,8 +119,8 @@ public class Lecture extends DatabaseUser {
 	}
 
 
-	public void setLectureDateAndTime(GregorianCalendar lectureDateAndTime) {
-		this.lectureDateAndTime = lectureDateAndTime;
+	public void setLectureDateAndTime(ArrayList<String> dateTime) {
+		this.lectureDateAndTime = dateTime;
 	}
 
 

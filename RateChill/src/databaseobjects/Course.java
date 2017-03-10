@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 
+import javax.naming.StringRefAddr;
+
 
 public class Course extends DatabaseUser{
 	
@@ -12,16 +14,36 @@ public class Course extends DatabaseUser{
 	private String courseLocation;
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
+	
 	private ArrayList<Integer> lectureIDs;
 	private ArrayList<Integer> lastTwoCompletedLectureIDs;
-	private LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures;
+	private ArrayList<Integer> completedLectureIDs;
+	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate;
 	
 
+
+	public ArrayList<Integer> getCompletedLectureIDs() {
+		return completedLectureIDs;
+	}
+
+	public void setCompletedLectureIDs(ArrayList<Integer> completedLectureIDs) {
+		this.completedLectureIDs = completedLectureIDs;
+	}
+
+	public LinkedHashMap<Integer, ArrayList<String>> getCompletedLecturesIDDate() {
+		return completedLecturesIDDate;
+	}
+
+	public void setCompletedLecturesIDDate(LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate) {
+		this.completedLecturesIDDate = completedLecturesIDDate;
+	}
 
 	//Constructor1
 	public Course(String courseCode) {
 		this.courseCode = courseCode;
 		DBC.loadCourseInfo(this);
+		
+//		setLastTwoCompletedLectureIDs();
 	}
 		
 	public boolean existsInDB(){
@@ -36,10 +58,6 @@ public class Course extends DatabaseUser{
 	
 	public String getCourseCode() {
 		return courseCode;
-	}
-	
-	public LinkedHashMap<Integer, GregorianCalendar> getLastTwoCompletedLectures() {
-		return lastTwoCompletedLectures;
 	}
 	
 	public String getCourseName() {
@@ -62,19 +80,28 @@ public class Course extends DatabaseUser{
 		return lectureIDs;
 	}
 	
-	public GregorianCalendar getLectureDate(int lecID){
-		return lastTwoCompletedLectures.get(lecID);
+	public String getLectureTime(int lecID){
+		return completedLecturesIDDate.get(lecID).get(0);
+	}
+	
+	public String getLectureDate(int lecID){
+		return completedLecturesIDDate.get(lecID).get(0);	
+	}
 	
 	//Setters
-	
-	}
-	public void setLastTwoCompletedLectureIDs(ArrayList<Integer> lastTwoCompletedLectureIDs) {
-		this.lastTwoCompletedLectureIDs = lastTwoCompletedLectureIDs;
-	}
+	/*private void setLastTwoCompletedLectureIDs() {
+		if(completedLectureIDs.size() >= 2){
+			lastTwoCompletedLectureIDs.add(completedLectureIDs.get(0));
+			lastTwoCompletedLectureIDs.add(completedLectureIDs.get(1));
+		}
+		else if(completedLectureIDs.size() == 1){
+			lastTwoCompletedLectureIDs.add(completedLectureIDs.get(0));
+		}
+		
+	}*/
 
-	
-	public void setLastTwoCompletedLectures(LinkedHashMap<Integer, GregorianCalendar> lastTwoCompletedLectures) {
-		this.lastTwoCompletedLectures = lastTwoCompletedLectures;
+	public void setLastTwoCompletedLectures() {
+		
 	}
 	
 	public void setCourseCode(String courseCode) {
@@ -99,6 +126,21 @@ public class Course extends DatabaseUser{
 
 	public void setLectureIDs(ArrayList<Integer> lectureIDs) {
 		this.lectureIDs = lectureIDs;
+	}
+
+	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoCompletedLectures() {
+		LinkedHashMap<Integer, ArrayList<String>> lastTwoHashMap = new LinkedHashMap<>();
+		
+		int id;
+		ArrayList<String> dateTime;
+		
+		for (int i = 0; i<2; i++){
+			id = completedLectureIDs.get(i);
+			dateTime = completedLecturesIDDate.get(id);
+			lastTwoHashMap.put(id, dateTime);	
+		}
+		
+		return lastTwoHashMap;
 	}
 	
 	//////////////////////////END OF USEFUL CODE ////////////////////////////////////////

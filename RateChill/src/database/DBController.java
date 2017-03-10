@@ -245,7 +245,7 @@ public class DBController {
 			setCourseNameLocationAndLecHours(course);
 			setProfessorIDsForCourse(course);
 			setLectureIDsForCourse(course);
-			setLastTwoCompletedLecturesForCourse(course); 		
+			setCompletedLecturesForCourse(course); 		
 		
 		close();
 		
@@ -253,44 +253,40 @@ public class DBController {
 		return course;
 	}
 	
-	private void setLastTwoCompletedLecturesForCourse(Course course) {
+	private void setCompletedLecturesForCourse(Course course) {
 			// This creates the list and linked Hash map with the last 2 completed lectures and their dates and sets the result in the course object
 		try {
-						
-			ArrayList<Integer> lastTwoCompletedLectureIDs = new ArrayList<>();
-			LinkedHashMap<Integer, GregorianCalendar> lastTwolectures = new LinkedHashMap<>();
+			
+			ArrayList<Integer> completedLectureIDs = new ArrayList<>();
+			LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
 					" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
 
-			String query4 = sb.toString();
+			
+			String query4 = sb.toString();			
 			
 			if (stmt.execute(query4)) {
 				rs = stmt.getResultSet();
 			}
 
-			if(rs.next()){
+			while(rs.next()){
 				int lecID = rs.getInt(1);
 				String date = rs.getString(2);
-				System.out.println(date);
 				String time = rs.getString(3);
+				ArrayList<String> dateTime = new ArrayList<String>();
+				dateTime.add(date);
+				dateTime.add(time);
 
-				lastTwolectures.put(lecID, stringToCalender(date, time));
-				lastTwoCompletedLectureIDs.add(lecID);
+				completedLecturesIDDate.put(lecID, dateTime);
+				completedLectureIDs.add(lecID);
 			}
 			
-			if(rs.next()){
-				int lecID = rs.getInt(1);
-				String date = rs.getString(2);
-				String time = rs.getString(3);
-
-				lastTwolectures.put(lecID, stringToCalender(date, time));
-				lastTwoCompletedLectureIDs.add(lecID);
-			}
-							
-			course.setLastTwoCompletedLectures(lastTwolectures);
-			course.setLastTwoCompletedLectureIDs(lastTwoCompletedLectureIDs);
+			
+			course.setCompletedLectureIDs(completedLectureIDs);;
+			course.setCompletedLecturesIDDate(completedLecturesIDDate);
+			
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
 		}
@@ -367,7 +363,7 @@ public class DBController {
 		
 	}
 
-	private GregorianCalendar stringToCalender(String date, String time){
+	/*private GregorianCalendar stringToCalender(String date, String time){
 		// helper function that converts SQL strings of date and time to Gregorian Calendar objects
 		
 		// date format: "YYYY-MM-DD"
@@ -386,17 +382,20 @@ public class DBController {
 		
 		return calendar;
 		
-	}
-	
-	
+	}*/
+		
 	// Lecture info
 
 	public void loadLectureInfo(Lecture lecture) {
 		connect();
 
+		// date format: "YYYY-MM-DD"
+		// time format: "hh:mm:ss"
+		// dateTime format: "YYYY-MM-DD#hh:mm:ss"
+		
 		try {
 			stmt = conn.createStatement();
-
+			
 			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
 					+ lecture.getLectureID() + ";";
 			// System.out.println(query);
@@ -407,7 +406,12 @@ public class DBController {
 			rs.next();
 			String date = rs.getString(1);
 			String time = rs.getString(2);
-			lecture.setLectureDateAndTime(stringToCalendar(date, time));
+			ArrayList<String> dateTime = new ArrayList<String>();
+			dateTime.add(date);
+			dateTime.add(time);
+			
+			
+			lecture.setLectureDateAndTime(dateTime);;
 			lecture.setCourseCode(rs.getString(3));
 			lecture.setProfessor(rs.getString(4));			
 			
@@ -623,7 +627,7 @@ public class DBController {
 
 	}
 	
-	private GregorianCalendar stringToCalendar(String date, String time) {
+	/*private GregorianCalendar stringToCalendar(String date, String time) {
 		// date format: "YYYY-MM-DD"
 				// time format: "hh:mm:ss"
 				String[] dateSplit = date.split("-");
@@ -639,7 +643,7 @@ public class DBController {
 				GregorianCalendar calendar = new GregorianCalendar(YYYY, MM, DD, hh, mm, ss);
 				
 				return calendar;
-	}
+	}*/
 
 	// Professor info
 	public void loadProfessorInfo(Professor prof) {
@@ -1081,7 +1085,6 @@ public class DBController {
 		close();
 		return hasNext;
 	}
-	
 	
 	//Main for testing
 	public static void main(String[] args) throws ParseException {
