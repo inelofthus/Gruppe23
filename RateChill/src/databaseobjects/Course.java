@@ -76,7 +76,7 @@ public class Course extends DatabaseUser{
 	}
 	
 	public String getLectureTime(int lecID){
-		return completedLecturesIDDate.get(lecID).get(0);
+		return completedLecturesIDDate.get(lecID).get(1);
 	}
 	
 	public String getLectureDate(int lecID){
