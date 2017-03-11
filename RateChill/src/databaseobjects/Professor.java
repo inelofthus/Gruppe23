@@ -43,8 +43,13 @@ public class Professor extends DatabaseUser {
 		// Order is with the newest lecture first
 		ArrayList<Integer> lastTwoCompleteLectures = new ArrayList<>();
 		ArrayList<Integer> allCompletedLectures = DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);
-		lastTwoCompleteLectures.add(allCompletedLectures.get(0));
-		lastTwoCompleteLectures.add(allCompletedLectures.get(1));
+		
+		if(allCompletedLectures.size() ==1)
+			lastTwoCompleteLectures.add(allCompletedLectures.get(0));
+		else if(allCompletedLectures.size() >= 2){
+			lastTwoCompleteLectures.add(allCompletedLectures.get(0));
+			lastTwoCompleteLectures.add(allCompletedLectures.get(1));
+		}
 		
 		return lastTwoCompleteLectures;
 	}
