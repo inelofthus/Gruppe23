@@ -90,7 +90,11 @@ public class DummyDBController extends DBController{
 		
 		Evaluation eval = new Evaluation("Ok", "yeah it was ok", 1, "karimj@stud.ntnu.no");
 		lecture.setEvaluations(new ArrayList<>(Arrays.asList(eval)));
+		lecture.setPerfectEvaluations(new ArrayList<>());
 		lecture.setOkEvaluations(new ArrayList<>(Arrays.asList(eval)));
+		lecture.setTooFastEvaluations(new ArrayList<>());
+		lecture.setTooSlowEvaluations(new ArrayList<>());
+		lecture.setConfusedEvaluations(new ArrayList<>());
 		
 	}
 
@@ -154,7 +158,7 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public ArrayList<Integer> getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername) {
-		return null;
+		return new ArrayList<>(Arrays.asList(1));
 	}
 
 	@Override
