@@ -8,12 +8,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.evaluationProfController">
    <children>
       <Text fx:id="debugText" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <BarChart fx:id="barchart" layoutY="73.0" legendVisible="false" prefHeight="295.0" prefWidth="453.0" title="Overview">
+      <BarChart fx:id="barchart" layoutY="65.0" legendVisible="false" prefHeight="295.0" prefWidth="453.0" title="Overview">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -32,5 +33,30 @@
       <Button fx:id="home" layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
       <Button fx:id="logout" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
       <Button fx:id="back" layoutX="302.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+      <Button fx:id="seeOkComments" disable="true" layoutX="123.0" layoutY="360.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="68.0" text="See comm." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="seePerfectComments" disable="true" layoutX="44.0" layoutY="360.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="68.0" text="See comm." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="seeFastComments" disable="true" layoutX="202.0" layoutY="360.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="68.0" text="See comm." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="seeSlowComments" disable="true" layoutX="281.0" layoutY="360.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="68.0" text="See comm." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="seeConfusedComments" disable="true" layoutX="361.0" layoutY="360.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="68.0" text="See comm." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
