@@ -26,28 +26,14 @@ public class evaluationProfController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public Button perfect;
-	public Button ok;
-	public Button tooFast;
-	public Button tooSlow;
-	public Button confused;
-	public Button perfectNumber;
-	public Button okNumber;
-	public Button tooFastNumber;
-	public Button tooSlowNumber;
-	public Button confusedNumber;
-	public Button seePerfectComments;
-	public Button seeOkComments;
-	public Button seeFastComments;
-	public Button seeSlowComments;
-	public Button seeConfusedComments;
+	public Button seeComments;
 	public Text debugText;
 	public Text submitted;
 	public Text overwriteText;
 	public Button home;
 	public Button back;
 	public Button logout;
-	public Button exit;
+
 	
 	
 	@FXML
@@ -86,32 +72,17 @@ public class evaluationProfController implements Initializable {
 		}
 	}
 	
+	
+	//needs a fix
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
 		
 		
-		if (event.getSource() == seePerfectComments){
-			loadNextScene(seePerfectComments, stage, "commentPage.fxml");
+		if (event.getSource() == seeComments){
+			loadNextScene(seeComments, stage, "commentPage.fxml");
 		}
-		
-		else if (event.getSource() == seeOkComments) {
-			loadNextScene(seeOkComments, stage, "commentPage.fxml");
-		}
-		
-		else if (event.getSource() == seeFastComments) {
-			loadNextScene(seeFastComments, stage, "commentPage.fxml");
-		}
-		
-		else if (event.getSource() == seeSlowComments) {
-			loadNextScene(seeSlowComments, stage, "commentPage.fxml");
-		}
-		
-		else if (event.getSource() == seeConfusedComments) {
-			loadNextScene(seeConfusedComments, stage, "commentPage.fxml");
-		}
-		
 	}
 	
 	
