@@ -106,6 +106,7 @@ public class evaluationStudController implements Initializable {
 			//checks if something is selected and gives error message
 			if (!(tooSlow.isSelected() || confusing.isSelected() || toofast.isSelected() || ok.isSelected()
 					|| perfect.isSelected())) {
+				overwriteText.setText("");
 				submitted.setText("");
 				debugText.setText("Choose a rating");
 				return;

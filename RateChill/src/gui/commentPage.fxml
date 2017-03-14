@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.commentPageController">
+   <children>
+      <Text fx:id="debugText" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="455.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RateChillLogo.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <Button fx:id="home" disable="true" layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
+      <Button fx:id="logout" disable="true" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
+      <Button fx:id="back" disable="true" layoutX="302.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+      <ToggleButton fx:id="seeOkComments" accessibleRole="TOGGLE_BUTTON" disable="true" layoutX="99.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Ok comments" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </ToggleButton>
+      <ToggleButton fx:id="seePerfectComments" accessibleRole="TOGGLE_BUTTON" disable="true" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Perfect comments" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </ToggleButton>
+      <ToggleButton fx:id="seeFastComments" accessibleRole="TOGGLE_BUTTON" disable="true" layoutX="185.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Too fast comments" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </ToggleButton>
+      <ToggleButton fx:id="seeSlowComments" accessibleRole="TOGGLE_BUTTON" disable="true" layoutX="270.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Too slow comments" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </ToggleButton>
+      <ToggleButton fx:id="seeConfusedComments" accessibleRole="TOGGLE_BUTTON" disable="true" layoutX="355.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Confused comments" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </ToggleButton>
+      <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="70.0" prefHeight="275.0" prefWidth="422.0">
+        <content>
+          <AnchorPane fx:id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="354.0" />
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
