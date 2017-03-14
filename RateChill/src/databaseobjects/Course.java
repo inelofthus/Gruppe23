@@ -24,7 +24,7 @@ public class Course extends DatabaseUser{
 	}
 	
 	//Constructor2 ONLY FOR USE WITH TESTING
-		public Course(String courseCode, DBController newDBC) {
+	public Course(String courseCode, DBController newDBC) {
 			this.courseCode = courseCode;
 			switchDBC(newDBC);
 			DBC.loadCourseInfo(this);
@@ -96,6 +96,20 @@ public class Course extends DatabaseUser{
 		}
 		
 		return lastTwoHashMap;
+	}
+	
+	public String getCurrentSemester(){
+		String date = getLectureDate(completedLectureIDs.get(0));
+		String[] dateSplit = date.split("-");
+		String year = dateSplit[0];
+		String month = dateSplit[1];
+		char semester = 'H';
+		
+		if(Integer.valueOf(month) < 7){
+			semester = 'V';
+		}
+		
+		return semester + year;
 	}
 	
 	//Setters
