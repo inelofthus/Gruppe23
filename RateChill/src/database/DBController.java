@@ -193,7 +193,7 @@ public class DBController {
 
 	public Course loadCourseInfo(Course course) {
 		// This method takes in a Course object with a specific courseCode. It
-		// collects all the information about this course and fills in the rest
+		// collects all the information about this course for the newest semester and fills in the rest
 		// of the course details. Finally It will return the loaded course object.
 		
 		connect();
@@ -214,6 +214,87 @@ public class DBController {
 		return course;
 	}
 	
+	public Course loadCourseInfoForSemester(Course course, String semester) {
+		// This method takes in a Course object with a specific courseCode and semester. It
+		// collects all the information about this course and fills in the rest
+		// of the course details. Finally It will return the loaded course object.
+		
+		connect();
+		
+		try {
+			stmt = conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			setCourseNameLocationAndLecHours(course);
+			setProfessorIDsForCourse(course);
+			setLectureIDsForCourse(course);
+			setCompletedLecturesForCourse(course, semester); 		
+		
+		close();
+		
+		
+		return course;
+	}
+	
+	private void setCompletedLecturesForCourse(Course course, String semester) {
+		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
+		
+		char season = semester.charAt(0);
+		String year = semester.substring(1);
+		
+		try {
+					
+					ArrayList<Integer> completedLectureIDs = new ArrayList<>();
+					LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
+					
+					StringBuilder sb = new StringBuilder();
+					
+					if(season == 'V'){
+						sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
+						" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) < 7) AND ( YEAR(l.lectureDate) = ")
+						.append(year).append( ") ORDER BY lectureDate DESC, lectureTime DESC;");
+					
+					}else{
+						sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
+						" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) > 7) AND ( YEAR(l.lectureDate) = ")
+						.append(year).append( ") ORDER BY lectureDate DESC, lectureTime DESC;");
+					}
+					
+
+					
+					String query4 = sb.toString();			
+					System.out.println(query4);
+					
+					
+					if (stmt.execute(query4)) {
+						rs = stmt.getResultSet();
+					}
+
+					while(rs.next()){
+						int lecID = rs.getInt(1);
+						String date = rs.getString(2);
+						String time = rs.getString(3);
+						ArrayList<String> dateTime = new ArrayList<String>();
+						dateTime.add(date);
+						dateTime.add(time);
+
+						completedLecturesIDDate.put(lecID, dateTime);
+						completedLectureIDs.add(lecID);
+					}
+					
+					
+					course.setCompletedLectureIDs(completedLectureIDs);;
+					course.setCompletedLecturesIDDate(completedLecturesIDDate);
+					
+				} catch (Exception e) {
+					System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
+				}
+				
+			
+		
+	}
+
 	private void setCompletedLecturesForCourse(Course course) {
 			// This creates the list and linked Hash map with the last 2 completed lectures and their dates and sets the result in the course object
 		try {
@@ -977,7 +1058,7 @@ public class DBController {
 	//Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
-		test.connect();
+		
 		// test.insertCourse("tdt4145", "Datamodellering og
 		// databaser","Trondheim", 4);
 		// test.insertCourse("tdt4180", "Menneske-maskin
@@ -997,224 +1078,23 @@ public class DBController {
 		 
 		 //test.deleteStudent("bolle@stud.ntnu.no");
 		 
-		
-		test.insertStudent("stud14", "MLREAL");
-		test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
-		test.insertStudent("stud15", "MLREAL");
-		test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
-
-		
-		
-		
-			
-		
-//		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-//		dateFormat2.setTimeZone(gc.getTimeZone());
-//		System.out.println(dateFormat2.format(gc.getTime()));
 //		
-//		System.out.println(test.calendarToStringDateTime(gc));
-		 
-	
-		
-		
+//		test.insertStudent("stud14", "MLREAL");
+//		test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
+//		test.insertStudent("stud15", "MLREAL");
+//		test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
 		
 //		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 		
-		test.close();
+		test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
+		
 		
 	}
 
 	
 
 	
-	///////////////END OF USEFUL CODE ////////////////////////////////7
-	
-/*	//Old Load Functions:
-	
-	public ArrayList<String> getStudentCourses(String studentEmail) {
-		ArrayList<String> studentCourses = new ArrayList<>();
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseCode FROM CourseStudent WHERE studentEmail = '" + studentEmail + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				studentCourses.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return studentCourses;
-	}
-	
-	public String getStudyProgram(String studentEmail) {
-		String studyProgram = "";
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + studentEmail + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			studyProgram = rs.getString(1);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return studyProgram;
-	}
-	
-	
-	public ArrayList<String> getCourseNameAndLocation(String courseCode) {
-
-		connect();
-		ArrayList<String> result = new ArrayList<>();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseName, courseLocation FROM Course WHERE courseCode = " + "'" + courseCode
-					+ "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				result.add(rs.getString(1));
-				result.add(rs.getString(2));
-
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return result;
-	}
-
-	public int getLectureHoursForCourse(String courseCode) {
-		connect();
-		int hours = 0;
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureHours FROM Course WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			hours = rs.getInt(1);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		// System.out.println(hours);
-		return hours;
-
-	}
-	
-	public ArrayList<String> getProfessorsForCourse(String courseCode) {
-
-		connect();
-
-		ArrayList<String> professor = new ArrayList<>();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				professor.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		// System.out.println(professor);
-		return professor;
-	}
-	
-	public ArrayList<String> getLecturesForCourse(String courseCode) {
-		ArrayList<String> lectures = new ArrayList<>();
-
-		connect();
-
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				lectures.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return lectures;
-	}
-	
-	*/
-	
-	/*	public ArrayList<String> getLectureDateTimeCourseCodeAndProfessor(int lectureID) {
-	connect();
-
-	ArrayList<String> dateTimeAndCourseCode = new ArrayList<>();
-
-	try {
-		stmt = conn.createStatement();
-
-		String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
-				+ lectureID + ";";
-		// System.out.println(query);
-		if (stmt.execute(query)) {
-			rs = stmt.getResultSet();
-		}
-
-		rs.next();
-		dateTimeAndCourseCode.add(rs.getString(1));
-		dateTimeAndCourseCode.add(rs.getString(2));
-		dateTimeAndCourseCode.add(rs.getString(3));
-		dateTimeAndCourseCode.add(rs.getString(4));
-
-	} catch (Exception e) {
-		System.out.println("SQLException: " + e.getMessage());
-	}
-
-	close();
-	return dateTimeAndCourseCode;
-
-} */
-
+	///////////////END OF USEFUL CODE ////////////////////////////////
 
 	
 	}

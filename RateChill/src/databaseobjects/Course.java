@@ -15,12 +15,23 @@ public class Course extends DatabaseUser{
 	private ArrayList<Integer> lectureIDs;
 	private ArrayList<Integer> completedLectureIDs;
 	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate;
+	private String semester;
 	
+
 
 	//Constructor1
 	public Course(String courseCode) {
+		// loads a course object with the newest semester
 		this.courseCode = courseCode;
 		DBC.loadCourseInfo(this);
+		this.semester = getCurrentSemester();
+	}
+	
+	public Course(String courseCode, String semester) {
+		// loads a course object with the newest semester
+		this.courseCode = courseCode;
+		this.semester = semester;
+		DBC.loadCourseInfoForSemester(this, semester);
 	}
 	
 	//Constructor2 ONLY FOR USE WITH TESTING
@@ -28,6 +39,7 @@ public class Course extends DatabaseUser{
 			this.courseCode = courseCode;
 			switchDBC(newDBC);
 			DBC.loadCourseInfo(this);
+			this.semester = getCurrentSemester();
 		}
 		
 	public boolean existsInDB(){
@@ -35,6 +47,11 @@ public class Course extends DatabaseUser{
 	}
 	
 	//Getters
+	
+	public String getSemester() {
+		return semester;
+	}
+
 	
 	public ArrayList<Integer> getCompletedLectureIDs() {
 		return completedLectureIDs;
@@ -80,7 +97,12 @@ public class Course extends DatabaseUser{
 	}
 	
 	public String getLectureDate(int lecID){
-		return completedLecturesIDDate.get(lecID).get(0);	
+		if(completedLectureIDs.contains(lecID))	{
+			return completedLecturesIDDate.get(lecID).get(0);	
+		}
+		
+		return null;
+		
 	}
 	
 	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoCompletedLectures() {
@@ -89,27 +111,37 @@ public class Course extends DatabaseUser{
 		int id;
 		ArrayList<String> dateTime;
 		
-		for (int i = 0; i<2; i++){
+		if(completedLectureIDs.size() >= 2){
+			for (int i = 0; i<2; i++){
 			id = completedLectureIDs.get(i);
 			dateTime = completedLecturesIDDate.get(id);
 			lastTwoHashMap.put(id, dateTime);	
 		}
+		}else if(completedLectureIDs.size() == 1){
+			id = completedLectureIDs.get(0);
+			dateTime = completedLecturesIDDate.get(id);
+			lastTwoHashMap.put(id, dateTime);	
+		}
+		
+		
 		
 		return lastTwoHashMap;
 	}
 	
-	public String getCurrentSemester(){
-		String date = getLectureDate(completedLectureIDs.get(0));
-		String[] dateSplit = date.split("-");
-		String year = dateSplit[0];
-		String month = dateSplit[1];
-		char semester = 'H';
+	private String getCurrentSemester(){
 		
-		if(Integer.valueOf(month) < 7){
-			semester = 'V';
-		}
+			String date = getLectureDate(completedLectureIDs.get(0));
+			String[] dateSplit = date.split("-");
+			String year = dateSplit[0];
+			String month = dateSplit[1];
+			char semester = 'H';
+			
+			if(Integer.valueOf(month) < 7){
+				semester = 'V';
+			}
+			
+			return semester + year;
 		
-		return semester + year;
 	}
 	
 	//Setters

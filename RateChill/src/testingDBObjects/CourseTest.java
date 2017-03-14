@@ -119,5 +119,13 @@ public class CourseTest {
 		assertEquals(expected, actual);
 	}
 	
+	@Test
+	public void  TestgetSemester() {
+		String actual = course.getSemester();
+		String expected = "V2017";
+		
+		assertEquals(expected, actual);
+	}
+	
 	
 }
