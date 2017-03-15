@@ -22,5 +22,4 @@ public class main extends Application {
 		primaryStage.show();
 		
 	}
-	
 }
