@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -306,13 +307,16 @@ public class DBController {
 
 			ArrayList<Integer> completedLectureIDs = new ArrayList<>();
 			LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
+			int year = Calendar.getInstance().get(Calendar.YEAR);
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '")
 					.append(course.getCourseCode()).append("' ")
-					.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
+					.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now()))")
+					.append(" AND  YEAR(lectureDate) = ").append(year).append(" ORDER BY lectureDate DESC, lectureTime DESC;");
 
 			String query4 = sb.toString();
+			System.out.println(query4);
 
 			if (stmt.execute(query4)) {
 				rs = stmt.getResultSet();
