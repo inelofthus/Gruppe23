@@ -40,12 +40,13 @@ public class commentPageController implements Initializable {
 	public ScrollPane scrollPane;
 	public AnchorPane anchor;
 	public VBox vBox;
-    public TextField textField;
+    //public TextField textField = new TextField();
 	
     Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
 	
 	private Lecture lecture = new Lecture(lectureID);
 	//ArrayList evaluations = lec.getEvaluations();
+	//public ArrayList<String> currEval = selectedButtons();
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -79,37 +80,36 @@ public class commentPageController implements Initializable {
 		return false;
 	}
 	
-	/*@SuppressWarnings("null")
-	private ArrayList<String> selectedButtons() {
+	/*public ArrayList<String> selectedButtons() {
 		ArrayList<String> currentEvaluations = null;
 		if (seePerfectComments.isSelected()){
-			ArrayList<Evaluation> perfEvaluations = mainController.getInstance().getLecture().getPerfectEvaluations();
-			for (int i=0;i<perfEvaluations.size();i++) {
-				currentEvaluations.add(perfEvaluations.get(i).getComment());
+			ArrayList<Evaluation> perfEvaluations = lecture.getPerfectEvaluations();
+			for (Evaluation eval:perfEvaluations) {
+				currentEvaluations.add(eval.getComment());
 			} 
 		}
 		if (seeOkComments.isSelected()){
-			ArrayList<Evaluation> okEvaluations = mainController.getInstance().getLecture().getOkEvaluations();
-			for (int i=0;i<okEvaluations.size();i++) {
-				currentEvaluations.add(okEvaluations.get(i).getComment());
+			ArrayList<Evaluation> okEvaluations = lecture.getOkEvaluations();
+			for (Evaluation eval:okEvaluations) {
+				currentEvaluations.add(eval.getComment());
 			}
 		}
 		if (seeFastComments.isSelected()){
-			ArrayList<Evaluation> fastEvaluations = mainController.getInstance().getLecture().getTooFastEvaluations();
-			for (int i=0;i<fastEvaluations.size();i++) {
-				currentEvaluations.add(fastEvaluations.get(i).getComment());
+			ArrayList<Evaluation> fastEvaluations = lecture.getTooFastEvaluations();
+			for (Evaluation eval:fastEvaluations) {
+				currentEvaluations.add(eval.getComment());
 			}
 		}
 		if (seeSlowComments.isSelected()){
-			ArrayList<Evaluation> slowEvaluations = mainController.getInstance().getLecture().getTooSlowEvaluations();
-			for (int i=0;i<slowEvaluations.size();i++) {
-				currentEvaluations.add(slowEvaluations.get(i).getComment());
+			ArrayList<Evaluation> slowEvaluations = lecture.getTooSlowEvaluations();
+			for (Evaluation eval:slowEvaluations) {
+				currentEvaluations.add(eval.getComment());
 			}
 		}
 		if (seeConfusedComments.isSelected()){
-			ArrayList<Evaluation> confusedEvaluations = mainController.getInstance().getLecture().getConfusedEvaluations();
-			for (int i=0;i<confusedEvaluations.size();i++) {
-				currentEvaluations.add(confusedEvaluations.get(i).getComment());
+			ArrayList<Evaluation> confusedEvaluations = lecture.getConfusedEvaluations();
+			for (Evaluation eval:confusedEvaluations) {
+				currentEvaluations.add(eval.getComment());
 			}
 		}
 		return currentEvaluations;
@@ -123,15 +123,20 @@ public class commentPageController implements Initializable {
 			userButtons(event, stage);
 			return;
 		}
-		/*ArrayList<String> currEval = selectedButtons();
-		ArrayList<Label> labels = new ArrayList<Label>();
-		for (int i = 0;i<currEval.size();i++) {
+		/*ArrayList<Label> labels = new ArrayList<Label>();
+		for (String string:currEval) {
 			Label label = new Label();
-			label.setText(currEval.get(i));
+			label.setText(string);
 			labels.add(label);
 		}
 		for (Label label:labels) {
-			textField.appendText(label.getText());
+			vBox.getChildren().add(label);
+		}
+		anchor.getChildren().setAll(vBox);
+		*/
+		
+		/*for (String string:currEval) {
+			textField.appendText(string+ "/n");
 		}
 		vBox.getChildren().setAll(textField);
 		
@@ -147,21 +152,17 @@ public class commentPageController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		
-	    /*textField.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
-		textField.setEditable(false);
-		ArrayList<String> currEval = selectedButtons();
-		ArrayList<Label> labels = new ArrayList<Label>();
-		for (int i = 0;i<currEval.size();i++) {
-			Label label = new Label();
-			label.setText(currEval.get(i));
-			labels.add(label);
-		}
-		for (Label label:labels) {
-			textField.appendText(label.getText());
-		}
-	    vBox.getChildren().setAll(textField);
-	    anchor.getChildren().setAll(vBox);
-		scrollPane.setContent(anchor);*/
+		//vBox.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
+	    
+		
+		//textField.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
+		//textField.setEditable(false);
+		/*for (String string:currEval) {
+			textField.appendText(string + "/n");
+		}*/
+		//anchor.getChildren().setAll(textField);
+	    //anchor.getChildren().setAll(vBox);
+		//scrollPane.setContent(anchor);
 		
 		
 		
