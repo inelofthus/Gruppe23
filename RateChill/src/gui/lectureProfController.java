@@ -27,6 +27,7 @@ public class lectureProfController implements Initializable {
 	@FXML
 	public Button lecture1;
 	public Button lecture2;
+	public Button allLectures;
 	public Button home;
 	public Button logout;
 	public Button exit;
@@ -76,6 +77,11 @@ public class lectureProfController implements Initializable {
 	    else if(event.getSource() == lecture2 && numberOfLectures > 1){
 	    	mainController.getInstance().setChosenProfessorLecture(getKeyLec2());
 	    	loadNextScene(lecture2, stage, "individualCharts.fxml");
+	    }
+		
+	    else if(event.getSource() == allLectures){
+	    	System.out.println("Button pressed");
+	    	loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
 	    }
 	} 
 	   
