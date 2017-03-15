@@ -14,13 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class commentPageController implements Initializable {
@@ -32,10 +31,7 @@ public class commentPageController implements Initializable {
 	public ToggleButton seeFastComments;
 	public ToggleButton seeSlowComments;
 	public ToggleButton seeConfusedComments;
-	public ToggleGroup commentToggle;
-	public Text debugText;
-	public Text submitted;
-	public Text overwriteText;
+	@FXML
 	public Button home;
 	public Button back;
 	public Button logout;
@@ -43,9 +39,10 @@ public class commentPageController implements Initializable {
 	@FXML
 	public ScrollPane scrollPane;
 	public AnchorPane anchor;
-	public TextField textField;
+	public VBox vBox;
+    public TextField textField;
 	
-	Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
+    Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
 	
 	private Lecture lecture = new Lecture(lectureID);
 	//ArrayList evaluations = lec.getEvaluations();
@@ -68,13 +65,21 @@ public class commentPageController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
+			loadNextScene(back, stage, "individualCharts.fxml");
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
 		}
 	}
 	
+	public boolean isUserButtonPushed(ActionEvent event) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
+			return true;
+		}
+		return false;
+	}
+	
+	/*@SuppressWarnings("null")
 	private ArrayList<String> selectedButtons() {
 		ArrayList<String> currentEvaluations = null;
 		if (seePerfectComments.isSelected()){
@@ -108,19 +113,31 @@ public class commentPageController implements Initializable {
 			}
 		}
 		return currentEvaluations;
-	}
+	}*/
 	
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
-		userButtons(event, stage);
-		
-		ArrayList<String> show = selectedButtons();
-		for (int i=0;i<show.size(); i++) {
-			textField.setText(show.get(i));
+		if (isUserButtonPushed(event)) {
+			userButtons(event, stage);
+			return;
 		}
+		/*ArrayList<String> currEval = selectedButtons();
+		ArrayList<Label> labels = new ArrayList<Label>();
+		for (int i = 0;i<currEval.size();i++) {
+			Label label = new Label();
+			label.setText(currEval.get(i));
+			labels.add(label);
+		}
+		for (Label label:labels) {
+			textField.appendText(label.getText());
+		}
+		vBox.getChildren().setAll(textField);
 		
+	    anchor.getChildren().setAll(vBox);
+		scrollPane.setContent(anchor);
+		return;*/
 	}
 	
 	
@@ -130,12 +147,21 @@ public class commentPageController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		
-		VBox vBox = new VBox();
-	    TextField textField = new TextField();
-	    textField.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
-		vBox.getChildren().setAll(textField);
+	    /*textField.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
+		textField.setEditable(false);
+		ArrayList<String> currEval = selectedButtons();
+		ArrayList<Label> labels = new ArrayList<Label>();
+		for (int i = 0;i<currEval.size();i++) {
+			Label label = new Label();
+			label.setText(currEval.get(i));
+			labels.add(label);
+		}
+		for (Label label:labels) {
+			textField.appendText(label.getText());
+		}
+	    vBox.getChildren().setAll(textField);
 	    anchor.getChildren().setAll(vBox);
-		scrollPane.setContent(anchor);
+		scrollPane.setContent(anchor);*/
 		
 		
 		
