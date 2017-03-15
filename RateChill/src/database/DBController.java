@@ -55,7 +55,8 @@ public class DBController {
 
 	// Frequently used SQL methods
 	public ArrayList<String> getStringArray(String query) {
-		//takes an SQL query as input. Returns a string that contains all data from first column of table
+		// takes an SQL query as input. Returns a string that contains all data
+		// from first column of table
 		connect();
 
 		ArrayList<String> list = new ArrayList<>();
@@ -80,7 +81,8 @@ public class DBController {
 	}
 
 	public ArrayList<Integer> getIntArray(String query) {
-		// takes an sqlQuery as input and returns a list containing the String elements of the first column
+		// takes an sqlQuery as input and returns a list containing the String
+		// elements of the first column
 		connect();
 
 		ArrayList<Integer> list = new ArrayList<>();
@@ -105,8 +107,9 @@ public class DBController {
 	}
 
 	public int getInt(String query) {
-		// takes an sqlQuery as input and returns a list containing the int elements of the first column
-				
+		// takes an sqlQuery as input and returns a list containing the int
+		// elements of the first column
+
 		int ans = 0;
 		connect();
 
@@ -153,9 +156,9 @@ public class DBController {
 		close();
 
 	}
-	
+
 	public boolean courseExists(String courseCode) {
-		//Checks in the database if a course with given courseCode exists.
+		// Checks in the database if a course with given courseCode exists.
 		connect();
 		boolean hasNext = false;
 		try {
@@ -175,11 +178,11 @@ public class DBController {
 		close();
 		return hasNext;
 	}
-	
-	public void deleteCourse(String courseCode){
+
+	public void deleteCourse(String courseCode) {
 		connect();
 		try {
-			String query = "DELETE FROM Course WHERE courseCode='" + courseCode +"'";
+			String query = "DELETE FROM Course WHERE courseCode='" + courseCode + "'";
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -188,132 +191,93 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		close();
-		
+
 	}
 
 	public Course loadCourseInfo(Course course) {
 		// This method takes in a Course object with a specific courseCode. It
-		// collects all the information about this course for the newest semester and fills in the rest
-		// of the course details. Finally It will return the loaded course object.
-		
+		// collects all the information about this course for the newest
+		// semester and fills in the rest
+		// of the course details. Finally It will return the loaded course
+		// object.
+
 		connect();
-		
+
 		try {
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			setCourseNameLocationAndLecHours(course);
-			setProfessorIDsForCourse(course);
-			setLectureIDsForCourse(course);
-			setCompletedLecturesForCourse(course); 		
-		
+		setCourseNameLocationAndLecHours(course);
+		setProfessorIDsForCourse(course);
+		setLectureIDsForCourse(course);
+		setCompletedLecturesForCourse(course);
+
 		close();
-		
-		
+
 		return course;
 	}
-	
+
 	public Course loadCourseInfoForSemester(Course course, String semester) {
-		// This method takes in a Course object with a specific courseCode and semester. It
+		// This method takes in a Course object with a specific courseCode and
+		// semester. It
 		// collects all the information about this course and fills in the rest
-		// of the course details. Finally It will return the loaded course object.
-		
+		// of the course details. Finally It will return the loaded course
+		// object.
+
 		connect();
-		
+
 		try {
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			setCourseNameLocationAndLecHours(course);
-			setProfessorIDsForCourse(course);
-			setLectureIDsForCourse(course);
-			setCompletedLecturesForCourse(course, semester); 		
-		
+		setCourseNameLocationAndLecHours(course);
+		setProfessorIDsForCourse(course);
+		setLectureIDsForCourse(course);
+		setCompletedLecturesForCourse(course, semester);
+
 		close();
-		
-		
+
 		return course;
 	}
-	
+
 	private void setCompletedLecturesForCourse(Course course, String semester) {
-		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
-		
+		// This creates the list and linked Hash map with the completed lectures
+		// in a given semester and their dates and sets the result in the course
+		// object
+
 		char season = semester.charAt(0);
 		String year = semester.substring(1);
-		
+
 		try {
-					
-					ArrayList<Integer> completedLectureIDs = new ArrayList<>();
-					LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
-					
-					StringBuilder sb = new StringBuilder();
-					
-					if(season == 'V'){
-						sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
-						" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) < 7) AND ( YEAR(l.lectureDate) = ")
-						.append(year).append( ") ORDER BY lectureDate DESC, lectureTime DESC;");
-					
-					}else{
-						sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
-						" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) > 7) AND ( YEAR(l.lectureDate) = ")
-						.append(year).append( ") ORDER BY lectureDate DESC, lectureTime DESC;");
-					}
-					
 
-					
-					String query4 = sb.toString();			
-					System.out.println(query4);
-					
-					
-					if (stmt.execute(query4)) {
-						rs = stmt.getResultSet();
-					}
-
-					while(rs.next()){
-						int lecID = rs.getInt(1);
-						String date = rs.getString(2);
-						String time = rs.getString(3);
-						ArrayList<String> dateTime = new ArrayList<String>();
-						dateTime.add(date);
-						dateTime.add(time);
-
-						completedLecturesIDDate.put(lecID, dateTime);
-						completedLectureIDs.add(lecID);
-					}
-					
-					
-					course.setCompletedLectureIDs(completedLectureIDs);;
-					course.setCompletedLecturesIDDate(completedLecturesIDDate);
-					
-				} catch (Exception e) {
-					System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
-				}
-				
-			
-		
-	}
-
-	private void setCompletedLecturesForCourse(Course course) {
-			// This creates the list and linked Hash map with the last 2 completed lectures and their dates and sets the result in the course object
-		try {
-			
 			ArrayList<Integer> completedLectureIDs = new ArrayList<>();
 			LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '").append(course.getCourseCode()).append("' ").append(
-					" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
 
-			
-			String query4 = sb.toString();			
-			
+			StringBuilder sb = new StringBuilder();
+
+			if (season == 'V') {
+				sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '")
+						.append(course.getCourseCode()).append("' ")
+						.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) < 7) AND ( YEAR(l.lectureDate) = ")
+						.append(year).append(") ORDER BY lectureDate DESC, lectureTime DESC;");
+
+			} else {
+				sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '")
+						.append(course.getCourseCode()).append("' ")
+						.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(l.lectureDate) > 7) AND ( YEAR(l.lectureDate) = ")
+						.append(year).append(") ORDER BY lectureDate DESC, lectureTime DESC;");
+			}
+
+			String query4 = sb.toString();
+			System.out.println(query4);
+
 			if (stmt.execute(query4)) {
 				rs = stmt.getResultSet();
 			}
 
-			while(rs.next()){
+			while (rs.next()) {
 				int lecID = rs.getInt(1);
 				String date = rs.getString(2);
 				String time = rs.getString(3);
@@ -324,75 +288,117 @@ public class DBController {
 				completedLecturesIDDate.put(lecID, dateTime);
 				completedLectureIDs.add(lecID);
 			}
-			
-			
-			course.setCompletedLectureIDs(completedLectureIDs);;
+
+			course.setCompletedLectureIDs(completedLectureIDs);
+			;
 			course.setCompletedLecturesIDDate(completedLecturesIDDate);
-			
+
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
 		}
-		
+
+	}
+
+	private void setCompletedLecturesForCourse(Course course) {
+		// This creates the list and linked Hash map with the last 2 completed
+		// lectures and their dates and sets the result in the course object
+		try {
+
+			ArrayList<Integer> completedLectureIDs = new ArrayList<>();
+			LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '")
+					.append(course.getCourseCode()).append("' ")
+					.append(" AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) ORDER BY lectureDate DESC, lectureTime DESC;");
+
+			String query4 = sb.toString();
+
+			if (stmt.execute(query4)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				int lecID = rs.getInt(1);
+				String date = rs.getString(2);
+				String time = rs.getString(3);
+				ArrayList<String> dateTime = new ArrayList<String>();
+				dateTime.add(date);
+				dateTime.add(time);
+
+				completedLecturesIDDate.put(lecID, dateTime);
+				completedLectureIDs.add(lecID);
+			}
+
+			course.setCompletedLectureIDs(completedLectureIDs);
+			;
+			course.setCompletedLecturesIDDate(completedLecturesIDDate);
+
+		} catch (Exception e) {
+			System.out.println("error in helper function DBC.setLastTwoCompletedLecturesForCourse:" + e.getMessage());
+		}
+
 	}
 
 	private void setLectureIDsForCourse(Course course) {
-		// This retrieves a list of lectureIDs for the course and sets the results in the course object
-		
+		// This retrieves a list of lectureIDs for the course and sets the
+		// results in the course object
+
 		try {
 			ArrayList<Integer> lectures = new ArrayList<>();
-		
-		String query3 = "SELECT lectureID FROM Lecture WHERE courseCode = '" + course.getCourseCode() + "';";
-		if (stmt.execute(query3)) {
-			rs = stmt.getResultSet();
-		}
 
-		while (rs.next()) {
-			lectures.add(rs.getInt(1));
-		}
-		
-		course.setLectureIDs(lectures);
-		
+			String query3 = "SELECT lectureID FROM Lecture WHERE courseCode = '" + course.getCourseCode() + "';";
+			if (stmt.execute(query3)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				lectures.add(rs.getInt(1));
+			}
+
+			course.setLectureIDs(lectures);
+
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setLectureIDsForCourse:" + e.getMessage());
 		}
-		
-		
-		
+
 	}
 
 	private void setProfessorIDsForCourse(Course course) {
-		// This retrieves a list of all the professorIDs for this course and sets result in course object
+		// This retrieves a list of all the professorIDs for this course and
+		// sets result in course object
 		ArrayList<String> professor = new ArrayList<>();
 
 		try {
-			String query2 = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '" + course.getCourseCode()
-				+ "';";
-		if (stmt.execute(query2)) {
-			rs = stmt.getResultSet();
-		}
+			String query2 = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '"
+					+ course.getCourseCode() + "';";
+			if (stmt.execute(query2)) {
+				rs = stmt.getResultSet();
+			}
 
-		while (rs.next()) {
-			professor.add(rs.getString(1));
-		}
-		
+			while (rs.next()) {
+				professor.add(rs.getString(1));
+			}
+
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setProfessorIDsForCourse:" + e.getMessage());
 		}
-		
+
 		course.setProfessorUsernames(professor);
-				
+
 	}
 
 	private void setCourseNameLocationAndLecHours(Course course) {
-		//This sets courseName, location and number of lecture hours for this specific course and sets result in course object.
-		String query = "SELECT courseName, courseLocation, lectureHours  FROM Course WHERE courseCode = " + "'" + course.getCourseCode()
-				+ "';";
-		
+		// This sets courseName, location and number of lecture hours for this
+		// specific course and sets result in course object.
+		String query = "SELECT courseName, courseLocation, lectureHours  FROM Course WHERE courseCode = " + "'"
+				+ course.getCourseCode() + "';";
+
 		try {
-				if (stmt.execute(query)) {
+			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
-	
+
 			while (rs.next()) {
 				course.setCourseName(rs.getString(1));
 				course.setCourseLocation(rs.getString(2));
@@ -401,8 +407,7 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setCourseNameLocationAndLecHours:" + e.getMessage());
 		}
-		
-		
+
 	}
 
 	// Lecture info
@@ -413,10 +418,10 @@ public class DBController {
 		// date format: "YYYY-MM-DD"
 		// time format: "hh:mm:ss"
 		// dateTime format: "YYYY-MM-DD#hh:mm:ss"
-		
+
 		try {
 			stmt = conn.createStatement();
-			
+
 			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
 					+ lecture.getLectureID() + ";";
 			// System.out.println(query);
@@ -430,24 +435,23 @@ public class DBController {
 			ArrayList<String> dateTime = new ArrayList<String>();
 			dateTime.add(date);
 			dateTime.add(time);
-			
-			
-			lecture.setLectureDateAndTime(dateTime);;
+
+			lecture.setLectureDateAndTime(dateTime);
+			;
 			lecture.setCourseCode(rs.getString(3));
-			lecture.setProfessor(rs.getString(4));			
-			
+			lecture.setProfessor(rs.getString(4));
+
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-			
-			// hjelpemetode tar seg av å hente og legge til evaluations:
-			setEvaluationsForLecture(lecture);
-			
+
+		// hjelpemetode tar seg av å hente og legge til evaluations:
+		setEvaluationsForLecture(lecture);
 
 		close();
-		
+
 	}
-	
+
 	private void setEvaluationsForLecture(Lecture lecture) {
 
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
@@ -456,11 +460,11 @@ public class DBController {
 		ArrayList<Evaluation> TooFastEvaluations = new ArrayList<>();
 		ArrayList<Evaluation> TooSlowEvaluations = new ArrayList<>();
 		ArrayList<Evaluation> ConfusedEvaluations = new ArrayList<>();
-		
+
 		try {
-			
-			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = " + lecture.getLectureID()
-					+ ";";
+
+			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = "
+					+ lecture.getLectureID() + ";";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -472,24 +476,24 @@ public class DBController {
 				String studentComment = rs.getString(3);
 				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentEmail);
 				evaluations.add(eval);
-				
+
 				switch (rating) {
 				case "Perfect":
 					PerfectEvaluations.add(eval);
 					break;
-					
+
 				case "Ok":
-					OkEvaluations.add(eval);					
+					OkEvaluations.add(eval);
 					break;
-					
+
 				case "Too Fast!":
-					TooFastEvaluations.add(eval);					
+					TooFastEvaluations.add(eval);
 					break;
-					
+
 				case "Too Slow!":
 					TooSlowEvaluations.add(eval);
 					break;
-					
+
 				case "Confused.. ?":
 					ConfusedEvaluations.add(eval);
 					break;
@@ -510,7 +514,7 @@ public class DBController {
 		lecture.setTooFastEvaluations(TooFastEvaluations);
 		lecture.setTooSlowEvaluations(TooSlowEvaluations);
 		lecture.setConfusedEvaluations(ConfusedEvaluations);
-		
+
 	}
 
 	public void insertLecture(String date, String time, String courseCode, String professorUsername) {
@@ -530,43 +534,41 @@ public class DBController {
 		}
 		close();
 	}
-	
-	//Forutsetter at det kun er én lecture i
+
+	// Forutsetter at det kun er én lecture i
 	// et fag per dag per tidspunkt. Brukes midlertidig til testing
-	public int getLectureID(ArrayList<String> dateTime, String courseCode){
+	public int getLectureID(ArrayList<String> dateTime, String courseCode) {
 		connect();
 		int id = -1;
 		try {
 			stmt = conn.createStatement();
-			
+
 			String date = dateTime.get(0);
 			String time = dateTime.get(1);
-			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" 
-					+ courseCode + "' and lectureDate='" + date + 
-					 "' and lectureTime = '" + time + "';";
+			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode + "' and lectureDate='"
+					+ date + "' and lectureTime = '" + time + "';";
 			System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 			rs.next();
 			id = rs.getInt(1);
-			
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
-		
+
 		} finally {
 			close();
 		}
-		
+
 		return id;
 	}
-	
-	public void deleteLecture(int lectureID){
+
+	public void deleteLecture(int lectureID) {
 		connect();
 		try {
 
-			String query = "DELETE FROM Lecture WHERE lectureID='" + lectureID +"'";
+			String query = "DELETE FROM Lecture WHERE lectureID='" + lectureID + "'";
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -576,7 +578,7 @@ public class DBController {
 		}
 		close();
 	}
-	
+
 	public boolean lectureExists(int lectureID) {
 		connect();
 		boolean hasNext = false;
@@ -608,29 +610,28 @@ public class DBController {
 				.append(professorUsername).append("';");
 
 		String query = sb.toString();
-		
+
 		return query;
 
 	}
-	
-	
+
 	// Professor info
 	public void loadProfessorInfo(Professor prof) {
-		// Must retrieve and update the following info from DB: 
+		// Must retrieve and update the following info from DB:
 		// courseIDs = list of all courses that professor teaches
 		// courseIDNames = hashmap that maps courseIDs to corresponding names
-		
+
 		String username = prof.getUsername();
 		ArrayList<String> courseIDs = new ArrayList<>();
 		HashMap<String, String> courseIDNames = new HashMap<>();
-		
+
 		connect();
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '" + username
-					+ "';";
-			//System.out.println(query);
+			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '"
+					+ username + "';";
+			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -645,14 +646,14 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+
 		prof.setCourseIDs(courseIDs);
 		prof.setCourseIDNames(courseIDNames);
-		
+
 		close();
-		
+
 	}
-	
+
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername) {
 		ArrayList<String> courses = new ArrayList<>();
 
@@ -756,11 +757,11 @@ public class DBController {
 
 	}
 
-	public void deleteProfessor(String username){
+	public void deleteProfessor(String username) {
 		connect();
 		try {
 
-			String query = "DELETE FROM Professor WHERE professorUsername='" + username +"'";
+			String query = "DELETE FROM Professor WHERE professorUsername='" + username + "'";
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -770,21 +771,21 @@ public class DBController {
 		}
 		close();
 	}
-	
+
 	// Student info
-	
+
 	public void loadStudentInfo(Student student) {
-		// Need to get following info about student and update Student Object accordingly:
-		
+		// Need to get following info about student and update Student Object
+		// accordingly:
+
 		// String studyProgram;
 		// ArrayList<String> courseIDs;
 		// HashMap<int, String> courseIDNames;
-		
-				
+
 		connect();
 		try {
-			
-			//First students studyProgram is retrieved from DB
+
+			// First students studyProgram is retrieved from DB
 			stmt = conn.createStatement();
 
 			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + student.getEmail() + "';";
@@ -793,38 +794,39 @@ public class DBController {
 			}
 
 			rs.next();
-			student.setStudyProgram(rs.getString(1)); 
-			
-			// next find the courseCodes and corresponding courseNames for this student
-			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"+ student.getEmail() + "';";
-			
-			
+			student.setStudyProgram(rs.getString(1));
+
+			// next find the courseCodes and corresponding courseNames for this
+			// student
+			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"
+					+ student.getEmail() + "';";
+
 			if (stmt.execute(query2)) {
 				rs = stmt.getResultSet();
 			}
-			
+
 			String courseID = null;
 			String courseName = null;
 			ArrayList<String> courseIDs = new ArrayList<>();
 			HashMap<String, String> courseIDNames = new HashMap<>();
-			
+
 			while (rs.next()) {
 				courseID = rs.getString(1);
 				courseName = rs.getString(2);
 				courseIDs.add(courseID);
 				courseIDNames.put(courseID, courseName);
 			}
-			
+
 			student.setCourseIDs(courseIDs);
 			student.setCourseIDNames(courseIDNames);
-			
+
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		close();
-		
+
 	}
-	
+
 	public void insertStudent(String studentUsername, String studyProgramCode) {
 
 		connect();
@@ -845,12 +847,12 @@ public class DBController {
 		}
 		close();
 	}
-	
-	public void deleteStudent(String studentEmail){
+
+	public void deleteStudent(String studentEmail) {
 		connect();
 		try {
 
-			String query = "DELETE FROM Student WHERE studentEmail='" + studentEmail +"'";
+			String query = "DELETE FROM Student WHERE studentEmail='" + studentEmail + "'";
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -860,7 +862,7 @@ public class DBController {
 		}
 		close();
 	}
-	
+
 	public boolean studentExists(String studentEmail) {
 		boolean hasNext = false;
 		connect();
@@ -887,8 +889,9 @@ public class DBController {
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT * FROM Evaluation WHERE studentEmail = '" + studentEmail + "' AND lectureID =" + lecID + ";";
-			
+			String query = "SELECT * FROM Evaluation WHERE studentEmail = '" + studentEmail + "' AND lectureID ="
+					+ lecID + ";";
+
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -900,9 +903,9 @@ public class DBController {
 		}
 		close();
 		return hasNext;
-		
+
 	}
-	
+
 	// CourseProfessor info
 	public void insertCourseProfessor(String professorUsername, String courseCode) {
 		connect();
@@ -925,7 +928,7 @@ public class DBController {
 		}
 		close();
 	}
-	
+
 	// CourseStudent info
 	public void insertCourseStudent(String studentEmail, String courseCode) {
 		connect();
@@ -951,13 +954,13 @@ public class DBController {
 
 	// Evaluation info
 	public void loadEvaluationInfo(Evaluation evaluation) {
-		
+
 		connect();
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = " + evaluation.getLectureid()
-					+ " AND studentEmail ='" + evaluation.getStudentEmail() + "' ;";
+			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = "
+					+ evaluation.getLectureid() + " AND studentEmail ='" + evaluation.getStudentEmail() + "' ;";
 			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -971,31 +974,29 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		close();
-			
-		
+
 	}
-	
+
 	public void overwriteEvaluation(String email, int lectureID, String rating, String comment) {
 		connect();
-		
+
 		try {
 
-			//delete Evaluation for this student for this lecture
+			// delete Evaluation for this student for this lecture
 			StringBuilder sb1 = new StringBuilder();
 			sb1.append("DELETE FROM Evaluation WHERE studentEmail = '").append(email).append("' ")
-			.append( "AND lectureID =").append(lectureID).append(";");
-			
+					.append("AND lectureID =").append(lectureID).append(";");
+
 			String query1 = sb1.toString();
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query1);
-			
-			//insert  new Evaluation
+
+			// insert new Evaluation
 			StringBuilder sb = new StringBuilder();
 			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
 					.append(" SELECT Student.studentEmail, Lecture.lectureID, '").append(rating).append("', '")
-					.append(comment).append("'").append(" FROM Student, Lecture")
-					.append(" WHERE studentEmail = '").append(email).append("' AND lectureID = ")
-					.append(lectureID).append(";");
+					.append(comment).append("'").append(" FROM Student, Lecture").append(" WHERE studentEmail = '")
+					.append(email).append("' AND lectureID = ").append(lectureID).append(";");
 
 			String query2 = sb.toString();
 			// System.out.println(query);
@@ -1007,9 +1008,9 @@ public class DBController {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		close();
-		
+
 	}
-	
+
 	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment) {
 		connect();
 		try {
@@ -1054,18 +1055,18 @@ public class DBController {
 		close();
 		return hasNext;
 	}
-	
-	//Main for testing
+
+	// Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
-		
+
 		// test.insertCourse("tdt4145", "Datamodellering og
 		// databaser","Trondheim", 4);
 		// test.insertCourse("tdt4180", "Menneske-maskin
 		// interaksjon","Trondheim", 4);
 		// test.insertProfessor("sveinbra");
 		// test.getCourseInfo();
-		//test.insertStudent("bolle","MTING");
+		// test.insertStudent("bolle","MTING");
 		// test.getProfessorsForCoursse("tdt4140");
 		// test.getCoursestaughtByProfessor("pekkaa");
 		// test.getLectureHoursForCourse("tdt4140");
@@ -1073,36 +1074,112 @@ public class DBController {
 		// test.insertLecture("2017-02-22", "08:00:00", "tdt4145", "sveinbra");
 		// test.insertCourseProfessor("sveinbra", "tdt4145");
 		// test.insertStudent("negative","MTING");
-		// test.insertEvaluation("negative@stud.ntnu.no", 2 , "Confusing", "wow
+//		 test.insertEvaluation("stud1@stud.ntnu.no", 118 , "Confusing.. ?", "wow");
+//		 test.insertEvaluation("stud1@stud.ntnu.no", 119 , "Perfect", "wow");
 		// this is the most boring and stupid lecture ever");
-		 
-		 //test.deleteStudent("bolle@stud.ntnu.no");
-		 
-//		
-//		test.insertStudent("stud14", "MLREAL");
-//		test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
-//		test.insertStudent("stud15", "MLREAL");
-//		test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
-		
-//		System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
-		
-		test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
-		
+
+		// test.deleteStudent("bolle@stud.ntnu.no");
+
+		//
+		// test.insertStudent("stud14", "MLREAL");
+		// test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
+		// test.insertStudent("stud15", "MLREAL");
+		// test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
+
+		// System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
+
+		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
+		test.setCourseRatingsOverTime(new Course("tdt4140"));
+
+	}
+
+	public void setCourseRatingsOverTime(Course course) {
+		// must set: HashMap<Integer, Integer> lecIDtoRatingCount1-5 in courseObject
+		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
+		HashMap<Integer, Integer> lecIDtoRatingCount1 = new HashMap<>();
+		HashMap<Integer, Integer> lecIDtoRatingCount2 = new HashMap<>();
+		HashMap<Integer, Integer> lecIDtoRatingCount3 = new HashMap<>();
+		HashMap<Integer, Integer> lecIDtoRatingCount4 = new HashMap<>();
+		HashMap<Integer, Integer> lecIDtoRatingCount5 = new HashMap<>();
+
+								
+				try {
+							
+					connect();
+					
+						stmt = conn.createStatement();
+						StringBuilder sb = new StringBuilder();
+						
+						sb.append("select e.rating, e.lectureID, count(*) As 'ratingCount' From Evaluation e JOIN Lecture l on e.lectureID = l.lectureID WHERE l.courseCode = '")
+						.append(course.getCourseCode()).append("' AND ").append(SQLtimeConstraint(course))
+						.append(" GROUP BY e.rating, e.lectureID ORDER BY e.lectureID;");
+						
+						
+						String query4 = sb.toString();			
+						System.out.println(query4);
+						
+						if (stmt.execute(query4)) {
+							rs = stmt.getResultSet();
+						}
+
+						while(rs.next()){
+							
+							String rating = rs.getString(1);
+							ArrayList<String> ratingValues = course.getRatingValues();
+
+							if(rating.equals(ratingValues.get(0))){
+								lecIDtoRatingCount1.put(rs.getInt(2), rs.getInt(3));
+							}else if(rating.equals(ratingValues.get(1))) {
+								lecIDtoRatingCount2.put(rs.getInt(2), rs.getInt(3));
+							}else if(rating.equals(ratingValues.get(2))) {
+								lecIDtoRatingCount3.put(rs.getInt(2), rs.getInt(3));
+							}else if(rating.equals(ratingValues.get(3))) {
+								lecIDtoRatingCount4.put(rs.getInt(2), rs.getInt(3));
+							}else if(rating.equals(ratingValues.get(4))) {
+								lecIDtoRatingCount5.put(rs.getInt(2), rs.getInt(3));
+							}
+
+						}
+						
+						course.setLecIDtoRatingCount1(lecIDtoRatingCount1);
+						course.setLecIDtoRatingCount2(lecIDtoRatingCount2);
+						course.setLecIDtoRatingCount3(lecIDtoRatingCount3);
+						course.setLecIDtoRatingCount4(lecIDtoRatingCount4);
+						course.setLecIDtoRatingCount5(lecIDtoRatingCount5);
+						
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+						
+					close();		
 		
 	}
 
-	
+	private String SQLtimeConstraint(Course course) {
+		// generates appropriate sql query string for timeconstraint
+		String timeConstraint = null;
+		char season = course.getSemester().charAt(0);
+		String year = course.getSemester().substring(1);
 
-	
-	///////////////END OF USEFUL CODE ////////////////////////////////
+		if (course.isCurrentsemester()) {
+			timeConstraint = "(lectureDate < now() OR (lectureDate = now()  AND lectureTime < now()))"
+					+ "AND  YEAR(lectureDate) = " + year;
+		} else {
+			if (season == 'V') {
+				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) < 7) AND YEAR(lectureDate) = "
+						+ year;
 
-	
+			} else if (season == 'H') {
+				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) >= 7) AND YEAR(lectureDate) = "
+						+ year;
+			}
+
+		}
+
+		System.out.println(timeConstraint);
+		return timeConstraint;
 	}
 
-	
+	/////////////// END OF USEFUL CODE ////////////////////////////////
 
-	
-
-	
-
-
+}

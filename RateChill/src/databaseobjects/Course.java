@@ -1,12 +1,16 @@
 package databaseobjects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import database.DBController;
 
 
 public class Course extends DatabaseUser{
 	
+	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Perfect","Ok","Too Fast!","Too Slow!","Confused.. ?"));
 	private String courseCode;
 	private String courseName;
 	private String courseLocation;
@@ -177,31 +181,82 @@ public class Course extends DatabaseUser{
 	public void setLectureIDs(ArrayList<Integer> lectureIDs) {
 		this.lectureIDs = lectureIDs;
 	}
+	
+	//To be used to generate lectures over time graph:
+	private HashMap<Integer, Integer> lecIDtoRatingCount1;
+	private HashMap<Integer, Integer> lecIDtoRatingCount2;
+	private HashMap<Integer, Integer> lecIDtoRatingCount3;
+	private HashMap<Integer, Integer> lecIDtoRatingCount4;
+	private HashMap<Integer, Integer> lecIDtoRatingCount5;
 
+	public void setRatingsOverTime(){
+		DBC.setCourseRatingsOverTime(this);
+	}
 
+	public ArrayList<String> getRatingValues() {
+		return ratingValues;
+	}
+
+	public void setRatingValues(ArrayList<String> ratingValues) {
+		this.ratingValues = ratingValues;
+	}
+
+	public HashMap<Integer, Integer> getLecIDtoRatingCount1() {
+		return lecIDtoRatingCount1;
+	}
+
+	public void setLecIDtoRatingCount1(HashMap<Integer, Integer> lecIDtoRatingCount1) {
+		this.lecIDtoRatingCount1 = lecIDtoRatingCount1;
+	}
+
+	public HashMap<Integer, Integer> getLecIDtoRatingCount2() {
+		return lecIDtoRatingCount2;
+	}
+
+	public void setLecIDtoRatingCount2(HashMap<Integer, Integer> lecIDtoRatingCount2) {
+		this.lecIDtoRatingCount2 = lecIDtoRatingCount2;
+	}
+
+	public HashMap<Integer, Integer> getLecIDtoRatingCount3() {
+		return lecIDtoRatingCount3;
+	}
+
+	public void setLecIDtoRatingCount3(HashMap<Integer, Integer> lecIDtoRatingCount3) {
+		this.lecIDtoRatingCount3 = lecIDtoRatingCount3;
+	}
+
+	public HashMap<Integer, Integer> getLecIDtoRatingCount4() {
+		return lecIDtoRatingCount4;
+	}
+
+	public void setLecIDtoRatingCount4(HashMap<Integer, Integer> lecIDtoRatingCount4) {
+		this.lecIDtoRatingCount4 = lecIDtoRatingCount4;
+	}
+
+	public HashMap<Integer, Integer> getLecIDtoRatingCount5() {
+		return lecIDtoRatingCount5;
+	}
+
+	public void setLecIDtoRatingCount5(HashMap<Integer, Integer> lecIDtoRatingCount5) {
+		this.lecIDtoRatingCount5 = lecIDtoRatingCount5;
+	}
 	
-	//////////////////////////END OF USEFUL CODE ////////////////////////////////////////
-	
-	// Old load function:
-	
-		/*public void loadInfo(){
-			try {
-				ArrayList<String> nameLocation = DBC.getCourseNameAndLocation(courseCode);
-				courseName = nameLocation.get(0);
-				courseLocation = nameLocation.get(1);
-				numLectureHours = DBC.getLectureHoursForCourse(courseCode);
-				professorUsernames = DBC.getProfessorsForCourse(courseCode);
-				lectureIDs = DBC.getLecturesForCourse(courseCode);
-			} catch (Exception e) {
-				if (!existsInDB()) {
-					throw new NoSuchElementException("The course does not exist");
-				}
-				System.out.println(e.getMessage());	
-			}
-		}*/
+	public boolean isCurrentsemester(){
 		
-	    /*	public ArrayList<Integer> getLastTwoCompletedLectures() {
-		return DBC.getLastTwoCompletedLecturesForCourse(this.courseCode);
-		}*/
+		char CourseSeason = semester.charAt(0);
+		int CourseYear = Integer.valueOf(semester.substring(1));
+		int ActualYear = Calendar.getInstance().get(Calendar.YEAR);
+		int Month = Calendar.getInstance().get(Calendar.MONTH) +1;
+		char ActualSeason;
+		
+		if(Month <= 7)
+			ActualSeason = 'V';
+		else ActualSeason = 'H';
+		
+		return (CourseSeason == ActualSeason && CourseYear == ActualYear);
+		
+	}
+
+	
 
 }
