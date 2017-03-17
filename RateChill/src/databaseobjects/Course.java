@@ -3,6 +3,7 @@ package databaseobjects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import database.DBController;
@@ -21,7 +22,6 @@ public class Course extends DatabaseUser{
 	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate;
 	private String semester;
 	
-
 
 	//Constructor1
 	public Course(String courseCode) {
@@ -192,6 +192,64 @@ public class Course extends DatabaseUser{
 	public void setRatingsOverTime(){
 		DBC.setCourseRatingsOverTime(this);
 	}
+	
+	public ArrayList<Integer> getLecRatingCounts(int i){
+		ArrayList<Integer> count = new ArrayList<>();
+		
+		
+			switch (i) {
+			case 1:
+				count = createCountArray(lecIDtoRatingCount1);
+				break;
+			case 2:
+				count = createCountArray(lecIDtoRatingCount2);
+				break;	
+			case 3:
+				count = createCountArray(lecIDtoRatingCount3);
+				break;
+			case 4:
+				count = createCountArray(lecIDtoRatingCount4);
+				break;
+			case 5:
+				count = createCountArray(lecIDtoRatingCount5);
+				break;
+
+			default:
+				break;
+			}
+		return count;
+	}
+
+	public ArrayList<String> getDateArrayForGraph(){
+		ArrayList<String> dates = new ArrayList<>();
+		Collections.reverse(completedLectureIDs);
+		for(Integer lecID: completedLectureIDs){
+			String date = completedLecturesIDDate.get(lecID).get(0);
+			String[] dateSplit = date.split("-");
+			String MM = dateSplit[1];
+			String DD = dateSplit[2];
+			date = DD + "." + MM;
+			
+			dates.add(date);
+		}
+		Collections.reverse(completedLectureIDs);
+		return dates;
+	}
+	
+	private ArrayList<Integer> createCountArray(HashMap<Integer, Integer> lecIDtoRatingCountHash) {
+		ArrayList<Integer> count = new ArrayList<>();
+		Collections.reverse(completedLectureIDs);
+		
+		for(Integer lecID: completedLectureIDs){
+		
+			if(lecIDtoRatingCountHash.containsKey(lecID)){
+				count.add(lecIDtoRatingCountHash.get(lecID));
+			}else count.add(0);
+		}
+		
+		Collections.reverse(completedLectureIDs);
+		return count;
+	}
 
 	public ArrayList<String> getRatingValues() {
 		return ratingValues;
@@ -240,6 +298,7 @@ public class Course extends DatabaseUser{
 	public void setLecIDtoRatingCount5(HashMap<Integer, Integer> lecIDtoRatingCount5) {
 		this.lecIDtoRatingCount5 = lecIDtoRatingCount5;
 	}
+	
 	
 	public boolean isCurrentsemester(){
 		
