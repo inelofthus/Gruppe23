@@ -112,7 +112,7 @@ public class lectureProfController implements Initializable {
 		// fagButton.setText(courseCodeName);
 		
 		//check how many lectures have been completed in the specific course and store them in an int
-		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
+		int numberOfLectures = mainController.getInstance().getCourse().getCompletedLectureIDs().size();
 		if (numberOfLectures==0) {
 			//textfield.setText("You have not had any lectures in this course");
 			return;
