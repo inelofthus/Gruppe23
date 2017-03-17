@@ -259,46 +259,25 @@ public class Course extends DatabaseUser{
 		this.ratingValues = ratingValues;
 	}
 
-	public HashMap<Integer, Integer> getLecIDtoRatingCount1() {
-		return lecIDtoRatingCount1;
-	}
-
 	public void setLecIDtoRatingCount1(HashMap<Integer, Integer> lecIDtoRatingCount1) {
 		this.lecIDtoRatingCount1 = lecIDtoRatingCount1;
-	}
-
-	public HashMap<Integer, Integer> getLecIDtoRatingCount2() {
-		return lecIDtoRatingCount2;
 	}
 
 	public void setLecIDtoRatingCount2(HashMap<Integer, Integer> lecIDtoRatingCount2) {
 		this.lecIDtoRatingCount2 = lecIDtoRatingCount2;
 	}
 
-	public HashMap<Integer, Integer> getLecIDtoRatingCount3() {
-		return lecIDtoRatingCount3;
-	}
-
 	public void setLecIDtoRatingCount3(HashMap<Integer, Integer> lecIDtoRatingCount3) {
 		this.lecIDtoRatingCount3 = lecIDtoRatingCount3;
-	}
-
-	public HashMap<Integer, Integer> getLecIDtoRatingCount4() {
-		return lecIDtoRatingCount4;
 	}
 
 	public void setLecIDtoRatingCount4(HashMap<Integer, Integer> lecIDtoRatingCount4) {
 		this.lecIDtoRatingCount4 = lecIDtoRatingCount4;
 	}
 
-	public HashMap<Integer, Integer> getLecIDtoRatingCount5() {
-		return lecIDtoRatingCount5;
-	}
-
 	public void setLecIDtoRatingCount5(HashMap<Integer, Integer> lecIDtoRatingCount5) {
 		this.lecIDtoRatingCount5 = lecIDtoRatingCount5;
 	}
-	
 	
 	public boolean isCurrentsemester(){
 		

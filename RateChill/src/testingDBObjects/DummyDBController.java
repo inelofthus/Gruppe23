@@ -19,6 +19,24 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
+	public Course loadCourseInfoForSemester(Course course, String semester) {
+		// TODO Auto-generated method stub
+		return super.loadCourseInfoForSemester(course, semester);
+	}
+
+	@Override
+	public void setCourseRatingsOverTime(Course course) {
+		HashMap<Integer, Integer> IDRatingHash1 = new HashMap<>();
+		HashMap<Integer, Integer> IDRatingHash2 = new HashMap<>();
+		IDRatingHash2.put(1, 1);
+		course.setLecIDtoRatingCount1(IDRatingHash1);
+		course.setLecIDtoRatingCount2(IDRatingHash2);
+		course.setLecIDtoRatingCount3(IDRatingHash1);
+		course.setLecIDtoRatingCount4(IDRatingHash1);
+		course.setLecIDtoRatingCount5(IDRatingHash1);
+	}
+
+	@Override
 	public void close() {
 		// does nothing
 	}

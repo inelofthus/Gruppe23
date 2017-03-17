@@ -1075,11 +1075,14 @@ public class DBController {
 		// test.getCoursestaughtByProfessor("pekkaa");
 		// test.getLectureHoursForCourse("tdt4140");
 		// test.getStartDate();
-		// test.insertLecture("2017-02-22", "08:00:00", "tdt4145", "sveinbra");
+//		 test.insertLecture("2017-02-22", "08:00:00", "tdt4140", "pekkaa");
+//		 test.insertLecture("2017-02-23", "08:00:00", "tdt4140", "pekkaa");
+//		 test.insertLecture("2017-02-24", "08:00:00", "tdt4140", "pekkaa");
+//		 test.insertLecture("2017-02-25", "08:00:00", "tdt4140", "pekkaa");
+//		 test.insertLecture("2017-02-26", "08:00:00", "tdt4140", "pekkaa");
+//		 test.insertLecture("2017-02-28", "08:00:00", "tdt4140", "pekkaa");
 		// test.insertCourseProfessor("sveinbra", "tdt4145");
 		// test.insertStudent("negative","MTING");
-//		 test.insertEvaluation("stud1@stud.ntnu.no", 118 , "Confusing.. ?", "wow");
-//		 test.insertEvaluation("stud1@stud.ntnu.no", 119 , "Perfect", "wow");
 		// this is the most boring and stupid lecture ever");
 
 		// test.deleteStudent("bolle@stud.ntnu.no");
@@ -1093,7 +1096,6 @@ public class DBController {
 		// System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 
 		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
-		test.setCourseRatingsOverTime(new Course("tdt4140"));
 
 	}
 
@@ -1184,6 +1186,5 @@ public class DBController {
 		return timeConstraint;
 	}
 
-	/////////////// END OF USEFUL CODE ////////////////////////////////
 
 }

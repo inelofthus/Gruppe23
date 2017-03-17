@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.junit.Test;
@@ -127,5 +128,39 @@ public class CourseTest {
 		assertEquals(expected, actual);
 	}
 	
+	@Test
+	public void  TestgetLecRatingCounts() {
+		course.setRatingsOverTime();
+		ArrayList<Integer> actual = course.getLecRatingCounts(1);
+		ArrayList<Integer>  expected = new ArrayList<>(Arrays.asList(0,0,0));
+		
+		assertEquals(expected, actual);
+		
+		actual = course.getLecRatingCounts(2);
+		expected = new ArrayList<>(Arrays.asList(0,0,1));
+		
+		assertEquals(expected, actual);
+	}
 	
+	@Test
+	public void TestisCurrentsemester(){
+		boolean actual = course.isCurrentsemester();
+		boolean expected = false;
+		
+		if(Calendar.getInstance().get(Calendar.YEAR) == 2017 && Calendar.getInstance().get(Calendar.MONTH) +1 < 7){
+			expected = true;
+		}
+
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void TestgetRatingValues(){
+		
+		ArrayList<String> actual = course.getRatingValues();
+		ArrayList<String> expected = new ArrayList<>(Arrays.asList("Perfect","Ok","Too Fast!","Too Slow!","Confused.. ?"));
+		
+		assertEquals(expected, actual);
+	}
+
 }
