@@ -22,14 +22,6 @@ public class StudentTest {
 			
 			assertEquals(expected, actual);
 		}
-		
-		@Test
-		public void testgetEmail() {
-			String actual = stud.getEmail();
-			String expected = "karimj@stud.ntnu.no";
-			
-			assertEquals(expected, actual);
-		}
 	
 		@Test
 		public void testgetCourseNameForCourse() {

@@ -60,7 +60,7 @@ public class DBControllerTest {
 		
 		assertEquals("inela", stud.getUsername());
 		assertEquals("BIT", stud.getStudyProgram());
-		assertEquals("inela@stud.ntnu.no", stud.getEmail());
+		assertEquals("inela@stud.ntnu.no", stud.getUsername());
 		
 		assertTrue(dbc.studentExists("inela@stud.ntnu.no"));
 		assertTrue(stud.existsInDB());
@@ -138,7 +138,7 @@ public class DBControllerTest {
 		
 		assertEquals("Perfect", eval.getRating());
 		assertEquals("Det var perfekt", eval.getComment());
-		assertEquals("inela@stud.ntnu.no", eval.getStudentEmail());
+		assertEquals("inela@stud.ntnu.no", eval.getstudentUsername());
 		
 		assertTrue(eval.existsInDB());
 		
@@ -150,7 +150,7 @@ public class DBControllerTest {
 		Evaluation updatedEval = new Evaluation(lectureID, "inela@stud.ntnu.no");
 		assertEquals("Too Slow", updatedEval.getRating());
 		assertEquals("Nesten perfekt, men det gikk litt for sakte", updatedEval.getComment());
-		assertEquals("inela@stud.ntnu.no", updatedEval.getStudentEmail());
+		assertEquals("inela@stud.ntnu.no", updatedEval.getstudentUsername());
 		
 		assertTrue(updatedEval.existsInDB());
 		assertTrue(dbc.evaluationExists(lectureID, "inela@stud.ntnu.no"));

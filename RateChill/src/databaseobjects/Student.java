@@ -35,12 +35,9 @@ public class Student extends DatabaseUser{
 		this.courseIDNames = courseIDNames;
 	}
 
-
-	public String getEmail(){
-		return username + "@stud.ntnu.no";
-	}
+	
 	public boolean existsInDB(){
-		return DBC.studentExists(getEmail());
+		return DBC.studentExists(username);
 	}
 	
 
@@ -59,12 +56,12 @@ public class Student extends DatabaseUser{
 	}
 
 	public void giveEvaluation(int lectureID, String rating, String comment){
-		DBC.insertEvaluation(getEmail(), lectureID, rating, comment);
+		DBC.insertEvaluation(username, lectureID, rating, comment);
 		//TODO: Form validation
 	}
 	
 	public void overWriteEvaluation(int lectureID, String rating, String comment){
-		DBC.overwriteEvaluation(getEmail(), lectureID, rating, comment);
+		DBC.overwriteEvaluation(username, lectureID, rating, comment);
 	}
 
 	public String getUsername() {
@@ -80,7 +77,7 @@ public class Student extends DatabaseUser{
 	}
 	
 	public boolean hasEvaluatedLecture(int lecID){
-		return DBC.studentHasEvaluatedLecture(getEmail(), lecID);
+		return DBC.studentHasEvaluatedLecture(username, lecID);
 	}
 	
 	//Old load function:

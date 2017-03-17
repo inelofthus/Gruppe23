@@ -467,7 +467,7 @@ public class DBController {
 
 		try {
 
-			String query = "select studentEmail, rating, studentComment from Evaluation where lectureID = "
+			String query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -475,10 +475,10 @@ public class DBController {
 
 			while (rs.next()) {
 
-				String studentEmail = rs.getString(1);
+				String studentUsername = rs.getString(1);
 				String rating = rs.getString(2);
 				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentEmail);
+				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
 
 				switch (rating) {
@@ -792,7 +792,7 @@ public class DBController {
 			// First students studyProgram is retrieved from DB
 			stmt = conn.createStatement();
 
-			String query = "SELECT studyProgramCode FROM Student WHERE studentEmail = '" + student.getEmail() + "';";
+			String query = "SELECT studyProgramCode FROM Student WHERE studentUsername = '" + student.getUsername() + "';";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -802,8 +802,8 @@ public class DBController {
 
 			// next find the courseCodes and corresponding courseNames for this
 			// student
-			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '"
-					+ student.getEmail() + "';";
+			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentUsername = '"
+					+ student.getUsername() + "';";
 
 			if (stmt.execute(query2)) {
 				rs = stmt.getResultSet();
@@ -837,7 +837,7 @@ public class DBController {
 		try {
 
 			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Student VALUES('").append(studentUsername).append("@stud.ntnu.no").append("','")
+			sb.append("INSERT INTO Student VALUES('").append(studentUsername).append("','")
 					.append(studyProgramCode).append("');");
 
 			String query = sb.toString();
@@ -852,11 +852,11 @@ public class DBController {
 		close();
 	}
 
-	public void deleteStudent(String studentEmail) {
+	public void deleteStudent(String studentUsername) {
 		connect();
 		try {
 
-			String query = "DELETE FROM Student WHERE studentEmail='" + studentEmail + "'";
+			String query = "DELETE FROM Student WHERE studentUsername='" + studentUsername + "'";
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -867,13 +867,13 @@ public class DBController {
 		close();
 	}
 
-	public boolean studentExists(String studentEmail) {
+	public boolean studentExists(String studentUsername) {
 		boolean hasNext = false;
 		connect();
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT studentEmail FROM Student WHERE studentEmail = '" + studentEmail + "';";
+			String query = "SELECT studentUsername FROM Student WHERE studentUsername = '" + studentUsername + "';";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -887,13 +887,13 @@ public class DBController {
 		return hasNext;
 	}
 
-	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
+	public boolean studentHasEvaluatedLecture(String studentUsername, int lecID) {
 		boolean hasNext = false;
 		connect();
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT * FROM Evaluation WHERE studentEmail = '" + studentEmail + "' AND lectureID ="
+			String query = "SELECT * FROM Evaluation WHERE studentUsername = '" + studentUsername + "' AND lectureID ="
 					+ lecID + ";";
 
 			if (stmt.execute(query)) {
@@ -934,15 +934,15 @@ public class DBController {
 	}
 
 	// CourseStudent info
-	public void insertCourseStudent(String studentEmail, String courseCode) {
+	public void insertCourseStudent(String studentUsername, String courseCode) {
 		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into CourseStudent (studentEmail, courseCode)")
-					.append(" SELECT Student.studentEmail, Course.courseCode").append(" FROM Course, Student")
-					.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND studentEmail = '")
-					.append(studentEmail).append("'");
+			sb.append("Insert into CourseStudent (studentUsername, courseCode)")
+					.append(" SELECT Student.studentUsername, Course.courseCode").append(" FROM Course, Student")
+					.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND studentUsername = '")
+					.append(studentUsername).append("'");
 
 			String query = sb.toString();
 			// System.out.println(query);
@@ -964,7 +964,7 @@ public class DBController {
 			stmt = conn.createStatement();
 
 			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = "
-					+ evaluation.getLectureid() + " AND studentEmail ='" + evaluation.getStudentEmail() + "' ;";
+					+ evaluation.getLectureid() + " AND studentUsername ='" + evaluation.getstudentUsername() + "' ;";
 			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -988,7 +988,7 @@ public class DBController {
 
 			// delete Evaluation for this student for this lecture
 			StringBuilder sb1 = new StringBuilder();
-			sb1.append("DELETE FROM Evaluation WHERE studentEmail = '").append(email).append("' ")
+			sb1.append("DELETE FROM Evaluation WHERE studentUsername = '").append(email).append("' ")
 					.append("AND lectureID =").append(lectureID).append(";");
 
 			String query1 = sb1.toString();
@@ -997,9 +997,9 @@ public class DBController {
 
 			// insert new Evaluation
 			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
-					.append(" SELECT Student.studentEmail, Lecture.lectureID, '").append(rating).append("', '")
-					.append(comment).append("'").append(" FROM Student, Lecture").append(" WHERE studentEmail = '")
+			sb.append("Insert into Evaluation (studentUsername, lectureID, rating, studentComment)")
+					.append(" SELECT Student.studentUsername, Lecture.lectureID, '").append(rating).append("', '")
+					.append(comment).append("'").append(" FROM Student, Lecture").append(" WHERE studentUsername = '")
 					.append(email).append("' AND lectureID = ").append(lectureID).append(";");
 
 			String query2 = sb.toString();
@@ -1015,15 +1015,15 @@ public class DBController {
 
 	}
 
-	public void insertEvaluation(String studentEmail, int lectureID, String rating, String studentComment) {
+	public void insertEvaluation(String studentUsername, int lectureID, String rating, String studentComment) {
 		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into Evaluation (studentEmail, lectureID, rating, studentComment)")
-					.append(" SELECT Student.studentEmail, Lecture.lectureID, '").append(rating).append("', '")
+			sb.append("Insert into Evaluation (studentUsername, lectureID, rating, studentComment)")
+					.append(" SELECT Student.studentUsername, Lecture.lectureID, '").append(rating).append("', '")
 					.append(studentComment).append("'").append(" FROM Student, Lecture")
-					.append(" WHERE studentEmail = '").append(studentEmail).append("' AND lectureID = ")
+					.append(" WHERE studentUsername = '").append(studentUsername).append("' AND lectureID = ")
 					.append(lectureID).append(";");
 
 			String query = sb.toString();
@@ -1038,14 +1038,14 @@ public class DBController {
 		close();
 	}
 
-	public boolean evaluationExists(int lectureid, String studentEmail) {
+	public boolean evaluationExists(int lectureid, String studentUsername) {
 		boolean hasNext = false;
 		connect();
 		try {
 			stmt = conn.createStatement();
 
-			String query = "SELECT lectureID FROM Evaluation WHERE lectureID = " + lectureid + " AND studentEmail ='"
-					+ studentEmail + "' ;";
+			String query = "SELECT lectureID FROM Evaluation WHERE lectureID = " + lectureid + " AND studentUsername ='"
+					+ studentUsername + "' ;";
 
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -1070,7 +1070,9 @@ public class DBController {
 		// interaksjon","Trondheim", 4);
 		// test.insertProfessor("sveinbra");
 		// test.getCourseInfo();
-		// test.insertStudent("bolle","MTING");
+//		 test.insertStudent("stud5","MTING");
+
+		 
 		// test.getProfessorsForCoursse("tdt4140");
 		// test.getCoursestaughtByProfessor("pekkaa");
 		// test.getLectureHoursForCourse("tdt4140");
@@ -1083,20 +1085,30 @@ public class DBController {
 //		 test.insertLecture("2017-02-28", "08:00:00", "tdt4140", "pekkaa");
 		// test.insertCourseProfessor("sveinbra", "tdt4145");
 		// test.insertStudent("negative","MTING");
-		// this is the most boring and stupid lecture ever");
+
 
 		// test.deleteStudent("bolle@stud.ntnu.no");
 
-		//
-		// test.insertStudent("stud14", "MLREAL");
-		// test.insertCourseStudent("stud14@stud.ntnu.no ", "tdt4140");
-		// test.insertStudent("stud15", "MLREAL");
-		// test.insertCourseStudent("stud15@stud.ntnu.no ", "tdt4140");
+		// test.insertCourseStudent("stud54@stud.ntnu.no ", "tdt4140");
+		// test.insertStudent("stud55", "MLREAL");
+		
+//		 test.insertCourseStudent("stud5", "tdt4140");
+		 
 
 		// System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
 
 		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
-
+		
+		test.insertEvaluation("stud5", 116, "Too Fast!", "slow Down bro");
+		test.insertEvaluation("stud5", 117, "Perfect", "was Great Lecture!");
+		test.insertEvaluation("stud5", 118, "Confused.. ?", "super confusing man");
+		test.insertEvaluation("stud5", 119, "Too Fast!", "slow Down bro");
+		test.insertEvaluation("stud5", 120, "Perfect", "was Great Lecture!");
+		test.insertEvaluation("stud5", 121, "Perfect", "was Great Lecture!");
+		test.insertEvaluation("stud5", 122, "Too Fast!", "slow Down bro");
+		test.insertEvaluation("stud5", 123, "Perfect", "was Great Lecture!");
+		test.insertEvaluation("stud5", 124, "Too Fast!", "slow Down bro");
+		test.insertEvaluation("stud5", 125,  "Too Fast!", "slow Down bro");
 	}
 
 	public void setCourseRatingsOverTime(Course course) {

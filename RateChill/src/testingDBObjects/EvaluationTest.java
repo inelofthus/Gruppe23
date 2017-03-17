@@ -35,12 +35,5 @@ public class EvaluationTest {
 		assertEquals(expected, actual);
 	}
 	
-	@Test
-	public void testgetStudentEmail() {
-		String actual = eval.getStudentEmail();
-		String expected = "karimj@stud.ntnu.no";
-		
-		assertEquals(expected, actual);
-	}	
 	
 }

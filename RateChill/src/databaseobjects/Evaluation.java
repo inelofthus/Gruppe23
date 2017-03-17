@@ -7,35 +7,35 @@ public class Evaluation extends DatabaseUser {
 	private String rating;
 	private String comment;
 	private int lectureid;
-	private String studentEmail;
+	private String studentUsername;
 	
 	//Constructor
-	public Evaluation(int lectureid,String studentEmail) {
+	public Evaluation(int lectureid,String studentUsername) {
 		this.lectureid = lectureid;
-		this.studentEmail = studentEmail;
+		this.studentUsername = studentUsername;
 		DBC.loadEvaluationInfo(this);
 		
 	}
 		
 	//Constructor2 used in in LoadlectureInfo in DBC
-	public Evaluation(String rating, String comment, int lectureid, String studentEmail) {
+	public Evaluation(String rating, String comment, int lectureid, String studentUsername) {
 		this.rating = rating;
 		this.comment = comment;
 		this.lectureid = lectureid;
-		this.studentEmail = studentEmail;
+		this.studentUsername = studentUsername;
 	}
 	
 	//Constructor3 used in testing
-	public Evaluation(int lectureid,String studentEmail, DBController newDBC) {
+	public Evaluation(int lectureid,String studentUsername, DBController newDBC) {
 		this.lectureid = lectureid;
-		this.studentEmail = studentEmail;
+		this.studentUsername = studentUsername;
 		switchDBC(newDBC);
 		DBC.loadEvaluationInfo(this);
 		
 	}
 	
 	public boolean existsInDB() {
-		return DBC.evaluationExists(lectureid, studentEmail);
+		return DBC.evaluationExists(lectureid, studentUsername);
 	}
 	
 	//getters
@@ -52,8 +52,8 @@ public class Evaluation extends DatabaseUser {
 		return lectureid;
 	}
 
-	public String getStudentEmail() {
-		return studentEmail;
+	public String getstudentUsername() {
+		return studentUsername;
 	}	
 	//setters
 	public void setRating(String rating) {
@@ -71,8 +71,8 @@ public class Evaluation extends DatabaseUser {
 	
 	/*public void loadInfo(){
 	try {
-		rating = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(0);
-		comment = DBC.getEvaluationRatingAndComment(lectureid, studentEmail).get(1);
+		rating = DBC.getEvaluationRatingAndComment(lectureid, studentUsername).get(0);
+		comment = DBC.getEvaluationRatingAndComment(lectureid, studentUsername).get(1);
 		
 	} catch (Exception e) {
 		// TODO: handle exception
