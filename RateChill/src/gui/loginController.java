@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,10 +25,10 @@ public class loginController implements Initializable {
 	
 	@FXML
 	public Button student;
-	@FXML
 	public Button professor;
 	public TextField username; 
 	public Text error;
+	public Hyperlink newUser;
 	
 	
 	
@@ -60,7 +61,7 @@ public class loginController implements Initializable {
 	    	error.setText(errorMsg);
 	    }
 	    
-	    else{
+	    else if (event.getSource()==professor){
 	    	Professor prof = new Professor(username.getText());
 	    	
 	    	if(prof.existsInDB()) {
@@ -75,6 +76,10 @@ public class loginController implements Initializable {
 	    		stage.show();
 	    	}
 	    	error.setText(errorMsg);
+	    }
+		
+	    else if (event.getSource()==newUser){
+	    	error.setText(":)");
 	    }
 		
 	     
