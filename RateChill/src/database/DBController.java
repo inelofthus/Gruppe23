@@ -1064,6 +1064,11 @@ public class DBController {
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
 
+		test.insertStudent("karimj", "MTING");
+		test.insertCourseStudent("karimj", "tdt4140");
+		test.insertCourseStudent("karimj", "tdt4145");
+
+		
 		// test.insertCourse("tdt4145", "Datamodellering og
 		// databaser","Trondheim", 4);
 		// test.insertCourse("tdt4180", "Menneske-maskin
@@ -1099,16 +1104,8 @@ public class DBController {
 
 		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
 		
-		test.insertEvaluation("stud5", 116, "Too Fast!", "slow Down bro");
-		test.insertEvaluation("stud5", 117, "Perfect", "was Great Lecture!");
-		test.insertEvaluation("stud5", 118, "Confused.. ?", "super confusing man");
-		test.insertEvaluation("stud5", 119, "Too Fast!", "slow Down bro");
-		test.insertEvaluation("stud5", 120, "Perfect", "was Great Lecture!");
-		test.insertEvaluation("stud5", 121, "Perfect", "was Great Lecture!");
-		test.insertEvaluation("stud5", 122, "Too Fast!", "slow Down bro");
-		test.insertEvaluation("stud5", 123, "Perfect", "was Great Lecture!");
-		test.insertEvaluation("stud5", 124, "Too Fast!", "slow Down bro");
-		test.insertEvaluation("stud5", 125,  "Too Fast!", "slow Down bro");
+//		test.insertEvaluation("stud5", 116, "Too Fast!", "slow Down bro");
+
 	}
 
 	public void setCourseRatingsOverTime(Course course) {
