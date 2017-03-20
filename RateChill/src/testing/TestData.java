@@ -16,7 +16,7 @@ public class TestData {
 		DBController dbc = new DBController();
 		dbc.insertCourse("IT2805", "Webteknologi", "Trondheim", 3);
 		dbc.insertStudent("inela", "BIT");
-		dbc.insertCourseStudent("inela@stud.ntnu.no", "IT2805");
+		dbc.insertCourseStudent("inela", "IT2805");
 		dbc.insertProfessor("michailg");
 		dbc.insertCourseProfessor("michailg", "IT2805");
 		dbc.insertLecture("2017-04-21", "08:00:00", "IT2805", "michailg");
@@ -25,7 +25,7 @@ public class TestData {
 	public static void deleteTestDataEvaluation(){
 		DBController dbc = new DBController();
 		dbc.deleteCourse("IT2805");
-		dbc.deleteStudent("inela@stud.ntnu.no");
+		dbc.deleteStudent("inela");
 		dbc.deleteProfessor("michailg");
 	}
 	
@@ -41,7 +41,7 @@ public class TestData {
 	public static void deleteTestDataLecture(){
 		DBController dbc = new DBController();
 		dbc.deleteCourse("TTK4100");
-		dbc.deleteStudent("inela@stud.ntnu.no");
+		dbc.deleteStudent("inela");
 		dbc.deleteProfessor("tomgra");
 	}
 	

@@ -60,16 +60,16 @@ public class DBControllerTest {
 		
 		assertEquals("inela", stud.getUsername());
 		assertEquals("BIT", stud.getStudyProgram());
-		assertEquals("inela@stud.ntnu.no", stud.getUsername());
+		assertEquals("inela", stud.getUsername());
 		
-		assertTrue(dbc.studentExists("inela@stud.ntnu.no"));
+		assertTrue(dbc.studentExists("inela"));
 		assertTrue(stud.existsInDB());
 		
 		//Update
 		
 		//Delete
-		dbc.deleteStudent("inela@stud.ntnu.no");
-		assertFalse(dbc.studentExists("inela@stud.ntnu.no"));
+		dbc.deleteStudent("inela");
+		assertFalse(dbc.studentExists("inela"));
 		assertFalse(stud.existsInDB());
 	}
 	
@@ -133,12 +133,12 @@ public class DBControllerTest {
 //		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
 		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-04-21","08:00:00"));
 		int lectureID = dbc.getLectureID(dateTime,"IT2805");
-		dbc.insertEvaluation("inela@stud.ntnu.no", lectureID, "Perfect", "Det var perfekt");
-		Evaluation eval = new Evaluation(lectureID, "inela@stud.ntnu.no");
+		dbc.insertEvaluation("inela", lectureID, "Perfect", "Det var perfekt");
+		Evaluation eval = new Evaluation(lectureID, "inela");
 		
 		assertEquals("Perfect", eval.getRating());
 		assertEquals("Det var perfekt", eval.getComment());
-		assertEquals("inela@stud.ntnu.no", eval.getstudentUsername());
+		assertEquals("inela", eval.getstudentUsername());
 		
 		assertTrue(eval.existsInDB());
 		
@@ -147,20 +147,20 @@ public class DBControllerTest {
 		
 		Student stud = new Student("inela");
 		stud.overWriteEvaluation(lectureID, "Too Slow", "Nesten perfekt, men det gikk litt for sakte");
-		Evaluation updatedEval = new Evaluation(lectureID, "inela@stud.ntnu.no");
+		Evaluation updatedEval = new Evaluation(lectureID, "inela");
 		assertEquals("Too Slow", updatedEval.getRating());
 		assertEquals("Nesten perfekt, men det gikk litt for sakte", updatedEval.getComment());
-		assertEquals("inela@stud.ntnu.no", updatedEval.getstudentUsername());
+		assertEquals("inela", updatedEval.getstudentUsername());
 		
 		assertTrue(updatedEval.existsInDB());
-		assertTrue(dbc.evaluationExists(lectureID, "inela@stud.ntnu.no"));
+		assertTrue(dbc.evaluationExists(lectureID, "inela"));
 		
 		//Delete
 		
 		TestData.deleteTestDataEvaluation();
 		assertFalse(eval.existsInDB());
 		assertFalse(updatedEval.existsInDB());
-		assertFalse(dbc.evaluationExists(lectureID, "inela@stud.ntnu.no"));
+		assertFalse(dbc.evaluationExists(lectureID, "inela"));
 	}
 	
 }
