@@ -8,7 +8,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.commentPageController">
    <children>
@@ -23,35 +22,31 @@
       <Button fx:id="home" layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
       <Button fx:id="logout" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
       <Button fx:id="back" layoutX="302.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
-      <ToggleButton fx:id="seeOkComments" accessibleRole="TOGGLE_BUTTON" layoutX="99.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Ok comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seePerfectComments" layoutX="15.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Perfect comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seePerfectComments" accessibleRole="TOGGLE_BUTTON" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Perfect comments" textAlignment="CENTER" wrapText="true">
+      <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="110.0" prefHeight="220.0" prefWidth="413.0" />
+      <ToggleButton fx:id="seeOkComments" layoutX="98.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Ok comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seeFastComments" accessibleRole="TOGGLE_BUTTON" layoutX="185.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Too fast comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seeConfusedComments" layoutX="347.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Confused comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seeSlowComments" accessibleRole="TOGGLE_BUTTON" layoutX="270.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Too slow comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seeSlowComments" layoutX="264.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Too slow comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seeConfusedComments" accessibleRole="TOGGLE_BUTTON" layoutX="355.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="52.0" prefWidth="80.0" text="Confused comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seeFastComments" layoutX="181.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Too fast comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
       </ToggleButton>
-      <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="70.0" prefHeight="275.0" prefWidth="422.0">
-        <content>
-          <AnchorPane fx:id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="354.0" />
-        </content>
-      </ScrollPane>
    </children>
 </AnchorPane>
