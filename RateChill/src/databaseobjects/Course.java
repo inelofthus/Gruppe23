@@ -134,6 +134,7 @@ public class Course extends DatabaseUser{
 	
 	private String getCurrentSemester(){
 		
+		if(completedLectureIDs.size()>0){
 			String date = getLectureDate(completedLectureIDs.get(0));
 			String[] dateSplit = date.split("-");
 			String year = dateSplit[0];
@@ -145,7 +146,7 @@ public class Course extends DatabaseUser{
 			}
 			
 			return semester + year;
-		
+		} return "";
 	}
 	
 	//Setters
