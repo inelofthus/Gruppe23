@@ -42,17 +42,11 @@ public class commentPageController implements Initializable {
 	@FXML
 	public TextArea textArea;
 	public Text text = null;
-	//public AnchorPane anchor;
 	public VBox vBox;
-    //public TextField textField = new TextField();
 	
     Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
-    ArrayList<Label> labels = new ArrayList<Label>();
 	
 	private Lecture lecture = new Lecture(lectureID);
-	//ArrayList evaluations = lec.getEvaluations();
-	//public ArrayList<String> currEval = selectedButtons();
-	
 	
 	public String createString() {
 		ArrayList<String> als = selectedButtons();
@@ -95,37 +89,55 @@ public class commentPageController implements Initializable {
 		return false;
 	}
 	
+	public boolean isCommentButtonsPushed() {
+		if (seePerfectComments.isSelected() || seeOkComments.isSelected() || seeFastComments.isSelected() || seeSlowComments.isSelected() || seeConfusedComments.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public ArrayList<String> selectedButtons() {
 		ArrayList<String> currentEvaluations = new ArrayList<String>();
 		if (seePerfectComments.isSelected()){
+			currentEvaluations.add("Perfect comments:");
 			ArrayList<Evaluation> perfEvaluations = lecture.getPerfectEvaluations();
 			for (Evaluation eval:perfEvaluations) {
 				currentEvaluations.add(eval.getComment());
-			} 
+			}
+			currentEvaluations.add("");
 		}
 		if (seeOkComments.isSelected()){
+			currentEvaluations.add("Ok comments:");
 			ArrayList<Evaluation> okEvaluations = lecture.getOkEvaluations();
 			for (Evaluation eval:okEvaluations) {
 				currentEvaluations.add(eval.getComment());
 			}
+			currentEvaluations.add("");
 		}
 		if (seeFastComments.isSelected()){
+			currentEvaluations.add("Too fast comments:");
 			ArrayList<Evaluation> fastEvaluations = lecture.getTooFastEvaluations();
 			for (Evaluation eval:fastEvaluations) {
 				currentEvaluations.add(eval.getComment());
 			}
+			currentEvaluations.add("");
 		}
 		if (seeSlowComments.isSelected()){
+			currentEvaluations.add("Too slow comments:");
 			ArrayList<Evaluation> slowEvaluations = lecture.getTooSlowEvaluations();
 			for (Evaluation eval:slowEvaluations) {
 				currentEvaluations.add(eval.getComment());
 			}
+			currentEvaluations.add("");
 		}
 		if (seeConfusedComments.isSelected()){
+			currentEvaluations.add("Confused comments:");
 			ArrayList<Evaluation> confusedEvaluations = lecture.getConfusedEvaluations();
 			for (Evaluation eval:confusedEvaluations) {
 				currentEvaluations.add(eval.getComment());
 			}
+			currentEvaluations.add("");
+			
 		}
 		return currentEvaluations;
 	}
@@ -140,30 +152,12 @@ public class commentPageController implements Initializable {
 			userButtons(event, stage);
 			return;
 		}
-		if (seePerfectComments.isSelected() || seeConfusedComments.isSelected() || seeFastComments.isSelected() || seeOkComments.isSelected() || seeSlowComments.isSelected()){
+		if (isCommentButtonsPushed()){
 			textArea.setText(createString());
 		}
-			
-		/*ArrayList<Label> labels = new ArrayList<Label>();
-		for (String string:currEval) {
-			Label label = new Label();
-			label.setText(string);
-			labels.add(label);
+		else {
+			textArea.setText("You have not selected to show any comments.");
 		}
-		for (Label label:labels) {
-			vBox.getChildren().add(label);
-		}
-		anchor.getChildren().setAll(vBox);
-		*/
-		
-		/*for (String string:currEval) {
-			textField.appendText(string+ "/n");
-		}
-		vBox.getChildren().setAll(textField);
-		
-	    anchor.getChildren().setAll(vBox);
-		scrollPane.setContent(anchor);
-		return;*/
 	}
 	
 	
@@ -172,26 +166,7 @@ public class commentPageController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-		
-		//getText(); //GIVES ERROR
-		//text.wrappingWidthProperty().bind(scrollPane.widthProperty()); //WORKS?
-		//VBox.setVgrow(textArea, Priority.ALWAYS); //WORKS
-		//vBox.getChildren().addAll(labels); //GIVES ERROR
-		textArea.setText(lecture.getPerfectEvaluations().get(0).getComment()); //WORKS
-		//vBox.setPrefSize(scrollPane.getPrefWidth(), scrollPane.getPrefHeight()); //GIVES ERROR
-	    
-		
-		//textField.setPrefSize(anchor.getPrefWidth(), anchor.getPrefHeight());
 		textArea.setEditable(false);
-		/*for (String string:currEval) {
-			textField.appendText(string + "/n");
-		}*/
-		//anchor.getChildren().setAll(textField);
-	    //anchor.getChildren().setAll(vBox);
-		//scrollPane.setContent(anchor);
-		
-		
-		
 	}
 
 }
