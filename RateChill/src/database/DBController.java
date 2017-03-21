@@ -1,5 +1,6 @@
 package database;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -683,16 +684,17 @@ public class DBController {
 		return courses;
 	}
 
-	public void insertProfessor(String professorUsername) {
+	public void insertProfessor(String professorUsername, String password) {
 		// inserts a new professor into database
 		connect();
 		try {
 
 			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Professor VALUES('").append(professorUsername).append("');");
+			sb.append("INSERT INTO Professor VALUES('").append(professorUsername)
+			.append("','").append(password).append("');");
 
 			String query = sb.toString();
-			// System.out.println(query);
+			 System.out.println(query);
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -1064,16 +1066,21 @@ public class DBController {
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
 
-		test.insertStudent("karimj", "MTING");
-		test.insertCourseStudent("karimj", "tdt4140");
-		test.insertCourseStudent("karimj", "tdt4145");
+//		test.insertStudent("karimj", "MTING");
+//		test.insertCourseStudent("karimj", "tdt4140");
+//		test.insertCourseStudent("karimj", "tdt4145");
 
 		
 		// test.insertCourse("tdt4145", "Datamodellering og
 		// databaser","Trondheim", 4);
 		// test.insertCourse("tdt4180", "Menneske-maskin
 		// interaksjon","Trondheim", 4);
-		// test.insertProfessor("sveinbra");
+		 try {
+			test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// test.getCourseInfo();
 //		 test.insertStudent("stud5","MTING");
 
@@ -1193,6 +1200,26 @@ public class DBController {
 
 		System.out.println(timeConstraint);
 		return timeConstraint;
+	}
+
+	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
+		
+		try {
+			connect();
+			
+			stmt = conn.createStatement();
+						
+			String query = "select * from Professor where professorUsername = '" + professorUsername +"' and professorPassword = '" + encryptedPassword +"';";			
+//			System.out.println(query);
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+		} catch (Exception e) {
+			System.out.println("error in DBC.checkProfessorPassword: " + e.getMessage());
+		}
+		
+		return rs.next();
 	}
 
 

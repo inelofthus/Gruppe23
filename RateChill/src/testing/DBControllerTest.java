@@ -77,9 +77,9 @@ public class DBControllerTest {
 	public void professorCRUD(){
 		
 		//Create
-		dbc.insertProfessor("mariusth");
+		dbc.insertProfessor("mariusth", "pass");
 		
-		Professor prof = new Professor("mariusth");
+		Professor prof = new Professor("mariusth","pass");
 		dbc.loadProfessorInfo(prof);
 		
 		assertEquals("mariusth", prof.getUsername());

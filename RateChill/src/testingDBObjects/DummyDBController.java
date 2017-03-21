@@ -160,7 +160,7 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public void insertProfessor(String professorUsername) {
+	public void insertProfessor(String professorUsername, String password) {
 		// do nothing
 	}
 

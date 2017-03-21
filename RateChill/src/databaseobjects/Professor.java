@@ -1,6 +1,7 @@
 package databaseobjects;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,11 +14,29 @@ public class Professor extends DatabaseUser {
 	HashMap<String, String> courseIDNames;
 	
 	// Constructor 1
-	public Professor(String professorUsername) {
+	public Professor(String professorUsername, String encryptedPassword) {
 		this.username = professorUsername;
-		DBC.loadProfessorInfo(this);
+		try {
+			if(DBC.checkProfessorPassword(professorUsername, encryptedPassword)){
+			DBC.loadProfessorInfo(this);
+			} else System.out.println("wrong password");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
+	public boolean isCorrectPassword(String encryptedPassword) {
+				
+		try {
+			return DBC.checkProfessorPassword(username, encryptedPassword);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	// Constructor2 for use in testing
 	public Professor(String professorUsername, DBController newDBC) {
 		this.username = professorUsername;

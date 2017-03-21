@@ -1,8 +1,10 @@
 package testing;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
 import database.DBController;
+import databaseobjects.Professor;
 
 /**
  * Methods for creating and deleting rows in
@@ -17,7 +19,12 @@ public class TestData {
 		dbc.insertCourse("IT2805", "Webteknologi", "Trondheim", 3);
 		dbc.insertStudent("inela", "BIT");
 		dbc.insertCourseStudent("inela", "IT2805");
-		dbc.insertProfessor("michailg");
+		try {
+			dbc.insertProfessor("michailg", Professor.hashPassword("I like pizza"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		dbc.insertCourseProfessor("michailg", "IT2805");
 		dbc.insertLecture("2017-04-21", "08:00:00", "IT2805", "michailg");
 	}
@@ -34,7 +41,12 @@ public class TestData {
 		dbc.insertCourse("TTK4100", "Kybernetikk, introduksjon", "Trondheim", 3);
 		dbc.insertStudent("inela", "BIT");
 		dbc.insertCourseStudent("inela@stud.ntnu.no", "TTK4100");
-		dbc.insertProfessor("tomgra");
+		try {
+			dbc.insertProfessor("tomgra", Professor.hashPassword("passSkidoodle"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		dbc.insertCourseProfessor("tomgra", "TTK4100");
 	}
 	
