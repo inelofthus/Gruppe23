@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createUserController">
+   <children>
+      <ImageView fitHeight="142.0" fitWidth="271.0" layoutX="220.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RateChillLogo.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <Button fx:id="back" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+      <TextField layoutX="167.0" layoutY="199.0" prefHeight="42.0" prefWidth="314.0" promptText="Create username" />
+      <TextField layoutX="167.0" layoutY="253.0" prefHeight="42.0" prefWidth="314.0" promptText="Study program code" />
+      <Button layoutX="167.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="70.0" prefWidth="314.0" text="Finish">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <Text fill="RED" layoutX="499.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text fill="RED" layoutX="499.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you a professor? Send us an email at &quot;rate@chill.com&quot; to request the creation of a professor-user." wrappingWidth="177.04736328125" />
+   </children>
+</AnchorPane>
