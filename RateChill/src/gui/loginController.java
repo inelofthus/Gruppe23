@@ -27,6 +27,7 @@ public class loginController implements Initializable {
 	public Button student;
 	public Button professor;
 	public TextField username; 
+	public TextField password; 
 	public Text error;
 	public Hyperlink newUser;
 	
