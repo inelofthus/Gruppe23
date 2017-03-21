@@ -146,7 +146,21 @@ public class Course extends DatabaseUser{
 			}
 			
 			return semester + year;
-		} return "";
+		} 	
+		
+		int Year = Calendar.getInstance().get(Calendar.YEAR);
+		int Month = Calendar.getInstance().get(Calendar.MONTH) +1;
+		char season;
+		
+		if(Month <= 7)
+			season = 'V';
+		else season = 'H';
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(season).append(Year);
+		
+		return sb.toString();
+		
 	}
 	
 	//Setters
