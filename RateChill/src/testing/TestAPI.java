@@ -12,8 +12,7 @@ import com.google.gson.JsonParser;
 
 public class TestAPI {
 	public static void main(String args[]) throws IOException{
-		String sURL = "http://www.ime.ntnu.no/api/course/en/tdt4140"; //just a string
-		//String sURL = "http://freegeoip.net/json/";
+		String sURL = "http://www.ime.ntnu.no/api/course/en/tdt4140";
 	    // Connect to the URL using java's native library
 	    URL url = new URL(sURL);
 	    HttpURLConnection request = (HttpURLConnection) url.openConnection();
