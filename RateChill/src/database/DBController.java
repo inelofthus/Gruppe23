@@ -1,6 +1,5 @@
 package database;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -1071,18 +1070,7 @@ public class DBController {
 //		test.insertCourseStudent("karimj", "tdt4145");
 
 		
-		// test.insertCourse("tdt4145", "Datamodellering og
-		// databaser","Trondheim", 4);
-		// test.insertCourse("tdt4180", "Menneske-maskin
-		// interaksjon","Trondheim", 4);
-		 try {
-			test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// test.getCourseInfo();
-//		 test.insertStudent("stud5","MTING");
+		test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
 
 		 
 		// test.getProfessorsForCoursse("tdt4140");

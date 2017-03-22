@@ -99,8 +99,14 @@ public class Professor extends DatabaseUser {
 	}
 
 	
-	public static String hashPassword(String password) throws NoSuchAlgorithmException{
-		MessageDigest md = MessageDigest.getInstance("MD5");
+	public static String hashPassword(String password) {
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		md.update(password.getBytes());
 		byte[] b = md.digest();
 		StringBuffer sb = new StringBuffer();
