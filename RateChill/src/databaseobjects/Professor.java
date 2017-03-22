@@ -10,20 +10,14 @@ import database.DBController;
 
 public class Professor extends DatabaseUser {
 	String username;
+	String encryptedPassword;
 	ArrayList<String> courseIDs;
 	HashMap<String, String> courseIDNames;
 	
 	// Constructor 1
-	public Professor(String professorUsername, String encryptedPassword) {
+	public Professor(String professorUsername) {
 		this.username = professorUsername;
-		try {
-			if(DBC.checkProfessorPassword(professorUsername, encryptedPassword)){
-			DBC.loadProfessorInfo(this);
-			} else System.out.println("wrong password");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		DBC.loadProfessorInfo(this);	
 	}
 	
 	public boolean isCorrectPassword(String encryptedPassword) {
