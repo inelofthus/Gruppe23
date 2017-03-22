@@ -32,8 +32,6 @@ public class loginController implements Initializable {
 	public Text passwordError;
 	public Hyperlink newUser;
 	
-	String noPass = password.getText();
-	
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -107,7 +105,6 @@ public class loginController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		String noPass = password.getText();
 		
 	}
 
