@@ -1106,6 +1106,9 @@ public class DBController {
 	public void setCourseRatingsOverTime(Course course) {
 		// must set: HashMap<Integer, Integer> lecIDtoRatingCount1-5 in courseObject
 		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
+		
+		HashMap<Integer, Integer> lecIDtoNumRatings = new HashMap<>();
+
 		HashMap<Integer, Integer> lecIDtoRatingCount1 = new HashMap<>();
 		HashMap<Integer, Integer> lecIDtoRatingCount2 = new HashMap<>();
 		HashMap<Integer, Integer> lecIDtoRatingCount3 = new HashMap<>();
@@ -1135,22 +1138,28 @@ public class DBController {
 						while(rs.next()){
 							
 							String rating = rs.getString(1);
+							int lecID = rs.getInt(2);
+							int count = rs.getInt(3);
 							ArrayList<String> ratingValues = course.getRatingValues();
-
+							
+							int numRatingsForLec = lecIDtoNumRatings.containsKey(lecID) ? lecIDtoNumRatings.get(lecID) : 0;
+							lecIDtoNumRatings.put(lecID, numRatingsForLec + count);
+							
 							if(rating.equals(ratingValues.get(0))){
-								lecIDtoRatingCount1.put(rs.getInt(2), rs.getInt(3));
+								lecIDtoRatingCount1.put(lecID, count);
 							}else if(rating.equals(ratingValues.get(1))) {
-								lecIDtoRatingCount2.put(rs.getInt(2), rs.getInt(3));
+								lecIDtoRatingCount2.put(lecID, count);
 							}else if(rating.equals(ratingValues.get(2))) {
-								lecIDtoRatingCount3.put(rs.getInt(2), rs.getInt(3));
+								lecIDtoRatingCount3.put(lecID, count);
 							}else if(rating.equals(ratingValues.get(3))) {
-								lecIDtoRatingCount4.put(rs.getInt(2), rs.getInt(3));
+								lecIDtoRatingCount4.put(lecID, count);
 							}else if(rating.equals(ratingValues.get(4))) {
-								lecIDtoRatingCount5.put(rs.getInt(2), rs.getInt(3));
+								lecIDtoRatingCount5.put(lecID, count);
 							}
 
 						}
 						
+						course.setLecIDtoNumRatings(lecIDtoNumRatings);
 						course.setLecIDtoRatingCount1(lecIDtoRatingCount1);
 						course.setLecIDtoRatingCount2(lecIDtoRatingCount2);
 						course.setLecIDtoRatingCount3(lecIDtoRatingCount3);

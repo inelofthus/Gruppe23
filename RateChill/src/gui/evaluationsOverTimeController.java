@@ -142,7 +142,7 @@ public class evaluationsOverTimeController implements Initializable {
 		lineChart.setCreateSymbols(false);
 		
 		xAxis.setLabel("Dato");
-		yAxis.setLabel("Antall");
+		yAxis.setLabel("Prosent");
 		
 		
 		

@@ -198,6 +198,8 @@ public class Course extends DatabaseUser{
 	}
 	
 	//To be used to generate lectures over time graph:
+	
+	public HashMap<Integer, Integer> lecIDtoNumRatings;
 	private HashMap<Integer, Integer> lecIDtoRatingCount1;
 	private HashMap<Integer, Integer> lecIDtoRatingCount2;
 	private HashMap<Integer, Integer> lecIDtoRatingCount3;
@@ -258,7 +260,7 @@ public class Course extends DatabaseUser{
 		for(Integer lecID: completedLectureIDs){
 		
 			if(lecIDtoRatingCountHash.containsKey(lecID)){
-				count.add(lecIDtoRatingCountHash.get(lecID));
+				count.add( (lecIDtoRatingCountHash.get(lecID)* 100 /lecIDtoNumRatings.get(lecID)) );
 			}else count.add(0);
 		}
 		
@@ -268,6 +270,10 @@ public class Course extends DatabaseUser{
 
 	public ArrayList<String> getRatingValues() {
 		return ratingValues;
+	}
+	
+	public void setLecIDtoNumRatings(HashMap<Integer, Integer> lecIDtoNumRatings) {
+		this.lecIDtoNumRatings = lecIDtoNumRatings;
 	}
 
 	public void setRatingValues(ArrayList<String> ratingValues) {
