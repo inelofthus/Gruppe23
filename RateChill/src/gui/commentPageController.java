@@ -167,6 +167,9 @@ public class commentPageController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		textArea.setEditable(false);
+		if(!isCommentButtonsPushed()) {
+			textArea.setText("You have not selected to show any comments.");
+		}
 	}
 
 }
