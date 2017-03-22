@@ -33,7 +33,6 @@ public class loginController implements Initializable {
 	public Hyperlink newUser;
 	
 	
-	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
 		Parent root;
@@ -55,6 +54,7 @@ public class loginController implements Initializable {
 			stage.setScene(scene);
 			stage.show();
 	}
+	
 	
 	public void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
 		Stage stage = null;
