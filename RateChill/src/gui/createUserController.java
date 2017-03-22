@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import database.DBController;
 import databaseobjects.Lecture;
 import databaseobjects.Student;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class createUserController implements Initializable {
 
 	//fxml objects
@@ -40,6 +42,8 @@ public class createUserController implements Initializable {
 	public ToggleGroup toggleGroup;
 	public TextField username;
 	public TextField studyProgramCode;
+	
+	DBController DBC = new DBController();
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -70,9 +74,9 @@ public class createUserController implements Initializable {
 		return false;
 	}*/
 	
-	/*public void createStudentUser(String string) {
-		//some logic to write to the database and create a studentuser
-	}*/
+	public void createStudentUser(String name, String programCode) {
+		DBC.insertStudent(name, programCode);
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -90,7 +94,7 @@ public class createUserController implements Initializable {
 				badStudyProgramCode.setText("Invalid studyprogram-code");
 				return;
 			}*/
-			//createStudentUser(username.getText());
+			createStudentUser(username.getText(), studyProgramCode.getText());
 			loadNextScene(finish, stage, "login.fxml");
 		}			
 	}
