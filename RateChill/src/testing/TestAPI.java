@@ -13,7 +13,7 @@ import com.google.gson.JsonParser;
 public class TestAPI {
 	public static void main(String args[]) throws IOException{
 		String sURL = "http://www.ime.ntnu.no/api/course/en/tdt4140"; //just a string
-	
+		//String sURL = "http://freegeoip.net/json/";
 	    // Connect to the URL using java's native library
 	    URL url = new URL(sURL);
 	    HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -23,6 +23,6 @@ public class TestAPI {
 	    JsonParser jp = new JsonParser(); //from gson
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
-	    System.out.println(rootobj.get("course").getAsString()); //just grab the zipcode
+	    System.out.println(rootobj.getAsJsonObject("course").get("code").getAsString()); 
 	}
 }
