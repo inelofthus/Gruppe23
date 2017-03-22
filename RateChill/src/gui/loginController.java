@@ -82,12 +82,13 @@ public class loginController implements Initializable {
 	    else if (event.getSource()==professor){
 	    	Professor prof = new Professor(username.getText());
 	    	if(prof.existsInDB()) {
-	    		//if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
+	    		usernameError.setText("");
+	    		if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
 	    			mainController.getInstance().setProfessor(prof);
 	    			loadNextScene(professor, stage, "courseProf.fxml");
-	    		//}
-	    		//passwordError.setText("Incorrect password, try again");
-	    		//return;
+	    		}
+	    		passwordError.setText("Incorrect password, try again");
+	    		return;
 	    	}
 	    	passwordError.setText("");
 	    	usernameError.setText(errorMsg);
