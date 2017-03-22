@@ -28,6 +28,7 @@ LECTURE VALUES:
 	ArrayList<Evaluation> ConfusedEvaluations = null;
 	
 PROFESSOR VALUES:
+	secret password = thePassword;
 	String username = "pekkaa";
 	ArrayList<String> courseIDs = <TDT4140>;
 	HashMap<String, String> courseIDNames = TDT4140:"Programvareutvikling"

@@ -1,5 +1,6 @@
 package testingDBObjects;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class DummyDBController extends DBController{
 	public Course loadCourseInfoForSemester(Course course, String semester) {
 		// TODO Auto-generated method stub
 		return super.loadCourseInfoForSemester(course, semester);
+	}
+
+	@Override
+	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
+		return encryptedPassword.equals(Professor.hashPassword("thePassword")) ;
 	}
 
 	@Override

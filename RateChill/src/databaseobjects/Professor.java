@@ -38,7 +38,7 @@ public class Professor extends DatabaseUser {
 	}
 
 	// Constructor2 for use in testing
-	public Professor(String professorUsername, DBController newDBC) {
+	public Professor(String professorUsername, String encryptedPassword, DBController newDBC) {
 		this.username = professorUsername;
 		switchDBC(newDBC);
 		DBC.loadProfessorInfo(this);

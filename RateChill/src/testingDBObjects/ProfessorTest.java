@@ -13,7 +13,7 @@ public class ProfessorTest {
 
 	// A dummy DBC has no interaction with database. It just sets values as described in exampleValues.txt
 		DBController dummyDBC = new DummyDBController();
-		Professor prof = new Professor("pekkaa", dummyDBC);
+		Professor prof = new Professor("pekkaa", Professor.hashPassword("thePassword"), dummyDBC);
 		
 		
 		@Test
@@ -55,5 +55,28 @@ public class ProfessorTest {
 			String expected =  "Programvareutvikling";
 			
 			assertEquals(expected, actual);
+		}
+		
+		@Test
+		public void testhashPassword() {
+			// just checks that the same value comes out every time
+			String actual = Professor.hashPassword("thePassword");
+			String expected =  Professor.hashPassword("thePassword");
+			
+			assertEquals(expected, actual);
+		}
+		
+		@Test
+		public void testisCorrectPassword() {
+			
+			boolean actual = prof.isCorrectPassword(Professor.hashPassword("thePassword"));
+			boolean expected =  true;
+			
+			assertEquals(expected, actual);
+			
+			boolean actual2 = prof.isCorrectPassword(Professor.hashPassword("theWrongPassword"));
+			boolean expected2 =  false;
+			
+			assertEquals(expected2, actual2);
 		}
 }
