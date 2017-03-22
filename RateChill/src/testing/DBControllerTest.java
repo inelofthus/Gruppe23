@@ -4,10 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import org.junit.Test;
-
 import database.DBController;
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
@@ -79,7 +76,7 @@ public class DBControllerTest {
 		//Create
 		dbc.insertProfessor("mariusth", "pass");
 		
-		Professor prof = new Professor("mariusth","pass");
+		Professor prof = new Professor("mariusth");
 		dbc.loadProfessorInfo(prof);
 		
 		assertEquals("mariusth", prof.getUsername());
