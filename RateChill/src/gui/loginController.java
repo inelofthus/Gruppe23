@@ -2,11 +2,11 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
-import databaseobjects.Student;
 import databaseobjects.Professor;
+import databaseobjects.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import gui.mainController;
 
 public class loginController implements Initializable {
 
@@ -27,68 +27,87 @@ public class loginController implements Initializable {
 	public Button student;
 	public Button professor;
 	public TextField username; 
-	public TextField password; 
-	public Text error;
+	public PasswordField password;
+	public Text usernameError;
+	public Text passwordError;
 	public Hyperlink newUser;
 	
+	String noPass = password.getText();
 	
 	
 	
-	@FXML
-	public void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage;
-		String errorMsg = "User doesn't exist. Try again";
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+		stage=(Stage) button.getScene().getWindow();
+		Parent root;
+		root = FXMLLoader.load(getClass().getResource(string));
 		
+		//create a new scene with root and set the stage
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void loadNextSceneHyperlink(Hyperlink hyper, Stage stage, String string) throws IOException{
+			stage=(Stage) hyper.getScene().getWindow();
+			Parent root;
+			root = FXMLLoader.load(getClass().getResource(string));
+			
+			//create a new scene with root and set the stage
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+	}
+	
+	public void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
+		Stage stage = null;
+		String errorMsg = "User doesn't exist. Try again";
 		
 		
 		if(event.getSource()==student){
 			Student stud = new Student(username.getText());
 			
+			
 	    	//checks if the student username exists
 			if(stud.existsInDB()) {
-	    		
-	    		mainController.getInstance().setStudent(stud);
-	    		
-	    		//get reference to the button's stage
-		    	stage=(Stage) student.getScene().getWindow();
-		    	//load up OTHER FXML document
-				Parent root = FXMLLoader.load(getClass().getResource("courseStud.fxml"));
-		    	//create a new scene with root and set the stage
-	    		Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-	    		stage.show();
+				//if(password.getText() == noPass) {
+					mainController.getInstance().setStudent(stud);
+					loadNextScene(student, stage, "courseStud.fxml");
+				//}
+				//passwordError.setText("Leave empty if student.");
+				//return;
 			}
-	    	
-	    	error.setText(errorMsg);
+			
+	    	usernameError.setText(errorMsg);
+	    	return;
 	    }
 	    
 	    else if (event.getSource()==professor){
-	    	Professor prof = new Professor(username.getText());
-	    	
+	    	Professor prof = new Professor(username.getText(), Professor.hashPassword(password.getText()));
 	    	if(prof.existsInDB()) {
-	    		
-	    		mainController.getInstance().setProfessor(prof);
-	    		
-	    		stage=(Stage) professor.getScene().getWindow();
-	    		
-	    		Parent root = FXMLLoader.load(getClass().getResource("courseProf.fxml"));
-	    		Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-	    		stage.show();
+	    		//if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
+	    			mainController.getInstance().setProfessor(prof);
+	    			loadNextScene(professor, stage, "courseProf.fxml");
+	    		//}
+	    		//passwordError.setText("Incorrect password, try again");
+	    		//return;
 	    	}
-	    	error.setText(errorMsg);
+	    	passwordError.setText("");
+	    	usernameError.setText(errorMsg);
+	    	return;
 	    }
 		
 	    else if (event.getSource()==newUser){
-	    	error.setText(":)");
+	    	loadNextSceneHyperlink(newUser, stage, "createUser.fxml");
+	    	return;
 	    }
 		
-	     
-	} 
+	    
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		String noPass = password.getText();
 		
 	}
 
