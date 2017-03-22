@@ -82,7 +82,7 @@ public class loginController implements Initializable {
 	    }
 	    
 	    else if (event.getSource()==professor){
-	    	Professor prof = new Professor(username.getText(), Professor.hashPassword(password.getText()));
+	    	Professor prof = new Professor(username.getText());
 	    	if(prof.existsInDB()) {
 	    		//if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
 	    			mainController.getInstance().setProfessor(prof);
