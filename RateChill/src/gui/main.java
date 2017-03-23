@@ -19,6 +19,7 @@ public class main extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("RateChill");
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 		
 	}
