@@ -30,7 +30,8 @@ public class loginController implements Initializable {
 	public PasswordField password;
 	public Text usernameError;
 	public Text passwordError;
-	public Hyperlink newUser;
+	public Hyperlink newStudent;
+	public Hyperlink newProfessor;
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -95,8 +96,13 @@ public class loginController implements Initializable {
 	    	return;
 	    }
 		
-	    else if (event.getSource()==newUser){
-	    	loadNextSceneHyperlink(newUser, stage, "createUser.fxml");
+	    else if (event.getSource()==newStudent){
+	    	loadNextSceneHyperlink(newStudent, stage, "createUser.fxml");
+	    	return;
+	    }
+		
+	    else if (event.getSource()==newProfessor){
+	    	loadNextSceneHyperlink(newProfessor, stage, "createProfUser.fxml");
 	    	return;
 	    }
 		

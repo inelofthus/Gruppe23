@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createUserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createUserController">
    <children>
       <ImageView fitHeight="142.0" fitWidth="271.0" layoutX="220.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -29,6 +35,5 @@
       </Button>
       <Text fill="RED" layoutX="499.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
       <Text fill="RED" layoutX="499.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
-      <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you a professor? Send us an email at &quot;rate@chill.com&quot; to request the creation of a professor-user." wrappingWidth="177.04736328125" />
    </children>
 </AnchorPane>
