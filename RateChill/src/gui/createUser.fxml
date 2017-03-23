@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -15,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createUserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createUserController">
    <children>
-      <ImageView fitHeight="142.0" fitWidth="271.0" layoutX="220.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="201.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
@@ -25,10 +19,10 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <Button fx:id="back" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
-      <TextField fx:id="username" layoutX="167.0" layoutY="199.0" prefHeight="42.0" prefWidth="314.0" promptText="Create username" />
-      <TextField fx:id="studyProgramCode" layoutX="167.0" layoutY="253.0" prefHeight="42.0" prefWidth="314.0" promptText="Study program code" />
-      <Button fx:id="finish" layoutX="167.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="70.0" prefWidth="314.0" text="Finish">
+      <Button fx:id="back" layoutX="532.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+      <TextField fx:id="username" layoutX="167.0" layoutY="199.0" prefHeight="39.0" prefWidth="257.0" promptText="Create username" />
+      <TextField fx:id="studyProgramCode" layoutX="167.0" layoutY="253.0" prefHeight="39.0" prefWidth="257.0" promptText="Study program code" />
+      <Button fx:id="finish" layoutX="167.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="257.0" text="Finish">
          <font>
             <Font size="21.0" />
          </font>
