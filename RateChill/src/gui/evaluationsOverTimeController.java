@@ -29,7 +29,6 @@ public class evaluationsOverTimeController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public Button seeComments;
 	public Text debugText;
 	public Button home;
 	public Button logout;
@@ -78,11 +77,6 @@ public class evaluationsOverTimeController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
-		
-		
-		if (event.getSource() == seeComments){
-			loadNextScene(seeComments, stage, "commentPage.fxml");
-		}
 	}
 	
 	
