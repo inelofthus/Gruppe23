@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../../../workspace/rateDesign.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
    <children>
       <Button fx:id="professor" layoutX="308.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="77.0" prefWidth="272.0" text="Professor">
          <font>
@@ -22,7 +22,7 @@
             <Font size="36.0" />
          </font>
       </Button>
-      <TextField fx:id="username" layoutX="173.0" layoutY="186.0" prefHeight="39.0" prefWidth="257.0" promptText="Username" />
+      <TextField fx:id="username" layoutX="173.0" layoutY="186.0" prefHeight="39.0" prefWidth="257.0" promptText="Username" styleClass="inputSection" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="201.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
@@ -30,7 +30,7 @@
       </ImageView>
       <Text fx:id="usernameError" fill="#f62323" layoutX="429.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="169.00000524520874" />
       <Hyperlink fx:id="newStudent" layoutX="462.0" layoutY="16.0" onAction="#handleButtonAction" text="New Student?" />
-      <PasswordField fx:id="password" layoutX="172.0" layoutY="237.0" prefHeight="39.0" prefWidth="257.0" promptText="Password (professor only)" />
+      <PasswordField fx:id="password" layoutX="172.0" layoutY="237.0" prefHeight="39.0" prefWidth="257.0" promptText="Password (professor only)" styleClass="inputSection" />
       <Text fx:id="passwordError" fill="#f62323" layoutX="429.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="169.00000524520874" />
       <Hyperlink fx:id="newProfessor" layoutX="21.0" layoutY="16.0" onAction="#handleButtonAction" text="New Professor?" />
    </children>
