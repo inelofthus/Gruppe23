@@ -22,6 +22,22 @@ public class TestAPI {
 	    JsonParser jp = new JsonParser(); //from gson
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
-	    System.out.println(rootobj.getAsJsonObject("course").get("code").getAsString()); 
+	    
+	    System.out.println("Fagkode:" + rootobj.getAsJsonObject("course").get("code").getAsString());
+	    System.out.println("Navn:" + rootobj.getAsJsonObject("course").get("norwegianName").getAsString());
+	    
+	    String semester = "";
+	    if (rootobj.getAsJsonObject("course").get("taughtInAutumn").getAsBoolean()){
+	    	semester = "Høst";
+	    }
+	    else {semester = "Vår";}
+	    System.out.println("Semester: " + semester);
+	    //this iz best codez
+	    System.out.println("Brukernavn, professor: " + 
+	    		rootobj.getAsJsonObject("course").
+	    		getAsJsonArray("educationalRole").get(0).getAsJsonObject().
+	    		get("person").getAsJsonObject().get("username").getAsString());
+	    
+	    
 	}
 }
