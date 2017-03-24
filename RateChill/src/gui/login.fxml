@@ -10,14 +10,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
    <children>
-      <Button fx:id="professor" layoutX="308.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="77.0" prefWidth="272.0" text="Professor">
+      <Button fx:id="professor" layoutX="316.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="81.0" prefWidth="228.0" text="Professor">
          <font>
             <Font size="36.0" />
          </font>
       </Button>
-      <Button fx:id="student" layoutX="21.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="77.0" prefWidth="272.0" text="Student">
+      <Button fx:id="student" layoutX="64.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="64.0" prefWidth="218.0" text="Student">
          <font>
             <Font size="36.0" />
          </font>
@@ -29,7 +29,7 @@
          </image>
       </ImageView>
       <Text fx:id="usernameError" fill="#f62323" layoutX="429.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="169.00000524520874" />
-      <Hyperlink fx:id="newStudent" layoutX="462.0" layoutY="16.0" onAction="#handleButtonAction" text="New Student?" />
+      <Hyperlink fx:id="newStudent" layoutX="503.0" layoutY="16.0" onAction="#handleButtonAction" text="New Student?" />
       <PasswordField fx:id="password" layoutX="172.0" layoutY="237.0" prefHeight="39.0" prefWidth="257.0" promptText="Password (professor only)" styleClass="inputSection" />
       <Text fx:id="passwordError" fill="#f62323" layoutX="429.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="169.00000524520874" />
       <Hyperlink fx:id="newProfessor" layoutX="21.0" layoutY="16.0" onAction="#handleButtonAction" text="New Professor?" />
