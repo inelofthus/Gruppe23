@@ -68,12 +68,8 @@ public class loginController implements Initializable {
 			
 	    	//checks if the student username exists
 			if(stud.existsInDB()) {
-				//if(password.getText() == noPass) {
-					mainController.getInstance().setStudent(stud);
-					loadNextScene(student, stage, "courseStud.fxml");
-				//}
-				//passwordError.setText("Leave empty if student.");
-				//return;
+				mainController.getInstance().setStudent(stud);
+				loadNextScene(student, stage, "courseStud.fxml");
 			}
 			
 	    	usernameError.setText(errorMsg);
@@ -81,38 +77,36 @@ public class loginController implements Initializable {
 	    }
 	    
 	    else if (event.getSource()==professor){
-	    	Professor prof = new Professor(username.getText());
-	    	if(prof.existsInDB()) {
-	    		usernameError.setText("");
-	    		if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
-	    			mainController.getInstance().setProfessor(prof);
-	    			loadNextScene(professor, stage, "courseProf.fxml");
-	    		}
-	    		passwordError.setText("Incorrect password, try again");
-	    		return;
-	    	}
-	    	passwordError.setText("");
-	    	usernameError.setText(errorMsg);
-	    	return;
-	    }
+			Professor prof = new Professor(username.getText());
+			if(prof.existsInDB()) {
+				usernameError.setText("");
+				if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
+					mainController.getInstance().setProfessor(prof);
+					loadNextScene(professor, stage, "courseProf.fxml");
+				}
+				passwordError.setText("Incorrect password, try again");
+				return;
+			}
+			passwordError.setText("");
+			usernameError.setText(errorMsg);
+			return;
+		}
 		
-	    else if (event.getSource()==newStudent){
-	    	loadNextSceneHyperlink(newStudent, stage, "createUser.fxml");
-	    	return;
-	    }
+		else if (event.getSource()==newStudent){
+			loadNextSceneHyperlink(newStudent, stage, "createUser.fxml");
+			return;
+		}
 		
-	    else if (event.getSource()==newProfessor){
-	    	loadNextSceneHyperlink(newProfessor, stage, "createProfUser.fxml");
-	    	return;
-	    }
+		else if (event.getSource()==newProfessor){
+			loadNextSceneHyperlink(newProfessor, stage, "createProfUser.fxml");
+			return;
+		}
 		
-	    
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
