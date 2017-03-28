@@ -24,6 +24,7 @@ public class loginController implements Initializable {
 
 	
 	@FXML
+	public Button backButton;
 	public Button student;
 	public Button professor;
 	public TextField username; 
@@ -32,6 +33,8 @@ public class loginController implements Initializable {
 	public Text passwordError;
 	public Hyperlink newStudent;
 	public Hyperlink newProfessor;
+	public Button loginStud;
+	public Button loginProf;
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -56,33 +59,54 @@ public class loginController implements Initializable {
 			stage.show();
 	}
 	
+	//method for loading next scene based on user 
+	public void whichUser (ActionEvent event) throws IOException {
+		Stage stage = null;
+		if (event.getSource()==student){
+			loadNextScene(student, stage, "loginStud.fxml");
+		}
+		else if (event.getSource()==professor){
+			loadNextScene(professor, stage, "loginProf.fxml");
+		}
+		
+	}
+	
+	//returns you to login.fxml
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+		if (event.getSource() == backButton) {
+			loadNextScene(backButton, stage, "login.fxml");
+		}
+	} 
+	
 	
 	public void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
 		Stage stage = null;
+		userButtons(event, stage);
 		String errorMsg = "User doesn't exist. Try again";
 		
 		
-		if(event.getSource()==student){
+		if(event.getSource()==loginStud){
 			Student stud = new Student(username.getText());
 			
 			
 	    	//checks if the student username exists
 			if(stud.existsInDB()) {
 				mainController.getInstance().setStudent(stud);
-				loadNextScene(student, stage, "courseStud.fxml");
+				loadNextScene(loginStud, stage, "courseStud.fxml");
 			}
 			
 	    	usernameError.setText(errorMsg);
 	    	return;
 	    }
 	    
-	    else if (event.getSource()==professor){
+	    else if (event.getSource()==loginProf){
 			Professor prof = new Professor(username.getText());
 			if(prof.existsInDB()) {
 				usernameError.setText("");
 				if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
 					mainController.getInstance().setProfessor(prof);
-					loadNextScene(professor, stage, "courseProf.fxml");
+					loadNextScene(loginProf, stage, "courseProf.fxml");
 				}
 				passwordError.setText("Incorrect password, try again");
 				return;

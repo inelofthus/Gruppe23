@@ -59,7 +59,7 @@ public class createUserController implements Initializable {
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "login.fxml");
+			loadNextScene(back, stage, "loginStud.fxml");
 		}
 	}
 
@@ -95,7 +95,7 @@ public class createUserController implements Initializable {
 				return;
 			}*/
 			createStudentUser(username.getText(), studyProgramCode.getText());
-			loadNextScene(finish, stage, "login.fxml");
+			loadNextScene(finish, stage, "loginStud.fxml");
 		}			
 	}
 	

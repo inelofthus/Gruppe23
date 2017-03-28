@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.createProfUserController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="201.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
@@ -21,15 +21,15 @@
          </viewport>
       </ImageView>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
-      <TextField fx:id="username" layoutX="167.0" layoutY="180.0" prefHeight="39.0" prefWidth="257.0" promptText="NTNU Username" styleClass="inputSection" />
-      <Button fx:id="finish" layoutX="167.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="65.0" prefWidth="257.0" text="Finish">
+      <TextField fx:id="username" layoutX="167.0" layoutY="191.0" prefHeight="39.0" prefWidth="257.0" promptText="NTNU Username" styleClass="inputSection" />
+      <Button fx:id="finish" layoutX="167.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="62.0" prefWidth="257.0" text="Finish">
          <font>
-            <Font size="21.0" />
+            <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="badUsername" fill="RED" layoutX="499.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
-      <Text fx:id="passwordNoMatch" fill="RED" layoutX="499.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
-      <PasswordField fx:id="password" layoutX="167.0" layoutY="232.0" prefHeight="39.0" prefWidth="257.0" promptText="password" styleClass="inputSection" />
-      <PasswordField fx:id="RepeatPassword" layoutX="167.0" layoutY="282.0" prefHeight="39.0" prefWidth="257.0" promptText="repeat password" styleClass="inputSection" />
+      <Text fx:id="badUsername" fill="RED" layoutX="432.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text fx:id="passwordNoMatch" fill="RED" layoutX="432.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <PasswordField fx:id="password" layoutX="167.0" layoutY="240.0" prefHeight="39.0" prefWidth="257.0" promptText="password" styleClass="inputSection" />
+      <PasswordField fx:id="RepeatPassword" layoutX="167.0" layoutY="289.0" prefHeight="39.0" prefWidth="257.0" promptText="repeat password" styleClass="inputSection" />
    </children>
 </AnchorPane>

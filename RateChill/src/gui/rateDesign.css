@@ -24,3 +24,7 @@
 .background {
 	-fx-background-color : #efede6;
 }
+
+.textLogo {
+	-fx-text-decoration: underline;
+}

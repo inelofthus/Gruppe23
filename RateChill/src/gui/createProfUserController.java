@@ -47,7 +47,7 @@ public class createProfUserController implements Initializable {
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "login.fxml");
+			loadNextScene(back, stage, "loginProf.fxml");
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class createProfUserController implements Initializable {
 			
 			
 			DBC.insertProfessor(username.getText(), Professor.hashPassword(password.getText()));;
-			loadNextScene(finish, stage, "login.fxml");
+			loadNextScene(finish, stage, "loginProf.fxml");
 		}			
 	}
 	
