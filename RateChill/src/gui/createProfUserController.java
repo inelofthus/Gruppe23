@@ -60,26 +60,36 @@ public class createProfUserController implements Initializable {
 		if (event.getSource() == finish){
 			Professor prof = new Professor(username.getText());
 			
-			if (username.getText()=="") {
+			if (username.getText().isEmpty()) {
 				badUsername.setText("Please create a username");
 				return;
-			}
+			}else badUsername.setText("");
+			if (password.getText().isEmpty()) {
+				passwordNoMatch.setText("Please set a password");
+				return;
+			}else passwordNoMatch.setText("");
+			if (RepeatPassword.getText().isEmpty()) {
+				passwordNoMatch.setText("Please repeat the password");
+				return;
+			}else passwordNoMatch.setText("");
+			if(username.getText().length() > 10){
+				badUsername.setText("Username too long (max 10 characters)");
+				return;
+			}else badUsername.setText("");
 			if(prof.existsInDB()) {
 				badUsername.setText("Username taken, please make a new one");
 				return;
-			}
+			}else badUsername.setText("");
 			if (!password.getText().equals(RepeatPassword.getText())) {
 				passwordNoMatch.setText("Passwords don't match");
 				return;
-			}
+			}else passwordNoMatch.setText("");
 			if (password.getText().length()<3) {
 				passwordNoMatch.setText("Your password is too short");
 				return;
-			}
+			}else passwordNoMatch.setText("");
 			
-			
-			
-			
+						
 			
 			DBC.insertProfessor(username.getText(), Professor.hashPassword(password.getText()));;
 			loadNextScene(finish, stage, "loginProf.fxml");
