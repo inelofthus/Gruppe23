@@ -72,20 +72,29 @@ public class CourseTest {
 	}
 	
 	@Test
-	public void  TestgetCourseLocation() {
-		String actual = course.getCourseLocation();
-		String expected = "Trondheim";
-		
-		assertEquals(expected, actual);
-	}
-	
-	@Test
 	public void  TestgetNumLectureHours() {
 		int actual = course.getNumLectureHours();
 		int expected = 4;
 		
 		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void  TestisTaughtInSpring() {
+		boolean actual = course.isTaughtInSpring();
+		boolean expected = false;
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void  TestisTaughtInAutumn() {
+		boolean actual = course.isTaughtInAutumn();
+		boolean expected = true;
+		
+		assertEquals(expected, actual);
+	}
+
 
 	@Test
 	public void  TestgetProfessorUsernames() {

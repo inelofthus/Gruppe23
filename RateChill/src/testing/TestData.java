@@ -16,7 +16,7 @@ public class TestData {
 	
 	public static void createTestDataEvaluation(){
 		DBController dbc = new DBController();
-		dbc.insertCourse("IT2805", "Webteknologi", "Trondheim", 3);
+		dbc.insertCourse("IT2805", "Webteknologi", 3,1,1);
 		dbc.insertStudent("inela", "BIT");
 		dbc.insertCourseStudent("inela", "IT2805");
 		dbc.insertProfessor("michailg", Professor.hashPassword("I like pizza"));
@@ -33,7 +33,7 @@ public class TestData {
 	
 	public static void createTestDataLecture(){
 		DBController dbc = new DBController();
-		dbc.insertCourse("TTK4100", "Kybernetikk, introduksjon", "Trondheim", 3);
+		dbc.insertCourse("TTK4100", "Kybernetikk, introduksjon", 3,1,1);
 		dbc.insertStudent("inela", "BIT");
 		dbc.insertCourseStudent("inela@stud.ntnu.no", "TTK4100");
 		dbc.insertProfessor("tomgra", Professor.hashPassword("passSkidoodle"));

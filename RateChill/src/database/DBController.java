@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
@@ -52,6 +54,7 @@ public class DBController {
 	}
 
 	Statement stmt = null;
+	java.sql.PreparedStatement prepStmt = null;
 	ResultSet rs = null;
 
 	// Frequently used SQL methods
@@ -135,20 +138,30 @@ public class DBController {
 
 	// Course info
 
-	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
+	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring, int taughtInAutumn) {
 		// inserts a new row in Course table of database
 		connect();
 
 		try {
+			String query = "INSERT INTO Course VALUES(?,?,?,?,?)";
 
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Course VALUES('").append(courseCode).append("','").append(courseName).append("','")
-					.append(courseLocation).append("',").append(lectureHours).append(");");
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, courseName);
+			prepStmt.setInt(3, lectureHours);
+			prepStmt.setInt(4, taughtInSpring);
+			prepStmt.setInt(5, taughtInAutumn);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i + " records inserted"); 
 
-			String query = sb.toString();
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("INSERT INTO Course VALUES('").append(courseCode).append("','").append(courseName).append("','")
+//					.append(courseLocation).append("',").append(lectureHours).append(");");
+//
+//			String query = sb.toString();
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -209,7 +222,7 @@ public class DBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		setCourseNameLocationAndLecHours(course);
+		setCourseNameLecHoursAndSemester(course);
 		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course);
@@ -233,7 +246,7 @@ public class DBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		setCourseNameLocationAndLecHours(course);
+		setCourseNameLecHoursAndSemester(course);
 		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course, semester);
@@ -392,10 +405,10 @@ public class DBController {
 
 	}
 
-	private void setCourseNameLocationAndLecHours(Course course) {
+	private void setCourseNameLecHoursAndSemester(Course course) {
 		// This sets courseName, location and number of lecture hours for this
 		// specific course and sets result in course object.
-		String query = "SELECT courseName, courseLocation, lectureHours  FROM Course WHERE courseCode = " + "'"
+		String query = "SELECT courseName, lectureHours, taughtInSpring, taughtInAutumn FROM Course WHERE courseCode = " + "'"
 				+ course.getCourseCode() + "';";
 
 		try {
@@ -405,11 +418,17 @@ public class DBController {
 
 			while (rs.next()) {
 				course.setCourseName(rs.getString(1));
-				course.setCourseLocation(rs.getString(2));
-				course.setNumLectureHours(rs.getInt(3));
+				course.setNumLectureHours(rs.getInt(2));
+				if(rs.getInt(3) == 1){
+					course.setTaughtInSpring(true);
+				}else course.setTaughtInSpring(false);
+				if(rs.getInt(4) == 1){
+					course.setTaughtInAutumn(true);
+				}else course.setTaughtInAutumn(false);
+				
 			}
 		} catch (Exception e) {
-			System.out.println("error in helper function DBC.setCourseNameLocationAndLecHours:" + e.getMessage());
+			System.out.println("error in helper function DBC.setCourseNameLecHoursAndSemester:" + e.getMessage());
 		}
 
 	}
@@ -687,19 +706,19 @@ public class DBController {
 		// inserts a new professor into database
 		connect();
 		try {
+			
+			
+			String query = "INSERT INTO Professor VALUES(?,?)";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, professorUsername);
+			prepStmt.setString(2, password);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
 
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Professor VALUES('").append(professorUsername)
-			.append("','").append(password).append("');");
-
-			String query = sb.toString();
-			 System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
 		}
 		close();
 	}
@@ -836,16 +855,24 @@ public class DBController {
 
 		connect();
 		try {
+			
+			String query = "INSERT INTO Student VALUES(?,?)";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, studentUsername);
+			prepStmt.setString(2, studyProgramCode);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
 
-			StringBuilder sb = new StringBuilder();
-			sb.append("INSERT INTO Student VALUES('").append(studentUsername).append("','")
-					.append(studyProgramCode).append("');");
-
-			String query = sb.toString();
-			// System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("INSERT INTO Student VALUES('").append(studentUsername).append("','")
+//					.append(studyProgramCode).append("');");
+//
+//			String query = sb.toString();
+//			// System.out.println(query);
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
 
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -1019,22 +1046,38 @@ public class DBController {
 	public void insertEvaluation(String studentUsername, int lectureID, String rating, String studentComment) {
 		connect();
 		try {
+			
+//			String query = "Insert into Evaluation (studentUsername, lectureID, rating, studentComment) SELECT Student.studentUsername,"
+//					+ " Lecture.lectureID, (?,?) FROM Student, Lecture WHERE studentUsername = (?) "
+//					+ "AND lectureID = (?);";
+			
+			
+			String query = "Insert into Evaluation (studentUsername, lectureID, rating, studentComment) VALUES(?,?,?,?)";
 
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into Evaluation (studentUsername, lectureID, rating, studentComment)")
-					.append(" SELECT Student.studentUsername, Lecture.lectureID, '").append(rating).append("', '")
-					.append(studentComment).append("'").append(" FROM Student, Lecture")
-					.append(" WHERE studentUsername = '").append(studentUsername).append("' AND lectureID = ")
-					.append(lectureID).append(";");
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, studentUsername);
+			prepStmt.setInt(2, lectureID);
+			prepStmt.setString(3, rating);
+			prepStmt.setString(4, studentComment);
+			
+			int i = prepStmt.executeUpdate();
+			System.out.println(i + " records inserted");
 
-			String query = sb.toString();
-			// System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("Insert into Evaluation (studentUsername, lectureID, rating, studentComment)")
+//					.append(" SELECT Student.studentUsername, Lecture.lectureID, '").append(rating).append("', '")
+//					.append(studentComment).append("'").append(" FROM Student, Lecture")
+//					.append(" WHERE studentUsername = '").append(studentUsername).append("' AND lectureID = ")
+//					.append(lectureID).append(";");
+//
+//			String query = sb.toString();
+//			System.out.println(query);
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in insertEvaluation: " + e.getMessage());
 		}
 		close();
 	}
@@ -1064,13 +1107,22 @@ public class DBController {
 	// Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
-
-//		test.insertStudent("karimj", "MTING");
-//		test.insertCourseStudent("karimj", "tdt4140");
+		
+		test.insertCourse("code", "name", 4, 0, 1);
+//		test.insertStudent("c'); DROP TABLE Professor;", "test");
 //		test.insertCourseStudent("karimj", "tdt4145");
 
+//		test.insertProfessor("c'); DROP TABLE Professor;", "testPas");
+//		test.overwriteEvaluation("stud21", 125, "Too Slow!", "This is easy");
+//		test.overwriteEvaluation("stud22", 125, "Too Slow!", "was fine but a bit slow");
+//		test.insertEvaluation("stud23", 125, "Ok", "c'); DROP TABLE Professor;");
+//		test.insertEvaluation("stud24", 125, "Ok", "hello");
+//		test.insertEvaluation("stud25", 125, "Ok", "I believe that I am a cat");
+//		test.insertEvaluation("stud26", 125, "Ok", "bunnys are so cute");
+//		test.insertEvaluation("stud27", 125, "Ok", "You are alright ");
+//		test.insertEvaluation("stud28", 125, "Ok", "You are alright ");
 		
-		test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
+//		test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
 
 		 
 		// test.getProfessorsForCoursse("tdt4140");
@@ -1099,7 +1151,7 @@ public class DBController {
 
 		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
 		
-//		test.insertEvaluation("stud5", 116, "Too Fast!", "slow Down bro");
+
 
 	}
 

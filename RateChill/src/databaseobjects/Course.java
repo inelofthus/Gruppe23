@@ -14,13 +14,14 @@ public class Course extends DatabaseUser{
 	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Perfect","Ok","Too Fast!","Too Slow!","Confused.. ?"));
 	private String courseCode;
 	private String courseName;
-	private String courseLocation;
 	private int numLectureHours;
 	private ArrayList<String> professorUsernames;
 	private ArrayList<Integer> lectureIDs;
 	private ArrayList<Integer> completedLectureIDs;
 	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate;
 	private String semester;
+	private boolean taughtInSpring;
+	private boolean taughtInAutumn;
 	
 
 	//Constructor1
@@ -52,6 +53,22 @@ public class Course extends DatabaseUser{
 	
 	//Getters
 	
+	public boolean isTaughtInSpring() {
+		return taughtInSpring;
+	}
+
+	public void setTaughtInSpring(boolean taughtInSpring) {
+		this.taughtInSpring = taughtInSpring;
+	}
+
+	public boolean isTaughtInAutumn() {
+		return taughtInAutumn;
+	}
+
+	public void setTaughtInAutumn(boolean taughtInAutumn) {
+		this.taughtInAutumn = taughtInAutumn;
+	}
+
 	public String getSemester() {
 		return semester;
 	}
@@ -80,9 +97,6 @@ public class Course extends DatabaseUser{
 		return courseName;
 	}
 
-	public String getCourseLocation() {
-		return courseLocation;
-	}
 
 	public int getNumLectureHours() {
 		return numLectureHours;
@@ -181,10 +195,6 @@ public class Course extends DatabaseUser{
 		this.courseName = courseName;
 	}
 
-	public void setCourseLocation(String courseLocation) {
-		this.courseLocation = courseLocation;
-	}
-
 	public void setNumLectureHours(int numLectureHours) {
 		this.numLectureHours = numLectureHours;
 	}
@@ -255,16 +265,22 @@ public class Course extends DatabaseUser{
 	
 	private ArrayList<Integer> createCountArray(HashMap<Integer, Integer> lecIDtoRatingCountHash) {
 		ArrayList<Integer> count = new ArrayList<>();
-		Collections.reverse(completedLectureIDs);
 		
-		for(Integer lecID: completedLectureIDs){
-		
-			if(lecIDtoRatingCountHash.containsKey(lecID)){
-				count.add( (lecIDtoRatingCountHash.get(lecID)* 100 /lecIDtoNumRatings.get(lecID)) );
-			}else count.add(0);
+		if(completedLectureIDs.size()>0){
+			Collections.reverse(completedLectureIDs);
+
+			for (Integer lecID : completedLectureIDs) {
+
+				if (lecIDtoRatingCountHash.containsKey(lecID)) {
+					count.add((lecIDtoRatingCountHash.get(lecID) * 100 / lecIDtoNumRatings.get(lecID)));
+				} else
+					count.add(0);
+			}
+
+			Collections.reverse(completedLectureIDs);
 		}
 		
-		Collections.reverse(completedLectureIDs);
+
 		return count;
 	}
 

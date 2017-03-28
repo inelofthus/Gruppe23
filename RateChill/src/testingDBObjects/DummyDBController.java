@@ -66,7 +66,7 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public void insertCourse(String courseCode, String courseName, String courseLocation, int lectureHours) {
+	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring, int taughtInAutumn) {
 		//does nothing
 	}
 
@@ -88,10 +88,11 @@ public class DummyDBController extends DBController{
 	@Override
 	public Course loadCourseInfo(Course course) {
 		course.setCourseName("Programvareutvikling");
-		course.setCourseLocation("Trondheim");
 		course.setNumLectureHours(4);
 		course.setProfessorUsernames(new ArrayList<>(Arrays.asList("pekkaa")));
 		course.setLectureIDs(new ArrayList<>(Arrays.asList(1, 2, 3)));
+		course.setTaughtInAutumn(true);
+		course.setTaughtInSpring(false);
 		
 		ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
 		LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();

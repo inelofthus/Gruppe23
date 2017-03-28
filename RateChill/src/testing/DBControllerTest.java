@@ -24,14 +24,13 @@ public class DBControllerTest {
 	public void courseCRUD(){
 				
 		//Create
-		dbc.insertCourse("TDT4102", "Prosedyre- og objektorientert programmering", "Trondheim", 4);
+		dbc.insertCourse("TDT4102", "Prosedyre- og objektorientert programmering", 4, 1, 1);
 		
 		Course course = new Course("TDT4102");
 		dbc.loadCourseInfo(course);
 		
 		assertEquals("TDT4102", course.getCourseCode());
 		assertEquals("Prosedyre- og objektorientert programmering", course.getCourseName());
-		assertEquals("Trondheim", course.getCourseLocation());
 		assertEquals(4, course.getNumLectureHours());
 		
 		assertTrue(course.existsInDB());

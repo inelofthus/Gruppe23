@@ -1,8 +1,9 @@
 COURSE VALUES:
 	private String courseCode = "TDT4140";
 	private String courseName "Programvareutvikling"
-	private String courseLocation = ';
 	private int numLectureHours = 4;
+	private bool taughtInAutumn = true;
+	private bool taughtInSpring = false;
 	private ArrayList<String> professorUsernames = new ArrayList<>(Arrays.asList("pekkaa")) ;
 		
 	private ArrayList<Integer> lectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
