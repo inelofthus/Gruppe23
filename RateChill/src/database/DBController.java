@@ -1108,7 +1108,9 @@ public class DBController {
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
 		
-		test.insertCourse("code", "name", 4, 0, 1);
+//		test.deleteCourseStudent("stud1", "tdt4140");
+//		System.out.println(test.getCoursesStartingWith("pr", "name"));
+//		test.insertCourse("code", "name", 4, 0, 1);
 //		test.insertStudent("c'); DROP TABLE Professor;", "test");
 //		test.insertCourseStudent("karimj", "tdt4145");
 
@@ -1269,6 +1271,52 @@ public class DBController {
 		}
 		
 		return rs.next();
+	}
+
+	public ArrayList<String> getCoursesStartingWith(String searchText, String nameOrCode) {
+		ArrayList<String> courses = new ArrayList<>();
+		
+		connect();
+		try {
+			String query = "";
+			if(nameOrCode.equals("code")){
+				query = "select courseCode, courseName from Course Where courseCode like ?";
+			}else if(nameOrCode.equals("name")){
+				query = "select courseCode, courseName from Course Where courseName like ?;";
+			}
+			 
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, searchText + "%");
+			System.out.println(query);
+			rs = prepStmt.executeQuery();
+			
+			while(rs.next()){
+				courses.add(rs.getString(1) + " " + rs.getString(2));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
+		}
+		
+		close();
+		
+		return courses;
+	}
+
+	public void deleteCourseStudent(String username, String courseCode) {
+		connect();
+		try {
+			String query = "DELETE FROM CourseStudent WHERE courseCode='" + courseCode + "' AND studentUsername ='" + username + "';";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+		
 	}
 
 

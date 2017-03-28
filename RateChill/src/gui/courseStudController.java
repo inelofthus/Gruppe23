@@ -29,6 +29,7 @@ public class courseStudController implements Initializable {
 	public Button fag4;
 	public Text errorNumber;
 	public Button logout;
+	public Button chooseCourses;
 	public Button exit;
 	
 	
@@ -76,6 +77,8 @@ public class courseStudController implements Initializable {
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
+		}if (event.getSource() == chooseCourses) {
+			loadNextScene(logout, stage, "studSelectCourse.fxml");
 		}
 	}
 	

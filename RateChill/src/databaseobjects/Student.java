@@ -79,6 +79,19 @@ public class Student extends DatabaseUser{
 	public boolean hasEvaluatedLecture(int lecID){
 		return DBC.studentHasEvaluatedLecture(username, lecID);
 	}
+
+	public void addCourse(String courseCode, String courseName) {
+		// adds course to list and then database
+		courseIDs.add(courseCode);
+		courseIDNames.put(courseCode, courseName);
+		DBC.insertCourseStudent(username, courseCode);
+	}
+	
+	public void removeCourse(String courseCode){
+		courseIDs.remove(courseCode);
+		courseIDNames.remove(courseCode);
+		DBC.deleteCourseStudent(username, courseCode);
+	}
 	
 	//Old load function:
 	/*public void loadInfo(){
