@@ -39,6 +39,6 @@
             <Image url="@RateChillLogo.png" />
          </image>
       </ImageView>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="45.0" text="Back" />
+      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="50.0" text="Back" />
    </children>
 </AnchorPane>
