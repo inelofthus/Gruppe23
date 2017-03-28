@@ -89,6 +89,9 @@ public class createUserController implements Initializable {
 			if(stud.existsInDB()) {
 				badUsername.setText("Username taken, please make a new one");
 				return;
+			}if(stud.getUsername().length() > 30) {
+				badUsername.setText("Username too long, please make a new one");
+				return;
 			}
 			/*if (!isValidStudyProgramCode()) {
 				badStudyProgramCode.setText("Invalid studyprogram-code");
