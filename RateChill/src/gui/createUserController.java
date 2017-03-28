@@ -82,23 +82,40 @@ public class createUserController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
-		
+		boolean validInput = true;
 		
 		if (event.getSource() == finish){
 			Student stud = new Student(username.getText());
 			if(stud.existsInDB()) {
+				validInput = false;
+				System.out.println(validInput);
 				badUsername.setText("Username taken, please make a new one");
 				return;
 			}if(stud.getUsername().length() > 30) {
+				validInput = false;
+				System.out.println(validInput);
 				badUsername.setText("Username too long, please make a new one");
+				return;
+			}if(username.getText().isEmpty()){
+				validInput = false;
+				System.out.println(validInput);
+				badUsername.setText("Please write a username");
+				return;
+			}if(studyProgramCode.getText().isEmpty()){
+				validInput = false;
+				System.out.println(validInput);
+				badStudyProgramCode.setText("Please write your study program code.");
 				return;
 			}
 			/*if (!isValidStudyProgramCode()) {
 				badStudyProgramCode.setText("Invalid studyprogram-code");
 				return;
 			}*/
-			createStudentUser(username.getText(), studyProgramCode.getText());
-			loadNextScene(finish, stage, "loginStud.fxml");
+			if(validInput){
+				createStudentUser(username.getText(), studyProgramCode.getText());
+				loadNextScene(finish, stage, "loginStud.fxml");
+			}
+			
 		}			
 	}
 	
