@@ -55,12 +55,15 @@ public class IME_API {
 	
 	public void loadAndSetCourseInfo(String courseCode) throws IOException{
 		
+	    String sURL = "";
+		
+		if (courseCode.contains("/")){
+			sURL = "http://www.ime.ntnu.no/api/course/en/" + courseCode;
+		}else{
+			sURL = "http://www.ime.ntnu.no/api/course/en/" + URLEncoder.encode(courseCode, "utf-8");
+		}
 	    
-		String sURLe = "http://www.ime.ntnu.no/api/course/en/" + URLEncoder.encode(courseCode, "utf-8");
-	    String sURL = "http://www.ime.ntnu.no/api/course/en/" + courseCode;
-
-	    
-	    URL url = new URL(sURLe);
+	    URL url = new URL(sURL);
 	    
 	    HttpURLConnection request = (HttpURLConnection) url.openConnection();
 	    request.connect();
