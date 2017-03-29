@@ -120,7 +120,7 @@ public class courseStudController implements Initializable {
 	    	loadNextScene(fag3, stage, "lectureStud.fxml");
 	    	
 		}
-	    else if (event.getSource()==fag3 && numberOfCourses>3){
+	    else if (event.getSource()==fag4 && numberOfCourses>3){
 	    	Course course = new Course(loadCourseCode(3));
 	    	loadCourse(course);
 	    	
