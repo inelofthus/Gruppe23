@@ -9,7 +9,7 @@ import database.DBController;
 
 
 public class Professor extends DatabaseUser {
-	String username;
+	private String username;
 	String encryptedPassword;
 	ArrayList<String> courseIDs;
 	HashMap<String, String> courseIDNames;
@@ -111,6 +111,11 @@ public class Professor extends DatabaseUser {
 		
 		
 		return sb.toString();
+	}
+
+	public boolean hasPassword() {
+		
+		return !encryptedPassword.equals("np");
 	}
 	
 	//////////////END OF USEFUL CODE ////////////////////////////
