@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,14 +24,14 @@ import javafx.stage.Stage;
 
 public class studSelectCourseController implements Initializable {
 
-	//fxml objects
+	// fxml objects
+	private ArrayList<String> allCourses;
 
 	@FXML
 	public Button home;
 	public Button back;
 	public Button logout;
-	public Button searchName;
-	public Button searchCode;
+	public Button search;
 	public Button finish;
 	public Button sendRight;
 	public Button sendLeft;
@@ -41,26 +40,26 @@ public class studSelectCourseController implements Initializable {
 	public TextField searchText;
 	public Text badSearch;
 	public Text badChoice;
-	
+
 	@FXML
 	public ListView<String> options;
 	public ListView<String> choices;
-	
-    private Student stud = mainController.getInstance().getStudents();
+
+	private Student stud = mainController.getInstance().getStudents();
 	DBController DBC = new DBController();
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
+
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
+		stage = (Stage) button.getScene().getWindow();
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
+
+		// create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+
+	public void userButtons(ActionEvent event, Stage stage) throws IOException {
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "courseStud.fxml");
 		}
@@ -69,87 +68,88 @@ public class studSelectCourseController implements Initializable {
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "loginStud.fxml");
-		}if (event.getSource() == finish) {
+		}
+		if (event.getSource() == finish) {
 			loadNextScene(logout, stage, "courseStud.fxml");
 		}
 	}
-	
-//	public boolean isUserButtonPushed(ActionEvent event) {
-//		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
-//			return true;
-//		}
-//		return false;
-//	}
-	
-	
-	
+
+	// public boolean isUserButtonPushed(ActionEvent event) {
+	// if (event.getSource() == home || event.getSource() == back ||
+	// event.getSource() == logout) {
+	// return true;
+	// }
+	// return false;
+	// }
+
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		if(event.getSource()== searchName){
-//			get a list of courses that matches search then add to listview
+	private void handleButtonAction(ActionEvent event) throws IOException {
+		if (event.getSource() == search) {
+			// get a list of courses that matches search then add to listview
 			badChoice.setText("");
 			badSearch.setText("");
-			ArrayList<String> searchResult = DBC.getCoursesStartingWith(searchText.getText(), "name");
+			ArrayList<String> searchResult = getSearchresult(searchText.getText());
 			options.getItems().clear();
-			if(searchResult.isEmpty()){
+			if (searchResult.isEmpty()) {
 				badSearch.setText("no courses matching your search");
 			}
 			options.getItems().addAll(searchResult);
 		}
-		if(event.getSource()== searchCode){
-			badChoice.setText("");
-			badSearch.setText("");
-//			get a list of courses that matches search then add to listview
-			ArrayList<String> searchResult = DBC.getCoursesStartingWith(searchText.getText(), "code");
-			options.getItems().clear();
-			if(searchResult.isEmpty()){
-				badSearch.setText("no courses matching your search");
-			}
-			options.getItems().addAll(searchResult);
-		}
-		if(event.getSource() == sendRight){
+
+		if (event.getSource() == sendRight) {
 			badChoice.setText("");
 			badSearch.setText("");
 			System.out.println("sendRight pressed");
 			String s = options.getSelectionModel().getSelectedItem();
-			String[] stringSplit = s.split("\\s+"); //splits into array with courseCode and courseName
+			String[] stringSplit = s.split("\\s+",2); // splits into array with
+													// courseCode and courseName
 			String courseCode = stringSplit[0];
 			String courseName = stringSplit[1];
-			
-		      if (s != null && checkCourseChoice(courseCode)) {
-		          stud.addCourse(courseCode, courseName);
-		    	  options.getSelectionModel().clearSelection();
-		          choices.getItems().add(s);
-		        }
+
+			if (s != null && checkCourseChoice(courseCode)) {
+				stud.addCourse(courseCode, courseName);
+				options.getSelectionModel().clearSelection();
+				options.getItems().remove(s);
+				choices.getItems().add(s);
+			}
 		}
-		if(event.getSource() == sendLeft){
+		if (event.getSource() == sendLeft) {
 			badChoice.setText("");
 			badSearch.setText("");
 			System.out.println("sendLeft pressed");
 			String s = choices.getSelectionModel().getSelectedItem();
-			String[] stringSplit = s.split("\\s+"); //splits into array with courseCode and courseName
+			String[] stringSplit = s.split("\\s+"); // splits into array with
+													// courseCode and courseName
 			String courseCode = stringSplit[0];
-//			String courseName = stringSplit[1];
-			
-		      if (s != null) {
-		          stud.removeCourse(courseCode);
-		    	  options.getSelectionModel().clearSelection();
-		          choices.getItems().remove(s);
-		        }
+			// String courseName = stringSplit[1];
+
+			if (s != null) {
+				stud.removeCourse(courseCode);
+				options.getSelectionModel().clearSelection();
+				choices.getItems().remove(s);
+				options.getItems().add(s);
+			}
 		}
-		
-		if(event.getSource() == finish){
-			Stage stage = null; 
+
+		if (event.getSource() == finish) {
+			Stage stage = null;
 			loadNextScene(finish, stage, "courseStud.fxml");
 		}
 	}
-	
-	
-	
-	
+
+	private ArrayList<String> getSearchresult(String text) {
+		ArrayList<String> result = new ArrayList<>();
+		
+		for(String course: allCourses){
+			if(course.contains(text)){
+				result.add(course);
+			}
+		}
+	return result;
+}
+
 	private boolean checkCourseChoice(String s) {
 		boolean okChoice = true;
-		
 
 		if (stud.getCourseIDs().contains(s)) {
 			badChoice.setText("This course is already added");
@@ -161,15 +161,19 @@ public class studSelectCourseController implements Initializable {
 		}
 
 		return okChoice;
-	
-}
+
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		for(String cID : stud.getCourseIDs()){
+		allCourses = DBC.getAllCourses();
+		options.getItems().clear();
+		options.getItems().addAll(allCourses);
+
+		for (String cID : stud.getCourseIDs()) {
 			choices.getItems().add(cID + " " + stud.getCourseIDNames().get(cID));
+			options.getItems().remove(cID + " " + stud.getCourseIDNames().get(cID));
 		}
-		
 
 	}
 
