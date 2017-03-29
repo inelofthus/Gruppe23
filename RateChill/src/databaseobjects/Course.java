@@ -332,6 +332,73 @@ public class Course extends DatabaseUser{
 		
 	}
 
+	//To be used in professor SEE EVALUATIONS:
+	
+	private ArrayList<Integer> lectureIDsMonth1;
+	private ArrayList<Integer> lectureIDsMonth2;
+	private ArrayList<Integer> lectureIDsMonth3;
+	private ArrayList<Integer> lectureIDsMonth4;
+	private ArrayList<Integer> lectureIDsMonth5;
+	private ArrayList<Integer> lectureIDsMonth6;
+	private ArrayList<Integer> lectureIDsMonth7;
+	private ArrayList<Integer> lectureIDsMonth8;
+	private ArrayList<Integer> lectureIDsMonth9;
+	private ArrayList<Integer> lectureIDsMonth10;
+	private ArrayList<Integer> lectureIDsMonth11;
+	private ArrayList<Integer> lectureIDsMonth12;
+	
+	public void setLectureByMonth(){
+		for(int lecID: completedLectureIDs){
+				String date = completedLecturesIDDate.get(lecID).get(0);
+				String[] dateSplit = date.split("-");
+				String MM = dateSplit[1];
+				
+				switch (MM) {
+				case "01":
+					lectureIDsMonth1.add(lecID);
+					break;
+				case "02":
+					lectureIDsMonth2.add(lecID);
+					break;
+				case "03":
+					lectureIDsMonth3.add(lecID);
+					break;
+				case "04":
+					lectureIDsMonth4.add(lecID);
+					break;
+				case "05":
+					lectureIDsMonth5.add(lecID);
+					break;
+				case "06":
+					lectureIDsMonth6.add(lecID);
+					break;
+				case "07":
+					lectureIDsMonth7.add(lecID);
+					break;
+				case "08":
+					lectureIDsMonth8.add(lecID);
+					break;
+				case "09":
+					lectureIDsMonth9.add(lecID);
+					break;
+				case "10":
+					lectureIDsMonth10.add(lecID);
+					break;
+				case "11":
+					lectureIDsMonth11.add(lecID);
+					break;
+				case "12":
+					lectureIDsMonth12.add(lecID);
+					break;
+
+				default:
+					break;
+				}
+			
+		}
+	}
+
+	
 	
 
 }
