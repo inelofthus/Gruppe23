@@ -74,7 +74,11 @@ public class IME_API {
 			} catch (Exception e) {
 				System.out.println("No lecture hours for this course");
 			}
-
+		    
+		    String location = rootobj.getAsJsonObject("course").get("location").getAsString();
+		    if (!location.equals("Trondheim")){
+		    	throw new IllegalArgumentException();
+		    }
 		    boolean taughtInSpring = rootobj.getAsJsonObject("course").get("taughtInSpring").getAsBoolean();
 		    boolean taughtInAutumn = rootobj.getAsJsonObject("course").get("taughtInAutumn").getAsBoolean();
 		    String professorUsername = rootobj.getAsJsonObject("course").
@@ -84,6 +88,8 @@ public class IME_API {
 		    dbc.insertProfessorCon(professorUsername, "np");
 		    dbc.insertCourseProfessorCon(professorUsername, courseCode);
 		    System.out.println(courseCode);
+	    } catch (IllegalArgumentException iae) {
+	    	System.out.println("Course not taught in Trondheim");
 		} catch (Exception e) {
 			System.out.println("One or more fields are missing");
 		}
@@ -92,7 +98,10 @@ public class IME_API {
 	
 	public static void main(String[] args) throws IOException {
 		IME_API api = new IME_API();
+		long startTime = System.nanoTime();
 		api.getApiInfo();
+		long endTime = System.nanoTime();
+		System.out.println(endTime-startTime);
 	}
 }
 
