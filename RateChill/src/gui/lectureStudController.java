@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class lectureStudController implements Initializable {
@@ -26,6 +27,7 @@ public class lectureStudController implements Initializable {
 	public Button lecture2;
 	public Button home;
 	public Button logout;
+	public Text errorMsg;
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -58,6 +60,7 @@ public class lectureStudController implements Initializable {
 		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
 		
 		if (numberOfLectures==0) {
+			
 			return;
 		}
 		else if(event.getSource()==lecture1 && numberOfLectures>0){
@@ -98,7 +101,9 @@ public class lectureStudController implements Initializable {
 		// Set text of buttons to contain date of lecture
 		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();
 		if (numberOfLectures==0) {
-			//textfield.setText("You have not had any lectures yet");
+			errorMsg.setText("No lectures registered for this course");
+			lecture1.setVisible(false);
+			lecture2.setVisible(false);
 			return;
 		}
 		else if(numberOfLectures<2) {

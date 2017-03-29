@@ -861,7 +861,7 @@ public class DBController {
 
 			// next find the courseCodes and corresponding courseNames for this
 			// student
-			String query2 = "select c.courseCode, courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentUsername = '"
+			String query2 = "select c.courseCode, courseName FROM Course c JOIN CourseStudent cs ON c.courseCode = cs.courseCode WHERE studentUsername = '"
 					+ student.getUsername() + "';";
 
 			if (stmt.execute(query2)) {
