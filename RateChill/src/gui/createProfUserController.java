@@ -80,8 +80,8 @@ public class createProfUserController implements Initializable {
 				badUsername.setText("Username too long (max 10 characters)");
 				return;
 			}else badUsername.setText("");
-			if(prof.existsInDB()) {
-				badUsername.setText("Username taken, please make a new one");
+			if(!prof.existsInDB()) {
+				badUsername.setText("not a valid professor username");
 				return;
 			}else badUsername.setText("");
 			if (!password.getText().equals(RepeatPassword.getText())) {
@@ -95,7 +95,7 @@ public class createProfUserController implements Initializable {
 			
 						
 			
-			DBC.insertProfessor(username.getText(), Professor.hashPassword(password.getText()));;
+			DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));;
 			loadNextScene(finish, stage, "loginProf.fxml");
 		}			
 	}

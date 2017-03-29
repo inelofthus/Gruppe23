@@ -1403,5 +1403,30 @@ public class DBController {
 		return courses;
 	}
 
+	public void updateProfessor(String username, String hashPassword) {
+		//  update Professor SET professorPassword = 'np' WHERE professorUsername = 'pekkaa';
+		
+		connect();
+		try {
+			
+			
+			String query = "update Professor SET professorPassword = ? WHERE professorUsername = ?;";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, hashPassword);
+			prepStmt.setString(2, username);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
+
+
+		} catch (Exception e) {
+			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
+		}
+		close();
+		
+		
+		
+	}
+
 
 }

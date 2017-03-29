@@ -17,7 +17,8 @@ public class Professor extends DatabaseUser {
 	// Constructor 1
 	public Professor(String professorUsername) {
 		this.username = professorUsername;
-		DBC.loadProfessorInfo(this);	
+		DBC.loadProfessorInfo(this);
+		this.encryptedPassword = DBC.getStringArray("select professorPassword from Professor Where professorUsername = '" + professorUsername + "';").get(0);
 	}
 	
 	public boolean isCorrectPassword(String encryptedPassword) {
