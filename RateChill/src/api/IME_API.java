@@ -13,7 +13,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import database.DBController;
+
 public class IME_API {
+	
+	DBController dbc = new DBController();
 	public void getApiInfo() throws IOException{
 		String sURL = "http://www.ime.ntnu.no/api/course/en/-";
 	    // Connect to the URL using java's native library
@@ -27,30 +31,18 @@ public class IME_API {
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
 	    
 	    JsonArray course = rootobj.getAsJsonArray("course");
+	    
+	    
+	    dbc.connect();
 	    for (int i = 0; i < course.size(); i++){
 	    	
-	    	System.out.println("#" + (i+1) + " " + course.get(i).getAsJsonObject().get("code").getAsString());
+	    	
 	    	loadAndSetCourseInfo(course.get(i).getAsJsonObject().get("code").getAsString());
 	    	
 	    }
-	    
+	    dbc.close();
 	    request.disconnect();
-	    /*System.out.println("Fagkode:" + rootobj.getAsJsonObject("course").get("code").getAsString());
-	    System.out.println("Navn:" + rootobj.getAsJsonObject("course").get("norwegianName").getAsString());
-	   
-	    String semester = "";
-	    if (rootobj.getAsJsonObject("course").get("taughtInAutumn").getAsBoolean()){
-	    	semester = "Høst";
-	    }
-	    else {semester = "Vår";}
-	    System.out.println("Semester: " + semester);
-	    //this iz best codez
-	    System.out.println("Brukernavn, professor: " + 
-	    		rootobj.getAsJsonObject("course").
-	    		getAsJsonArray("educationalRole").get(0).getAsJsonObject().
-	    		get("person").getAsJsonObject().get("username").getAsString());
-	    
-	    */
+
 	}
 	
 	public void loadAndSetCourseInfo(String courseCode) throws IOException{
@@ -72,25 +64,29 @@ public class IME_API {
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
 	    
-	    System.out.println("Fagkode:" + rootobj.getAsJsonObject("course").get("code").getAsString());
-	    System.out.println("Navn:" + rootobj.getAsJsonObject("course").get("norwegianName").getAsString());
-	   
-	    String semester = "";
-	    if (rootobj.getAsJsonObject("course").get("taughtInAutumn").getAsBoolean()){
-	    	semester = "Høst";
-	    }
-	    else {semester = "Vår";}
-	    System.out.println("Semester: " + semester);
-	    //this iz best codez
 	    try {
-		    System.out.println("Brukernavn, professor: " + 
-		    		rootobj.getAsJsonObject("course").
-		    		getAsJsonArray("educationalRole").get(0).getAsJsonObject().
-		    		get("person").getAsJsonObject().get("username").getAsString());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		    String courseName = rootobj.getAsJsonObject("course").get("englishName").getAsString();
+		    int lectureHours = -1;
+		    try {
+			    lectureHours = rootobj.getAsJsonObject("course").
+			    		getAsJsonArray("educationTerm").get(0).getAsJsonObject().
+			    		get("lectureHours").getAsInt();
+			} catch (Exception e) {
+				System.out.println("No lecture hours for this course");
+			}
 
+		    boolean taughtInSpring = rootobj.getAsJsonObject("course").get("taughtInSpring").getAsBoolean();
+		    boolean taughtInAutumn = rootobj.getAsJsonObject("course").get("taughtInAutumn").getAsBoolean();
+		    String professorUsername = rootobj.getAsJsonObject("course").
+		    		getAsJsonArray("educationalRole").get(0).getAsJsonObject().
+		    		get("person").getAsJsonObject().get("username").getAsString();
+		    dbc.insertCourseCon(courseCode, courseName, lectureHours, taughtInSpring, taughtInAutumn);
+		    dbc.insertProfessorCon(professorUsername, "np");
+		    dbc.insertCourseProfessorCon(professorUsername, courseCode);
+		    System.out.println(courseCode);
+		} catch (Exception e) {
+			System.out.println("One or more fields are missing");
+		}
 	    
 	}
 	
@@ -99,3 +95,4 @@ public class IME_API {
 		api.getApiInfo();
 	}
 }
+

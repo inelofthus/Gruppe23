@@ -171,6 +171,26 @@ public class DBController {
 
 	}
 
+	public void insertCourseCon(String courseCode, String courseName, int lectureHours, boolean taughtInSpring, boolean taughtInAutumn) {
+		// inserts a new row in Course table of database when already connected
+		try {
+			String query = "INSERT INTO Course VALUES(?,?,?,?,?)";
+
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, courseName);
+			prepStmt.setInt(3, lectureHours);
+			prepStmt.setBoolean(4, taughtInSpring);
+			prepStmt.setBoolean(5, taughtInAutumn);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i + " records inserted"); 
+			
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+	}
+	
 	public boolean courseExists(String courseCode) {
 		// Checks in the database if a course with given courseCode exists.
 		connect();
@@ -723,6 +743,25 @@ public class DBController {
 		close();
 	}
 
+	public void insertProfessorCon(String professorUsername, String password) {
+		// inserts a new professor into database
+		try {
+			
+			
+			String query = "INSERT INTO Professor VALUES(?,?)";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, professorUsername);
+			prepStmt.setString(2, password);
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
+
+
+		} catch (Exception e) {
+			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
+		}
+	}
+	
 	public boolean professorExists(String professorUsername) {
 		boolean hasNext = false;
 
@@ -961,6 +1000,28 @@ public class DBController {
 		close();
 	}
 
+	public void insertCourseProfessorCon(String professorUsername, String courseCode) {
+		//already connected
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("Insert into CourseProfessor (professorUsername, courseCode)")
+					.append(" SELECT Professor.professorUsername, Course.courseCode").append(" FROM Course, Professor")
+					.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND professorUsername = '")
+					.append(professorUsername).append("'");
+
+			String query = sb.toString();
+			// System.out.println(query);
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+	}	
+	
 	// CourseStudent info
 	public void insertCourseStudent(String studentUsername, String courseCode) {
 		connect();
