@@ -334,18 +334,18 @@ public class Course extends DatabaseUser{
 
 	//To be used in professor SEE EVALUATIONS:
 	
-	private ArrayList<Integer> lectureIDsMonth1;
-	private ArrayList<Integer> lectureIDsMonth2;
-	private ArrayList<Integer> lectureIDsMonth3;
-	private ArrayList<Integer> lectureIDsMonth4;
-	private ArrayList<Integer> lectureIDsMonth5;
-	private ArrayList<Integer> lectureIDsMonth6;
-	private ArrayList<Integer> lectureIDsMonth7;
-	private ArrayList<Integer> lectureIDsMonth8;
-	private ArrayList<Integer> lectureIDsMonth9;
-	private ArrayList<Integer> lectureIDsMonth10;
-	private ArrayList<Integer> lectureIDsMonth11;
-	private ArrayList<Integer> lectureIDsMonth12;
+	private ArrayList<Integer> lectureIDsMonth1 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth2 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth3 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth4 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth5 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth6 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth7 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth8 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth9 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth10 = new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth11= new ArrayList<>();
+	private ArrayList<Integer> lectureIDsMonth12 = new ArrayList<>();
 	
 	public void setLectureByMonth(){
 		for(int lecID: completedLectureIDs){
@@ -398,7 +398,51 @@ public class Course extends DatabaseUser{
 		}
 	}
 
-	
-	
+	public ArrayList<Integer> getLectureIDsMonth(int monthNum){
+		ArrayList<Integer> result = new ArrayList<>();
+		
+		switch (monthNum) {
+		case 1:
+			result = lectureIDsMonth1;
+			break;
+		case 2:
+			result = lectureIDsMonth2;
+			break;
+		case 3:
+			result = lectureIDsMonth3;
+			break;
+		case 4:
+			result = lectureIDsMonth4;
+			break;
+		case 5:
+			result = lectureIDsMonth5;
+			break;
+		case 6:
+			result = lectureIDsMonth6;
+			break;
+		case 7:
+			result = lectureIDsMonth7;
+			break;
+		case 8:
+			result = lectureIDsMonth8;
+			break;
+		case 9:
+			result = lectureIDsMonth9;
+			break;
+		case 10:
+			result = lectureIDsMonth10;
+			break;
+		case 11:
+			result = lectureIDsMonth11;
+			break;
+		case 12:
+			result = lectureIDsMonth12;
+			break;
+
+		default:
+			break;
+		}
+		return result;
+	}
 
 }

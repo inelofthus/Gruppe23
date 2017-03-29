@@ -41,9 +41,9 @@ public class evaluationProfController implements Initializable {
 	public CategoryAxis xAxis;
 	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();
 	
-	Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
+	private Lecture lecture = mainController.getInstance().getLecture();
 	
-	private Lecture lecture = new Lecture(lectureID);
+//	private Lecture lecture = new Lecture(lectureID);
 	//ArrayList evaluations = lec.getEvaluations();
 	
 	

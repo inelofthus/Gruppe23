@@ -653,7 +653,7 @@ public class DBController {
 				.append(professorUsername).append("';");
 
 		String query = sb.toString();
-
+		System.out.println(query);
 		return query;
 
 	}
