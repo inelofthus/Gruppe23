@@ -1380,5 +1380,28 @@ public class DBController {
 		
 	}
 
+	public ArrayList<String> getAllCourses() {
+		ArrayList<String> courses = new ArrayList<>();
+		
+		connect();
+		try {
+			String query = "select courseCode, courseName from Course"; 
+			
+			prepStmt = conn.prepareStatement(query);
+			rs = prepStmt.executeQuery();
+			
+			while(rs.next()){
+				courses.add(rs.getString(1) + " " + rs.getString(2));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
+		}
+		
+		close();
+		
+		return courses;
+	}
+
 
 }

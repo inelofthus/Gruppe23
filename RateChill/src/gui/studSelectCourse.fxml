@@ -14,12 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.studSelectCourseController">
    <children>
-      <Button fx:id="searchName" layoutX="338.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="7.0" prefWidth="138.0" text="Search Name">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="searchCode" layoutX="460.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="36.0" prefWidth="130.0" text="Search Code">
+      <Button fx:id="search" layoutX="459.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="36.0" prefWidth="130.0" text="Search">
          <font>
             <Font size="14.0" />
          </font>
@@ -36,7 +31,7 @@
             <Font size="31.0" />
          </font>
       </Text>
-      <TextField fx:id="searchText" layoutX="17.0" layoutY="71.0" prefHeight="39.0" prefWidth="321.0" />
+      <TextField fx:id="searchText" layoutX="17.0" layoutY="71.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="447.0" />
       <Text fx:id="badSearch" fill="#ee0f0f" layoutX="26.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="230.0" />
       <Text fx:id="badChoice" fill="#ee0f0f" layoutX="345.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="230.0" />
    </children>
