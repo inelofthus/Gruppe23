@@ -64,6 +64,10 @@ public class createProfUserController implements Initializable {
 				badUsername.setText("Please create a username");
 				return;
 			}else badUsername.setText("");
+			if (prof.hasPassword()) {
+				badUsername.setText("This professor already has a user");
+				return;
+			}else badUsername.setText("");
 			if (password.getText().isEmpty()) {
 				passwordNoMatch.setText("Please set a password");
 				return;
