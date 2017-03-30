@@ -493,6 +493,8 @@ public class DBController {
 		// time format: "hh:mm:ss"
 		// dateTime format: "YYYY-MM-DD#hh:mm:ss"
 
+		String courseCode = null;
+		
 		try {
 			stmt = conn.createStatement();
 
@@ -512,7 +514,8 @@ public class DBController {
 
 			lecture.setLectureDateAndTime(dateTime);
 			;
-			lecture.setCourseCode(rs.getString(3));
+			courseCode = rs.getString(3);
+			lecture.setCourseCode(courseCode);
 			lecture.setProfessor(rs.getString(4));
 
 		} catch (Exception e) {
@@ -520,20 +523,23 @@ public class DBController {
 		}
 
 		// hjelpemetode tar seg av å hente og legge til evaluations:
-		setEvaluationsForLecture(lecture);
+		setEvaluationsForLecture(lecture, courseCode);
 
 		close();
 
 	}
 
-	private void setEvaluationsForLecture(Lecture lecture) {
+	private void setEvaluationsForLecture(Lecture lecture, String courseCode) {
 
+		Course course = new Course(courseCode);
+		ArrayList<String> ratingValues = course.getRatingValues();
+		
 		ArrayList<Evaluation> evaluations = new ArrayList<>();
-		ArrayList<Evaluation> PerfectEvaluations = new ArrayList<>();
-		ArrayList<Evaluation> OkEvaluations = new ArrayList<>();
-		ArrayList<Evaluation> TooFastEvaluations = new ArrayList<>();
-		ArrayList<Evaluation> TooSlowEvaluations = new ArrayList<>();
-		ArrayList<Evaluation> ConfusedEvaluations = new ArrayList<>();
+		ArrayList<Evaluation> Evaluations1 = new ArrayList<>();
+		ArrayList<Evaluation> Evaluations2 = new ArrayList<>();
+		ArrayList<Evaluation> Evaluations3 = new ArrayList<>();
+		ArrayList<Evaluation> Evaluations4 = new ArrayList<>();
+		ArrayList<Evaluation> Evaluations5 = new ArrayList<>();
 
 		try {
 
@@ -551,31 +557,17 @@ public class DBController {
 				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
 
-				switch (rating) {
-				case "Perfect":
-					PerfectEvaluations.add(eval);
-					break;
-
-				case "Ok":
-					OkEvaluations.add(eval);
-					break;
-
-				case "Too Fast!":
-					TooFastEvaluations.add(eval);
-					break;
-
-				case "Too Slow!":
-					TooSlowEvaluations.add(eval);
-					break;
-
-				case "Confused.. ?":
-					ConfusedEvaluations.add(eval);
-					break;
-
-				default:
-					break;
+				if(rating.equals(ratingValues.get(0))){
+					Evaluations1.add(eval);
+				}if(rating.equals(ratingValues.get(1))){
+					Evaluations2.add(eval);
+				}if(rating.equals(ratingValues.get(2))){
+					Evaluations3.add(eval);
+				}if(rating.equals(ratingValues.get(3))){
+					Evaluations4.add(eval);
+				}if(rating.equals(ratingValues.get(4))){
+					Evaluations5.add(eval);
 				}
-
 			}
 
 		} catch (Exception e) {
@@ -583,11 +575,11 @@ public class DBController {
 		}
 
 		lecture.setEvaluations(evaluations);
-		lecture.setPerfectEvaluations(PerfectEvaluations);
-		lecture.setOkEvaluations(OkEvaluations);
-		lecture.setTooFastEvaluations(TooFastEvaluations);
-		lecture.setTooSlowEvaluations(TooSlowEvaluations);
-		lecture.setConfusedEvaluations(ConfusedEvaluations);
+		lecture.setEvaluationsRating1(Evaluations1);
+		lecture.setEvaluationsRating2(Evaluations2);
+		lecture.setEvaluationsRating3(Evaluations3);
+		lecture.setEvaluationsRating4(Evaluations4);
+		lecture.setEvaluationsRating5(Evaluations5);
 
 	}
 

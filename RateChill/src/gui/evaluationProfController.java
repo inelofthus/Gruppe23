@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import databaseobjects.Course;
 import databaseobjects.Lecture;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +35,7 @@ public class evaluationProfController implements Initializable {
 	public Button back;
 	public Button logout;
 
-	
+	Course course = mainController.getInstance().getCourse();
 	
 	@FXML
 	public BarChart<String, Integer> barchart;
@@ -105,28 +106,33 @@ public class evaluationProfController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-		evaluationTypes.addAll("Perfect", "Ok", "Too Fast!", "Too Slow!", "Confused.. ?");
+		ArrayList<String> ratingValues = course.getRatingValues();
+		if(ratingValues.size() == 6){
+			ratingValues.remove(5);
+		}
+		
+		evaluationTypes.addAll(ratingValues);
 		
 		xAxis.setCategories(evaluationTypes);
 		
 		//storing the number of evaluations in integers
-		Integer numOfPerfect = lecture.getRatingCount("Perfect");
-		Integer numOfOk = lecture.getRatingCount("Ok");
-		Integer numOfFast = lecture.getRatingCount("Too Fast!");
-		Integer numOfSlow = lecture.getRatingCount("Too Slow!");
-		Integer numOfConfused = lecture.getRatingCount("Confused.. ?");
+		Integer numRating1 = lecture.getRatingCount(1);
+		Integer numRating2 = lecture.getRatingCount(2);
+		Integer numRating3 = lecture.getRatingCount(3);
+		Integer numRating4 = lecture.getRatingCount(4);
+		Integer numRating5 = lecture.getRatingCount(5);
 		
 		ArrayList<Integer> numbersList = new ArrayList<Integer>();
-		numbersList.addAll(Arrays.asList(numOfPerfect, numOfOk,numOfFast, numOfSlow,numOfConfused));
+		numbersList.addAll(Arrays.asList(numRating1, numRating2,numRating3, numRating4,numRating5));
 		
 		setEvaluationData(createSeries(numbersList));
 		
 		//setting the appropriate number on the textfields
-		/*perfectNumber.setText(numOfPerfect.toString());
-		okNumber.setText(numOfOk.toString());
-		tooFastNumber.setText(numOfFast.toString());
-		tooSlowNumber.setText(numOfSlow.toString());
-		confusedNumber.setText(numOfConfused.toString());
+		/*perfectNumber.setText(numRating1.toString());
+		okNumber.setText(numRating2.toString());
+		tooFastNumber.setText(numRating3.toString());
+		tooSlowNumber.setText(numRating4.toString());
+		confusedNumber.setText(numRating5.toString());
 		*/
 	}
 

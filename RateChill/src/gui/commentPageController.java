@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.sun.javafx.scene.control.SelectedCellsMap;
 
+import databaseobjects.Course;
 import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
 import javafx.event.ActionEvent;
@@ -29,11 +30,11 @@ public class commentPageController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public ToggleButton seePerfectComments;
-	public ToggleButton seeOkComments;
-	public ToggleButton seeFastComments;
-	public ToggleButton seeSlowComments;
-	public ToggleButton seeConfusedComments;
+	public ToggleButton seeComments1;
+	public ToggleButton seeComments2;
+	public ToggleButton seeComments3;
+	public ToggleButton seeComments4;
+	public ToggleButton seeComments5;
 	@FXML
 	public Button home;
 	public Button back;
@@ -47,6 +48,8 @@ public class commentPageController implements Initializable {
     Integer lectureID = mainController.getInstance().getChosenProfessorLecture();
 	
 	private Lecture lecture = new Lecture(lectureID);
+	private Course course = mainController.getInstance().getCourse();
+	private ArrayList<String> ratingValues = course.getRatingValues();
 	
 	public String createString() {
 		ArrayList<String> als = selectedButtons();
@@ -90,7 +93,7 @@ public class commentPageController implements Initializable {
 	}
 	
 	public boolean isCommentButtonsPushed() {
-		if (seePerfectComments.isSelected() || seeOkComments.isSelected() || seeFastComments.isSelected() || seeSlowComments.isSelected() || seeConfusedComments.isSelected()) {
+		if (seeComments1.isSelected() || seeComments2.isSelected() || seeComments3.isSelected() || seeComments4.isSelected() || seeComments5.isSelected()) {
 			return true;
 		}
 		return false;
@@ -98,42 +101,42 @@ public class commentPageController implements Initializable {
 	
 	public ArrayList<String> selectedButtons() {
 		ArrayList<String> currentEvaluations = new ArrayList<String>();
-		if (seePerfectComments.isSelected()){
-			currentEvaluations.add("Perfect comments:");
-			ArrayList<Evaluation> perfEvaluations = lecture.getPerfectEvaluations();
-			for (Evaluation eval:perfEvaluations) {
+		if (seeComments1.isSelected()){
+			currentEvaluations.add(ratingValues.get(0) + " comments:");
+			ArrayList<Evaluation> Evaluations1 = lecture.getEvaluationsRating1();
+			for (Evaluation eval:Evaluations1) {
 				currentEvaluations.add(eval.getComment());
 			}
 			currentEvaluations.add("");
 		}
-		if (seeOkComments.isSelected()){
-			currentEvaluations.add("Ok comments:");
-			ArrayList<Evaluation> okEvaluations = lecture.getOkEvaluations();
-			for (Evaluation eval:okEvaluations) {
+		if (seeComments2.isSelected()){
+			currentEvaluations.add(ratingValues.get(1) + " comments:");
+			ArrayList<Evaluation> Evaluations2 = lecture.getEvaluationsRating2();
+			for (Evaluation eval:Evaluations2) {
 				currentEvaluations.add(eval.getComment());
 			}
 			currentEvaluations.add("");
 		}
-		if (seeFastComments.isSelected()){
-			currentEvaluations.add("Too fast comments:");
-			ArrayList<Evaluation> fastEvaluations = lecture.getTooFastEvaluations();
-			for (Evaluation eval:fastEvaluations) {
+		if (seeComments3.isSelected()){
+			currentEvaluations.add(ratingValues.get(2) + " comments:");
+			ArrayList<Evaluation> Evaluations3 = lecture.getEvaluationsRating3();
+			for (Evaluation eval:Evaluations3) {
 				currentEvaluations.add(eval.getComment());
 			}
 			currentEvaluations.add("");
 		}
-		if (seeSlowComments.isSelected()){
-			currentEvaluations.add("Too slow comments:");
-			ArrayList<Evaluation> slowEvaluations = lecture.getTooSlowEvaluations();
-			for (Evaluation eval:slowEvaluations) {
+		if (seeComments4.isSelected()){
+			currentEvaluations.add(ratingValues.get(3) + " comments:");
+			ArrayList<Evaluation> Evaluations4 = lecture.getEvaluationsRating4();
+			for (Evaluation eval:Evaluations4) {
 				currentEvaluations.add(eval.getComment());
 			}
 			currentEvaluations.add("");
 		}
-		if (seeConfusedComments.isSelected()){
-			currentEvaluations.add("Confused comments:");
-			ArrayList<Evaluation> confusedEvaluations = lecture.getConfusedEvaluations();
-			for (Evaluation eval:confusedEvaluations) {
+		if (seeComments5.isSelected()){
+			currentEvaluations.add(ratingValues.get(4) + " comments:");
+			ArrayList<Evaluation> Evaluations5 = lecture.getEvaluationsRating5();
+			for (Evaluation eval:Evaluations5) {
 				currentEvaluations.add(eval.getComment());
 			}
 			currentEvaluations.add("");
@@ -170,6 +173,11 @@ public class commentPageController implements Initializable {
 		if(!isCommentButtonsPushed()) {
 			textArea.setText("You have not selected to show any comments.");
 		}
+		seeComments1.setText(ratingValues.get(0) + " comments");
+		seeComments2.setText(ratingValues.get(1) + " comments");
+		seeComments3.setText(ratingValues.get(2) + " comments");
+		seeComments4.setText(ratingValues.get(3) + " comments");
+		seeComments5.setText(ratingValues.get(4) + " comments");
 	}
 
 }

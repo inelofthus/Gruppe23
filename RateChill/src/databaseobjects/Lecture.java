@@ -1,9 +1,6 @@
 package databaseobjects;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import database.DBController;
 
 
@@ -14,11 +11,11 @@ public class Lecture extends DatabaseUser {
 	String courseCode;
 	String professor;
 	ArrayList<Evaluation> evaluations;
-	ArrayList<Evaluation> PerfectEvaluations;
-	ArrayList<Evaluation> OkEvaluations;
-	ArrayList<Evaluation> TooFastEvaluations;
-	ArrayList<Evaluation> TooSlowEvaluations;
-	ArrayList<Evaluation> ConfusedEvaluations;
+	ArrayList<Evaluation> EvaluationsRating1 = new ArrayList<>();
+	ArrayList<Evaluation> EvaluationsRating2 = new ArrayList<>();
+	ArrayList<Evaluation> EvaluationsRating3 = new ArrayList<>();
+	ArrayList<Evaluation> EvaluationsRating4 = new ArrayList<>();
+	ArrayList<Evaluation> EvaluationsRating5 = new ArrayList<>();
 	
 	//Constructor 1
 	public Lecture (int lectureID) {
@@ -68,24 +65,24 @@ public class Lecture extends DatabaseUser {
 		return evaluations;
 	}
 
-	public int getRatingCount(String ratingValue){
+	public int getRatingCount(int ratingNum){
 		int count = -1;
 		
-		switch (ratingValue) {
-		case "Perfect":
-			return PerfectEvaluations.size();
+		switch (ratingNum) {
+		case 1:
+			return EvaluationsRating1.size();
 			
-		case "Ok":
-			return OkEvaluations.size();
+		case 2:
+			return EvaluationsRating2.size();
 			
-		case "Too Fast!":
-			return TooFastEvaluations.size();
+		case 3:
+			return EvaluationsRating3.size();
 			
-		case "Too Slow!":
-			return TooSlowEvaluations.size();
+		case 4:
+			return EvaluationsRating4.size();
 			
-		case "Confused.. ?":
-			return ConfusedEvaluations.size();
+		case 5:
+			return EvaluationsRating5.size();
 
 		default:
 			break;
@@ -103,24 +100,24 @@ public class Lecture extends DatabaseUser {
 //		return DBC.getInt(query);
 	}
 		
-	public ArrayList<Evaluation> getPerfectEvaluations() {
-		return PerfectEvaluations;
+	public ArrayList<Evaluation> getEvaluationsRating1() {
+		return EvaluationsRating1;
 	}
 	
-	public ArrayList<Evaluation> getOkEvaluations() {
-		return OkEvaluations;
+	public ArrayList<Evaluation> getEvaluationsRating2() {
+		return EvaluationsRating2;
 	}
 	
-	public ArrayList<Evaluation> getTooFastEvaluations() {
-		return TooFastEvaluations;
+	public ArrayList<Evaluation> getEvaluationsRating3() {
+		return EvaluationsRating3;
 	}
 	
-	public ArrayList<Evaluation> getTooSlowEvaluations() {
-		return TooSlowEvaluations;
+	public ArrayList<Evaluation> getEvaluationsRating4() {
+		return EvaluationsRating4;
 	}
 	
-	public ArrayList<Evaluation> getConfusedEvaluations() {
-		return ConfusedEvaluations;
+	public ArrayList<Evaluation> getEvaluationsRating5() {
+		return EvaluationsRating5;
 	}
 	//Setters
 	public void setLectureID(int lectureID) {
@@ -149,32 +146,32 @@ public class Lecture extends DatabaseUser {
 
 	
 
-	public void setPerfectEvaluations(ArrayList<Evaluation> perfectEvaluations) {
-		PerfectEvaluations = perfectEvaluations;
+	public void setEvaluationsRating1(ArrayList<Evaluation> EvaluationsRating1) {
+		this.EvaluationsRating1 = EvaluationsRating1;
 	}
 
 	
 
-	public void setOkEvaluations(ArrayList<Evaluation> okEvaluations) {
-		OkEvaluations = okEvaluations;
+	public void setEvaluationsRating2(ArrayList<Evaluation> EvaluationsRating2) {
+		this.EvaluationsRating2 = EvaluationsRating2;
 	}
 
 	
 
-	public void setTooFastEvaluations(ArrayList<Evaluation> tooFastEvaluations) {
-		TooFastEvaluations = tooFastEvaluations;
+	public void setEvaluationsRating3(ArrayList<Evaluation> EvaluationsRating3) {
+		this.EvaluationsRating3 = EvaluationsRating3;
 	}
 
 	
 
-	public void setTooSlowEvaluations(ArrayList<Evaluation> tooSlowEvaluations) {
-		TooSlowEvaluations = tooSlowEvaluations;
+	public void setEvaluationsRating4(ArrayList<Evaluation> EvaluationsRating4) {
+		this.EvaluationsRating4 = EvaluationsRating4;
 	}
 
 	
 
-	public void setConfusedEvaluations(ArrayList<Evaluation> confusedEvaluations) {
-		ConfusedEvaluations = confusedEvaluations;
+	public void setEvaluationsRating5(ArrayList<Evaluation> EvaluationsRating5) {
+		this.EvaluationsRating5 = EvaluationsRating5;
 	}
 
 	
