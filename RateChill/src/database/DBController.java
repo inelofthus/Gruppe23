@@ -246,10 +246,40 @@ public class DBController {
 		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course);
+		setRatingValues(course);
 
 		close();
 
 		return course;
+	}
+
+	private void setRatingValues(Course course) {
+		ArrayList<String> ratingValues = new ArrayList<>();
+		
+		connect();
+		try {
+			String query = "select rating1, rating2, rating3, rating4, rating5, setDate from CourseRatingValues WHERE courseCode = ?"; 
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, course.getCourseCode());
+			rs = prepStmt.executeQuery();
+			
+			rs.next();
+			
+			for(int i = 1; i < 7; i++){
+				ratingValues.add(rs.getString(i));
+			}
+			
+			course.setRatingValues(ratingValues);
+			
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		
+		
+		close();
+
+		
 	}
 
 	public Course loadCourseInfoForSemester(Course course, String semester) {
@@ -270,6 +300,7 @@ public class DBController {
 		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course, semester);
+		setRatingValues(course);
 
 		close();
 
@@ -1426,6 +1457,32 @@ public class DBController {
 		
 		
 		
+	}
+	
+	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
+		// inserts a new professor into database
+		connect();
+		try {
+			
+			
+			String query = "insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, rating1);
+			prepStmt.setString(3, rating2);
+			prepStmt.setString(4, rating3);
+			prepStmt.setString(5, rating4);
+			prepStmt.setString(6, rating5);
+			
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
+
+
+		} catch (Exception e) {
+			System.out.println("SQLException in InsertCourseRatingValues: " + e.getMessage());
+		}
+		close();
 	}
 
 
