@@ -141,7 +141,7 @@ public class studSelectCourseController implements Initializable {
 		ArrayList<String> result = new ArrayList<>();
 		
 		for(String course: allCourses){
-			if(course.contains(text)){
+			if(course.toLowerCase().contains(text.toLowerCase())){
 				result.add(course);
 			}
 		}
