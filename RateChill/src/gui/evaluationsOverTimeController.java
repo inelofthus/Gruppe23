@@ -117,21 +117,21 @@ public class evaluationsOverTimeController implements Initializable {
 		xAxis.setCategories(lectureDates);
 		
 		
-		ArrayList<Integer> perfectCount = course.getLecRatingCounts(1);
+		ArrayList<Integer> count1 = course.getLecRatingCounts(1);
 		
-		ArrayList<Integer> okCount = course.getLecRatingCounts(2);
+		ArrayList<Integer> count2 = course.getLecRatingCounts(2);
 		
-		ArrayList<Integer> tooFastCount = course.getLecRatingCounts(3);
+		ArrayList<Integer> count3 = course.getLecRatingCounts(3);
 		
-		ArrayList<Integer> tooSlowCount = course.getLecRatingCounts(4);
+		ArrayList<Integer> count4 = course.getLecRatingCounts(4);
 		
-		ArrayList<Integer> confusedCount = course.getLecRatingCounts(5);
+		ArrayList<Integer> count5 = course.getLecRatingCounts(5);
 		
-		setEvaluationData(createSeries(perfectCount, "Perfect"));	
-		setEvaluationData(createSeries(okCount, "Ok"));		
-		setEvaluationData(createSeries(tooFastCount, "Too Fast"));	
-		setEvaluationData(createSeries(tooSlowCount, "Too Slow"));		
-		setEvaluationData(createSeries(confusedCount, "Confused"));	
+		setEvaluationData(createSeries(count1, course.getRatingValues().get(0)));	
+		setEvaluationData(createSeries(count2, course.getRatingValues().get(1)));		
+		setEvaluationData(createSeries(count3, course.getRatingValues().get(2)));	
+		setEvaluationData(createSeries(count4, course.getRatingValues().get(3)));		
+		setEvaluationData(createSeries(count5, course.getRatingValues().get(4)));	;	
 		
 		lineChart.setCreateSymbols(false);
 		
