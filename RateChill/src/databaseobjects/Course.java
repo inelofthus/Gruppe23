@@ -210,6 +210,11 @@ public class Course extends DatabaseUser{
 	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername){
 		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);
 	}
+	
+	public void addHolidays(String startDate, String endDate){
+		// deletes lectures in the period between start and endDate
+		DBC.addHoliday(courseCode, startDate, endDate);
+	}
 	//To be used to generate lectures over time graph:
 	
 	public HashMap<Integer, Integer> lecIDtoNumRatings;

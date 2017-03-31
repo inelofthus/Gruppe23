@@ -1532,6 +1532,29 @@ public class DBController {
 		
 	}
 
+	public void addHoliday(String courseCode, String startDate, String endDate) {
+		// deletes lectures for this period.
+		
+		connect();
+		
+		String query = "DELETE FROM Lecture WHERE courseCode = ? AND lectureDate >= ? AND lectureDate <= ? ";
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, startDate);
+			prepStmt.setString(3, endDate);
+			
+			prepStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		close();
+	}
+
 
 
 
