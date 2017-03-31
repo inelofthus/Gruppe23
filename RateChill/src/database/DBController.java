@@ -1191,6 +1191,9 @@ public class DBController {
 	// Main for testing
 	public static void main(String[] args) throws ParseException {
 		DBController test = new DBController();
+		test.connect();
+		System.out.println(test.tableHasValue("CourseRatingValues", "courseCode", "TDT4140"));
+		
 		
 //		test.deleteCourseStudent("stud1", "tdt4140");
 //		System.out.println(test.getCoursesStartingWith("pr", "name"));
@@ -1455,9 +1458,12 @@ public class DBController {
 		// inserts a new professor into database
 		connect();
 		try {
+			String query ="insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
 			
-			
-			String query = "insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
+			if(tableHasValue("CourseRatingValues", "courseCode", courseCode)){
+				query =  "UPDATE CourseRatingValues SET courseCode = ?, rating1 = ?, rating2 = ?, rating3 = ?, rating4 = ?, rating5 = ?";
+				System.out.println(query);
+			}
 			
 			prepStmt = conn.prepareStatement(query);
 			prepStmt.setString(1, courseCode);
@@ -1475,6 +1481,22 @@ public class DBController {
 			System.out.println("SQLException in InsertCourseRatingValues: " + e.getMessage());
 		}
 		close();
+	}
+
+	private boolean tableHasValue(String table, String columnName, String value) {
+		String query = "select " + columnName + " from " + table + " WHERE " +columnName + "= '" + value + "';";
+		System.out.println(query);
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			rs = prepStmt.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 
