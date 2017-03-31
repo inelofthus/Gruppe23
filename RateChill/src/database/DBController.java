@@ -1532,7 +1532,7 @@ public class DBController {
 		
 	}
 
-	public void addHoliday(String courseCode, String startDate, String endDate) {
+	public void deleteLecturesForPeriod(String courseCode, String startDate, String endDate) {
 		// deletes lectures for this period.
 		
 		connect();

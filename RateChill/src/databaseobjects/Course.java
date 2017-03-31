@@ -211,9 +211,9 @@ public class Course extends DatabaseUser{
 		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);
 	}
 	
-	public void addHolidays(String startDate, String endDate){
+	public void deleteLecturesForPeriod(String startDate, String endDate){
 		// deletes lectures in the period between start and endDate
-		DBC.addHoliday(courseCode, startDate, endDate);
+		DBC.deleteLecturesForPeriod(courseCode, startDate, endDate);
 	}
 	//To be used to generate lectures over time graph:
 	
