@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import database.DBController;
+import databaseobjects.Course;
 import databaseobjects.Lecture;
 import databaseobjects.Student;
 import javafx.collections.FXCollections;
@@ -50,8 +51,13 @@ public class customizeButtonsController implements Initializable {
 	public TextField buttonText3;
 	public TextField buttonText4;
 	public TextField buttonText5;
+	public Text errorText;
 	
-	//DBController DBC = new DBController();
+	DBController DBC = new DBController();
+	Course course = mainController.getInstance().getCourse();
+	ArrayList<String> ratings = course.getRatingValues();
+	ArrayList<TextField> texts = new ArrayList<TextField>();
+	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -77,46 +83,45 @@ public class customizeButtonsController implements Initializable {
 		}
 	}
 	
+	
+	public boolean haveMadeButtonChanges() {
+		if (texts.get(0).getText() == "" && texts.get(1).getText() == "" && texts.get(2).getText() == "" && texts.get(3).getText() == "" && texts.get(4).getText() == "") {
+			return false;
+		}
+		return true;
+	}
+	
+	
 	public void setPreviewTexts() {
-		if (buttonText1.getText()!="") {
-			button1.setText(buttonText1.getText());
-		}
-		else {
-			//Set the button to the previous value (or standard value)
-			//button1.setText("hent frå database");
-		}
-		if (buttonText2.getText()!="") {
-			button2.setText(buttonText2.getText());
-		}
-		else {
-			//Set the button to the previous value (or standard value)
-			//button2.setText("hent frå database");
-		}
-		if (buttonText3.getText()!="") {
-			button3.setText(buttonText3.getText());
-		}
-		else {
-			//Set the button to the previous value (or standard value)
-			//button3.setText("hent frå database");
-		}
-		if (buttonText4.getText()!="") {
-			button4.setText(buttonText4.getText());
-		}
-		else {
-			//Set the button to the previous value (or standard value)
-			//button4.setText("hent frå database");
-		}
-		if (buttonText5.getText()!="") {
-			button5.setText(buttonText5.getText());
-		}
-		else {
-			//Set the button to the previous value (or standard value)
-			//button5.setText("hent frå database");
+		for (int i = 0; i<5;i++) {
+			if (buttonIsChanged(texts.get(i))) {
+				buttons.get(i).setText(texts.get(i).getText());
+			}						
 		}
 	}
 	
+	public boolean buttonIsChanged(TextField text) {
+		if(text.getText()=="") {
+			return false;			
+		}
+		return true;
+	}
+	
+	public ArrayList<String> makeListOfValues() {
+		ArrayList<String> list = new ArrayList<String>();
+		for(int i = 0;i<5;i++) {
+			if (buttonIsChanged(texts.get(i))) {
+				list.add(texts.get(i).getText());
+			}
+			else {
+				list.add(ratings.get(i));
+			}
+		}
+		return list;
+	}
+	
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
+	public void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
 		if(event.getSource() == preview) {
@@ -124,9 +129,14 @@ public class customizeButtonsController implements Initializable {
 			return;
 		}
 		else if (event.getSource() == submitChanges){
-			
-			return;
+			if (haveMadeButtonChanges()) {
+				
+				ArrayList<String> inputValues = makeListOfValues();
+				DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
+				loadNextScene(submitChanges, stage, "lectureProf.fxml");
+			}
 		}
+		return;
 	}
 	
 	
@@ -137,7 +147,17 @@ public class customizeButtonsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-		
+		texts.add(buttonText1);
+		texts.add(buttonText2);
+		texts.add(buttonText3);
+		texts.add(buttonText4);
+		texts.add(buttonText5);
+		buttons.add(button1);
+		buttons.add(button2);
+		buttons.add(button3);
+		buttons.add(button4);
+		buttons.add(button5);
+		setPreviewTexts();
 	}
 
 }
