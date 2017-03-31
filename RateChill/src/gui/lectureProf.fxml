@@ -36,15 +36,15 @@
       <ToolBar layoutX="-1.0" prefHeight="41.0" prefWidth="600.0">
         <items>
             <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
-          <Button fx:id="back" mnemonicParsing="false" text="Back" />
+          <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
             <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="474.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleButtonAction" text="Customize evaluation buttons">
+                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" text="Customize evaluation buttons">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="98.0" text="Edit lectures" textAlignment="CENTER" wrapText="true">
+                  <Button fx:id="editLectures" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="98.0" text="Edit lectures" textAlignment="CENTER" wrapText="true">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>

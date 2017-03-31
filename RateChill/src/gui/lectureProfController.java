@@ -33,7 +33,6 @@ public class lectureProfController implements Initializable {
 	public Button customize;
 	public Button editLectures;
 	
-	@FXML //userbuttons
 	public Button home;
 	public Button back;
 	public Button logout;
