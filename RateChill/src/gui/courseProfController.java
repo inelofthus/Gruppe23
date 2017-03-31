@@ -38,10 +38,6 @@ public class courseProfController implements Initializable {
 		return mainController.getInstance().getProfessor().getCourseIDs().get(x);
 	}
 	
-	public void setLectures (Course course) {
-		mainController.getInstance().setlastTwoLecturesProfessor(course.getLastTwoCompletedLectures());
-	}
-	
 	public void loadCourse(Course course) {
 		mainController.getInstance().setCourse(course);
 	}
@@ -84,18 +80,21 @@ public class courseProfController implements Initializable {
 	    
 		//the number of courses a professor has
 	    int numberOfCourses = mainController.getInstance().getProfessor().getCourseIDs().size();
-	    
 	    userButtons(event, stage);
 	    
 	    if(numberOfCourses == 0) {
 	    	return;
 	    }
+	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
 	    	
 	    	Course course = new Course(loadCourseCode(0));
 	    	loadCourse(course);
 	        
-	        setLectures(course);
+	        if (mainController.getInstance().getCourse().getLectureIDs().size() == 0) {
+	    		loadNextScene(fag1, stage, "addLectures.fxml");
+	    		return;
+	    	}
 	        loadNextScene(fag1, stage, "lectureProf.fxml");
 	    }
 	    
@@ -103,16 +102,21 @@ public class courseProfController implements Initializable {
 	    	Course course = new Course(loadCourseCode(1));
 	    	loadCourse(course);
 
-	    	setLectures(course);
+	    	if (mainController.getInstance().getCourse().getLectureIDs().size() == 0) {
+	    		loadNextScene(fag2, stage, "addLectures.fxml");
+	    		return;
+	    	}
 	    	loadNextScene(fag2, stage, "lectureProf.fxml");
 	    }
 	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
 	    	Course course = new Course(loadCourseCode(2));
 	    	loadCourse(course);
-	    	stage=(Stage) fag3.getScene().getWindow();
 	    	
-	    	setLectures(course);
+	    	if (mainController.getInstance().getCourse().getLectureIDs().size() == 0) {
+	    		loadNextScene(fag3, stage, "addLectures.fxml");
+	    		return;
+	    	}
 	    	loadNextScene(fag3, stage, "lectureProf.fxml");
 	    	
 		}
@@ -121,7 +125,10 @@ public class courseProfController implements Initializable {
 	    	Course course = new Course(loadCourseCode(3));
 	    	loadCourse(course);
 	    	
-	    	setLectures(course);
+	    	if (mainController.getInstance().getCourse().getLectureIDs().size() == 0) {
+	    		loadNextScene(fag4, stage, "addLectures.fxml");
+	    		return;
+	    	}
 	    	loadNextScene(fag4, stage, "lectureProf.fxml");
 		}
 	}

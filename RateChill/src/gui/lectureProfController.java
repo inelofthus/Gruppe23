@@ -30,9 +30,12 @@ public class lectureProfController implements Initializable {
 	@FXML
 	public Button indivLecture;
 	public Button allLectures;
+	public Button customize;
+	public Button editLectures;
+	
 	public Button home;
+	public Button back;
 	public Button logout;
-	public Button exit;
 	
 	@FXML
 	public Text month;
@@ -72,6 +75,9 @@ public class lectureProfController implements Initializable {
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
+		if (event.getSource() == back) {
+			loadNextScene(back, stage, "courseProf.fxml");
+		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
 		}
@@ -83,25 +89,26 @@ public class lectureProfController implements Initializable {
 		Stage stage = null;
 		userButtons(event, stage);
 		
-		int numberOfLectures = mainController.getInstance().getLastTwoLecturesProfessor().size();
-		
-		if (numberOfLectures==0) {
-			return;
+		if(event.getSource() == indivLecture){
+			int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); 
+			Lecture lec = new Lecture(lecID);
+			loadLecture(lec);
+			mainController.getInstance().setChosenProfessorLecture(lecID);
+			loadNextScene(indivLecture, stage, "individualCharts.fxml");
 		}
-
-	    else if(event.getSource() == indivLecture){
-	    	int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); 
-	    	Lecture lec = new Lecture(lecID);
-	    	loadLecture(lec);
-	    	mainController.getInstance().setChosenProfessorLecture(lecID);
-	    	loadNextScene(indivLecture, stage, "individualCharts.fxml");
-	    }
 		
-	    else if(event.getSource() == allLectures){
-	    	System.out.println("Button pressed");
-	    	loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
-	    }
-	} 
+		else if(event.getSource() == allLectures){
+			System.out.println("Button pressed");
+			loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
+		}
+		
+		else if (event.getSource() == customize) {
+			loadNextScene(customize, stage, "customizeButtons.fxml");
+		}
+		else if (event.getSource() == editLectures) {
+			loadNextScene(editLectures, stage, "addLectures.fxml");
+		}
+	}
 	
 	@FXML 
 	private void handleHyperLinkAction(ActionEvent event) throws IOException{
@@ -176,7 +183,6 @@ public class lectureProfController implements Initializable {
 		this.course = mainController.getInstance().getCourse();
 		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		month.setText(getMonthText(monthNum));
-		
 		
 		if(monthNum > 6){
 			month1.setText("Jul");
