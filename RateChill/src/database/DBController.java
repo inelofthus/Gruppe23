@@ -6,12 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import databaseobjects.Course;
 import databaseobjects.Evaluation;
@@ -676,7 +677,7 @@ public class DBController {
 				.append(professorUsername).append("';");
 
 		String query = sb.toString();
-		System.out.println(query);
+//		System.out.println(query);
 		return query;
 
 	}
@@ -1498,6 +1499,40 @@ public class DBController {
 		}
 		return false;
 	}
+
+	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) {
+		
+		int numWeeks = 1;
+		String[] startDateSplit = startDate.split("-");
+		int mmStart = Integer.valueOf(startDateSplit[1]) ;
+		int ddStart = Integer.valueOf(startDateSplit[2]);
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		LocalDate start = LocalDate.of(year, mmStart, ddStart);
+		
+		if(repeat){
+			String[] endDateSplit = endDate.split("-");
+			int mmEnd = Integer.valueOf(endDateSplit[1]) ;
+			int ddEnd = Integer.valueOf(endDateSplit[2]);
+			
+			LocalDate end = LocalDate.of(year, mmEnd, ddEnd);
+			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);
+		}
+		
+		for (int i = 0; i < numWeeks; i++) {
+			int MM = start.getMonthValue();
+			int DD = start.getDayOfMonth();
+			String date = year + "-" + MM + "-" + DD;
+			System.out.println(date);
+			insertLecture(date, startTime, courseCode, professorUsername);
+			
+			start = start.plusWeeks(1);
+			System.out.println(start);
+		}
+
+		
+	}
+
+
 
 
 }

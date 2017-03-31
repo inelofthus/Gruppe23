@@ -207,6 +207,9 @@ public class Course extends DatabaseUser{
 		this.lectureIDs = lectureIDs;
 	}
 	
+	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername){
+		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);
+	}
 	//To be used to generate lectures over time graph:
 	
 	public HashMap<Integer, Integer> lecIDtoNumRatings;
