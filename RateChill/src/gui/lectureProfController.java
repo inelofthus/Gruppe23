@@ -179,12 +179,12 @@ public class lectureProfController implements Initializable {
 		
 		
 		if(monthNum > 6){
-			month1.setText("7");
-			month2.setText("8");
-			month3.setText("9");
-			month4.setText("10");
-			month5.setText("11");
-			month6.setText("12");
+			month1.setText("Jul");
+			month2.setText("Aug");
+			month3.setText("Sep");
+			month4.setText("Oct");
+			month5.setText("Nov");
+			month6.setText("Des");
 			spring = false;
 		}
 		if(course.getLectureIDsMonth(monthNum).isEmpty()){
