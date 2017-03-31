@@ -1532,8 +1532,8 @@ public class DBController {
 		
 	}
 
-	public void deleteLecturesForPeriod(String courseCode, String startDate, String endDate) {
-		// deletes lectures for this period.
+	public void deleteLecturesForPeriod (String courseCode, String startDate, String endDate) {
+		// deletes lectudeleteLecturesForPeriodres for this period.
 		
 		connect();
 		
