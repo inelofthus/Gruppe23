@@ -2,8 +2,10 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import databaseobjects.Course;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,11 +24,11 @@ public class evaluationStudController implements Initializable {
 	//fxml objects
 	@FXML
 	public TextArea feedback;
-	public ToggleButton tooSlow;
-	public ToggleButton confusing;
-	public ToggleButton perfect;
-	public ToggleButton toofast;
-	public ToggleButton ok;
+	public ToggleButton rating1;
+	public ToggleButton rating2;	
+	public ToggleButton rating3;
+	public ToggleButton rating4;
+	public ToggleButton rating5;	
 	public ToggleGroup group;
 	public Button submit;
 	public Text debugText;
@@ -37,6 +39,7 @@ public class evaluationStudController implements Initializable {
 	public Button logout;
 	public Button exit;
 	
+	Course course = mainController.getInstance().getCourse();
 	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 	
 	//Creates an evaluation that can be inserted into the database
@@ -51,20 +54,20 @@ public class evaluationStudController implements Initializable {
 	
 	private String selectedButton() {
 		String rating = "";
-		if (tooSlow.isSelected()){
-			rating = tooSlow.getText();
+		if (rating4.isSelected()){
+			rating = rating4.getText();
 		}
-		else if (confusing.isSelected()){
-			rating += confusing.getText();
+		else if (rating5.isSelected()){
+			rating += rating5.getText();
 		}
-		else if (toofast.isSelected()){
-			rating += toofast.getText();
+		else if (rating3.isSelected()){
+			rating += rating3.getText();
 		}
-		else if (ok.isSelected()){
-			rating += ok.getText();
+		else if (rating2.isSelected()){
+			rating += rating2.getText();
 		}
-		else if (perfect.isSelected()){
-			rating += perfect.getText();
+		else if (rating1.isSelected()){
+			rating += rating1.getText();
 		}
 		return rating;
 	}
@@ -104,8 +107,8 @@ public class evaluationStudController implements Initializable {
 		if (event.getSource() == submit){
 			
 			//checks if something is selected and gives error message
-			if (!(tooSlow.isSelected() || confusing.isSelected() || toofast.isSelected() || ok.isSelected()
-					|| perfect.isSelected())) {
+			if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
+					|| rating1.isSelected())) {
 				overwriteText.setText("");
 				submitted.setText("");
 				debugText.setText("Choose a rating");
@@ -160,6 +163,12 @@ public class evaluationStudController implements Initializable {
 			submit.setText("Overwrite");
 			overwriteText.setText("Evaluation already given, overwrite?");
 		}
+		ArrayList<String> ratingValues = course.getRatingValues();
+		rating1.setText(ratingValues.get(0));
+		rating2.setText(ratingValues.get(1));
+		rating3.setText(ratingValues.get(2));
+		rating4.setText(ratingValues.get(3));
+		rating5.setText(ratingValues.get(4));
 	}
 
 }

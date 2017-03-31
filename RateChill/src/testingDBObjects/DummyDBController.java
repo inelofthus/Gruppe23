@@ -115,11 +115,11 @@ public class DummyDBController extends DBController{
 		
 		Evaluation eval = new Evaluation("Ok", "yeah it was ok", 1, "karimj@stud.ntnu.no");
 		lecture.setEvaluations(new ArrayList<>(Arrays.asList(eval)));
-		lecture.setPerfectEvaluations(new ArrayList<>());
-		lecture.setOkEvaluations(new ArrayList<>(Arrays.asList(eval)));
-		lecture.setTooFastEvaluations(new ArrayList<>());
-		lecture.setTooSlowEvaluations(new ArrayList<>());
-		lecture.setConfusedEvaluations(new ArrayList<>());
+		lecture.setEvaluationsRating1(new ArrayList<>());
+		lecture.setEvaluationsRating2(new ArrayList<>(Arrays.asList(eval)));
+		lecture.setEvaluationsRating3(new ArrayList<>());
+		lecture.setEvaluationsRating4(new ArrayList<>());
+		lecture.setEvaluationsRating5(new ArrayList<>());
 		
 	}
 
