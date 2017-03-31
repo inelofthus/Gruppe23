@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,13 +39,16 @@ public class addLecturesController implements Initializable {
 	@FXML
 	public TextField startTime;
 	public TextField endTime;
-	public Text badSearch;
-	public Text badChoice;
+	
+	@FXML
+	public DatePicker startDate;
+	public DatePicker endDate;
+	public DatePicker holidayStart;
+	public DatePicker holidayEnd;
 
 	@FXML
 	public TableView<String> tableView;
 
-	private Student stud = mainController.getInstance().getStudents();
 	DBController DBC = new DBController();
 
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
@@ -66,113 +70,21 @@ public class addLecturesController implements Initializable {
 			loadNextScene(back, stage, "lectureProf.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "loginStud.fxml");
+			loadNextScene(logout, stage, "loginProf.fxml");
 		}
 		if (event.getSource() == finish) {
-			loadNextScene(logout, stage, "courseStud.fxml");
+			loadNextScene(logout, stage, "lectureProf.fxml");
 		}
 	}
 
-	// public boolean isUserButtonPushed(ActionEvent event) {
-	// if (event.getSource() == home || event.getSource() == back ||
-	// event.getSource() == logout) {
-	// return true;
-	// }
-	// return false;
-	// }
 
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
-		if (event.getSource() == search) {
-			// get a list of courses that matches search then add to listview
-			badChoice.setText("");
-			badSearch.setText("");
-			ArrayList<String> searchResult = getSearchresult(searchText.getText());
-			options.getItems().clear();
-			if (searchResult.isEmpty()) {
-				badSearch.setText("no courses matching your search");
-			}
-			options.getItems().addAll(searchResult);
-		}
-
-		if (event.getSource() == sendRight) {
-			badChoice.setText("");
-			badSearch.setText("");
-			System.out.println("sendRight pressed");
-			String s = options.getSelectionModel().getSelectedItem();
-			String[] stringSplit = s.split("\\s+",2); // splits into array with
-													// courseCode and courseName
-			String courseCode = stringSplit[0];
-			String courseName = stringSplit[1];
-
-			if (s != null && checkCourseChoice(courseCode)) {
-				stud.addCourse(courseCode, courseName);
-				options.getSelectionModel().clearSelection();
-				options.getItems().remove(s);
-				choices.getItems().add(s);
-			}
-		}
-		if (event.getSource() == sendLeft) {
-			badChoice.setText("");
-			badSearch.setText("");
-			System.out.println("sendLeft pressed");
-			String s = choices.getSelectionModel().getSelectedItem();
-			String[] stringSplit = s.split("\\s+"); // splits into array with
-													// courseCode and courseName
-			String courseCode = stringSplit[0];
-			// String courseName = stringSplit[1];
-
-			if (s != null) {
-				stud.removeCourse(courseCode);
-				options.getSelectionModel().clearSelection();
-				choices.getItems().remove(s);
-				options.getItems().add(s);
-			}
-		}
-
-		if (event.getSource() == finish) {
-			Stage stage = null;
-			loadNextScene(finish, stage, "courseStud.fxml");
-		}
+		Stage stage = null;
+		userButtons(event, stage);
 	}
-
-	private ArrayList<String> getSearchresult(String text) {
-		ArrayList<String> result = new ArrayList<>();
-		
-		for(String course: allCourses){
-			if(course.toLowerCase().contains(text.toLowerCase())){
-				result.add(course);
-			}
-		}
-	return result;
-}
-
-	private boolean checkCourseChoice(String s) {
-		boolean okChoice = true;
-
-		if (stud.getCourseIDs().contains(s)) {
-			badChoice.setText("This course is already added");
-			okChoice = false;
-		}
-		if (stud.getCourseIDs().size() >= 4) {
-			badChoice.setText("Max 4 courses");
-			okChoice = false;
-		}
-
-		return okChoice;
-
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		allCourses = DBC.getAllCourses();
-		options.getItems().clear();
-		options.getItems().addAll(allCourses);
-
-		for (String cID : stud.getCourseIDs()) {
-			choices.getItems().add(cID + " " + stud.getCourseIDNames().get(cID));
-			options.getItems().remove(cID + " " + stud.getCourseIDNames().get(cID));
-		}
 
 	}
 
