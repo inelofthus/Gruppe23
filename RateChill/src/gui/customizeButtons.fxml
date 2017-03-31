@@ -19,7 +19,7 @@
       <Label layoutX="14.0" layoutY="114.0" text="First button" />
       <TextField fx:id="buttonText5" layoutX="121.0" layoutY="297.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" />
       <Button fx:id="preview" layoutX="363.0" layoutY="69.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="141.0" text="Preview buttons" />
-      <ToggleButton fx:id="button1" layoutX="362.0" layoutY="107.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" text="Perfect">
+      <ToggleButton fx:id="button1" layoutX="362.0" layoutY="107.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0">
          <font>
             <Font size="18.0" />
          </font>
@@ -32,22 +32,22 @@
       <Label layoutX="14.0" layoutY="208.0" text="Third button" />
       <Label layoutX="14.0" layoutY="256.0" text="Fourth button" />
       <Label layoutX="14.0" layoutY="303.0" text="Fifth button" />
-      <ToggleButton fx:id="button2" layoutX="362.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" text="Perfect">
+      <ToggleButton fx:id="button2" layoutX="362.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button3" layoutX="362.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" text="Perfect">
+      <ToggleButton fx:id="button3" layoutX="362.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button4" layoutX="362.0" layoutY="249.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" text="Perfect">
+      <ToggleButton fx:id="button4" layoutX="362.0" layoutY="249.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button5" layoutX="362.0" layoutY="296.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" text="Perfect">
+      <ToggleButton fx:id="button5" layoutX="362.0" layoutY="296.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0">
          <font>
             <Font size="18.0" />
          </font>
