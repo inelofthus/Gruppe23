@@ -8,6 +8,11 @@ public class Lecture extends DatabaseUser {
 	
 	int lectureID;
 	ArrayList<String> lectureDateAndTime;
+	ArrayList<String> ratingValues;
+	
+
+
+
 	String courseCode;
 	String professor;
 	ArrayList<Evaluation> evaluations;
@@ -34,6 +39,14 @@ public class Lecture extends DatabaseUser {
 		return DBC.lectureExists(lectureID);
 	}
 	
+	
+	public ArrayList<String> getRatingValues() {
+		return ratingValues;
+	}
+
+	public void setRatingValues(ArrayList<String> ratingValues) {
+		this.ratingValues = ratingValues;
+	}
 	//Getters
 
 

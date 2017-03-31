@@ -514,13 +514,12 @@ public class DBController {
 			dateTime.add(time);
 
 			lecture.setLectureDateAndTime(dateTime);
-			;
 			courseCode = rs.getString(3);
 			lecture.setCourseCode(courseCode);
 			lecture.setProfessor(rs.getString(4));
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException loadLectureInfo: " + e.getMessage());
 		}
 
 		// hjelpemetode tar seg av å hente og legge til evaluations:
@@ -553,11 +552,20 @@ public class DBController {
 			while (rs.next()) {
 
 				String studentUsername = rs.getString(1);
-				String rating = rs.getString(2);
+				String rating = rs.getString(2);				
 				String studentComment = rs.getString(3);
 				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
 
+				if (!ratingValues.contains(rating)){
+					ratingValues = getStringArray("select DISTINCT rating from Evaluation;");
+					System.out.println("ratingValues: " + ratingValues);
+					// size of ratingValues must be 5
+					for(int i = 0; i < 6 - ratingValues.size(); i++){
+						ratingValues.add("nix" + i);
+					}
+				}
+				
 				if(rating.equals(ratingValues.get(0))){
 					Evaluations1.add(eval);
 				}if(rating.equals(ratingValues.get(1))){
@@ -569,18 +577,21 @@ public class DBController {
 				}if(rating.equals(ratingValues.get(4))){
 					Evaluations5.add(eval);
 				}
+				
+
 			}
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException setEvaluationsForLecture: " + e.getMessage());
 		}
 
-		lecture.setEvaluations(evaluations);
-		lecture.setEvaluationsRating1(Evaluations1);
-		lecture.setEvaluationsRating2(Evaluations2);
-		lecture.setEvaluationsRating3(Evaluations3);
-		lecture.setEvaluationsRating4(Evaluations4);
-		lecture.setEvaluationsRating5(Evaluations5);
+				lecture.setEvaluations(evaluations);
+				lecture.setEvaluationsRating1(Evaluations1);
+				lecture.setEvaluationsRating2(Evaluations2);
+				lecture.setEvaluationsRating3(Evaluations3);
+				lecture.setEvaluationsRating4(Evaluations4);
+				lecture.setEvaluationsRating5(Evaluations5);
+				lecture.setRatingValues(ratingValues);
 
 	}
 

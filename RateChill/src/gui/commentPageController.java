@@ -49,7 +49,7 @@ public class commentPageController implements Initializable {
 	
 	private Lecture lecture = new Lecture(lectureID);
 	private Course course = mainController.getInstance().getCourse();
-	private ArrayList<String> ratingValues = course.getRatingValues();
+	private ArrayList<String> ratingValues = lecture.getRatingValues();
 	
 	public String createString() {
 		ArrayList<String> als = selectedButtons();
@@ -173,11 +173,35 @@ public class commentPageController implements Initializable {
 		if(!isCommentButtonsPushed()) {
 			textArea.setText("You have not selected to show any comments.");
 		}
+		
+
+		
 		seeComments1.setText(ratingValues.get(0) + " comments");
+		if(seeComments1.getText().contains("nix")){
+			seeComments1.setText("");
+			seeComments1.setDisable(true);
+		}
 		seeComments2.setText(ratingValues.get(1) + " comments");
+		if(seeComments2.getText().contains("nix")){
+			seeComments2.setText("");
+			seeComments2.setDisable(true);
+		}
 		seeComments3.setText(ratingValues.get(2) + " comments");
+		if(seeComments3.getText().contains("nix")){
+			seeComments3.setText("");
+			seeComments3.setDisable(true);
+		}
 		seeComments4.setText(ratingValues.get(3) + " comments");
+		if(seeComments4.getText().contains("nix")){
+			seeComments4.setText("");
+			seeComments4.setDisable(true);
+		}
 		seeComments5.setText(ratingValues.get(4) + " comments");
+		if(seeComments5.getText().contains("nix")){
+			seeComments5.setText("");
+			seeComments5.setDisable(true);
+		}
+		
 	}
 
 }
