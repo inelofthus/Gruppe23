@@ -3,8 +3,9 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import database.DBController;
 import databaseobjects.Course;
@@ -128,21 +129,36 @@ public class customizeButtonsController implements Initializable {
 		return list;
 	}
 	
+	public boolean equalRatings(ArrayList<String> checkList) {
+		Set<String> set = new HashSet<String>(checkList);
+		if(set.size()<checkList.size()) {
+			return true;
+		}
+		return false;
+	}
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		errorText.setText("");
 		userButtons(event, stage);
 		if(event.getSource() == preview) {
 			setPreviewTexts();
 			return;
 		}
 		else if (event.getSource() == submitChanges){
-			if (haveMadeButtonChanges()) {
-				
-				ArrayList<String> inputValues = makeListOfValues();
-				DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
-				loadNextScene(submitChanges, stage, "lectureProf.fxml");
+			if (!haveMadeButtonChanges()) {
+				errorText.setText("You have not made any changes");
+				return;
 			}
+			ArrayList<String> inputValues = makeListOfValues();
+			if (equalRatings(inputValues)) {
+				errorText.setText("There exists duplicate rating-values, please make them unique");
+				return;
+			}
+			
+			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
+			loadNextScene(submitChanges, stage, "lectureProf.fxml");
 		}
 		return;
 	}
