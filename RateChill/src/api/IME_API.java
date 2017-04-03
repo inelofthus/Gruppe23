@@ -19,6 +19,11 @@ public class IME_API {
 	
 	DBController dbc = new DBController();
 	LecturesAPI lecAPI = new LecturesAPI();
+	
+	/**
+	 * This function retrieves information about courses and lectures from two different APIs,
+	 * and inserts into the database
+	 */
 	public void getApiInfo() throws IOException{
 		String sURL = "http://www.ime.ntnu.no/api/course/en/-";
 	    // Connect to the URL using java's native library

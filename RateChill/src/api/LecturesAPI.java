@@ -21,6 +21,9 @@ public class LecturesAPI {
 	DBController dbc = new DBController();
 	public void getApiInfoAndInsertToDB(String courseCode, String professorUsername) throws IOException{
 		int year = Calendar.getInstance().get(Calendar.YEAR);
+		if (!courseCode.contains("/")){
+			courseCode = URLEncoder.encode(courseCode, "utf-8");
+		}
 		String sURL = "https://www.ntnu.edu/web/studies/courses?p_p_id="
 				+ "coursedetailsportlet_WAR_courselistportlet&p_p_lifecycle=2&p_p_state=normal"
 				+ "&p_p_mode=view&p_p_resource_id=timetable&p_p_cacheability=cacheLevelPage"
@@ -51,13 +54,15 @@ public class LecturesAPI {
 		    		System.out.println(day + " " + lectureStart);
 		    		System.out.println(lectureDates);
 		    		
-		    		try {
-		    			for (int j = 0; j < lectureDates.size(); j++){
+		    		
+		    		for (int j = 0; j < lectureDates.size(); j++){
+		    			try {
 		    				dbc.insertLecture(lectureDates.get(j), lectureStart, courseCode, professorUsername);
-		    			}
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
+						} catch (Exception e) {
+							System.out.println("Lecture already exists");
+						}
+		    		}
+
 			    }
 		    }
 		} catch (Exception e) {
@@ -65,18 +70,6 @@ public class LecturesAPI {
 		}
 	    dbc.close();
 	    
-	    
-	    /*
-	    dbc.connect();
-	    for (int i = 0; i < course.size(); i++){
-	    	
-	    	
-	    	loadAndSetCourseInfo(course.get(i).getAsJsonObject().get("code").getAsString());
-	    	
-	    }
-	    dbc.close();
-	    request.disconnect();
-		*/
 	}
 	
 	public ArrayList<String> getLectureDates(JsonArray weeksList, int day){
@@ -122,7 +115,7 @@ public class LecturesAPI {
 	
 	public static void main(String[] args) throws IOException {
 		LecturesAPI lect = new LecturesAPI();
-		lect.getApiInfoAndInsertToDB("TEP4245", "hmm");
+		lect.getApiInfoAndInsertToDB("TMM4140", "afroozb");
 		
 	}
 }
