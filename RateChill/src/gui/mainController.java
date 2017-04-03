@@ -17,7 +17,16 @@ public class mainController {
 	private Professor professor;
 	private Course course;
 	private Lecture lecture;
+	private String previousView;
 	
+	public String getPreviousView() {
+		return previousView;
+	}
+
+	public void setPreviousView(String previousView) {
+		this.previousView = previousView;
+	}
+
 	public Course getCourse() {
 		return course;
 	}
