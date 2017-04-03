@@ -18,6 +18,7 @@ import database.DBController;
 public class IME_API {
 	
 	DBController dbc = new DBController();
+	LecturesAPI lecAPI = new LecturesAPI();
 	public void getApiInfo() throws IOException{
 		String sURL = "http://www.ime.ntnu.no/api/course/en/-";
 	    // Connect to the URL using java's native library
@@ -35,7 +36,6 @@ public class IME_API {
 	    
 	    dbc.connect();
 	    for (int i = 0; i < course.size(); i++){
-	    	
 	    	
 	    	loadAndSetCourseInfo(course.get(i).getAsJsonObject().get("code").getAsString());
 	    	
@@ -87,6 +87,9 @@ public class IME_API {
 		    dbc.insertCourseCon(courseCode, courseName, lectureHours, taughtInSpring, taughtInAutumn);
 		    dbc.insertProfessorCon(professorUsername, "np");
 		    dbc.insertCourseProfessorCon(professorUsername, courseCode);
+	    	
+		    lecAPI.getApiInfoAndInsertToDB(courseCode, professorUsername);
+		    
 		    System.out.println(courseCode);
 	    } catch (IllegalArgumentException iae) {
 	    	System.out.println("Course not taught in Trondheim");

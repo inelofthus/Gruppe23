@@ -18,7 +18,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.addLecturesController">
    <children>
       <Button fx:id="finish" layoutX="140.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="321.0" text="Finish" />
-      <Text layoutX="239.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lectures">
+      <Text layoutX="239.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Lectures">
          <font>
             <Font size="31.0" />
          </font>
