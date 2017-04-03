@@ -150,8 +150,12 @@ public class customizeButtonsController implements Initializable {
 			if (!haveMadeButtonChanges()) {
 				errorText.setText("You have not made any changes");
 				return;
-			}
+			}			
 			ArrayList<String> inputValues = makeListOfValues();
+			if(tooLongInput(inputValues)){
+				errorText.setText("Too long text. There max length of a rating value is 20characters. ");
+				return;
+			}
 			if (equalRatings(inputValues)) {
 				errorText.setText("There exists duplicate rating-values, please make them unique");
 				return;
@@ -168,6 +172,16 @@ public class customizeButtonsController implements Initializable {
 	
 	
 	
+	private boolean tooLongInput(ArrayList<String> inputValues) {
+		
+		for(String rv: inputValues){
+			if(rv.length() > 20){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
