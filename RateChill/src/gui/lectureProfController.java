@@ -94,18 +94,22 @@ public class lectureProfController implements Initializable {
 			Lecture lec = new Lecture(lecID);
 			loadLecture(lec);
 			mainController.getInstance().setChosenProfessorLecture(lecID);
+			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(indivLecture, stage, "individualCharts.fxml");
 		}
 		
 		else if(event.getSource() == allLectures){
 			System.out.println("Button pressed");
+			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
 		}
 		
 		else if (event.getSource() == customize) {
+			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 		else if (event.getSource() == editLectures) {
+			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(editLectures, stage, "addLectures.fxml");
 		}
 	}

@@ -28,7 +28,6 @@ public class courseProfController implements Initializable {
 	public Text errorNumber;
 	
 	public Button logout;
-	public Button exit;
 	
 	//creates a list of buttons to iterate over in initializer
 	ArrayList<Button> buttons = new ArrayList<Button>();
@@ -95,6 +94,7 @@ public class courseProfController implements Initializable {
 	    		loadNextScene(fag1, stage, "addLectures.fxml");
 	    		return;
 	    	}
+
 	        loadNextScene(fag1, stage, "lectureProf.fxml");
 	    }
 	    
@@ -106,6 +106,7 @@ public class courseProfController implements Initializable {
 	    		loadNextScene(fag2, stage, "addLectures.fxml");
 	    		return;
 	    	}
+
 	    	loadNextScene(fag2, stage, "lectureProf.fxml");
 	    }
 	    
@@ -117,6 +118,7 @@ public class courseProfController implements Initializable {
 	    		loadNextScene(fag3, stage, "addLectures.fxml");
 	    		return;
 	    	}
+
 	    	loadNextScene(fag3, stage, "lectureProf.fxml");
 	    	
 		}
@@ -125,10 +127,12 @@ public class courseProfController implements Initializable {
 	    	Course course = new Course(loadCourseCode(3));
 	    	loadCourse(course);
 	    	
+	    
 	    	if (mainController.getInstance().getCourse().getLectureIDs().size() == 0) {
 	    		loadNextScene(fag4, stage, "addLectures.fxml");
 	    		return;
 	    	}
+	    	
 	    	loadNextScene(fag4, stage, "lectureProf.fxml");
 		}
 	}
@@ -136,6 +140,7 @@ public class courseProfController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+        mainController.getInstance().setPreviousView("courseProf.fxml");
 		int numberOfCourses = mainController.getInstance().getProfessor().getCourseIDs().size();
 		buttons.add(fag1);
 		buttons.add(fag2);
