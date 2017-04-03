@@ -77,14 +77,14 @@ public class lectureStudController implements Initializable {
 	   
 	
 	
-	private int getKeyLec1() {
+	private int getKeyLec2() {
 		// helper method that returns the lectureID of the first lecture of lastTwoLectures		
 		LinkedHashMap<Integer, ArrayList<String>> map = mainController.getInstance().getLastTwoLecturesStudent();
 		Iterator<Integer> entries = map.keySet().iterator();
 		return entries.next();
 	}
 	
-	private int getKeyLec2() {
+	private int getKeyLec1() {
 		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
 		LinkedHashMap<Integer, ArrayList<String>> map = mainController.getInstance().getLastTwoLecturesStudent();
 		Iterator<Integer> entries = map.keySet().iterator();
