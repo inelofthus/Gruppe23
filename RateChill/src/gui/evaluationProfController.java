@@ -108,8 +108,8 @@ public class evaluationProfController implements Initializable {
 		// TODO Auto-generated method
 		ArrayList<String> ratingValues = lecture.getRatingValues();
 		
-		if(ratingValues.size() >5){
-			ratingValues.subList(0, 4);
+		if(ratingValues.size() ==6){
+			ratingValues.remove(5);
 		}
 		
 		evaluationTypes.addAll(ratingValues);
