@@ -84,6 +84,30 @@ public class DBController {
 		// System.out.println(professor);
 		return list;
 	}
+	
+	public ArrayList<String> getStringArrayNC(String query) {
+		// takes an SQL query as input. Returns a string that contains all data
+		// from first column of table
+
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			while (rs.next()) {
+				list.add(rs.getString(1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+
+		// System.out.println(professor);
+		return list;
+	}
 
 	public ArrayList<Integer> getIntArray(String query) {
 		// takes an sqlQuery as input and returns a list containing the String
@@ -549,26 +573,68 @@ public class DBController {
 				rs = stmt.getResultSet();
 			}
 
+			rs.next();
+			
+
+			String studentUsername = rs.getString(1);
+			String rating = rs.getString(2);
+			System.out.println(rating);
+			String studentComment = rs.getString(3);
+			Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
+			evaluations.add(eval);
+
+			if (!ratingValues.contains(rating)){
+				//TODO KARI FIX THIS!!!!!!
+				ratingValues = getStringArrayNC("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
+				System.out.println("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
+				System.out.println("ratingValues: " + ratingValues);
+				// size of ratingValues must be 5
+				if(ratingValues.size() < 5){
+					int i = 1;
+					while(ratingValues.size() != 5){
+						ratingValues.add("nix" + i);
+						i++;
+					}
+				if(ratingValues.size() > 5){
+					ratingValues = 	(ArrayList<String>) ratingValues.subList(0, 4);
+				}
+				}
+
+			}
+			
+			if(rating.equals(ratingValues.get(0))){
+				Evaluations1.add(eval);
+			}if(rating.equals(ratingValues.get(1))){
+				Evaluations2.add(eval);
+			}if(rating.equals(ratingValues.get(2))){
+				Evaluations3.add(eval);
+			}if(rating.equals(ratingValues.get(3))){
+				Evaluations4.add(eval);
+			}if(rating.equals(ratingValues.get(4))){
+				Evaluations5.add(eval);
+			}
+			
+			query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
+					+ lecture.getLectureID() + ";";
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			rs.next();
+			
 			while (rs.next()) {
 
-				String studentUsername = rs.getString(1);
-				String rating = rs.getString(2);				
-				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
+				studentUsername = rs.getString(1);
+				rating = rs.getString(2);
+				System.out.println(rating);
+				studentComment = rs.getString(3);
+				eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
-
-				if (!ratingValues.contains(rating)){
-					ratingValues = getStringArray("select DISTINCT rating from Evaluation;");
-					System.out.println("ratingValues: " + ratingValues);
-					// size of ratingValues must be 5
-					for(int i = 0; i < 6 - ratingValues.size(); i++){
-						ratingValues.add("nix" + i);
-					}
-				}
 				
 				if(rating.equals(ratingValues.get(0))){
 					Evaluations1.add(eval);
 				}if(rating.equals(ratingValues.get(1))){
+					System.out.println("rating :" + ratingValues.get(1) + "detected");
 					Evaluations2.add(eval);
 				}if(rating.equals(ratingValues.get(2))){
 					Evaluations3.add(eval);
@@ -584,7 +650,8 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException setEvaluationsForLecture: " + e.getMessage());
 		}
-
+		
+				
 				lecture.setEvaluations(evaluations);
 				lecture.setEvaluationsRating1(Evaluations1);
 				lecture.setEvaluationsRating2(Evaluations2);
