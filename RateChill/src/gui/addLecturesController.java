@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import database.DBController;
+import databaseobjects.Course;
 import databaseobjects.Student;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -26,9 +30,11 @@ import javafx.stage.Stage;
 
 public class addLecturesController implements Initializable {
 
-	// fxml objects
-	private ArrayList<String> allCourses;
 
+	Course course = mainController.getInstance().getCourse();
+
+	// fxml objects
+	
 	@FXML
 	public Button home;
 	public Button back;
@@ -47,9 +53,14 @@ public class addLecturesController implements Initializable {
 	public DatePicker holidayEnd;
 
 	@FXML
-	public TableView<String> tableView;
+	public TableView<String[]> tableView;
+	public TableColumn<String, String> startDateCol;
+	public TableColumn<String, String> startTimeCol;
+	public TableColumn<String, String> endTimeCol;
+	public TableColumn<String, String> endDateCol;
+	public TableColumn<String, String> weeklyCol;
 
-	DBController DBC = new DBController();
+	DBController DBC = new DBController(); 
 
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
 		stage = (Stage) button.getScene().getWindow();
@@ -85,7 +96,11 @@ public class addLecturesController implements Initializable {
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		ObservableList<String[]> lectureInfo = FXCollections.observableArrayList();
+		//startDateCol.setCellValueFactory(new PropertyValueFactory<Lecture, String>("startDate"));
+        //startDateCol.setCellValueFactory(new PropertyValueFactory<Lecture, String>("startTime"));
+		//lectureInfo.add(new LectureItem("2017-04-01", "08:15", "10:00", "2017-04-01", 0));
+		//tableView.setItems(lectureInfo);
 	}
 
 }
