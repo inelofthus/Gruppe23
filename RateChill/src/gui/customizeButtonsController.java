@@ -98,16 +98,12 @@ public class customizeButtonsController implements Initializable {
 	}
 	
 	
-	public void setPreviewTexts() {
+	public void setPreviewTexts(ArrayList<String> array) {
 		for (int i = 0; i<5;i++) {
-			if (buttonIsChanged(texts.get(i))) {
-				buttons.get(i).setText(texts.get(i).getText());
-			}
-			else {
-				buttons.get(i).setText(ratings.get(i));
-			}
+			buttons.get(i).setText(array.get(i));
 		}
 	}
+	
 	
 	public void initializePreview() {
 		for (int i = 0; i<5;i++) {
@@ -116,10 +112,10 @@ public class customizeButtonsController implements Initializable {
 	}
 	
 	public boolean buttonIsChanged(TextField text) {
-		if(text.getText()=="") {
-			return false;			
+		if(text.getText()!="") {
+			return true;			
 		}
-		return true;
+		return false;
 	}
 	
 	public ArrayList<String> makeListOfValues() {
@@ -149,7 +145,7 @@ public class customizeButtonsController implements Initializable {
 		errorText.setText("");
 		userButtons(event, stage);
 		if(event.getSource() == preview) {
-			setPreviewTexts();
+			setPreviewTexts(makeListOfValues());
 			return;
 		}
 		else if (event.getSource() == submitChanges){
