@@ -567,7 +567,7 @@ public class DBController {
 
 		try {
 
-			String query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
+			String query = "select rating from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
@@ -575,18 +575,12 @@ public class DBController {
 
 			rs.next();
 			
-
-			String studentUsername = rs.getString(1);
-			String rating = rs.getString(2);
+			String rating = rs.getString(1);
 			System.out.println(rating);
-			String studentComment = rs.getString(3);
-			Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
-			evaluations.add(eval);
 
-			if (!ratingValues.contains(rating)){
-				//TODO KARI FIX THIS!!!!!!
+			if (!ratingValues.contains(rating)){ 
+				// checks if the ratingsValues are different from the course's current rating values 
 				ratingValues = getStringArrayNC("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
-				System.out.println("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
 				System.out.println("ratingValues: " + ratingValues);
 				// size of ratingValues must be 5
 				if(ratingValues.size() < 5){
@@ -602,33 +596,19 @@ public class DBController {
 
 			}
 			
-			if(rating.equals(ratingValues.get(0))){
-				Evaluations1.add(eval);
-			}if(rating.equals(ratingValues.get(1))){
-				Evaluations2.add(eval);
-			}if(rating.equals(ratingValues.get(2))){
-				Evaluations3.add(eval);
-			}if(rating.equals(ratingValues.get(3))){
-				Evaluations4.add(eval);
-			}if(rating.equals(ratingValues.get(4))){
-				Evaluations5.add(eval);
-			}
-			
 			query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
-
-			rs.next();
 			
 			while (rs.next()) {
 
-				studentUsername = rs.getString(1);
+				String studentUsername = rs.getString(1);
 				rating = rs.getString(2);
 				System.out.println(rating);
-				studentComment = rs.getString(3);
-				eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
+				String studentComment = rs.getString(3);
+				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
 				
 				if(rating.equals(ratingValues.get(0))){
