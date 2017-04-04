@@ -165,6 +165,8 @@ public class customizeButtonsController implements Initializable {
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
 			loadNextScene(submitChanges, stage, "lectureProf.fxml");
+			course.setRatingValues(inputValues);
+			mainController.getInstance().setCourse(course);
 		}
 		return;
 	}
