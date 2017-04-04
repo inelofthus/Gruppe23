@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -34,10 +37,12 @@ public class evaluationStudController implements Initializable {
 	public Text debugText;
 	public Text submitted;
 	public Text overwriteText;
+	public Text welcomeText;
 	public Button home;
 	public Button back;
 	public Button logout;
 	public Button exit;
+	public Rectangle rec;
 	
 	Course course = mainController.getInstance().getCourse();
 	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
@@ -103,6 +108,7 @@ public class evaluationStudController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
+		welcomeText.setVisible(false);
 		
 		if (event.getSource() == submit){
 			
@@ -111,6 +117,7 @@ public class evaluationStudController implements Initializable {
 					|| rating1.isSelected())) {
 				overwriteText.setText("");
 				submitted.setText("");
+				rec.setFill(Color.RED);
 				debugText.setText("Choose a rating");
 				return;
 			}
@@ -128,6 +135,7 @@ public class evaluationStudController implements Initializable {
 				//removing other messages the GUI displays and setting the overwritten text
 				debugText.setText("");
 				submitted.setText("");
+				rec.setFill(Color.BLUE);
 				String overwritten = "Your submission has been overwritten";
 				overwriteText.setText(overwritten);
 				return;
@@ -140,6 +148,7 @@ public class evaluationStudController implements Initializable {
 			createEvaluation(lectureID, selectedButton(), comment);
 			
 			//visual confirmation that the evaluation has been submitted
+			rec.setFill(Color.GREEN);
 			debugText.setText("");
 			submitted.setText("Submitted!");
 			
@@ -154,6 +163,7 @@ public class evaluationStudController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
+		rec.setFill(Color.TRANSPARENT);
 		debugText.setText("");
 		if(!mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Submit");
@@ -161,6 +171,8 @@ public class evaluationStudController implements Initializable {
 		}
 		if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Overwrite");
+			rec.setFill(Color.BLUE);
+			welcomeText.setVisible(false);
 			overwriteText.setText("Evaluation already given, overwrite?");
 		}
 		ArrayList<String> ratingValues = course.getRatingValues();
