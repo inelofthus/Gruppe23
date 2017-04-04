@@ -15,15 +15,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.addLecturesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.addLecturesController">
    <children>
-      <Button fx:id="finish" layoutX="140.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="321.0" text="Finish" />
+      <Button fx:id="finish" layoutX="160.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="65.0" prefWidth="331.0" text="Finish">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
       <Text layoutX="239.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Lectures">
          <font>
             <Font size="31.0" />
          </font>
       </Text>
-      <TableView fx:id="tableView" focusTraversable="false" layoutX="32.0" layoutY="140.0" prefHeight="139.0" prefWidth="528.0">
+      <TableView fx:id="tableView" focusTraversable="false" layoutX="63.0" layoutY="151.0" prefHeight="139.0" prefWidth="528.0">
         <columns>
           <TableColumn prefWidth="90.0" />
           <TableColumn prefWidth="90.0" />
@@ -32,11 +35,11 @@
             <TableColumn prefWidth="90.0" />
         </columns>
       </TableView>
-      <ToolBar layoutX="-1.0" prefHeight="41.0" prefWidth="600.0">
+      <ToolBar layoutX="-1.0" prefHeight="41.0" prefWidth="655.0">
         <items>
           <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
           <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
-          <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="474.0">
+          <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="525.0">
              <children>
                 <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
              </children>
@@ -48,48 +51,48 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" />
          </buttons>
       </ButtonBar>
-      <ToolBar layoutX="33.0" layoutY="280.0" prefHeight="41.0" prefWidth="526.0">
+      <ToolBar layoutX="63.0" layoutY="279.0" prefHeight="41.0" prefWidth="526.0">
         <items>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select holiday period" wrappingWidth="123.07357788085938" />
             <Label text="Start:" />
-            <DatePicker fx:id="holidayStart" prefHeight="25.0" prefWidth="82.0" />
+            <DatePicker fx:id="holidayStart" prefHeight="25.0" prefWidth="100.0" />
             <Label text="End:">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Label>
-            <DatePicker fx:id="holidayEnd" prefHeight="25.0" prefWidth="82.0" />
+            <DatePicker fx:id="holidayEnd" prefHeight="25.0" prefWidth="103.0" />
+            <Button fx:id="addLecture" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="67.0" style="-fx-border-width: 1;" text="Add lecture" translateX="40.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
         </items>
       </ToolBar>
-      <TableView focusTraversable="false" layoutX="32.0" layoutY="99.0" prefHeight="39.0" prefWidth="528.0">
+      <TableView focusTraversable="false" layoutX="62.0" layoutY="106.0" prefHeight="39.0" prefWidth="528.0" translateY="5.0">
          <columns>
-            <TableColumn editable="false" prefWidth="90.0" sortable="false" text="Start date" />
-            <TableColumn prefWidth="90.0" sortable="false" text="Start time" />
-            <TableColumn prefWidth="90.0" sortable="false" text="End time" />
-            <TableColumn prefWidth="90.0" sortable="false" text="End date" />
-            <TableColumn prefWidth="90.0" sortable="false" text="Weekly" />
+            <TableColumn editable="false" prefWidth="138.39996337890625" sortable="false" text="Start date" />
+            <TableColumn prefWidth="86.60003662109375" sortable="false" text="Start time" />
+            <TableColumn prefWidth="81.20001220703125" sortable="false" text="End time" />
+            <TableColumn prefWidth="126.0" sortable="false" text="End date" />
+            <TableColumn prefWidth="96.20001220703125" sortable="false" text="Weekly" />
          </columns>
       </TableView>
-      <ToolBar layoutX="33.0" layoutY="125.0" prefHeight="39.0" prefWidth="526.0">
+      <ToolBar layoutX="63.0" layoutY="137.0" prefHeight="41.0" prefWidth="526.0">
          <items>
-            <DatePicker fx:id="startDate" prefHeight="25.0" prefWidth="82.0" />
-            <TextField fx:id="startTime" prefHeight="25.0" prefWidth="86.0" />
-            <TextField fx:id="endTime" prefHeight="20.0" prefWidth="86.0" />
-            <DatePicker fx:id="endDate" disable="true" prefHeight="25.0" prefWidth="86.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="87.0">
+            <DatePicker fx:id="startDate" prefHeight="25.0" prefWidth="133.0" />
+            <TextField fx:id="startTime" prefHeight="25.0" prefWidth="80.0" />
+            <TextField fx:id="endTime" prefHeight="25.0" prefWidth="78.0" />
+            <DatePicker fx:id="endDate" disable="true" prefHeight="25.0" prefWidth="128.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="58.0">
                <children>
-                  <CheckBox fx:id="repeat" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" textAlignment="CENTER">
+                  <CheckBox fx:id="repeat" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" textAlignment="CENTER">
                      <padding>
                         <Insets left="1.0" top="1.0" />
                      </padding>
                   </CheckBox>
                </children>
             </HBox>
-            <Button fx:id="addLecture" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="67.0" style="-fx-border-width: 1;" text="Add lecture">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Button>
          </items>
       </ToolBar>
    </children>
