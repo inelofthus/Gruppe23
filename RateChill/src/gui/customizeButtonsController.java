@@ -109,6 +109,12 @@ public class customizeButtonsController implements Initializable {
 		}
 	}
 	
+	public void initializePreview() {
+		for (int i = 0; i<5;i++) {
+			buttons.get(i).setText(ratings.get(i));
+		}
+	}
+	
 	public boolean buttonIsChanged(TextField text) {
 		if(text.getText()=="") {
 			return false;			
@@ -186,7 +192,7 @@ public class customizeButtonsController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		createHelpingLists();
-		setPreviewTexts();
+		initializePreview();
 	}
 
 }
