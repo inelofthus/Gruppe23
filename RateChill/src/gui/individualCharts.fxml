@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.evaluationProfController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.evaluationProfController">
    <children>
       <Text fx:id="debugText" layoutX="334.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <BarChart fx:id="barchart" layoutY="65.0" legendVisible="false" prefHeight="352.0" prefWidth="453.0" title="Overview">
@@ -21,7 +21,7 @@
           <NumberAxis forceZeroInRange="false" lowerBound="10.0" minorTickCount="4" minorTickLength="4.0" side="LEFT" tickLabelGap="8.0" tickLength="6.0" upperBound="500.0" />
         </yAxis>
       </BarChart>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="453.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="447.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
@@ -32,6 +32,7 @@
       <Button fx:id="home" layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
       <Button fx:id="logout" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
       <Button fx:id="back" layoutX="302.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
-      <Button fx:id="seeComments" layoutX="475.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="86.0" prefWidth="166.0" text="See all comments" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="seeComments" layoutX="475.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="86.0" prefWidth="166.0" text="See all comments" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="customize" layoutX="475.0" layoutY="241.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="86.0" prefWidth="166.0" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

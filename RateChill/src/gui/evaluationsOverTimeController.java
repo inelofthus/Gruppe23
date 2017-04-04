@@ -33,6 +33,7 @@ public class evaluationsOverTimeController implements Initializable {
 	public Button home;
 	public Button logout;
 	public Button back;
+	public Button customize;
 	
 	
 	@FXML
@@ -53,7 +54,7 @@ public class evaluationsOverTimeController implements Initializable {
 		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		stage.show();	
+		stage.show();
 	}
 	
 	
@@ -63,7 +64,10 @@ public class evaluationsOverTimeController implements Initializable {
 		}
 		
 		if (event.getSource() == back) {
-			loadNextScene(home, stage, "lectureProf.fxml");
+			if (mainController.getInstance().getPreviousView() == "evaluationsOverTime.fxml") {
+				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
+			}
+			loadNextScene(back, stage, "lectureProf.fxml");
 		}
 		
 		if (event.getSource() == logout) {
@@ -76,7 +80,13 @@ public class evaluationsOverTimeController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+		mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
 		userButtons(event, stage);
+		
+		if (event.getSource() == customize) {
+			loadNextScene(customize, stage, "customizeButtons.fxml");
+		}
 	}
 	
 	

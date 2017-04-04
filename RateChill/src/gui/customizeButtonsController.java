@@ -82,7 +82,10 @@ public class customizeButtonsController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
+			if (mainController.getInstance().getPreviousView() == "customizeButtons.fxml") {
+				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
+			}
+			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -162,6 +165,8 @@ public class customizeButtonsController implements Initializable {
 				errorText.setText("There exists duplicate rating-values, please make them unique");
 				return;
 			}
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("customizeButtons.fxml");
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
 			loadNextScene(submitChanges, stage, "lectureProf.fxml");

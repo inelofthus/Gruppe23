@@ -18,15 +18,24 @@ public class mainController {
 	private Course course;
 	private Lecture lecture;
 	private String previousView;
+	private String nextPreviousView;
 	
 	public String getPreviousView() {
 		return previousView;
 	}
 
-	public void setPreviousView(String previousView) {
-		this.previousView = previousView;
+	public void setPreviousView(String nextPreviousView) {
+		this.nextPreviousView = nextPreviousView;
 	}
 
+	public String getNextPreviousView() {
+		return nextPreviousView;
+	}
+
+	public void setNextPreviousView(String nextPreviousView) {
+		this.nextPreviousView = nextPreviousView;
+	}
+	
 	public Course getCourse() {
 		return course;
 	}

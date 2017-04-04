@@ -26,6 +26,7 @@ public class lectureStudController implements Initializable {
 	public Button lecture1;
 	public Button lecture2;
 	public Button home;
+	public Button back;
 	public Button logout;
 	public Text errorMsg;
 	
@@ -45,6 +46,9 @@ public class lectureStudController implements Initializable {
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
 			loadNextScene(home, stage, "courseStud.fxml");
+		}
+		if (event.getSource() == back) {
+			loadNextScene(back, stage, "courseStud.fxml");
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");

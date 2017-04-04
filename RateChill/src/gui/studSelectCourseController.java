@@ -24,9 +24,6 @@ import javafx.stage.Stage;
 
 public class studSelectCourseController implements Initializable {
 
-	// fxml objects
-	private ArrayList<String> allCourses;
-
 	@FXML
 	public Button home;
 	public Button back;
@@ -45,6 +42,8 @@ public class studSelectCourseController implements Initializable {
 	public ListView<String> options;
 	public ListView<String> choices;
 
+	private ArrayList<String> allCourses;
+	
 	private Student stud = mainController.getInstance().getStudents();
 	DBController DBC = new DBController();
 
@@ -91,7 +90,7 @@ public class studSelectCourseController implements Initializable {
 			ArrayList<String> searchResult = getSearchresult(searchText.getText());
 			options.getItems().clear();
 			if (searchResult.isEmpty()) {
-				badSearch.setText("no courses matching your search");
+				badSearch.setText("No courses matching your search");
 			}
 			options.getItems().addAll(searchResult);
 		}

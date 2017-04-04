@@ -33,7 +33,6 @@ public class createUserController implements Initializable {
 	//fxml objects
 	@FXML
 	public Text badUsername;
-	public Text badStudyProgramCode;
 	public Text userCreated;
 	public Button back;
 	public Button finish;
@@ -41,7 +40,6 @@ public class createUserController implements Initializable {
 	public ToggleButton professor;
 	public ToggleGroup toggleGroup;
 	public TextField username;
-	public TextField studyProgramCode;
 	
 	DBController DBC = new DBController();
 	
@@ -63,19 +61,10 @@ public class createUserController implements Initializable {
 		}
 	}
 
-	/*
-	public boolean isValidStudyProgramCode() {
-		ArrayList<String> studyPrograms = getAllStudyPrograms();
-		for (String string:studyPrograms) {
-			if (studyProgramCode.getText() == string) {
-				return true;
-			}
-		}
-		return false;
-	}*/
+
 	
-	public void createStudentUser(String name, String programCode) {
-		DBC.insertStudent(name, programCode);
+	public void createStudentUser(String name) {
+		DBC.insertStudent(name,"");
 	}
 	
 	@FXML
@@ -101,18 +90,10 @@ public class createUserController implements Initializable {
 				System.out.println(validInput);
 				badUsername.setText("Please write a username");
 				return;
-			}if(studyProgramCode.getText().isEmpty()){
-				validInput = false;
-				System.out.println(validInput);
-				badStudyProgramCode.setText("Please write your study program code.");
-				return;
 			}
-			/*if (!isValidStudyProgramCode()) {
-				badStudyProgramCode.setText("Invalid studyprogram-code");
-				return;
-			}*/
+			
 			if(validInput){
-				createStudentUser(username.getText(), studyProgramCode.getText());
+				createStudentUser(username.getText());
 				loadNextScene(finish, stage, "loginStud.fxml");
 			}
 			

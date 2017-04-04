@@ -39,6 +39,8 @@ public class commentPageController implements Initializable {
 	public Button home;
 	public Button back;
 	public Button logout;
+	public Button customize;
+	public Button showAllComments;
 	
 	@FXML
 	public TextArea textArea;
@@ -78,7 +80,10 @@ public class commentPageController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "individualCharts.fxml");
+			if (mainController.getInstance().getPreviousView() == "commentPage.fxml") {
+				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
+			}
+			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -155,6 +160,15 @@ public class commentPageController implements Initializable {
 			userButtons(event, stage);
 			return;
 		}
+		else if (event.getSource() == customize) {
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("commentPage.fxml");
+			loadNextScene(customize, stage, "customizeButtons.fxml");
+		}
+		else if (event.getSource() == showAllComments) {
+			//make every comment appear
+			return;
+		}
 		if (isCommentButtonsPushed()){
 			textArea.setText(createString());
 		}
@@ -174,7 +188,6 @@ public class commentPageController implements Initializable {
 			textArea.setText("You have not selected to show any comments.");
 		}
 		
-
 		
 		seeComments1.setText(ratingValues.get(0) + " comments");
 		if(seeComments1.getText().contains("nix")){

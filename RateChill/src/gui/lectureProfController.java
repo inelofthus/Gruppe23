@@ -87,6 +87,8 @@ public class lectureProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+		mainController.getInstance().setPreviousView("lectureProf.fxml");
 		userButtons(event, stage);
 		
 		if(event.getSource() == indivLecture){
@@ -94,22 +96,18 @@ public class lectureProfController implements Initializable {
 			Lecture lec = new Lecture(lecID);
 			loadLecture(lec);
 			mainController.getInstance().setChosenProfessorLecture(lecID);
-			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(indivLecture, stage, "individualCharts.fxml");
 		}
 		
 		else if(event.getSource() == allLectures){
 			System.out.println("Button pressed");
-			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
 		}
 		
 		else if (event.getSource() == customize) {
-			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 		else if (event.getSource() == editLectures) {
-			mainController.getInstance().setPreviousView("lectureProf.fxml");
 			loadNextScene(editLectures, stage, "addLectures.fxml");
 		}
 	}

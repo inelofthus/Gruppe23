@@ -78,7 +78,7 @@ public class courseStudController implements Initializable {
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
 		}if (event.getSource() == chooseCourses) {
-			loadNextScene(logout, stage, "studSelectCourse.fxml");
+			loadNextScene(chooseCourses, stage, "studSelectCourse.fxml");
 		}
 	}
 	

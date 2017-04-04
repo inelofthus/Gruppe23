@@ -34,6 +34,7 @@ public class evaluationProfController implements Initializable {
 	public Button home;
 	public Button back;
 	public Button logout;
+	public Button customize;
 
 	Course course = mainController.getInstance().getCourse();
 	
@@ -65,6 +66,9 @@ public class evaluationProfController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
+			if (mainController.getInstance().getPreviousView() == "individualCharts.fxml") {
+				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
+			}
 			loadNextScene(back, stage, "lectureProf.fxml");
 		}
 		
@@ -78,11 +82,16 @@ public class evaluationProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
+		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+		mainController.getInstance().setPreviousView("individualCharts.fxml");
 		userButtons(event, stage);
 		
 		
 		if (event.getSource() == seeComments){
 			loadNextScene(seeComments, stage, "commentPage.fxml");
+		}
+		else if (event.getSource() == customize) {
+			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 	}
 	
@@ -127,14 +136,6 @@ public class evaluationProfController implements Initializable {
 		numbersList.addAll(Arrays.asList(numRating1, numRating2,numRating3, numRating4,numRating5));
 		
 		setEvaluationData(createSeries(numbersList));
-		
-		//setting the appropriate number on the textfields
-		/*perfectNumber.setText(numRating1.toString());
-		okNumber.setText(numRating2.toString());
-		tooFastNumber.setText(numRating3.toString());
-		tooSlowNumber.setText(numRating4.toString());
-		confusedNumber.setText(numRating5.toString());
-		*/
 	}
 
 }
