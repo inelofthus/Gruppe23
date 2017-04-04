@@ -158,12 +158,15 @@ public class commentPageController implements Initializable {
 		Stage stage = null;
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("commentPage.fxml");
 			return;
 		}
 		else if (event.getSource() == customize) {
+			loadNextScene(customize, stage, "customizeButtons.fxml");
 			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
 			mainController.getInstance().setPreviousView("commentPage.fxml");
-			loadNextScene(customize, stage, "customizeButtons.fxml");
+			return;
 		}
 		else if (event.getSource() == showAllComments) {
 			//make every comment appear

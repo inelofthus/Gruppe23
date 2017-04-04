@@ -75,17 +75,29 @@ public class evaluationsOverTimeController implements Initializable {
 		}
 	}
 	
+	public boolean isUserButtonPushed(ActionEvent event) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	//needs a fix
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
-		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-		mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
-		userButtons(event, stage);
-		
-		if (event.getSource() == customize) {
+		if (isUserButtonPushed(event)) {
+			userButtons(event, stage);
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
+			return;
+		}
+		else if (event.getSource() == customize) {
 			loadNextScene(customize, stage, "customizeButtons.fxml");
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
+			return;
 		}
 	}
 	

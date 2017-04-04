@@ -84,14 +84,22 @@ public class customizeButtonsController implements Initializable {
 		if (event.getSource() == back) {
 			if (mainController.getInstance().getPreviousView() == "customizeButtons.fxml") {
 				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
+				return;
 			}
 			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
+			return;
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
 		}
 	}
 	
+	public boolean isUserButtonPushed(ActionEvent event) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
+			return true;
+		}
+		return false;
+	}
 	
 	public boolean haveMadeButtonChanges() {
 		if (buttonIsChanged(buttonText1) || buttonIsChanged(buttonText2) || buttonIsChanged(buttonText3) || buttonIsChanged(buttonText4) || buttonIsChanged(buttonText5)) {
@@ -146,8 +154,13 @@ public class customizeButtonsController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		errorText.setText("");
-		userButtons(event, stage);
-		if(event.getSource() == preview) {
+		if (isUserButtonPushed(event)) {
+			userButtons(event, stage);
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("customizeButtons.fxml");
+			return;
+		}
+		else if(event.getSource() == preview) {
 			setPreviewTexts(makeListOfValues());
 			return;
 		}
@@ -165,11 +178,11 @@ public class customizeButtonsController implements Initializable {
 				errorText.setText("There exists duplicate rating-values, please make them unique");
 				return;
 			}
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("customizeButtons.fxml");
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
 			loadNextScene(submitChanges, stage, "lectureProf.fxml");
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("customizeButtons.fxml");
 			course.setRatingValues(inputValues);
 			mainController.getInstance().setCourse(course);
 		}

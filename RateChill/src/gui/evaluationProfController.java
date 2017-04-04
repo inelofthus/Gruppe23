@@ -66,15 +66,18 @@ public class evaluationProfController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			if (mainController.getInstance().getPreviousView() == "individualCharts.fxml") {
-				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
-			}
 			loadNextScene(back, stage, "lectureProf.fxml");
-		}
-		
+		}		
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
 		}
+	}
+	
+	public boolean isUserButtonPushed(ActionEvent event) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -82,16 +85,23 @@ public class evaluationProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
-		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-		mainController.getInstance().setPreviousView("individualCharts.fxml");
-		userButtons(event, stage);
-		
-		
-		if (event.getSource() == seeComments){
+		if (isUserButtonPushed(event)) {
+			userButtons(event, stage);
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("individualCharts.fxml");
+			return;
+		}
+		else if (event.getSource() == seeComments){
 			loadNextScene(seeComments, stage, "commentPage.fxml");
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("individualCharts.fxml");
+			return;
 		}
 		else if (event.getSource() == customize) {
 			loadNextScene(customize, stage, "customizeButtons.fxml");
+			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
+			mainController.getInstance().setPreviousView("individualCharts.fxml");
+			return;
 		}
 	}
 	
