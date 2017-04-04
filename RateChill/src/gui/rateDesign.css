@@ -20,6 +20,14 @@
 
     }
 
+.toggle {
+	-fx-background-color : #ffffff;
+    -fx-text-fill        : #d11d1d;
+    -fx-border-style	 : solid;
+    -fx-border-width: 3px;
+    -fx-border-color: #000000;
+}
+
 
 .background {
 	-fx-background-color : #cccccc;
