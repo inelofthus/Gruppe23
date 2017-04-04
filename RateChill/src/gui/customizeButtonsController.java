@@ -112,8 +112,8 @@ public class customizeButtonsController implements Initializable {
 	}
 	
 	public boolean buttonIsChanged(TextField text) {
-		if(text.getText()!="") {
-			return true;			
+		if(text.getText().length()>0) {
+			return true;
 		}
 		return false;
 	}
