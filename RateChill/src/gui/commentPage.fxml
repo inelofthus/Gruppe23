@@ -20,8 +20,10 @@
          </viewport>
       </ImageView>
       <Button fx:id="home" layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
-      <Button fx:id="logout" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
       <Button fx:id="back" layoutX="302.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+      <Button fx:id="logout" layoutX="573.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
+      <TextArea fx:id="textArea" layoutX="15.0" layoutY="83.0" prefHeight="264.0" prefWidth="410.0" />
+      <Button fx:id="customize" layoutX="441.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
       <ToggleButton fx:id="seeComments1" layoutX="15.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Perfect comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="11.0" />
@@ -32,7 +34,7 @@
             <Font size="11.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seeComments5" layoutX="347.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Confused comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seeComments3" layoutX="181.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Too fast comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="11.0" />
          </font>
@@ -42,13 +44,11 @@
             <Font size="11.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="seeComments3" layoutX="181.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Too fast comments" textAlignment="CENTER" wrapText="true">
+      <ToggleButton fx:id="seeComments5" layoutX="347.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="79.0" text="Confused comments" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="11.0" />
          </font>
       </ToggleButton>
-      <TextArea fx:id="textArea" layoutX="15.0" layoutY="83.0" prefHeight="264.0" prefWidth="410.0" />
-      <Button fx:id="customize" layoutX="441.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
       <Button fx:id="showAllComments" layoutX="441.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Show all comments" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>
