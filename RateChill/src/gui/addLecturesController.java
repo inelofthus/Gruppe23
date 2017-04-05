@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,7 +121,11 @@ public class addLecturesController implements Initializable {
 			if(!repeat.isSelected()){
 				endDate.setValue(startDate.getValue());
 			}
-			course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
+			try {
+				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
+			} catch (SQLException e) {
+				System.out.println("Lecture already exists for this date and time" + e.getMessage());
+			}
 		}
 	}
 	

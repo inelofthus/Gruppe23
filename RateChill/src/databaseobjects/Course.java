@@ -1,5 +1,6 @@
 package databaseobjects;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -207,7 +208,7 @@ public class Course extends DatabaseUser{
 		this.lectureIDs = lectureIDs;
 	}
 	
-	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername){
+	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException{
 		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);
 	}
 	

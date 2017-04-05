@@ -646,11 +646,11 @@ public class DBController {
 
 	}
 
-	public void insertLecture(String date, String time, String courseCode, String professorUsername) {
+	public void insertLecture(String date, String time, String courseCode, String professorUsername) throws SQLException {
 		// Date format: "YYYY-MM-DD"
 		// Time format: "HH:MM:SS"
 		connect();
-		try {
+
 
 			String query = buildLectureQuery(date, time, courseCode, professorUsername);
 			// System.out.println(query);
@@ -658,9 +658,7 @@ public class DBController {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
+
 		close();
 	}
 
@@ -1562,7 +1560,7 @@ public class DBController {
 		return false;
 	}
 
-	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) {
+	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException {
 		
 		int numWeeks = 0;
 		String[] startDateSplit = startDate.split("-");

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+import database.DBController;
 import databaseobjects.Course;
 import databaseobjects.Lecture;
 import javafx.event.ActionEvent;
@@ -51,6 +52,7 @@ public class lectureProfController implements Initializable {
 	private int monthNum;
 	private ArrayList<String> thisMonthsLectures;
 	private Stack<String> stack = null;
+	private DBController DBC = new DBController();
 	
 	public void loadLecture(Lecture lecture) {
 		mainController.getInstance().setLecture(lecture);
@@ -253,7 +255,7 @@ public class lectureProfController implements Initializable {
 		ArrayList<String> date = new ArrayList<>();
 		
 		for(int lecID:lecIDs){
-			date.add(course.getLectureDate(lecID)) ;
+			date.add(DBC.changeDateFormat( course.getLectureDate(lecID) ) ) ;
 		}
 		
 				
