@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import databaseobjects.Course;
+import databaseobjects.Evaluation;
+import databaseobjects.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +46,7 @@ public class evaluationStudController implements Initializable {
 	public Button exit;
 	public Rectangle rec;
 	
+	Student stud = mainController.getInstance().getStudents();
 	Course course = mainController.getInstance().getCourse();
 	Integer lectureID = mainController.getInstance().getChosenStudentLecture();
 	
@@ -170,6 +173,10 @@ public class evaluationStudController implements Initializable {
 			overwriteText.setText("");
 		}
 		if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+			
+			Evaluation eval = new Evaluation(lectureID, stud.getUsername());
+			feedback.setText(eval.getComment());
+			
 			submit.setText("Overwrite");
 			rec.setFill(Color.BLUE);
 			welcomeText.setVisible(false);
