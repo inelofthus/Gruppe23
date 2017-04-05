@@ -2,14 +2,16 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import database.DBController;
 import databaseobjects.Course;
-import databaseobjects.Student;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,12 +19,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -31,7 +32,7 @@ import javafx.stage.Stage;
 public class addLecturesController implements Initializable {
 
 
-	Course course = mainController.getInstance().getCourse();
+	
 
 	// fxml objects
 	
@@ -44,23 +45,28 @@ public class addLecturesController implements Initializable {
 
 	@FXML
 	public TextField startTime;
-	public TextField endTime;
 	
 	@FXML
 	public DatePicker startDate;
 	public DatePicker endDate;
 	public DatePicker holidayStart;
 	public DatePicker holidayEnd;
+	
+	@FXML CheckBox repeat;
 
 	@FXML
-	public TableView<String[]> tableView;
-	public TableColumn<String, String> startDateCol;
-	public TableColumn<String, String> startTimeCol;
-	public TableColumn<String, String> endTimeCol;
-	public TableColumn<String, String> endDateCol;
-	public TableColumn<String, String> weeklyCol;
-
+	public ListView<String> listView;
+	
+	Course course = mainController.getInstance().getCourse();
+	String prof = mainController.getInstance().getProfessor().getUsername();
 	DBController DBC = new DBController(); 
+	
+	private Pattern pattern;
+	private Matcher matcher;
+	
+	private static final String TIME24HOURS_PATTERN =
+	           "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+
 
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
 		stage = (Stage) button.getScene().getWindow();
@@ -90,18 +96,56 @@ public class addLecturesController implements Initializable {
 	}
 
 
+
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
 		Stage stage = null;
 		userButtons(event, stage);
 	}
+	
+	@FXML
+	private void submitAddLecture(ActionEvent event){
+		if (startDate.getValue() == null || startTime.getText().length() == 0 || !validate(startTime.getText())){
+			System.out.println("Feil");
+			if (startDate.getValue() == null){
+				System.out.println("Skriv inn dato");
+			}
+			if (!validate(startTime.getText())){
+				System.out.println("Feil klokkeslettformat");
+			}
+			
+		}
+		
+		else{
+			if(!repeat.isSelected()){
+				endDate.setValue(startDate.getValue());
+			}
+			course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
+		}
+	}
+	
+	public boolean validate(final String time){
+	  matcher = pattern.matcher(time);
+	  return matcher.matches();
+	}
+	
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ObservableList<String[]> lectureInfo = FXCollections.observableArrayList();
-		//startDateCol.setCellValueFactory(new PropertyValueFactory<Lecture, String>("startDate"));
-        //startDateCol.setCellValueFactory(new PropertyValueFactory<Lecture, String>("startTime"));
-		//lectureInfo.add(new LectureItem("2017-04-01", "08:15", "10:00", "2017-04-01", 0));
-		//tableView.setItems(lectureInfo);
+		pattern = Pattern.compile(TIME24HOURS_PATTERN);
+		ArrayList<String> lectureInfo = new ArrayList<String>(Arrays.asList("03.04.17 08:00 04.04.17", ("03.04.17 08:00 04.04.17")));
+		listView.getItems().clear();
+		listView.getItems().addAll(lectureInfo);
+		
+		
+		repeat.selectedProperty().addListener(new ChangeListener<Boolean>() {
+		    @Override
+		    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+		    	endDate.setDisable(oldValue);
+		    	endDate.setValue(startDate.getValue());
+		    }
+		});
 	}
 
 }
