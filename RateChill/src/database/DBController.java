@@ -283,7 +283,7 @@ public class DBController {
 		
 		connect();
 		try {
-			String query = "select rating1, rating2, rating3, rating4, rating5, setDate from CourseRatingValues WHERE courseCode = ?"; 
+			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues WHERE courseCode = ?"; 
 			
 			prepStmt = conn.prepareStatement(query);
 			prepStmt.setString(1, course.getCourseCode());
@@ -291,7 +291,7 @@ public class DBController {
 			
 			rs.next();
 			
-			for(int i = 1; i < 7; i++){
+			for(int i = 1; i < 6; i++){
 				ratingValues.add(rs.getString(i));
 			}
 			
@@ -576,25 +576,33 @@ public class DBController {
 			rs.next();
 			
 			String rating = rs.getString(1);
-			System.out.println(rating);
+
 
 			if (!ratingValues.contains(rating)){ 
+
 				// checks if the ratingsValues are different from the course's current rating values 
 				ratingValues = getStringArrayNC("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
-				System.out.println("ratingValues: " + ratingValues);
+				System.out.println(ratingValues);
+				System.out.println(ratingValues.size());
+				
 				// size of ratingValues must be 5
 				if(ratingValues.size() < 5){
+					System.out.println("BOLLELLE");
 					int i = 1;
+					
 					while(ratingValues.size() != 5){
 						ratingValues.add("nix" + i);
 						i++;
 					}
+				}
+				
 				if(ratingValues.size() > 5){
-					ratingValues = 	(ArrayList<String>) ratingValues.subList(0, 4);
+					System.out.println("hello");
+					ratingValues = 	new ArrayList<>(ratingValues.subList(0, 5));
 				}
 				}
 
-			}
+			
 			
 			query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
@@ -606,7 +614,6 @@ public class DBController {
 
 				String studentUsername = rs.getString(1);
 				rating = rs.getString(2);
-				System.out.println(rating);
 				String studentComment = rs.getString(3);
 				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
@@ -614,7 +621,6 @@ public class DBController {
 				if(rating.equals(ratingValues.get(0))){
 					Evaluations1.add(eval);
 				}if(rating.equals(ratingValues.get(1))){
-					System.out.println("rating :" + ratingValues.get(1) + "detected");
 					Evaluations2.add(eval);
 				}if(rating.equals(ratingValues.get(2))){
 					Evaluations3.add(eval);
