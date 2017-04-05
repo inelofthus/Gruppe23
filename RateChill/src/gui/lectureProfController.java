@@ -180,42 +180,7 @@ public class lectureProfController implements Initializable {
 	}
 
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// Set text of buttons to contain date of lecture
-		this.course = mainController.getInstance().getCourse();
-		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		
-		//initializing stack for back-buttons to come
-		this.stack = mainController.getInstance().getStack();
-		
-		//resetting the stack
-		if(!stack.isEmpty()) {
-			stack.clear();
-		}
-		
-		month.setText(getMonthText(monthNum));
-		
-		if(monthNum > 6){
-			month1.setText("Jul");
-			month2.setText("Aug");
-			month3.setText("Sep");
-			month4.setText("Oct");
-			month5.setText("Nov");
-			month6.setText("Des");
-			spring = false;
-		}
-		if(course.getLectureIDsMonth(monthNum).isEmpty()){
-			course.setLectureByMonth();
-		}
-		
-		ArrayList<Integer> lecIDs = course.getLectureIDsMonth(monthNum);
-		thisMonthsLectures = getLectureDates(lecIDs);
-		lectures.getItems().clear();
-		lectures.getItems().addAll(thisMonthsLectures);
-		
-		
-	}
+	
 
 	private String getMonthText(int monthNum) {
 		 String monthString;
@@ -263,6 +228,87 @@ public class lectureProfController implements Initializable {
 	}
 	
 	
-	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// Set text of buttons to contain date of lecture
+		
+		lectures.getItems().clear();
+		this.course = mainController.getInstance().getCourse();
+		this.course = new Course(course.getCourseCode());
+		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		
+		course.setLectureByMonth();
+		//initializing stack for back-buttons to come
+		this.stack = mainController.getInstance().getStack();
+		
+		//resetting the stack
+		if(!stack.isEmpty()) {
+			stack.clear();
+		}
+		
+		month.setText(getMonthText(monthNum));
+		
+		if(monthNum > 6){
+			month1.setText("Jul");
+			if(course.getLectureIDsMonth(7).isEmpty()){
+				month1.setDisable(true);
+			}
+			month2.setText("Aug");
+			if(course.getLectureIDsMonth(8).isEmpty()){
+				month2.setDisable(true);
+			}
+			month3.setText("Sep");
+			if(course.getLectureIDsMonth(9).isEmpty()){
+				month3.setDisable(true);
+			}
+			month4.setText("Oct");
+			if(course.getLectureIDsMonth(10).isEmpty()){
+				month4.setDisable(true);
+			}
+			month5.setText("Nov");
+			if(course.getLectureIDsMonth(11).isEmpty()){
+				month5.setDisable(true);
+			}
+			month6.setText("Des");
+			if(course.getLectureIDsMonth(12).isEmpty()){
+				month6.setDisable(true);
+			}
+			spring = false;
+		}else{
+			if(course.getLectureIDsMonth(1).isEmpty()){
+				month1.setDisable(true);
+			}if(course.getLectureIDsMonth(2).isEmpty()){
+				month2.setDisable(true);
+			}if(course.getLectureIDsMonth(3).isEmpty()){
+				month3.setDisable(true);
+			}if(course.getLectureIDsMonth(4).isEmpty()){
+				month4.setDisable(true);
+			}if(course.getLectureIDsMonth(5).isEmpty()){
+				month5.setDisable(true);
+			}if(course.getLectureIDsMonth(6).isEmpty()){
+				month6.setDisable(true);
+			}
+		}
+		
+		
+		ArrayList<Integer> lecIDs = course.getLectureIDsMonth(monthNum);
+		
+		thisMonthsLectures = getLectureDates(lecIDs);
+		
+		while(thisMonthsLectures.isEmpty()){
+			if(monthNum == 1 || monthNum == 7 || monthNum < 0){
+				break;
+			}
+			monthNum-- ;
+			updateMonth(monthNum);
+		}
+		
+		
+		
+		lectures.getItems().clear();
+		lectures.getItems().addAll(thisMonthsLectures);
+		
+		
+	}
 
 }
