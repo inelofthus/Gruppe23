@@ -1564,7 +1564,7 @@ public class DBController {
 
 	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) {
 		
-		int numWeeks = 1;
+		int numWeeks = 0;
 		String[] startDateSplit = startDate.split("-");
 		int mmStart = Integer.valueOf(startDateSplit[1]) ;
 		int ddStart = Integer.valueOf(startDateSplit[2]);
@@ -1580,7 +1580,7 @@ public class DBController {
 			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);
 		}
 		
-		for (int i = 0; i < numWeeks; i++) {
+		for (int i = 0; i < numWeeks + 1; i++) {
 			int MM = start.getMonthValue();
 			int DD = start.getDayOfMonth();
 			String date = year + "-" + MM + "-" + DD;
