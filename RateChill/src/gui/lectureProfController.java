@@ -50,7 +50,7 @@ public class lectureProfController implements Initializable {
 	private Course course;
 	private int monthNum;
 	private ArrayList<String> thisMonthsLectures;
-	//private Stack<String> stack = null;
+	private Stack<String> stack = null;
 	
 	public void loadLecture(Lecture lecture) {
 		mainController.getInstance().setLecture(lecture);
@@ -92,26 +92,22 @@ public class lectureProfController implements Initializable {
 			Lecture lec = new Lecture(lecID);
 			loadLecture(lec);
 			mainController.getInstance().setChosenProfessorLecture(lecID);
-			//stack.push("lectureProf.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("lectureProf.fxml");
 			loadNextScene(indivLecture, stage, "individualCharts.fxml");
 		}
 		
 		else if(event.getSource() == allLectures){
 			System.out.println("Button pressed");
-			//stack.push("lectureProf.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("lectureProf.fxml");
 			loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
 		}
 		
 		else if (event.getSource() == customize) {
-			//stack.push("lectureProf.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("lectureProf.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 		else if (event.getSource() == editLectures) {
-			//stack.push("lectureProf.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("lectureProf.fxml");
 			loadNextScene(editLectures, stage, "addLectures.fxml");
 		}
 	}
@@ -187,7 +183,15 @@ public class lectureProfController implements Initializable {
 		// Set text of buttons to contain date of lecture
 		this.course = mainController.getInstance().getCourse();
 		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		//mainController.getInstance().setStack(stack);
+		
+		//initializing stack for back-buttons to come
+		this.stack = mainController.getInstance().getStack();
+		
+		//resetting the stack
+		if(!stack.isEmpty()) {
+			stack.clear();
+		}
+		
 		month.setText(getMonthText(monthNum));
 		
 		if(monthNum > 6){

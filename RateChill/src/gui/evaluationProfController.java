@@ -44,10 +44,8 @@ public class evaluationProfController implements Initializable {
 	public CategoryAxis xAxis;
 	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();	
 	private Lecture lecture = mainController.getInstance().getLecture();
-	//private Stack<String> stack = mainController.getInstance().getStack();
+	private Stack<String> stack = mainController.getInstance().getStack();
 	
-//	private Lecture lecture = new Lecture(lectureID);
-	//ArrayList evaluations = lec.getEvaluations();
 	
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
@@ -67,9 +65,7 @@ public class evaluationProfController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
-			//loadNextScene(back, stage, stack.pop());
-			//mainController.getInstance().setStack(stack);
+			loadNextScene(back, stage, stack.pop());
 		}		
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -93,13 +89,11 @@ public class evaluationProfController implements Initializable {
 			return;
 		}
 		else if (event.getSource() == seeComments){
-			//stack.push("individualCharts.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("individualCharts.fxml");
 			loadNextScene(seeComments, stage, "commentPage.fxml");
 		}
 		else if (event.getSource() == customize) {
-			//stack.push("individualCharts.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("individualCharts.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 	}

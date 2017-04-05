@@ -53,7 +53,7 @@ public class commentPageController implements Initializable {
 	private Lecture lecture = new Lecture(lectureID);
 	private Course course = mainController.getInstance().getCourse();
 	private ArrayList<String> ratingValues = lecture.getRatingValues();
-	//private Stack<String> stack = mainController.getInstance().getStack();
+	private Stack<String> stack = mainController.getInstance().getStack();
 	
 	
 	public String createString() {
@@ -83,9 +83,7 @@ public class commentPageController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
-			//loadNextScene(back, stage, stack.pop());
-			//mainController.getInstance().setStack(stack);
+			loadNextScene(back, stage, stack.pop());
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -163,8 +161,7 @@ public class commentPageController implements Initializable {
 			return;
 		}
 		else if (event.getSource() == customize) {
-			//stack.push("commentPage.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("commentPage.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 			return;
 		}

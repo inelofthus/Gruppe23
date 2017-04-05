@@ -20,15 +20,12 @@ public class mainController {
 	private Professor professor;
 	private Course course;
 	private Lecture lecture;
-	//private Stack<String> stack = new Stack<String>();
+	private Stack<String> stack = new Stack<String>();
 	
-	/*public void setStack(Stack<String> stack) {
-		this.stack = stack;
-	}
 	
 	public Stack<String> getStack() {
 		return stack;
-	}*/
+	}
 	
 	
 	public Course getCourse() {

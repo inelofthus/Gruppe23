@@ -39,7 +39,7 @@ public class evaluationsOverTimeController implements Initializable {
 	public CategoryAxis xAxis;
 	public NumberAxis yAxis;
 	private ObservableList<String> lectureDates = FXCollections.observableArrayList();
-	//private Stack<String> stack = mainController.getInstance().getStack();
+	private Stack<String> stack = mainController.getInstance().getStack();
 	
 	Course course = mainController.getInstance().getCourse();
 	
@@ -63,9 +63,7 @@ public class evaluationsOverTimeController implements Initializable {
 		}
 		
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
-			//loadNextScene(back, stage, stack.pop());
-			//mainController.getInstance().setStack(stack);
+			loadNextScene(back, stage, stack.pop());
 		}
 		
 		if (event.getSource() == logout) {
@@ -90,8 +88,7 @@ public class evaluationsOverTimeController implements Initializable {
 			return;
 		}
 		else if (event.getSource() == customize) {
-			//stack.push("evaluationsOverTime.fxml");
-			//mainController.getInstance().setStack(stack);
+			stack.push("evaluationsOverTime.fxml");
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 			return;
 		}

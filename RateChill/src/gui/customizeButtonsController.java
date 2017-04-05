@@ -52,7 +52,7 @@ public class customizeButtonsController implements Initializable {
 	ArrayList<String> ratings = course.getRatingValues();
 	ArrayList<TextField> texts = new ArrayList<TextField>();
 	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
-	//private Stack<String> stack = mainController.getInstance().getStack();
+	private Stack<String> stack = mainController.getInstance().getStack();
 	
 	
 	private void createHelpingLists() {
@@ -85,9 +85,7 @@ public class customizeButtonsController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "lectureProf.fxml");
-			//loadNextScene(back, stage, mainController.getInstance().getStack().pop());
-			//mainController.getInstance().setStack(stack);
+			loadNextScene(back, stage, stack.pop());
 			return;
 		}
 		if (event.getSource() == logout) {
@@ -179,9 +177,7 @@ public class customizeButtonsController implements Initializable {
 			}
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
-			loadNextScene(submitChanges, stage, "lectureProf.fxml");
-			//loadNextScene(submitChanges, stage, stack.pop());
-			//mainController.getInstance().setStack(stack);
+			loadNextScene(submitChanges, stage, stack.pop());
 			course.setRatingValues(inputValues);
 			mainController.getInstance().setCourse(course);
 		}
