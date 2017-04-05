@@ -602,8 +602,6 @@ public class DBController {
 				}
 				}
 
-			
-			
 			query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
 			if (stmt.execute(query)) {
@@ -1619,7 +1617,43 @@ public class DBController {
 		close();
 	}
 
-
+	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode){
+		connect();
+		
+		ArrayList<String> lectures = new ArrayList<>();
+		String query = "select lectureDate, lectureTime from Lecture where courseCode = ?";
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			rs = prepStmt.executeQuery();
+			
+			while(rs.next()){
+				String date = rs.getString(1);
+				String time = rs.getString(2);
+				String result = String.format("%s \t %s",changeDateFormat(date), time);
+				lectures.add(result);	
+						
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		close();
+		return lectures;
+	}
+	
+	public String changeDateFormat(String date){
+		String[] dateSplit = date.split("-");
+		String yyyy = dateSplit[0];
+		String mm = dateSplit[1];
+		String dd = dateSplit[2];
+		
+		return dd + "." + mm + "." + yyyy;
+	}
 
 
 }
