@@ -123,6 +123,7 @@ public class addLecturesController implements Initializable {
 			}
 			try {
 				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
+				mainController.getInstance().setCourse(new Course(course.getCourseCode()) );
 			} catch (SQLException e) {
 				System.out.println("Lecture already exists for this date and time" + e.getMessage());
 			}
