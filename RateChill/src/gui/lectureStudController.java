@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 
+import database.DBController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,7 @@ public class lectureStudController implements Initializable {
 	public Button logout;
 	public Text errorMsg;
 	
+	private DBController DBC = new DBController();
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -111,11 +113,11 @@ public class lectureStudController implements Initializable {
 			return;
 		}
 		else if(numberOfLectures<2) {
-			lecture1.setText(getLectureDateText(getKeyLec1()));
+			lecture1.setText(DBC.changeDateFormat(getLectureDateText(getKeyLec1()))  );
 		}
 		else {
-			lecture1.setText(getLectureDateText(getKeyLec1()));
-			lecture2.setText(getLectureDateText(getKeyLec2()));
+			lecture1.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec1())) );
+			lecture2.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec2())) );
 			
 		}
 		
