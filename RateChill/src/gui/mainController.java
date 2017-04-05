@@ -1,10 +1,13 @@
 package gui;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
+import java.util.Stack;
 
-import databaseobjects.*;
+import databaseobjects.Course;
+import databaseobjects.Lecture;
+import databaseobjects.Professor;
+import databaseobjects.Student;
 
 public class mainController {
 
@@ -17,24 +20,16 @@ public class mainController {
 	private Professor professor;
 	private Course course;
 	private Lecture lecture;
-	private String previousView;
-	private String nextPreviousView;
+	//private Stack<String> stack = new Stack<String>();
 	
-	public String getPreviousView() {
-		return previousView;
+	/*public void setStack(Stack<String> stack) {
+		this.stack = stack;
 	}
-
-	public void setPreviousView(String nextPreviousView) {
-		this.nextPreviousView = nextPreviousView;
-	}
-
-	public String getNextPreviousView() {
-		return nextPreviousView;
-	}
-
-	public void setNextPreviousView(String nextPreviousView) {
-		this.nextPreviousView = nextPreviousView;
-	}
+	
+	public Stack<String> getStack() {
+		return stack;
+	}*/
+	
 	
 	public Course getCourse() {
 		return course;

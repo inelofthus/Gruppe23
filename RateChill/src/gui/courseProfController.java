@@ -140,7 +140,6 @@ public class courseProfController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-        mainController.getInstance().setPreviousView("courseProf.fxml");
 		int numberOfCourses = mainController.getInstance().getProfessor().getCourseIDs().size();
 		buttons.add(fag1);
 		buttons.add(fag2);

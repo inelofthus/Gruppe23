@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Stack;
 
 import database.DBController;
 import databaseobjects.Course;
@@ -45,11 +46,13 @@ public class customizeButtonsController implements Initializable {
 	public TextField buttonText5;
 	public Text errorText;
 	
+	
 	DBController DBC = new DBController();
 	Course course = mainController.getInstance().getCourse();
 	ArrayList<String> ratings = course.getRatingValues();
 	ArrayList<TextField> texts = new ArrayList<TextField>();
 	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
+	//private Stack<String> stack = mainController.getInstance().getStack();
 	
 	
 	private void createHelpingLists() {
@@ -82,11 +85,9 @@ public class customizeButtonsController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			if (mainController.getInstance().getPreviousView() == "customizeButtons.fxml") {
-				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
-				return;
-			}
-			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
+			loadNextScene(back, stage, "lectureProf.fxml");
+			//loadNextScene(back, stage, mainController.getInstance().getStack().pop());
+			//mainController.getInstance().setStack(stack);
 			return;
 		}
 		if (event.getSource() == logout) {
@@ -156,8 +157,6 @@ public class customizeButtonsController implements Initializable {
 		errorText.setText("");
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("customizeButtons.fxml");
 			return;
 		}
 		else if(event.getSource() == preview) {
@@ -181,8 +180,8 @@ public class customizeButtonsController implements Initializable {
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
 			loadNextScene(submitChanges, stage, "lectureProf.fxml");
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("customizeButtons.fxml");
+			//loadNextScene(submitChanges, stage, stack.pop());
+			//mainController.getInstance().setStack(stack);
 			course.setRatingValues(inputValues);
 			mainController.getInstance().setCourse(course);
 		}

@@ -78,7 +78,8 @@ public class addLecturesController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
+			loadNextScene(back, stage, "lectureProf.fxml");
+			//loadNextScene(back, stage, mainController.getInstance().getStack().pop());
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "loginProf.fxml");

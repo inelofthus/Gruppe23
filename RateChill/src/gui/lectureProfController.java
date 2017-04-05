@@ -2,14 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
+import databaseobjects.Course;
+import databaseobjects.Lecture;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +20,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import databaseobjects.Course;
-import databaseobjects.Lecture;
 
 public class lectureProfController implements Initializable {
 
@@ -53,6 +50,7 @@ public class lectureProfController implements Initializable {
 	private Course course;
 	private int monthNum;
 	private ArrayList<String> thisMonthsLectures;
+	//private Stack<String> stack = null;
 	
 	public void loadLecture(Lecture lecture) {
 		mainController.getInstance().setLecture(lecture);
@@ -87,8 +85,6 @@ public class lectureProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
-		mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-		mainController.getInstance().setPreviousView("lectureProf.fxml");
 		userButtons(event, stage);
 		
 		if(event.getSource() == indivLecture){
@@ -96,18 +92,26 @@ public class lectureProfController implements Initializable {
 			Lecture lec = new Lecture(lecID);
 			loadLecture(lec);
 			mainController.getInstance().setChosenProfessorLecture(lecID);
+			//stack.push("lectureProf.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(indivLecture, stage, "individualCharts.fxml");
 		}
 		
 		else if(event.getSource() == allLectures){
 			System.out.println("Button pressed");
+			//stack.push("lectureProf.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(allLectures, stage, "evaluationsOverTime.fxml");
 		}
 		
 		else if (event.getSource() == customize) {
+			//stack.push("lectureProf.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(customize, stage, "customizeButtons.fxml");
 		}
 		else if (event.getSource() == editLectures) {
+			//stack.push("lectureProf.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(editLectures, stage, "addLectures.fxml");
 		}
 	}
@@ -181,9 +185,9 @@ public class lectureProfController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set text of buttons to contain date of lecture
-		// fagButton.setText(courseCodeName);
 		this.course = mainController.getInstance().getCourse();
 		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		//mainController.getInstance().setStack(stack);
 		month.setText(getMonthText(monthNum));
 		
 		if(monthNum > 6){

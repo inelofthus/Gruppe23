@@ -3,11 +3,10 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import databaseobjects.Course;
-import databaseobjects.Lecture;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,10 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
@@ -41,6 +39,7 @@ public class evaluationsOverTimeController implements Initializable {
 	public CategoryAxis xAxis;
 	public NumberAxis yAxis;
 	private ObservableList<String> lectureDates = FXCollections.observableArrayList();
+	//private Stack<String> stack = mainController.getInstance().getStack();
 	
 	Course course = mainController.getInstance().getCourse();
 	
@@ -64,10 +63,9 @@ public class evaluationsOverTimeController implements Initializable {
 		}
 		
 		if (event.getSource() == back) {
-			if (mainController.getInstance().getPreviousView() == "evaluationsOverTime.fxml") {
-				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
-			}
 			loadNextScene(back, stage, "lectureProf.fxml");
+			//loadNextScene(back, stage, stack.pop());
+			//mainController.getInstance().setStack(stack);
 		}
 		
 		if (event.getSource() == logout) {
@@ -89,14 +87,12 @@ public class evaluationsOverTimeController implements Initializable {
 		Stage stage = null;
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
 			return;
 		}
 		else if (event.getSource() == customize) {
+			//stack.push("evaluationsOverTime.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(customize, stage, "customizeButtons.fxml");
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("evaluationsOverTime.fxml");
 			return;
 		}
 	}
@@ -131,6 +127,7 @@ public class evaluationsOverTimeController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		
 		course.setRatingsOverTime();
 		

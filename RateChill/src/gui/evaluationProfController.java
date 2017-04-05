@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import databaseobjects.Course;
 import databaseobjects.Lecture;
@@ -41,9 +42,9 @@ public class evaluationProfController implements Initializable {
 	@FXML
 	public BarChart<String, Integer> barchart;
 	public CategoryAxis xAxis;
-	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();
-	
+	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();	
 	private Lecture lecture = mainController.getInstance().getLecture();
+	//private Stack<String> stack = mainController.getInstance().getStack();
 	
 //	private Lecture lecture = new Lecture(lectureID);
 	//ArrayList evaluations = lec.getEvaluations();
@@ -67,6 +68,8 @@ public class evaluationProfController implements Initializable {
 		}
 		if (event.getSource() == back) {
 			loadNextScene(back, stage, "lectureProf.fxml");
+			//loadNextScene(back, stage, stack.pop());
+			//mainController.getInstance().setStack(stack);
 		}		
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -87,21 +90,17 @@ public class evaluationProfController implements Initializable {
 		Stage stage = null;
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("individualCharts.fxml");
 			return;
 		}
 		else if (event.getSource() == seeComments){
+			//stack.push("individualCharts.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(seeComments, stage, "commentPage.fxml");
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("individualCharts.fxml");
-			return;
 		}
 		else if (event.getSource() == customize) {
+			//stack.push("individualCharts.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(customize, stage, "customizeButtons.fxml");
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("individualCharts.fxml");
-			return;
 		}
 	}
 	
@@ -126,6 +125,7 @@ public class evaluationProfController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		ArrayList<String> ratingValues = lecture.getRatingValues();
+		
 		
 		if(ratingValues.size() ==6){
 			ratingValues.remove(5);

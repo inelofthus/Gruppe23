@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import com.sun.javafx.scene.control.SelectedCellsMap;
 
@@ -52,6 +53,8 @@ public class commentPageController implements Initializable {
 	private Lecture lecture = new Lecture(lectureID);
 	private Course course = mainController.getInstance().getCourse();
 	private ArrayList<String> ratingValues = lecture.getRatingValues();
+	//private Stack<String> stack = mainController.getInstance().getStack();
+	
 	
 	public String createString() {
 		ArrayList<String> als = selectedButtons();
@@ -80,10 +83,9 @@ public class commentPageController implements Initializable {
 			loadNextScene(home, stage, "courseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			if (mainController.getInstance().getPreviousView() == "commentPage.fxml") {
-				loadNextScene(back, stage, mainController.getInstance().getNextPreviousView());
-			}
-			loadNextScene(back, stage, mainController.getInstance().getPreviousView());
+			loadNextScene(back, stage, "lectureProf.fxml");
+			//loadNextScene(back, stage, stack.pop());
+			//mainController.getInstance().setStack(stack);
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "login.fxml");
@@ -158,14 +160,12 @@ public class commentPageController implements Initializable {
 		Stage stage = null;
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("commentPage.fxml");
 			return;
 		}
 		else if (event.getSource() == customize) {
+			//stack.push("commentPage.fxml");
+			//mainController.getInstance().setStack(stack);
 			loadNextScene(customize, stage, "customizeButtons.fxml");
-			mainController.getInstance().setNextPreviousView(mainController.getInstance().getPreviousView());
-			mainController.getInstance().setPreviousView("commentPage.fxml");
 			return;
 		}
 		else if (event.getSource() == showAllComments) {
