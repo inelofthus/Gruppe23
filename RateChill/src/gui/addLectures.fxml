@@ -51,29 +51,38 @@
             <TableColumn prefWidth="105.0" sortable="false" text="Start time" />
          </columns>
       </TableView>
-      <Pane layoutX="353.0" layoutY="106.0" prefHeight="229.0" prefWidth="217.0">
+      <Pane layoutX="353.0" layoutY="106.0" prefHeight="241.0" prefWidth="217.0">
          <children>
-            <DatePicker fx:id="startDate" layoutX="78.0" layoutY="23.0" prefHeight="25.0" prefWidth="133.0" />
-            <TextField fx:id="startTime" layoutX="78.0" layoutY="53.0" prefHeight="25.0" prefWidth="133.0" />
-            <CheckBox fx:id="repeat" layoutX="1.0" layoutY="78.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Repeat weekly?" textAlignment="CENTER">
+            <DatePicker fx:id="startDate" layoutX="78.0" layoutY="21.0" prefHeight="25.0" prefWidth="133.0" />
+            <TextField fx:id="startTime" layoutX="78.0" layoutY="50.0" prefHeight="25.0" prefWidth="133.0" />
+            <CheckBox fx:id="repeat" layoutX="1.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Repeat weekly?" textAlignment="CENTER">
                <padding>
                   <Insets left="1.0" top="1.0" />
                </padding>
             </CheckBox>
-            <DatePicker fx:id="endDate" disable="true" layoutX="78.0" layoutY="103.0" prefHeight="25.0" prefWidth="133.0" />
-            <DatePicker fx:id="holidayStart" disable="true" layoutX="1.0" layoutY="171.0" prefHeight="25.0" prefWidth="100.0" />
-            <DatePicker fx:id="holidayEnd" disable="true" layoutX="111.0" layoutY="171.0" prefHeight="25.0" prefWidth="100.0" />
-            <Button fx:id="addLecture" layoutY="204.0" mnemonicParsing="false" onAction="#submitAddLecture" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Add lecture">
+            <DatePicker fx:id="endDate" disable="true" layoutX="78.0" layoutY="94.0" prefHeight="25.0" prefWidth="133.0" />
+            <DatePicker fx:id="removeStart" layoutX="2.0" layoutY="186.0" prefHeight="25.0" prefWidth="100.0" />
+            <DatePicker fx:id="removeEnd" layoutX="114.0" layoutY="186.0" prefHeight="25.0" prefWidth="100.0" />
+            <Button fx:id="addLecture" layoutX="3.0" layoutY="122.0" mnemonicParsing="false" onAction="#submitAddLecture" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Add lecture">
                <font>
                   <Font size="10.0" />
                </font>
             </Button>
-            <Label layoutX="1.0" layoutY="27.0" prefHeight="17.0" prefWidth="67.0" text="Date" />
-            <Label layoutX="1.0" layoutY="56.0" prefHeight="17.0" prefWidth="67.0" text="Time" />
-            <Label layoutX="1.0" layoutY="107.0" text="End date" />
-            <Text layoutX="5.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select holiday period (optional)" textAlignment="CENTER" wrappingWidth="211.00000405311584" />
-            <Label layoutX="2.0" layoutY="153.0" prefHeight="17.0" prefWidth="100.0" text="From" />
-            <Label layoutX="113.0" layoutY="153.0" prefHeight="17.0" prefWidth="100.0" text="To" />
+            <Label layoutX="1.0" layoutY="25.0" prefHeight="17.0" prefWidth="67.0" text="Date" />
+            <Label layoutX="1.0" layoutY="53.0" prefHeight="17.0" prefWidth="67.0" text="Time" />
+            <Label layoutX="1.0" layoutY="98.0" text="End date" />
+            <Text layoutX="7.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove lectures in period" textAlignment="CENTER" wrappingWidth="211.00000405311584">
+               <font>
+                  <Font size="14.0" />
+               </font></Text>
+            <Label layoutX="2.0" layoutY="170.0" prefHeight="17.0" prefWidth="100.0" text="From" />
+            <Label layoutX="113.0" layoutY="170.0" prefHeight="17.0" prefWidth="100.0" text="To" />
+            <Button fx:id="removeLectures" layoutX="2.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" 
+            		prefWidth="211.0" style="-fx-border-width: 1;" text="Remove" onAction="#removeLecturesInPeriod">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Text layoutX="353.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new lecture" textAlignment="CENTER" wrappingWidth="211.00000405311584">
@@ -82,7 +91,7 @@
          </font>
       </Text>
       <ListView fx:id="listView" layoutX="107.0" layoutY="134.0" prefHeight="174.0" prefWidth="211.0" />
-      <Button layoutX="107.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Delete selected lecture" onAction="#deleteLectureAction">
+      <Button layoutX="107.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteLectureAction" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Delete selected lecture">
          <font>
             <Font size="10.0" />
          </font>

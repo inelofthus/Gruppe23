@@ -47,15 +47,16 @@ public class addLecturesController implements Initializable {
 	public Button logout;
 	public Button addLecture;
 	public Button finish;
-
+	public Button removeLectures;
+	
 	@FXML
 	public TextField startTime;
 	
 	@FXML
 	public DatePicker startDate;
 	public DatePicker endDate;
-	public DatePicker holidayStart;
-	public DatePicker holidayEnd;
+	public DatePicker removeStart;
+	public DatePicker removeEnd;
 	
 	@FXML 
 	public CheckBox repeat;
@@ -119,9 +120,7 @@ public class addLecturesController implements Initializable {
 	@FXML
 	private void submitAddLecture(ActionEvent event){
 		if (startDate.getValue() == null || startTime.getText().length() == 0 
-				|| !validate(startTime.getText()) || (holidayStart.getValue() != null && holidayEnd.getValue() == null) ||
-				(holidayStart.getValue() == null && holidayEnd.getValue() != null)
-				|| (repeat.isSelected() && endDate.getValue() == null)){
+				|| !validate(startTime.getText()) || (repeat.isSelected() && endDate.getValue() == null)){
 			System.out.println("Feil");
 			String errorText = "";
 			if (startDate.getValue() == null){
@@ -134,10 +133,6 @@ public class addLecturesController implements Initializable {
 			else if (!validate(startTime.getText())){
 				System.out.println("Feil klokkeslettformat");
 				errorText += "Write time on format hh:mm. ";
-			}
-			if((holidayStart.getValue() != null && holidayEnd.getValue() == null) ||
-					holidayStart.getValue() == null && holidayEnd.getValue() != null){
-				errorText += "Must select either both holiday start date and end date, or neither. ";
 			}
 			if (repeat.isSelected() && endDate.getValue() == null){
 				errorText += "Select an end date or uncheck weekly repetition. ";
@@ -157,9 +152,6 @@ public class addLecturesController implements Initializable {
 				mainController.getInstance().setCourse(new Course(courseCode));
 				listView.getItems().clear();
 				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
-				if (holidayStart.getValue() != null){
-					dbc.deleteLecturesForPeriod(courseCode, holidayStart.getValue().toString(), holidayEnd.getValue().toString());
-				}
 				errorBar.setFill(Color.PALEGREEN);
 				errorMessage.setText("Lecture successfully added");
 				errorBar.setVisible(true);
@@ -169,6 +161,24 @@ public class addLecturesController implements Initializable {
 				errorBar.setVisible(true);
 				errorMessage.setText("Lecture already exists for this date and time");
 			}
+		}
+	}
+	
+	@FXML
+	public void removeLecturesInPeriod(ActionEvent e){
+		if (removeStart.getValue() == null || removeEnd.getValue() == null){
+			errorMessage.setText("Select a period");
+			errorBar.setFill(Color.RED);
+			errorBar.setVisible(true);
+			
+		}
+		else{
+			dbc.deleteLecturesForPeriod(courseCode, removeStart.getValue().toString(), removeEnd.getValue().toString());
+			errorMessage.setText("Lectures successfully deleted");
+			errorBar.setFill(Color.PALEGREEN);
+			errorBar.setVisible(true);
+			listView.getItems().clear();
+			listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
 		}
 	}
 	
@@ -215,8 +225,6 @@ public class addLecturesController implements Initializable {
 		    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 		    	endDate.setDisable(oldValue);
 		    	endDate.setValue(startDate.getValue());
-		    	holidayStart.setDisable(oldValue);
-		    	holidayEnd.setDisable(oldValue);
 		    }
 		});
 	}
