@@ -118,7 +118,10 @@ public class addLecturesController implements Initializable {
 	
 	@FXML
 	private void submitAddLecture(ActionEvent event){
-		if (startDate.getValue() == null || startTime.getText().length() == 0 || !validate(startTime.getText())){
+		if (startDate.getValue() == null || startTime.getText().length() == 0 
+				|| !validate(startTime.getText()) || (holidayStart.getValue() != null && holidayEnd.getValue() == null) ||
+				(holidayStart.getValue() == null && holidayEnd.getValue() != null)
+				|| (repeat.isSelected() && endDate.getValue() == null)){
 			System.out.println("Feil");
 			String errorText = "";
 			if (startDate.getValue() == null){
@@ -136,7 +139,9 @@ public class addLecturesController implements Initializable {
 					holidayStart.getValue() == null && holidayEnd.getValue() != null){
 				errorText += "Must select either both holiday start date and end date, or neither. ";
 			}
-		
+			if (repeat.isSelected() && endDate.getValue() == null){
+				errorText += "Select an end date or uncheck weekly repetition. ";
+			}
 			errorMessage.setText(errorText);
 			errorBar.setVisible(true);
 			
@@ -149,7 +154,11 @@ public class addLecturesController implements Initializable {
 			try {
 				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
 				mainController.getInstance().setCourse(new Course(courseCode));
+				listView.getItems().clear();
 				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
+				if (holidayStart.getValue() != null){
+					dbc.deleteLecturesForPeriod(courseCode, holidayStart.getValue().toString(), holidayEnd.getValue().toString());
+				}
 				errorBar.setFill(Color.PALEGREEN);
 				errorMessage.setText("Lecture successfully added");
 				errorBar.setVisible(true);
@@ -174,9 +183,6 @@ public class addLecturesController implements Initializable {
 		ArrayList<String> dateTime = new ArrayList<String>();
 		dateTime.addAll(Arrays.asList(rowArr));
 		dbc.deleteLecture(dbc.getLectureID(dateTime, courseCode));
-		if (holidayStart.getValue() != null){
-			dbc.deleteLecturesForPeriod(courseCode, holidayStart.getValue().toString(), holidayEnd.getValue().toString());
-		}
 		listView.getItems().clear();
 		listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
 		errorBar.setFill(Color.PALEGREEN);
