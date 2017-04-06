@@ -16,11 +16,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.evaluationStudController">
    <children>
+      <Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="58.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="520.0" />
       <Text fx:id="debugText" fill="#fcf8f8" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="655.0">
          <font>
             <Font size="24.0" />
          </font></Text>
-      <Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="58.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="520.0" />
       <ToggleButton fx:id="rating1" layoutX="31.0" layoutY="151.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Perfect">
          <font>
             <Font size="18.0" />

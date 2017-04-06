@@ -118,10 +118,10 @@ public class evaluationStudController implements Initializable {
 			//checks if something is selected and gives error message
 			if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
 					|| rating1.isSelected())) {
-				overwriteText.setText("");
+				overwriteText.setText("Choose a rating");
 				submitted.setText("");
 				rec.setFill(Color.RED);
-				debugText.setText("Choose a rating");
+				debugText.setText("");
 				return;
 			}
 			
