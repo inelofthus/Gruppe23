@@ -1,6 +1,7 @@
 package testing;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
 import database.DBController;
@@ -14,7 +15,7 @@ import databaseobjects.Professor;
 
 public class TestData {
 	
-	public static void createTestDataEvaluation(){
+	public static void createTestDataEvaluation() throws SQLException{
 		DBController dbc = new DBController();
 		dbc.insertCourse("IT2805", "Webteknologi", 3,1,1);
 		dbc.insertStudent("inela", "BIT");

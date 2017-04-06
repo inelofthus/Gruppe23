@@ -1619,7 +1619,7 @@ public class DBController {
 		connect();
 		
 		ArrayList<String> lectures = new ArrayList<>();
-		String query = "select lectureDate, lectureTime from Lecture where courseCode = ?";
+		String query = "select lectureDate, lectureTime from Lecture where courseCode = ? ORDER BY lectureDate ASC";
 		
 		try {
 			prepStmt = conn.prepareStatement(query);
@@ -1629,7 +1629,7 @@ public class DBController {
 			while(rs.next()){
 				String date = rs.getString(1);
 				String time = rs.getString(2);
-				String result = String.format("%s \t %s",changeDateFormat(date), time);
+				String result = String.format("%s \t \t %s",changeDateFormat(date), time);
 				lectures.add(result);	
 						
 			}
@@ -1652,6 +1652,7 @@ public class DBController {
 		
 		return dd + "." + mm + "." + yyyy;
 	}
+	
 
 
 }

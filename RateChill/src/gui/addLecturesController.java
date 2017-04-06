@@ -3,6 +3,8 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +29,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -53,14 +57,22 @@ public class addLecturesController implements Initializable {
 	public DatePicker holidayStart;
 	public DatePicker holidayEnd;
 	
-	@FXML CheckBox repeat;
+	@FXML 
+	public CheckBox repeat;
+	
+	@FXML
+	public Rectangle errorBar;
+	
+	@FXML
+	public Text errorMessage;
 
 	@FXML
 	public ListView<String> listView;
 	
 	Course course = mainController.getInstance().getCourse();
+	String courseCode = course.getCourseCode();
 	String prof = mainController.getInstance().getProfessor().getUsername();
-	DBController DBC = new DBController(); 
+	DBController dbc = new DBController(); 
 	
 	private Pattern pattern;
 	private Matcher matcher;
@@ -108,12 +120,25 @@ public class addLecturesController implements Initializable {
 	private void submitAddLecture(ActionEvent event){
 		if (startDate.getValue() == null || startTime.getText().length() == 0 || !validate(startTime.getText())){
 			System.out.println("Feil");
+			String errorText = "";
 			if (startDate.getValue() == null){
 				System.out.println("Skriv inn dato");
+				errorText += "Pick a date. ";
 			}
-			if (!validate(startTime.getText())){
+			if  (startTime.getText().length() == 0){
+				errorText += "Pick a time. ";
+			}
+			else if (!validate(startTime.getText())){
 				System.out.println("Feil klokkeslettformat");
+				errorText += "Write time on format hh:mm. ";
 			}
+			if((holidayStart.getValue() != null && holidayEnd.getValue() == null) ||
+					holidayStart.getValue() == null && holidayEnd.getValue() != null){
+				errorText += "Must select either both holiday start date and end date, or neither. ";
+			}
+		
+			errorMessage.setText(errorText);
+			errorBar.setVisible(true);
 			
 		}
 		
@@ -123,11 +148,41 @@ public class addLecturesController implements Initializable {
 			}
 			try {
 				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
-				mainController.getInstance().setCourse(new Course(course.getCourseCode()) );
+				mainController.getInstance().setCourse(new Course(courseCode));
+				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
+				errorBar.setFill(Color.PALEGREEN);
+				errorMessage.setText("Lecture successfully added");
+				errorBar.setVisible(true);
 			} catch (SQLException e) {
 				System.out.println("Lecture already exists for this date and time" + e.getMessage());
 			}
 		}
+	}
+	
+	@FXML
+	public void deleteLectureAction(ActionEvent e){
+		String row = listView.getSelectionModel().getSelectedItem();
+		String[] rowArr = row.split("\t \t");
+		SimpleDateFormat fromUser = new SimpleDateFormat("dd.MM.yyyy");
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			rowArr[0] = myFormat.format(fromUser.parse(rowArr[0]));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ArrayList<String> dateTime = new ArrayList<String>();
+		dateTime.addAll(Arrays.asList(rowArr));
+		dbc.deleteLecture(dbc.getLectureID(dateTime, courseCode));
+		if (holidayStart.getValue() != null){
+			dbc.deleteLecturesForPeriod(courseCode, holidayStart.getValue().toString(), holidayEnd.getValue().toString());
+		}
+		listView.getItems().clear();
+		listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
+		errorBar.setFill(Color.PALEGREEN);
+		errorMessage.setText("Lecture successfully deleted");
+		errorBar.setVisible(true);
+		
 	}
 	
 	public boolean validate(final String time){
@@ -140,9 +195,9 @@ public class addLecturesController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		pattern = Pattern.compile(TIME24HOURS_PATTERN);
-		ArrayList<String> lectureInfo = new ArrayList<String>(Arrays.asList("03.04.17 08:00 04.04.17", ("03.04.17 08:00 04.04.17")));
+		ArrayList<String> lectures = dbc.getLectureDateAndTimeForCourse(courseCode);
 		listView.getItems().clear();
-		listView.getItems().addAll(lectureInfo);
+		listView.getItems().addAll(lectures);
 		
 		
 		repeat.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -150,6 +205,8 @@ public class addLecturesController implements Initializable {
 		    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 		    	endDate.setDisable(oldValue);
 		    	endDate.setValue(startDate.getValue());
+		    	holidayStart.setDisable(oldValue);
+		    	holidayEnd.setDisable(oldValue);
 		    }
 		});
 	}

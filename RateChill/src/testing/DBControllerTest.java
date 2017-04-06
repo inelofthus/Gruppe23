@@ -2,6 +2,7 @@ package testing;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Test;
@@ -93,7 +94,7 @@ public class DBControllerTest {
 	}
 	
 	@Test 
-	public void lectureCRUD(){
+	public void lectureCRUD() throws SQLException{
 		
 		TestData.createTestDataLecture();
 		
@@ -120,7 +121,7 @@ public class DBControllerTest {
 	}
 	
 	@Test
-	public void evaluationCRUD(){
+	public void evaluationCRUD() throws SQLException{
 		
 		TestData.createTestDataEvaluation();
 		
