@@ -47,8 +47,8 @@
       </ButtonBar>
       <TableView focusTraversable="false" layoutX="107.0" layoutY="104.0" prefHeight="39.0" prefWidth="211.0" translateY="5.0">
          <columns>
-            <TableColumn editable="false" prefWidth="105.0" sortable="false" text="Start date" />
-            <TableColumn prefWidth="105.0" sortable="false" text="Start time" />
+            <TableColumn editable="false" prefWidth="105.0" sortable="false" text="Date" />
+            <TableColumn prefWidth="105.0" sortable="false" text="Time" />
          </columns>
       </TableView>
       <Pane layoutX="353.0" layoutY="106.0" prefHeight="241.0" prefWidth="217.0">
@@ -77,8 +77,7 @@
                </font></Text>
             <Label layoutX="2.0" layoutY="170.0" prefHeight="17.0" prefWidth="100.0" text="From" />
             <Label layoutX="113.0" layoutY="170.0" prefHeight="17.0" prefWidth="100.0" text="To" />
-            <Button fx:id="removeLectures" layoutX="2.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" 
-            		prefWidth="211.0" style="-fx-border-width: 1;" text="Remove" onAction="#removeLecturesInPeriod">
+            <Button fx:id="removeLectures" layoutX="2.0" layoutY="213.0" mnemonicParsing="false" onAction="#removeLecturesInPeriod" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Remove">
                <font>
                   <Font size="10.0" />
                </font>
@@ -90,8 +89,8 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <ListView fx:id="listView" layoutX="107.0" layoutY="134.0" prefHeight="174.0" prefWidth="211.0" />
-      <Button layoutX="107.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteLectureAction" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Delete selected lecture">
+      <ListView fx:id="listView" layoutX="107.0" layoutY="134.0" prefHeight="183.0" prefWidth="211.0" />
+      <Button layoutX="107.0" layoutY="319.0" mnemonicParsing="false" onAction="#deleteLectureAction" prefHeight="25.0" prefWidth="211.0" style="-fx-border-width: 1;" text="Delete selected lecture">
          <font>
             <Font size="10.0" />
          </font>
