@@ -142,6 +142,7 @@ public class addLecturesController implements Initializable {
 			if (repeat.isSelected() && endDate.getValue() == null){
 				errorText += "Select an end date or uncheck weekly repetition. ";
 			}
+			errorBar.setFill(Color.RED);
 			errorMessage.setText(errorText);
 			errorBar.setVisible(true);
 			
@@ -164,6 +165,9 @@ public class addLecturesController implements Initializable {
 				errorBar.setVisible(true);
 			} catch (SQLException e) {
 				System.out.println("Lecture already exists for this date and time" + e.getMessage());
+				errorBar.setFill(Color.RED);
+				errorBar.setVisible(true);
+				errorMessage.setText("Lecture already exists for this date and time");
 			}
 		}
 	}
