@@ -49,3 +49,42 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+#Gradle
+.gradle
+/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+#Jacoco
+
+target/
+.settings/
+!org.jacoco.core/.settings/
+!org.jacoco.core.test/.settings/
+org.jacoco.agent/src/jacocoagent.jar
+.idea
+*.iml
+
+.gradle
+build
+.settings
+.project
+.classpath
+bin
+*~
+*.iml
+*.iws
+*.ipr
+.idea
+out
