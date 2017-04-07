@@ -17,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,7 +29,8 @@ public class loginController implements Initializable {
 	public Button backButton;
 	public Button student;
 	public Button professor;
-	public TextField username; 
+	public TextField profUsername; 
+	public TextField studUsername; 
 	public PasswordField password;
 	public Text usernameError;
 	public Text passwordError;
@@ -79,29 +82,67 @@ public class loginController implements Initializable {
 		}
 	} 
 	
+	public void handleKeyActionProf(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			System.out.println("login as prof");
+			loginProf();
+		}
+	}
 	
+	private void loginProf() throws IOException {
+		Stage stage = null;
+		String errorMsg = "User doesn't exist. Try again";
+		
+		Professor prof = new Professor(profUsername.getText());
+		if(prof.existsInDB() && prof.hasPassword()) {
+			usernameError.setText("");
+			if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
+				mainController.getInstance().setProfessor(prof);
+				loadNextScene(loginProf, stage, "courseProf.fxml");
+			}
+			passwordError.setText("Incorrect password, try again");
+			return;
+		}
+		passwordError.setText("");
+		usernameError.setText(errorMsg);
+		return;
+		
+	}
+
+	public void handleKeyActionStud(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			loginStud();
+		}
+	}
+	
+	private void loginStud() throws IOException {
+		Stage stage = null;
+		String errorMsg = "User doesn't exist. Try again";
+		Student stud = new Student(studUsername.getText());
+		
+		
+    	//checks if the student username exists
+		if(stud.existsInDB()) {
+			mainController.getInstance().setStudent(stud);
+			loadNextScene(loginStud, stage, "courseStud.fxml");
+		}
+		
+    	usernameError.setText(errorMsg);
+    	return;
+		
+	}
+
 	public void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
 		Stage stage = null;
 		userButtons(event, stage);
 		String errorMsg = "User doesn't exist. Try again";
 		
-		
-		if(event.getSource()==loginStud){
-			Student stud = new Student(username.getText());
-			
-			
-	    	//checks if the student username exists
-			if(stud.existsInDB()) {
-				mainController.getInstance().setStudent(stud);
-				loadNextScene(loginStud, stage, "courseStud.fxml");
-			}
-			
-	    	usernameError.setText(errorMsg);
-	    	return;
+		if(event.getSource()==loginStud  ){
+			loginStud();
 	    }
 	    
 	    else if (event.getSource()==loginProf){
-			Professor prof = new Professor(username.getText());
+			Professor prof = new Professor(profUsername.getText());
 			if(prof.existsInDB() && prof.hasPassword()) {
 				usernameError.setText("");
 				if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
