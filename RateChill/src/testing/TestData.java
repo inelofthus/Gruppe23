@@ -17,35 +17,35 @@ public class TestData {
 	
 	public static void createTestDataEvaluation() throws SQLException{
 		DBController dbc = new DBController();
-		dbc.insertCourse("IT2805", "Webteknologi", 3,1,1);
-		dbc.insertStudent("inela", "BIT");
-		dbc.insertCourseStudent("inela", "IT2805");
-		dbc.insertProfessor("michailg", Professor.hashPassword("I like pizza"));
-		dbc.insertCourseProfessor("michailg", "IT2805");
-		dbc.insertLecture("2017-04-21", "08:00:00", "IT2805", "michailg");
+		dbc.insertCourse("TEST0001", "TestName", 3,1,1);
+		dbc.insertStudent("testStudent", "BIT");
+		dbc.insertCourseStudent("testStudent", "TEST0001");
+		dbc.insertProfessor("testProfessor", Professor.hashPassword("pass"));
+		dbc.insertCourseProfessor("testProfessor", "TEST0001");
+		dbc.insertLecture("2017-04-21", "08:00:00", "TEST0001", "testProfessor");
 	}
 	
 	public static void deleteTestDataEvaluation(){
 		DBController dbc = new DBController();
-		dbc.deleteCourse("IT2805");
-		dbc.deleteStudent("inela");
-		dbc.deleteProfessor("michailg");
+		dbc.deleteCourse("TEST0001");
+		dbc.deleteStudent("testStudent");
+		dbc.deleteProfessor("testProfessor");
 	}
 	
 	public static void createTestDataLecture(){
 		DBController dbc = new DBController();
-		dbc.insertCourse("TTK4100", "Kybernetikk, introduksjon", 3,1,1);
-		dbc.insertStudent("inela", "BIT");
-		dbc.insertCourseStudent("inela@stud.ntnu.no", "TTK4100");
-		dbc.insertProfessor("tomgra", Professor.hashPassword("passSkidoodle"));
-		dbc.insertCourseProfessor("tomgra", "TTK4100");
+		dbc.insertCourse("TEST0001", "TestName", 3,1,1);
+		dbc.insertStudent("testStudent", "BIT");
+		dbc.insertCourseStudent("testStudent", "TEST0001");
+		dbc.insertProfessor("testProfessor", Professor.hashPassword("pass"));
+		dbc.insertCourseProfessor("testProfessor", "TEST0001");
 	}
 	
 	public static void deleteTestDataLecture(){
 		DBController dbc = new DBController();
-		dbc.deleteCourse("TTK4100");
-		dbc.deleteStudent("inela");
-		dbc.deleteProfessor("tomgra");
+		dbc.deleteCourse("TEST0001");
+		dbc.deleteStudent("testStudent");
+		dbc.deleteProfessor("testProfessor");
 	}
 	
 

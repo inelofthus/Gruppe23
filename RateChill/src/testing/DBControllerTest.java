@@ -25,23 +25,23 @@ public class DBControllerTest {
 	public void courseCRUD(){
 				
 		//Create
-		dbc.insertCourse("TDT4102", "Prosedyre- og objektorientert programmering", 4, 1, 1);
+		dbc.insertCourse("TEST0001", "TestName", 4, 1, 1);
 		
-		Course course = new Course("TDT4102");
+		Course course = new Course("TEST0001");
 		dbc.loadCourseInfo(course);
 		
-		assertEquals("TDT4102", course.getCourseCode());
-		assertEquals("Prosedyre- og objektorientert programmering", course.getCourseName());
+		assertEquals("TEST0001", course.getCourseCode());
+		assertEquals("TestName", course.getCourseName());
 		assertEquals(4, course.getNumLectureHours());
 		
 		assertTrue(course.existsInDB());
-		assertTrue(dbc.courseExists("TDT4102"));
+		assertTrue(dbc.courseExists("TEST0001"));
 		
 		//Update
 		
 		//Delete
-		dbc.deleteCourse("TDT4102");
-		assertFalse(dbc.courseExists("TDT4102"));
+		dbc.deleteCourse("TEST0001");
+		assertFalse(dbc.courseExists("TEST0001"));
 		assertFalse(course.existsInDB());
 			
 	}
@@ -50,23 +50,22 @@ public class DBControllerTest {
 	public void studentCRUD(){
 		
 		//Create
-		dbc.insertStudent("inela", "BIT");
+		dbc.insertStudent("testStudent", "BIT");
 		
-		Student stud = new Student("inela");
+		Student stud = new Student("testStudent");
 		dbc.loadStudentInfo(stud);
 		
-		assertEquals("inela", stud.getUsername());
+		assertEquals("testStudent", stud.getUsername());
 		assertEquals("BIT", stud.getStudyProgram());
-		assertEquals("inela", stud.getUsername());
 		
-		assertTrue(dbc.studentExists("inela"));
+		assertTrue(dbc.studentExists("testStudent"));
 		assertTrue(stud.existsInDB());
 		
 		//Update
 		
 		//Delete
-		dbc.deleteStudent("inela");
-		assertFalse(dbc.studentExists("inela"));
+		dbc.deleteStudent("testStudent");
+		assertFalse(dbc.studentExists("testStudent"));
 		assertFalse(stud.existsInDB());
 	}
 	
@@ -74,22 +73,22 @@ public class DBControllerTest {
 	public void professorCRUD(){
 		
 		//Create
-		dbc.insertProfessor("mariusth", "pass");
+		dbc.insertProfessor("testProfessor", Professor.hashPassword("pass"));
 		
-		Professor prof = new Professor("mariusth");
+		Professor prof = new Professor("testProfessor");
 		dbc.loadProfessorInfo(prof);
 		
-		assertEquals("mariusth", prof.getUsername());
+		assertEquals("testProfessor", prof.getUsername());
 		
 		assertTrue(prof.existsInDB());
-		assertTrue(dbc.professorExists("mariusth"));
+		assertTrue(dbc.professorExists("testProfessor"));
 		
 		//Update
 		
 		//Delete
-		dbc.deleteProfessor("mariusth");
+		dbc.deleteProfessor("testProfessor");
 		assertFalse(prof.existsInDB());
-		assertFalse(dbc.professorExists("mariusth"));
+		assertFalse(dbc.professorExists("testProfessor"));
 		
 	}
 	
