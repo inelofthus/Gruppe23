@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="testing.DBControllerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-04-07T11:15:19" hostname="NicolaiPC" time="2.106">
+  <properties/>
+  <testcase name="studentCRUD" classname="testing.DBControllerTest" time="0.59"/>
+  <testcase name="lectureCRUD" classname="testing.DBControllerTest" time="0.382"/>
+  <testcase name="courseCRUD" classname="testing.DBControllerTest" time="0.216"/>
+  <testcase name="evaluationCRUD" classname="testing.DBControllerTest" time="0.724"/>
+  <testcase name="professorCRUD" classname="testing.DBControllerTest" time="0.193"/>
+  <system-out><![CDATA[1 records inserted
+1 records inserted
+1 records inserted
+1 records inserted
+SELECT lectureID FROM Lecture WHERE courseCode = 'TEST0001' and lectureDate='2016-12-10' and lectureTime = '14:15:00';
+SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+SQLException: Illegal operation on empty result set.
+SQLException setEvaluationsForLecture: Illegal operation on empty result set.
+1 records inserted
+SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+SQLException: Illegal operation on empty result set.
+SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+SQLException: Illegal operation on empty result set.
+1 records inserted
+1 records inserted
+1 records inserted
+SELECT lectureID FROM Lecture WHERE courseCode = 'TEST0001' and lectureDate='2017-04-21' and lectureTime = '08:00:00';
+1 records inserted
+1 records inserted
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

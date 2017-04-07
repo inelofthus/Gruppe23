@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="testingDBObjects.LectureTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-04-07T11:15:22" hostname="NicolaiPC" time="0.002">
+  <properties/>
+  <testcase name="testgetRatingCountOk" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetCourseCode" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetProfessor" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetEvaluations" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetLectureID" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetRatingCountPerfect" classname="testingDBObjects.LectureTest" time="0.001"/>
+  <testcase name="testgetLectureDateAndTime" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetLectureDate" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <testcase name="testgetLectureTime" classname="testingDBObjects.LectureTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

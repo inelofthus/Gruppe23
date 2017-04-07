@@ -1,0 +1,1659 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DBController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">database</a> &gt; <span class="el_source">DBController.java</span></div><h1>DBController.java</h1><pre class="source lang-java linenums">package database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import databaseobjects.Course;
+import databaseobjects.Evaluation;
+import databaseobjects.Lecture;
+import databaseobjects.Professor;
+import databaseobjects.Student;
+
+<span class="fc" id="L23">public class DBController {</span>
+
+<span class="fc" id="L25">	Connection conn = null;</span>
+
+	public void connect() {
+		try {
+<span class="fc" id="L29">			conn = DriverManager.getConnection(</span>
+					&quot;jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&amp;password=pekkabot&quot;);
+			// System.out.println(&quot;connection succesfull :) &quot;);
+
+<span class="nc" id="L33">		} catch (SQLException ex) {</span>
+<span class="nc" id="L34">			System.out.println(&quot;SQLeXCEPTION: &quot; + ex.getMessage());</span>
+
+<span class="fc" id="L36">		}</span>
+<span class="fc" id="L37">	}</span>
+
+	public void close() {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		if (rs != null) {</span>
+			try {
+<span class="fc" id="L42">				rs.close();</span>
+<span class="nc" id="L43">			} catch (SQLException e) {</span>
+<span class="fc" id="L44">				/* ignored */}</span>
+		}
+
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		if (conn != null) {</span>
+			try {
+<span class="fc" id="L49">				conn.close();</span>
+				// System.out.println(&quot;CONNECTION CLOSED&quot;);
+<span class="nc" id="L51">			} catch (SQLException e) {</span>
+<span class="fc" id="L52">				/* ignored */}</span>
+		}
+
+<span class="fc" id="L55">	}</span>
+
+<span class="fc" id="L57">	Statement stmt = null;</span>
+<span class="fc" id="L58">	java.sql.PreparedStatement prepStmt = null;</span>
+<span class="fc" id="L59">	ResultSet rs = null;</span>
+
+	// Frequently used SQL methods
+	public ArrayList&lt;String&gt; getStringArray(String query) {
+		// takes an SQL query as input. Returns a string that contains all data
+		// from first column of table
+<span class="fc" id="L65">		connect();</span>
+
+<span class="fc" id="L67">		ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L69">			stmt = conn.createStatement();</span>
+
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L72">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L76">				list.add(rs.getString(1));</span>
+			}
+
+<span class="nc" id="L79">		} catch (Exception e) {</span>
+<span class="nc" id="L80">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L81">		}</span>
+
+<span class="fc" id="L83">		close();</span>
+		// System.out.println(professor);
+<span class="fc" id="L85">		return list;</span>
+	}
+	
+	public ArrayList&lt;String&gt; getStringArrayNC(String query) {
+		// takes an SQL query as input. Returns a string that contains all data
+		// from first column of table
+
+<span class="nc" id="L92">		ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="nc" id="L94">			stmt = conn.createStatement();</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L97">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L101">				list.add(rs.getString(1));</span>
+			}
+
+<span class="nc" id="L104">		} catch (Exception e) {</span>
+<span class="nc" id="L105">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L106">		}</span>
+
+		// System.out.println(professor);
+<span class="nc" id="L109">		return list;</span>
+	}
+
+	public ArrayList&lt;Integer&gt; getIntArray(String query) {
+		// takes an sqlQuery as input and returns a list containing the String
+		// elements of the first column
+<span class="nc" id="L115">		connect();</span>
+
+<span class="nc" id="L117">		ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="nc" id="L119">			stmt = conn.createStatement();</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L122">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L126">				list.add(rs.getInt(1));</span>
+			}
+
+<span class="nc" id="L129">		} catch (Exception e) {</span>
+<span class="nc" id="L130">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L131">		}</span>
+
+<span class="nc" id="L133">		close();</span>
+		// System.out.println(professor);
+<span class="nc" id="L135">		return list;</span>
+	}
+
+	public int getInt(String query) {
+		// takes an sqlQuery as input and returns a list containing the int
+		// elements of the first column
+
+<span class="nc" id="L142">		int ans = 0;</span>
+<span class="nc" id="L143">		connect();</span>
+
+		try {
+<span class="nc" id="L146">			stmt = conn.createStatement();</span>
+
+<span class="nc bnc" id="L148" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L149">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc" id="L152">			rs.next();</span>
+<span class="nc" id="L153">			ans = rs.getInt(1);</span>
+
+<span class="nc" id="L155">		} catch (Exception e) {</span>
+<span class="nc" id="L156">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L157">		}</span>
+
+<span class="nc" id="L159">		close();</span>
+<span class="nc" id="L160">		return ans;</span>
+
+	}
+
+	// Course info
+
+	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring, int taughtInAutumn) {
+		// inserts a new row in Course table of database
+<span class="fc" id="L168">		connect();</span>
+
+		try {
+<span class="fc" id="L171">			String query = &quot;INSERT INTO Course VALUES(?,?,?,?,?)&quot;;</span>
+
+<span class="fc" id="L173">			prepStmt = conn.prepareStatement(query);</span>
+<span class="fc" id="L174">			prepStmt.setString(1, courseCode);</span>
+<span class="fc" id="L175">			prepStmt.setString(2, courseName);</span>
+<span class="fc" id="L176">			prepStmt.setInt(3, lectureHours);</span>
+<span class="fc" id="L177">			prepStmt.setInt(4, taughtInSpring);</span>
+<span class="fc" id="L178">			prepStmt.setInt(5, taughtInAutumn);</span>
+<span class="fc" id="L179">			int i = prepStmt.executeUpdate();</span>
+<span class="fc" id="L180">			System.out.println(i + &quot; records inserted&quot;); </span>
+
+//			StringBuilder sb = new StringBuilder();
+//			sb.append(&quot;INSERT INTO Course VALUES('&quot;).append(courseCode).append(&quot;','&quot;).append(courseName).append(&quot;','&quot;)
+//					.append(courseLocation).append(&quot;',&quot;).append(lectureHours).append(&quot;);&quot;);
+//
+//			String query = sb.toString();
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
+
+<span class="nc" id="L191">		} catch (Exception e) {</span>
+<span class="nc" id="L192">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L193">		}</span>
+
+<span class="fc" id="L195">		close();</span>
+
+<span class="fc" id="L197">	}</span>
+
+	public void insertCourseCon(String courseCode, String courseName, int lectureHours, boolean taughtInSpring, boolean taughtInAutumn) {
+		// inserts a new row in Course table of database when already connected
+		try {
+<span class="nc" id="L202">			String query = &quot;INSERT INTO Course VALUES(?,?,?,?,?)&quot;;</span>
+
+<span class="nc" id="L204">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L205">			prepStmt.setString(1, courseCode);</span>
+<span class="nc" id="L206">			prepStmt.setString(2, courseName);</span>
+<span class="nc" id="L207">			prepStmt.setInt(3, lectureHours);</span>
+<span class="nc" id="L208">			prepStmt.setBoolean(4, taughtInSpring);</span>
+<span class="nc" id="L209">			prepStmt.setBoolean(5, taughtInAutumn);</span>
+<span class="nc" id="L210">			int i = prepStmt.executeUpdate();</span>
+<span class="nc" id="L211">			System.out.println(i + &quot; records inserted&quot;); </span>
+			
+<span class="nc" id="L213">		} catch (Exception e) {</span>
+<span class="nc" id="L214">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L215">		}</span>
+
+<span class="nc" id="L217">	}</span>
+	
+	public boolean courseExists(String courseCode) {
+		// Checks in the database if a course with given courseCode exists.
+<span class="fc" id="L221">		connect();</span>
+<span class="fc" id="L222">		boolean hasNext = false;</span>
+		try {
+<span class="fc" id="L224">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L226">			String query = &quot;SELECT courseCode FROM Course WHERE courseCode = '&quot; + courseCode + &quot;';&quot;;</span>
+
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L229">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L232">			hasNext = rs.next();</span>
+
+<span class="nc" id="L234">		} catch (Exception e) {</span>
+<span class="nc" id="L235">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L236">		}</span>
+<span class="fc" id="L237">		close();</span>
+<span class="fc" id="L238">		return hasNext;</span>
+	}
+
+	public void deleteCourse(String courseCode) {
+<span class="fc" id="L242">		connect();</span>
+		try {
+<span class="fc" id="L244">			String query = &quot;DELETE FROM Course WHERE courseCode='&quot; + courseCode + &quot;'&quot;;</span>
+
+<span class="fc" id="L246">			stmt = conn.createStatement();</span>
+<span class="fc" id="L247">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L249">		} catch (Exception e) {</span>
+<span class="nc" id="L250">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L251">		}</span>
+<span class="fc" id="L252">		close();</span>
+
+<span class="fc" id="L254">	}</span>
+
+	public Course loadCourseInfo(Course course) {
+		// This method takes in a Course object with a specific courseCode. It
+		// collects all the information about this course for the newest
+		// semester and fills in the rest
+		// of the course details. Finally It will return the loaded course
+		// object.
+
+<span class="fc" id="L263">		connect();</span>
+
+		try {
+<span class="fc" id="L266">			stmt = conn.createStatement();</span>
+<span class="nc" id="L267">		} catch (SQLException e) {</span>
+<span class="nc" id="L268">			e.printStackTrace();</span>
+<span class="fc" id="L269">		}</span>
+<span class="fc" id="L270">		setCourseNameLecHoursAndSemester(course);</span>
+<span class="fc" id="L271">		setProfessorIDsForCourse(course);</span>
+<span class="fc" id="L272">		setLectureIDsForCourse(course);</span>
+<span class="fc" id="L273">		setCompletedLecturesForCourse(course);</span>
+<span class="fc" id="L274">		setRatingValues(course);</span>
+
+<span class="fc" id="L276">		close();</span>
+
+<span class="fc" id="L278">		return course;</span>
+	}
+
+	private void setRatingValues(Course course) {
+<span class="fc" id="L282">		ArrayList&lt;String&gt; ratingValues = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc" id="L284">		connect();</span>
+		try {
+<span class="fc" id="L286">			String query = &quot;select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues WHERE courseCode = ?&quot;; </span>
+			
+<span class="fc" id="L288">			prepStmt = conn.prepareStatement(query);</span>
+<span class="fc" id="L289">			prepStmt.setString(1, course.getCourseCode());</span>
+<span class="fc" id="L290">			rs = prepStmt.executeQuery();</span>
+			
+<span class="fc" id="L292">			rs.next();</span>
+			
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">			for(int i = 1; i &lt; 6; i++){</span>
+<span class="nc" id="L295">				ratingValues.add(rs.getString(i));</span>
+			}
+			
+<span class="nc" id="L298">			course.setRatingValues(ratingValues);</span>
+			
+<span class="fc" id="L300">		} catch (Exception e) {</span>
+<span class="fc" id="L301">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L302">		}</span>
+		
+		
+<span class="fc" id="L305">		close();</span>
+
+		
+<span class="fc" id="L308">	}</span>
+
+	public Course loadCourseInfoForSemester(Course course, String semester) {
+		// This method takes in a Course object with a specific courseCode and
+		// semester. It
+		// collects all the information about this course and fills in the rest
+		// of the course details. Finally It will return the loaded course
+		// object.
+
+<span class="nc" id="L317">		connect();</span>
+
+		try {
+<span class="nc" id="L320">			stmt = conn.createStatement();</span>
+<span class="nc" id="L321">		} catch (SQLException e) {</span>
+<span class="nc" id="L322">			e.printStackTrace();</span>
+<span class="nc" id="L323">		}</span>
+<span class="nc" id="L324">		setCourseNameLecHoursAndSemester(course);</span>
+<span class="nc" id="L325">		setProfessorIDsForCourse(course);</span>
+<span class="nc" id="L326">		setLectureIDsForCourse(course);</span>
+<span class="nc" id="L327">		setCompletedLecturesForCourse(course, semester);</span>
+<span class="nc" id="L328">		setRatingValues(course);</span>
+
+<span class="nc" id="L330">		close();</span>
+
+<span class="nc" id="L332">		return course;</span>
+	}
+
+	private void setCompletedLecturesForCourse(Course course, String semester) {
+		// This creates the list and linked Hash map with the completed lectures
+		// in a given semester and their dates and sets the result in the course
+		// object
+
+<span class="nc" id="L340">		char season = semester.charAt(0);</span>
+<span class="nc" id="L341">		String year = semester.substring(1);</span>
+
+		try {
+
+<span class="nc" id="L345">			ArrayList&lt;Integer&gt; completedLectureIDs = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L346">			LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; completedLecturesIDDate = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L348">			StringBuilder sb = new StringBuilder();</span>
+
+<span class="nc bnc" id="L350" title="All 2 branches missed.">			if (season == 'V') {</span>
+<span class="nc" id="L351">				sb.append(&quot;SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '&quot;)</span>
+<span class="nc" id="L352">						.append(course.getCourseCode()).append(&quot;' &quot;)</span>
+<span class="nc" id="L353">						.append(&quot; AND (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now())) AND (MONTH(l.lectureDate) &lt; 7) AND ( YEAR(l.lectureDate) = &quot;)</span>
+<span class="nc" id="L354">						.append(year).append(&quot;) ORDER BY lectureDate DESC, lectureTime DESC;&quot;);</span>
+
+			} else {
+<span class="nc" id="L357">				sb.append(&quot;SELECT lectureID, lectureDate, lectureTime  FROM Lecture AS l WHERE courseCode = '&quot;)</span>
+<span class="nc" id="L358">						.append(course.getCourseCode()).append(&quot;' &quot;)</span>
+<span class="nc" id="L359">						.append(&quot; AND (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now())) AND (MONTH(l.lectureDate) &gt; 7) AND ( YEAR(l.lectureDate) = &quot;)</span>
+<span class="nc" id="L360">						.append(year).append(&quot;) ORDER BY lectureDate DESC, lectureTime DESC;&quot;);</span>
+			}
+
+<span class="nc" id="L363">			String query4 = sb.toString();</span>
+<span class="nc" id="L364">			System.out.println(query4);</span>
+
+<span class="nc bnc" id="L366" title="All 2 branches missed.">			if (stmt.execute(query4)) {</span>
+<span class="nc" id="L367">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc bnc" id="L370" title="All 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L371">				int lecID = rs.getInt(1);</span>
+<span class="nc" id="L372">				String date = rs.getString(2);</span>
+<span class="nc" id="L373">				String time = rs.getString(3);</span>
+<span class="nc" id="L374">				ArrayList&lt;String&gt; dateTime = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L375">				dateTime.add(date);</span>
+<span class="nc" id="L376">				dateTime.add(time);</span>
+
+<span class="nc" id="L378">				completedLecturesIDDate.put(lecID, dateTime);</span>
+<span class="nc" id="L379">				completedLectureIDs.add(lecID);</span>
+<span class="nc" id="L380">			}</span>
+
+<span class="nc" id="L382">			course.setCompletedLectureIDs(completedLectureIDs);</span>
+			;
+<span class="nc" id="L384">			course.setCompletedLecturesIDDate(completedLecturesIDDate);</span>
+
+<span class="nc" id="L386">		} catch (Exception e) {</span>
+<span class="nc" id="L387">			System.out.println(&quot;error in helper function DBC.setLastTwoCompletedLecturesForCourse:&quot; + e.getMessage());</span>
+<span class="nc" id="L388">		}</span>
+
+<span class="nc" id="L390">	}</span>
+
+	private void setCompletedLecturesForCourse(Course course) {
+		// This creates the list and linked Hash map with the last 2 completed
+		// lectures and their dates and sets the result in the course object
+		try {
+
+<span class="fc" id="L397">			ArrayList&lt;Integer&gt; completedLectureIDs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L398">			LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; completedLecturesIDDate = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L399">			int year = Calendar.getInstance().get(Calendar.YEAR);</span>
+
+<span class="fc" id="L401">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L402">			sb.append(&quot;SELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = '&quot;)</span>
+<span class="fc" id="L403">					.append(course.getCourseCode()).append(&quot;' &quot;)</span>
+<span class="fc" id="L404">					.append(&quot; AND (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now()))&quot;)</span>
+<span class="fc" id="L405">					.append(&quot; AND  YEAR(lectureDate) = &quot;).append(year).append(&quot; ORDER BY lectureDate DESC, lectureTime DESC;&quot;);</span>
+
+<span class="fc" id="L407">			String query4 = sb.toString();</span>
+<span class="fc" id="L408">			System.out.println(query4);</span>
+
+<span class="pc bpc" id="L410" title="1 of 2 branches missed.">			if (stmt.execute(query4)) {</span>
+<span class="fc" id="L411">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="pc bpc" id="L414" title="1 of 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L415">				int lecID = rs.getInt(1);</span>
+<span class="nc" id="L416">				String date = rs.getString(2);</span>
+<span class="nc" id="L417">				String time = rs.getString(3);</span>
+<span class="nc" id="L418">				ArrayList&lt;String&gt; dateTime = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L419">				dateTime.add(date);</span>
+<span class="nc" id="L420">				dateTime.add(time);</span>
+
+<span class="nc" id="L422">				completedLecturesIDDate.put(lecID, dateTime);</span>
+<span class="nc" id="L423">				completedLectureIDs.add(lecID);</span>
+<span class="nc" id="L424">			}</span>
+
+<span class="fc" id="L426">			course.setCompletedLectureIDs(completedLectureIDs);</span>
+			;
+<span class="fc" id="L428">			course.setCompletedLecturesIDDate(completedLecturesIDDate);</span>
+
+<span class="nc" id="L430">		} catch (Exception e) {</span>
+<span class="nc" id="L431">			System.out.println(&quot;error in helper function DBC.setLastTwoCompletedLecturesForCourse:&quot; + e.getMessage());</span>
+<span class="fc" id="L432">		}</span>
+
+<span class="fc" id="L434">	}</span>
+
+	private void setLectureIDsForCourse(Course course) {
+		// This retrieves a list of lectureIDs for the course and sets the
+		// results in the course object
+
+		try {
+<span class="fc" id="L441">			ArrayList&lt;Integer&gt; lectures = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L443">			String query3 = &quot;SELECT lectureID FROM Lecture WHERE courseCode = '&quot; + course.getCourseCode() + &quot;';&quot;;</span>
+<span class="pc bpc" id="L444" title="1 of 2 branches missed.">			if (stmt.execute(query3)) {</span>
+<span class="fc" id="L445">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc bfc" id="L448" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L449">				lectures.add(rs.getInt(1));</span>
+			}
+
+<span class="fc" id="L452">			course.setLectureIDs(lectures);</span>
+
+<span class="nc" id="L454">		} catch (Exception e) {</span>
+<span class="nc" id="L455">			System.out.println(&quot;error in helper function DBC.setLectureIDsForCourse:&quot; + e.getMessage());</span>
+<span class="fc" id="L456">		}</span>
+
+<span class="fc" id="L458">	}</span>
+
+	private void setProfessorIDsForCourse(Course course) {
+		// This retrieves a list of all the professorIDs for this course and
+		// sets result in course object
+<span class="fc" id="L463">		ArrayList&lt;String&gt; professor = new ArrayList&lt;&gt;();</span>
+
+		try {
+<span class="fc" id="L466">			String query2 = &quot;SELECT professorUsername FROM CourseProfessor WHERE courseCode = '&quot;</span>
+<span class="fc" id="L467">					+ course.getCourseCode() + &quot;';&quot;;</span>
+<span class="pc bpc" id="L468" title="1 of 2 branches missed.">			if (stmt.execute(query2)) {</span>
+<span class="fc" id="L469">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc bfc" id="L472" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L473">				professor.add(rs.getString(1));</span>
+			}
+
+<span class="nc" id="L476">		} catch (Exception e) {</span>
+<span class="nc" id="L477">			System.out.println(&quot;error in helper function DBC.setProfessorIDsForCourse:&quot; + e.getMessage());</span>
+<span class="fc" id="L478">		}</span>
+
+<span class="fc" id="L480">		course.setProfessorUsernames(professor);</span>
+
+<span class="fc" id="L482">	}</span>
+
+	private void setCourseNameLecHoursAndSemester(Course course) {
+		// This sets courseName, location and number of lecture hours for this
+		// specific course and sets result in course object.
+<span class="fc" id="L487">		String query = &quot;SELECT courseName, lectureHours, taughtInSpring, taughtInAutumn FROM Course WHERE courseCode = &quot; + &quot;'&quot;</span>
+<span class="fc" id="L488">				+ course.getCourseCode() + &quot;';&quot;;</span>
+
+		try {
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L492">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc bfc" id="L495" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L496">				course.setCourseName(rs.getString(1));</span>
+<span class="fc" id="L497">				course.setNumLectureHours(rs.getInt(2));</span>
+<span class="pc bpc" id="L498" title="1 of 2 branches missed.">				if(rs.getInt(3) == 1){</span>
+<span class="fc" id="L499">					course.setTaughtInSpring(true);</span>
+<span class="nc" id="L500">				}else course.setTaughtInSpring(false);</span>
+<span class="pc bpc" id="L501" title="1 of 2 branches missed.">				if(rs.getInt(4) == 1){</span>
+<span class="fc" id="L502">					course.setTaughtInAutumn(true);</span>
+<span class="nc" id="L503">				}else course.setTaughtInAutumn(false);</span>
+				
+			}
+<span class="nc" id="L506">		} catch (Exception e) {</span>
+<span class="nc" id="L507">			System.out.println(&quot;error in helper function DBC.setCourseNameLecHoursAndSemester:&quot; + e.getMessage());</span>
+<span class="fc" id="L508">		}</span>
+
+<span class="fc" id="L510">	}</span>
+
+	// Lecture info
+
+	public void loadLectureInfo(Lecture lecture) {
+<span class="fc" id="L515">		connect();</span>
+
+		// date format: &quot;YYYY-MM-DD&quot;
+		// time format: &quot;hh:mm:ss&quot;
+		// dateTime format: &quot;YYYY-MM-DD#hh:mm:ss&quot;
+
+<span class="fc" id="L521">		String courseCode = null;</span>
+		
+		try {
+<span class="fc" id="L524">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L526">			String query = &quot;SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = &quot;</span>
+<span class="fc" id="L527">					+ lecture.getLectureID() + &quot;;&quot;;</span>
+			// System.out.println(query);
+<span class="pc bpc" id="L529" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L530">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L533">			rs.next();</span>
+<span class="fc" id="L534">			String date = rs.getString(1);</span>
+<span class="fc" id="L535">			String time = rs.getString(2);</span>
+<span class="fc" id="L536">			ArrayList&lt;String&gt; dateTime = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L537">			dateTime.add(date);</span>
+<span class="fc" id="L538">			dateTime.add(time);</span>
+
+<span class="fc" id="L540">			lecture.setLectureDateAndTime(dateTime);</span>
+<span class="fc" id="L541">			courseCode = rs.getString(3);</span>
+<span class="fc" id="L542">			lecture.setCourseCode(courseCode);</span>
+<span class="fc" id="L543">			lecture.setProfessor(rs.getString(4));</span>
+
+<span class="nc" id="L545">		} catch (Exception e) {</span>
+<span class="nc" id="L546">			System.out.println(&quot;SQLException loadLectureInfo: &quot; + e.getMessage());</span>
+<span class="fc" id="L547">		}</span>
+
+		// hjelpemetode tar seg av å hente og legge til evaluations:
+<span class="fc" id="L550">		setEvaluationsForLecture(lecture, courseCode);</span>
+
+<span class="fc" id="L552">		close();</span>
+
+<span class="fc" id="L554">	}</span>
+
+	private void setEvaluationsForLecture(Lecture lecture, String courseCode) {
+
+<span class="fc" id="L558">		Course course = new Course(courseCode);</span>
+<span class="fc" id="L559">		ArrayList&lt;String&gt; ratingValues = course.getRatingValues();</span>
+		
+<span class="fc" id="L561">		ArrayList&lt;Evaluation&gt; evaluations = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L562">		ArrayList&lt;Evaluation&gt; Evaluations1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L563">		ArrayList&lt;Evaluation&gt; Evaluations2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L564">		ArrayList&lt;Evaluation&gt; Evaluations3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L565">		ArrayList&lt;Evaluation&gt; Evaluations4 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L566">		ArrayList&lt;Evaluation&gt; Evaluations5 = new ArrayList&lt;&gt;();</span>
+
+		try {
+
+<span class="fc" id="L570">			String query = &quot;select rating from Evaluation where lectureID = &quot;</span>
+<span class="fc" id="L571">					+ lecture.getLectureID() + &quot;;&quot;;</span>
+<span class="pc bpc" id="L572" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L573">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L576">			rs.next();</span>
+			
+<span class="nc" id="L578">			String rating = rs.getString(1);</span>
+
+
+<span class="nc bnc" id="L581" title="All 2 branches missed.">			if (!ratingValues.contains(rating)){ </span>
+
+				// checks if the ratingsValues are different from the course's current rating values 
+<span class="nc" id="L584">				ratingValues = getStringArrayNC(&quot;select DISTINCT rating from Evaluation where lectureID =&quot; + lecture.getLectureID() + &quot; ;&quot;);</span>
+<span class="nc" id="L585">				System.out.println(ratingValues);</span>
+<span class="nc" id="L586">				System.out.println(ratingValues.size());</span>
+				
+				// size of ratingValues must be 5
+<span class="nc bnc" id="L589" title="All 2 branches missed.">				if(ratingValues.size() &lt; 5){</span>
+<span class="nc" id="L590">					System.out.println(&quot;BOLLELLE&quot;);</span>
+<span class="nc" id="L591">					int i = 1;</span>
+					
+<span class="nc bnc" id="L593" title="All 2 branches missed.">					while(ratingValues.size() != 5){</span>
+<span class="nc" id="L594">						ratingValues.add(&quot;nix&quot; + i);</span>
+<span class="nc" id="L595">						i++;</span>
+					}
+				}
+				
+<span class="nc bnc" id="L599" title="All 2 branches missed.">				if(ratingValues.size() &gt; 5){</span>
+<span class="nc" id="L600">					System.out.println(&quot;hello&quot;);</span>
+<span class="nc" id="L601">					ratingValues = 	new ArrayList&lt;&gt;(ratingValues.subList(0, 5));</span>
+				}
+				}
+
+<span class="nc" id="L605">			query = &quot;select studentUsername, rating, studentComment from Evaluation where lectureID = &quot;</span>
+<span class="nc" id="L606">					+ lecture.getLectureID() + &quot;;&quot;;</span>
+<span class="nc bnc" id="L607" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L608">				rs = stmt.getResultSet();</span>
+			}
+			
+<span class="nc bnc" id="L611" title="All 2 branches missed.">			while (rs.next()) {</span>
+
+<span class="nc" id="L613">				String studentUsername = rs.getString(1);</span>
+<span class="nc" id="L614">				rating = rs.getString(2);</span>
+<span class="nc" id="L615">				String studentComment = rs.getString(3);</span>
+<span class="nc" id="L616">				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);</span>
+<span class="nc" id="L617">				evaluations.add(eval);</span>
+				
+<span class="nc bnc" id="L619" title="All 2 branches missed.">				if(rating.equals(ratingValues.get(0))){</span>
+<span class="nc" id="L620">					Evaluations1.add(eval);</span>
+<span class="nc bnc" id="L621" title="All 2 branches missed.">				}if(rating.equals(ratingValues.get(1))){</span>
+<span class="nc" id="L622">					Evaluations2.add(eval);</span>
+<span class="nc bnc" id="L623" title="All 2 branches missed.">				}if(rating.equals(ratingValues.get(2))){</span>
+<span class="nc" id="L624">					Evaluations3.add(eval);</span>
+<span class="nc bnc" id="L625" title="All 2 branches missed.">				}if(rating.equals(ratingValues.get(3))){</span>
+<span class="nc" id="L626">					Evaluations4.add(eval);</span>
+<span class="nc bnc" id="L627" title="All 2 branches missed.">				}if(rating.equals(ratingValues.get(4))){</span>
+<span class="nc" id="L628">					Evaluations5.add(eval);</span>
+				}
+				
+
+<span class="nc" id="L632">			}</span>
+
+<span class="fc" id="L634">		} catch (Exception e) {</span>
+<span class="fc" id="L635">			System.out.println(&quot;SQLException setEvaluationsForLecture: &quot; + e.getMessage());</span>
+<span class="nc" id="L636">		}</span>
+		
+				
+<span class="fc" id="L639">				lecture.setEvaluations(evaluations);</span>
+<span class="fc" id="L640">				lecture.setEvaluationsRating1(Evaluations1);</span>
+<span class="fc" id="L641">				lecture.setEvaluationsRating2(Evaluations2);</span>
+<span class="fc" id="L642">				lecture.setEvaluationsRating3(Evaluations3);</span>
+<span class="fc" id="L643">				lecture.setEvaluationsRating4(Evaluations4);</span>
+<span class="fc" id="L644">				lecture.setEvaluationsRating5(Evaluations5);</span>
+<span class="fc" id="L645">				lecture.setRatingValues(ratingValues);</span>
+
+<span class="fc" id="L647">	}</span>
+
+	public void insertLecture(String date, String time, String courseCode, String professorUsername) throws SQLException {
+		// Date format: &quot;YYYY-MM-DD&quot;
+		// Time format: &quot;HH:MM:SS&quot;
+<span class="fc" id="L652">		connect();</span>
+
+
+<span class="fc" id="L655">			String query = buildLectureQuery(date, time, courseCode, professorUsername);</span>
+			// System.out.println(query);
+
+<span class="fc" id="L658">			stmt = conn.createStatement();</span>
+<span class="fc" id="L659">			stmt.executeUpdate(query);</span>
+
+
+<span class="fc" id="L662">		close();</span>
+<span class="fc" id="L663">	}</span>
+
+	// Forutsetter at det kun er én lecture i
+	// et fag per dag per tidspunkt. Brukes midlertidig til testing
+	public int getLectureID(ArrayList&lt;String&gt; dateTime, String courseCode) {
+<span class="fc" id="L668">		connect();</span>
+<span class="fc" id="L669">		int id = -1;</span>
+		try {
+<span class="fc" id="L671">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L673">			String date = dateTime.get(0);</span>
+<span class="fc" id="L674">			String time = dateTime.get(1);</span>
+<span class="fc" id="L675">			String query = &quot;SELECT lectureID FROM Lecture WHERE courseCode = '&quot; + courseCode + &quot;' and lectureDate='&quot;</span>
+					+ date + &quot;' and lectureTime = '&quot; + time + &quot;';&quot;;
+<span class="fc" id="L677">			System.out.println(query);</span>
+<span class="pc bpc" id="L678" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L679">				rs = stmt.getResultSet();</span>
+			}
+<span class="fc" id="L681">			rs.next();</span>
+<span class="fc" id="L682">			id = rs.getInt(1);</span>
+
+<span class="nc" id="L684">		} catch (Exception e) {</span>
+<span class="nc" id="L685">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+
+		} finally {
+<span class="pc" id="L688">			close();</span>
+<span class="pc" id="L689">		}</span>
+
+<span class="fc" id="L691">		return id;</span>
+	}
+
+	public void deleteLecture(int lectureID) {
+<span class="nc" id="L695">		connect();</span>
+		try {
+
+<span class="nc" id="L698">			String query = &quot;DELETE FROM Lecture WHERE lectureID='&quot; + lectureID + &quot;'&quot;;</span>
+
+<span class="nc" id="L700">			stmt = conn.createStatement();</span>
+<span class="nc" id="L701">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L703">		} catch (Exception e) {</span>
+<span class="nc" id="L704">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L705">		}</span>
+<span class="nc" id="L706">		close();</span>
+<span class="nc" id="L707">	}</span>
+
+	public boolean lectureExists(int lectureID) {
+<span class="fc" id="L710">		connect();</span>
+<span class="fc" id="L711">		boolean hasNext = false;</span>
+		try {
+<span class="fc" id="L713">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L715">			String query = &quot;SELECT lectureID FROM Lecture WHERE lectureID = &quot; + lectureID + &quot;;&quot;;</span>
+
+<span class="pc bpc" id="L717" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L718">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L721">			hasNext = rs.next();</span>
+
+<span class="nc" id="L723">		} catch (Exception e) {</span>
+<span class="nc" id="L724">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L725">		}</span>
+<span class="fc" id="L726">		close();</span>
+<span class="fc" id="L727">		return hasNext;</span>
+	}
+
+	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername) {
+
+<span class="fc" id="L732">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L733">		sb.append(&quot;INSERT INTO Lecture (lectureDate, lectureTime, Lecture.courseCode, professorUsername) &quot;)</span>
+<span class="fc" id="L734">				.append(&quot;SELECT '&quot;).append(date).append(&quot;','&quot;).append(time)</span>
+<span class="fc" id="L735">				.append(&quot;',Course.courseCode, Professor.professorUsername &quot;).append(&quot;FROM Course, Professor &quot;)</span>
+<span class="fc" id="L736">				.append(&quot;WHERE courseCode = '&quot;).append(courseCode).append(&quot;' AND professorUsername =  '&quot;)</span>
+<span class="fc" id="L737">				.append(professorUsername).append(&quot;';&quot;);</span>
+
+<span class="fc" id="L739">		String query = sb.toString();</span>
+//		System.out.println(query);
+<span class="fc" id="L741">		return query;</span>
+
+	}
+
+	// Professor info
+	public void loadProfessorInfo(Professor prof) {
+		// Must retrieve and update the following info from DB:
+		// courseIDs = list of all courses that professor teaches
+		// courseIDNames = hashmap that maps courseIDs to corresponding names
+
+<span class="fc" id="L751">		String username = prof.getUsername();</span>
+<span class="fc" id="L752">		ArrayList&lt;String&gt; courseIDs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L753">		HashMap&lt;String, String&gt; courseIDNames = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L755">		connect();</span>
+		try {
+<span class="fc" id="L757">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L759">			String query = &quot;SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '&quot;</span>
+					+ username + &quot;';&quot;;
+			// System.out.println(query);
+<span class="pc bpc" id="L762" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L763">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="pc bpc" id="L766" title="1 of 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L767">				String courseCode = rs.getString(1);</span>
+<span class="nc" id="L768">				String courseName = rs.getString(2);</span>
+<span class="nc" id="L769">				courseIDs.add(courseCode);</span>
+<span class="nc" id="L770">				courseIDNames.put(courseCode, courseName);</span>
+<span class="nc" id="L771">			}</span>
+
+<span class="nc" id="L773">		} catch (Exception e) {</span>
+<span class="nc" id="L774">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L775">		}</span>
+
+<span class="fc" id="L777">		prof.setCourseIDs(courseIDs);</span>
+<span class="fc" id="L778">		prof.setCourseIDNames(courseIDNames);</span>
+
+<span class="fc" id="L780">		close();</span>
+
+<span class="fc" id="L782">	}</span>
+
+	public ArrayList&lt;String&gt; getCoursesTaughtByProfessor(String professorUsername) {
+<span class="nc" id="L785">		ArrayList&lt;String&gt; courses = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L787">		connect();</span>
+		try {
+<span class="nc" id="L789">			stmt = conn.createStatement();</span>
+
+<span class="nc" id="L791">			String query = &quot;SELECT courseCode FROM CourseProfessor WHERE professorUsername = '&quot; + professorUsername</span>
+					+ &quot;';&quot;;
+<span class="nc bnc" id="L793" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L794">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc bnc" id="L797" title="All 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L798">				courses.add(rs.getString(1));</span>
+			}
+
+<span class="nc" id="L801">		} catch (Exception e) {</span>
+<span class="nc" id="L802">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L803">		}</span>
+<span class="nc" id="L804">		close();</span>
+		// System.out.println(courses);
+<span class="nc" id="L806">		return courses;</span>
+	}
+
+	public void insertProfessor(String professorUsername, String password) {
+		// inserts a new professor into database
+<span class="fc" id="L811">		connect();</span>
+		try {
+			
+			
+<span class="fc" id="L815">			String query = &quot;INSERT INTO Professor VALUES(?,?)&quot;;</span>
+			
+<span class="fc" id="L817">			prepStmt = conn.prepareStatement(query);</span>
+<span class="fc" id="L818">			prepStmt.setString(1, professorUsername);</span>
+<span class="fc" id="L819">			prepStmt.setString(2, password);</span>
+<span class="fc" id="L820">			int i = prepStmt.executeUpdate();</span>
+<span class="fc" id="L821">			System.out.println(i+&quot; records inserted&quot;);  </span>
+
+
+<span class="nc" id="L824">		} catch (Exception e) {</span>
+<span class="nc" id="L825">			System.out.println(&quot;SQLException in InsertProfessor: &quot; + e.getMessage());</span>
+<span class="fc" id="L826">		}</span>
+<span class="fc" id="L827">		close();</span>
+<span class="fc" id="L828">	}</span>
+
+	public void insertProfessorCon(String professorUsername, String password) {
+		// inserts a new professor into database
+		try {
+			
+			
+<span class="nc" id="L835">			String query = &quot;INSERT INTO Professor VALUES(?,?)&quot;;</span>
+			
+<span class="nc" id="L837">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L838">			prepStmt.setString(1, professorUsername);</span>
+<span class="nc" id="L839">			prepStmt.setString(2, password);</span>
+<span class="nc" id="L840">			int i = prepStmt.executeUpdate();</span>
+<span class="nc" id="L841">			System.out.println(i+&quot; records inserted&quot;);  </span>
+
+
+<span class="nc" id="L844">		} catch (Exception e) {</span>
+<span class="nc" id="L845">			System.out.println(&quot;SQLException in InsertProfessor: &quot; + e.getMessage());</span>
+<span class="nc" id="L846">		}</span>
+<span class="nc" id="L847">	}</span>
+	
+	public boolean professorExists(String professorUsername) {
+<span class="fc" id="L850">		boolean hasNext = false;</span>
+
+<span class="fc" id="L852">		connect();</span>
+		try {
+<span class="fc" id="L854">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L856">			String query = &quot;SELECT professorUsername FROM Professor WHERE professorUsername = '&quot; + professorUsername</span>
+					+ &quot;';&quot;;
+
+<span class="pc bpc" id="L859" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L860">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L863">			hasNext = rs.next();</span>
+
+<span class="nc" id="L865">		} catch (Exception e) {</span>
+<span class="nc" id="L866">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L867">		}</span>
+<span class="fc" id="L868">		close();</span>
+<span class="fc" id="L869">		return hasNext;</span>
+	}
+
+	public ArrayList&lt;Integer&gt; getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername) {
+		// returns lectureIDs for all lectures given by this professor that have
+		// already passed in specified course
+		// Order is with the newest lecture first
+
+<span class="nc" id="L877">		ArrayList&lt;Integer&gt; lectures = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L879">		connect();</span>
+		try {
+<span class="nc" id="L881">			stmt = conn.createStatement();</span>
+
+<span class="nc" id="L883">			StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L884">			sb.append(&quot;SELECT * FROM Lecture WHERE courseCode = '&quot;).append(courseCode).append(&quot;' &quot;)</span>
+<span class="nc" id="L885">					.append(&quot;AND professorUsername = '&quot;).append(professorUsername).append(&quot;' &quot;)</span>
+<span class="nc" id="L886">					.append(&quot; AND (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now())) ORDER BY lectureDate DESC, lectureTime DESC;&quot;);</span>
+
+<span class="nc" id="L888">			String query = sb.toString();</span>
+<span class="nc bnc" id="L889" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L890">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc bnc" id="L893" title="All 2 branches missed.">			while (rs.next()) {</span>
+<span class="nc" id="L894">				lectures.add(rs.getInt(1));</span>
+			}
+
+<span class="nc" id="L897">		} catch (Exception e) {</span>
+<span class="nc" id="L898">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L899">		}</span>
+<span class="nc" id="L900">		close();</span>
+
+		// System.out.println(courses);
+<span class="nc" id="L903">		return lectures;</span>
+
+	}
+
+	public void deleteProfessor(String username) {
+<span class="fc" id="L908">		connect();</span>
+		try {
+
+<span class="fc" id="L911">			String query = &quot;DELETE FROM Professor WHERE professorUsername='&quot; + username + &quot;'&quot;;</span>
+
+<span class="fc" id="L913">			stmt = conn.createStatement();</span>
+<span class="fc" id="L914">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L916">		} catch (Exception e) {</span>
+<span class="nc" id="L917">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L918">		}</span>
+<span class="fc" id="L919">		close();</span>
+<span class="fc" id="L920">	}</span>
+
+	// Student info
+
+	public void loadStudentInfo(Student student) {
+		// Need to get following info about student and update Student Object
+		// accordingly:
+
+		// String studyProgram;
+		// ArrayList&lt;String&gt; courseIDs;
+		// HashMap&lt;int, String&gt; courseIDNames;
+
+<span class="fc" id="L932">		connect();</span>
+		try {
+
+			// First students studyProgram is retrieved from DB
+<span class="fc" id="L936">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L938">			String query = &quot;SELECT studyProgramCode FROM Student WHERE studentUsername = '&quot; + student.getUsername() + &quot;';&quot;;</span>
+<span class="pc bpc" id="L939" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L940">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L943">			rs.next();</span>
+<span class="fc" id="L944">			student.setStudyProgram(rs.getString(1));</span>
+
+			// next find the courseCodes and corresponding courseNames for this
+			// student
+<span class="fc" id="L948">			String query2 = &quot;select c.courseCode, courseName FROM Course c JOIN CourseStudent cs ON c.courseCode = cs.courseCode WHERE studentUsername = '&quot;</span>
+<span class="fc" id="L949">					+ student.getUsername() + &quot;';&quot;;</span>
+
+<span class="pc bpc" id="L951" title="1 of 2 branches missed.">			if (stmt.execute(query2)) {</span>
+<span class="fc" id="L952">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L955">			String courseID = null;</span>
+<span class="fc" id="L956">			String courseName = null;</span>
+<span class="fc" id="L957">			ArrayList&lt;String&gt; courseIDs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L958">			HashMap&lt;String, String&gt; courseIDNames = new HashMap&lt;&gt;();</span>
+
+<span class="fc bfc" id="L960" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L961">				courseID = rs.getString(1);</span>
+<span class="fc" id="L962">				courseName = rs.getString(2);</span>
+<span class="fc" id="L963">				courseIDs.add(courseID);</span>
+<span class="fc" id="L964">				courseIDNames.put(courseID, courseName);</span>
+			}
+
+<span class="fc" id="L967">			student.setCourseIDs(courseIDs);</span>
+<span class="fc" id="L968">			student.setCourseIDNames(courseIDNames);</span>
+
+<span class="nc" id="L970">		} catch (Exception e) {</span>
+<span class="nc" id="L971">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L972">		}</span>
+<span class="fc" id="L973">		close();</span>
+
+<span class="fc" id="L975">	}</span>
+
+	public void insertStudent(String studentUsername, String studyProgramCode) {
+
+<span class="fc" id="L979">		connect();</span>
+		try {
+			
+<span class="fc" id="L982">			String query = &quot;INSERT INTO Student VALUES(?,?)&quot;;</span>
+			
+<span class="fc" id="L984">			prepStmt = conn.prepareStatement(query);</span>
+<span class="fc" id="L985">			prepStmt.setString(1, studentUsername);</span>
+<span class="fc" id="L986">			prepStmt.setString(2, studyProgramCode);</span>
+<span class="fc" id="L987">			int i = prepStmt.executeUpdate();</span>
+<span class="fc" id="L988">			System.out.println(i+&quot; records inserted&quot;);  </span>
+
+//			StringBuilder sb = new StringBuilder();
+//			sb.append(&quot;INSERT INTO Student VALUES('&quot;).append(studentUsername).append(&quot;','&quot;)
+//					.append(studyProgramCode).append(&quot;');&quot;);
+//
+//			String query = sb.toString();
+//			// System.out.println(query);
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
+
+<span class="nc" id="L1000">		} catch (Exception e) {</span>
+<span class="nc" id="L1001">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1002">		}</span>
+<span class="fc" id="L1003">		close();</span>
+<span class="fc" id="L1004">	}</span>
+
+	public void deleteStudent(String studentUsername) {
+<span class="fc" id="L1007">		connect();</span>
+		try {
+
+<span class="fc" id="L1010">			String query = &quot;DELETE FROM Student WHERE studentUsername='&quot; + studentUsername + &quot;'&quot;;</span>
+
+<span class="fc" id="L1012">			stmt = conn.createStatement();</span>
+<span class="fc" id="L1013">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L1015">		} catch (Exception e) {</span>
+<span class="nc" id="L1016">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1017">		}</span>
+<span class="fc" id="L1018">		close();</span>
+<span class="fc" id="L1019">	}</span>
+
+	public boolean studentExists(String studentUsername) {
+<span class="fc" id="L1022">		boolean hasNext = false;</span>
+<span class="fc" id="L1023">		connect();</span>
+		try {
+<span class="fc" id="L1025">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L1027">			String query = &quot;SELECT studentUsername FROM Student WHERE studentUsername = '&quot; + studentUsername + &quot;';&quot;;</span>
+<span class="pc bpc" id="L1028" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L1029">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L1032">			hasNext = rs.next();</span>
+
+<span class="nc" id="L1034">		} catch (Exception e) {</span>
+<span class="nc" id="L1035">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1036">		}</span>
+<span class="fc" id="L1037">		close();</span>
+<span class="fc" id="L1038">		return hasNext;</span>
+	}
+
+	public boolean studentHasEvaluatedLecture(String studentUsername, int lecID) {
+<span class="nc" id="L1042">		boolean hasNext = false;</span>
+<span class="nc" id="L1043">		connect();</span>
+		try {
+<span class="nc" id="L1045">			stmt = conn.createStatement();</span>
+
+<span class="nc" id="L1047">			String query = &quot;SELECT * FROM Evaluation WHERE studentUsername = '&quot; + studentUsername + &quot;' AND lectureID =&quot;</span>
+					+ lecID + &quot;;&quot;;
+
+<span class="nc bnc" id="L1050" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L1051">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="nc" id="L1054">			hasNext = rs.next();</span>
+
+<span class="nc" id="L1056">		} catch (Exception e) {</span>
+<span class="nc" id="L1057">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L1058">		}</span>
+<span class="nc" id="L1059">		close();</span>
+<span class="nc" id="L1060">		return hasNext;</span>
+
+	}
+
+	// CourseProfessor info
+	public void insertCourseProfessor(String professorUsername, String courseCode) {
+<span class="fc" id="L1066">		connect();</span>
+		try {
+
+<span class="fc" id="L1069">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L1070">			sb.append(&quot;Insert into CourseProfessor (professorUsername, courseCode)&quot;)</span>
+<span class="fc" id="L1071">					.append(&quot; SELECT Professor.professorUsername, Course.courseCode&quot;).append(&quot; FROM Course, Professor&quot;)</span>
+<span class="fc" id="L1072">					.append(&quot; WHERE courseCode = '&quot;).append(courseCode).append(&quot;'&quot;).append(&quot;AND professorUsername = '&quot;)</span>
+<span class="fc" id="L1073">					.append(professorUsername).append(&quot;'&quot;);</span>
+
+<span class="fc" id="L1075">			String query = sb.toString();</span>
+			// System.out.println(query);
+
+<span class="fc" id="L1078">			stmt = conn.createStatement();</span>
+<span class="fc" id="L1079">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L1081">		} catch (Exception e) {</span>
+<span class="nc" id="L1082">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1083">		}</span>
+<span class="fc" id="L1084">		close();</span>
+<span class="fc" id="L1085">	}</span>
+
+	public void insertCourseProfessorCon(String professorUsername, String courseCode) {
+		//already connected
+		try {
+
+<span class="nc" id="L1091">			StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L1092">			sb.append(&quot;Insert into CourseProfessor (professorUsername, courseCode)&quot;)</span>
+<span class="nc" id="L1093">					.append(&quot; SELECT Professor.professorUsername, Course.courseCode&quot;).append(&quot; FROM Course, Professor&quot;)</span>
+<span class="nc" id="L1094">					.append(&quot; WHERE courseCode = '&quot;).append(courseCode).append(&quot;'&quot;).append(&quot;AND professorUsername = '&quot;)</span>
+<span class="nc" id="L1095">					.append(professorUsername).append(&quot;'&quot;);</span>
+
+<span class="nc" id="L1097">			String query = sb.toString();</span>
+			// System.out.println(query);
+
+<span class="nc" id="L1100">			stmt = conn.createStatement();</span>
+<span class="nc" id="L1101">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L1103">		} catch (Exception e) {</span>
+<span class="nc" id="L1104">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L1105">		}</span>
+		
+<span class="nc" id="L1107">	}	</span>
+	
+	// CourseStudent info
+	public void insertCourseStudent(String studentUsername, String courseCode) {
+<span class="fc" id="L1111">		connect();</span>
+		try {
+
+<span class="fc" id="L1114">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L1115">			sb.append(&quot;Insert into CourseStudent (studentUsername, courseCode)&quot;)</span>
+<span class="fc" id="L1116">					.append(&quot; SELECT Student.studentUsername, Course.courseCode&quot;).append(&quot; FROM Course, Student&quot;)</span>
+<span class="fc" id="L1117">					.append(&quot; WHERE courseCode = '&quot;).append(courseCode).append(&quot;'&quot;).append(&quot;AND studentUsername = '&quot;)</span>
+<span class="fc" id="L1118">					.append(studentUsername).append(&quot;'&quot;);</span>
+
+<span class="fc" id="L1120">			String query = sb.toString();</span>
+			// System.out.println(query);
+
+<span class="fc" id="L1123">			stmt = conn.createStatement();</span>
+<span class="fc" id="L1124">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L1126">		} catch (Exception e) {</span>
+<span class="nc" id="L1127">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1128">		}</span>
+<span class="fc" id="L1129">		close();</span>
+<span class="fc" id="L1130">	}</span>
+
+	// Evaluation info
+	public void loadEvaluationInfo(Evaluation evaluation) {
+
+<span class="fc" id="L1135">		connect();</span>
+		try {
+<span class="fc" id="L1137">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L1139">			String query = &quot;SELECT rating, studentComment FROM Evaluation WHERE lectureID = &quot;</span>
+<span class="fc" id="L1140">					+ evaluation.getLectureid() + &quot; AND studentUsername ='&quot; + evaluation.getstudentUsername() + &quot;' ;&quot;;</span>
+			// System.out.println(query);
+<span class="pc bpc" id="L1142" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L1143">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L1146">			rs.next();</span>
+<span class="fc" id="L1147">			evaluation.setRating(rs.getString(1));</span>
+<span class="fc" id="L1148">			evaluation.setComment(rs.getString(2));</span>
+
+<span class="nc" id="L1150">		} catch (Exception e) {</span>
+<span class="nc" id="L1151">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1152">		}</span>
+<span class="fc" id="L1153">		close();</span>
+
+<span class="fc" id="L1155">	}</span>
+
+	public void overwriteEvaluation(String email, int lectureID, String rating, String comment) {
+<span class="fc" id="L1158">		connect();</span>
+
+		try {
+
+			// delete Evaluation for this student for this lecture
+<span class="fc" id="L1163">			StringBuilder sb1 = new StringBuilder();</span>
+<span class="fc" id="L1164">			sb1.append(&quot;DELETE FROM Evaluation WHERE studentUsername = '&quot;).append(email).append(&quot;' &quot;)</span>
+<span class="fc" id="L1165">					.append(&quot;AND lectureID =&quot;).append(lectureID).append(&quot;;&quot;);</span>
+
+<span class="fc" id="L1167">			String query1 = sb1.toString();</span>
+<span class="fc" id="L1168">			stmt = conn.createStatement();</span>
+<span class="fc" id="L1169">			stmt.executeUpdate(query1);</span>
+
+			// insert new Evaluation
+<span class="fc" id="L1172">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L1173">			sb.append(&quot;Insert into Evaluation (studentUsername, lectureID, rating, studentComment)&quot;)</span>
+<span class="fc" id="L1174">					.append(&quot; SELECT Student.studentUsername, Lecture.lectureID, '&quot;).append(rating).append(&quot;', '&quot;)</span>
+<span class="fc" id="L1175">					.append(comment).append(&quot;'&quot;).append(&quot; FROM Student, Lecture&quot;).append(&quot; WHERE studentUsername = '&quot;)</span>
+<span class="fc" id="L1176">					.append(email).append(&quot;' AND lectureID = &quot;).append(lectureID).append(&quot;;&quot;);</span>
+
+<span class="fc" id="L1178">			String query2 = sb.toString();</span>
+			// System.out.println(query);
+
+<span class="fc" id="L1181">			stmt = conn.createStatement();</span>
+<span class="fc" id="L1182">			stmt.executeUpdate(query2);</span>
+
+<span class="nc" id="L1184">		} catch (Exception e) {</span>
+<span class="nc" id="L1185">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1186">		}</span>
+<span class="fc" id="L1187">		close();</span>
+
+<span class="fc" id="L1189">	}</span>
+
+	public void insertEvaluation(String studentUsername, int lectureID, String rating, String studentComment) {
+<span class="fc" id="L1192">		connect();</span>
+		try {
+			
+//			String query = &quot;Insert into Evaluation (studentUsername, lectureID, rating, studentComment) SELECT Student.studentUsername,&quot;
+//					+ &quot; Lecture.lectureID, (?,?) FROM Student, Lecture WHERE studentUsername = (?) &quot;
+//					+ &quot;AND lectureID = (?);&quot;;
+			
+			
+<span class="fc" id="L1200">			String query = &quot;Insert into Evaluation (studentUsername, lectureID, rating, studentComment) VALUES(?,?,?,?)&quot;;</span>
+
+<span class="fc" id="L1202">			prepStmt = conn.prepareStatement(query);</span>
+<span class="fc" id="L1203">			prepStmt.setString(1, studentUsername);</span>
+<span class="fc" id="L1204">			prepStmt.setInt(2, lectureID);</span>
+<span class="fc" id="L1205">			prepStmt.setString(3, rating);</span>
+<span class="fc" id="L1206">			prepStmt.setString(4, studentComment);</span>
+			
+<span class="fc" id="L1208">			int i = prepStmt.executeUpdate();</span>
+<span class="fc" id="L1209">			System.out.println(i + &quot; records inserted&quot;);</span>
+
+//			StringBuilder sb = new StringBuilder();
+//			sb.append(&quot;Insert into Evaluation (studentUsername, lectureID, rating, studentComment)&quot;)
+//					.append(&quot; SELECT Student.studentUsername, Lecture.lectureID, '&quot;).append(rating).append(&quot;', '&quot;)
+//					.append(studentComment).append(&quot;'&quot;).append(&quot; FROM Student, Lecture&quot;)
+//					.append(&quot; WHERE studentUsername = '&quot;).append(studentUsername).append(&quot;' AND lectureID = &quot;)
+//					.append(lectureID).append(&quot;;&quot;);
+//
+//			String query = sb.toString();
+//			System.out.println(query);
+//
+//			stmt = conn.createStatement();
+//			stmt.executeUpdate(query);
+
+<span class="nc" id="L1224">		} catch (Exception e) {</span>
+<span class="nc" id="L1225">			System.out.println(&quot;SQLException in insertEvaluation: &quot; + e.getMessage());</span>
+<span class="fc" id="L1226">		}</span>
+<span class="fc" id="L1227">		close();</span>
+<span class="fc" id="L1228">	}</span>
+
+	public boolean evaluationExists(int lectureid, String studentUsername) {
+<span class="fc" id="L1231">		boolean hasNext = false;</span>
+<span class="fc" id="L1232">		connect();</span>
+		try {
+<span class="fc" id="L1234">			stmt = conn.createStatement();</span>
+
+<span class="fc" id="L1236">			String query = &quot;SELECT lectureID FROM Evaluation WHERE lectureID = &quot; + lectureid + &quot; AND studentUsername ='&quot;</span>
+					+ studentUsername + &quot;' ;&quot;;
+
+<span class="pc bpc" id="L1239" title="1 of 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="fc" id="L1240">				rs = stmt.getResultSet();</span>
+			}
+
+<span class="fc" id="L1243">			hasNext = rs.next();</span>
+
+<span class="nc" id="L1245">		} catch (Exception e) {</span>
+<span class="nc" id="L1246">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L1247">		}</span>
+<span class="fc" id="L1248">		close();</span>
+<span class="fc" id="L1249">		return hasNext;</span>
+	}
+
+	// Main for testing
+	public static void main(String[] args) throws ParseException {
+<span class="nc" id="L1254">		DBController test = new DBController();</span>
+<span class="nc" id="L1255">		test.connect();</span>
+<span class="nc" id="L1256">		System.out.println(test.tableHasValue(&quot;CourseRatingValues&quot;, &quot;courseCode&quot;, &quot;TDT4140&quot;));</span>
+		
+		
+//		test.deleteCourseStudent(&quot;stud1&quot;, &quot;tdt4140&quot;);
+//		System.out.println(test.getCoursesStartingWith(&quot;pr&quot;, &quot;name&quot;));
+//		test.insertCourse(&quot;code&quot;, &quot;name&quot;, 4, 0, 1);
+//		test.insertStudent(&quot;c'); DROP TABLE Professor;&quot;, &quot;test&quot;);
+//		test.insertCourseStudent(&quot;karimj&quot;, &quot;tdt4145&quot;);
+
+//		test.insertProfessor(&quot;c'); DROP TABLE Professor;&quot;, &quot;testPas&quot;);
+//		test.overwriteEvaluation(&quot;stud21&quot;, 125, &quot;Too Slow!&quot;, &quot;This is easy&quot;);
+//		test.overwriteEvaluation(&quot;stud22&quot;, 125, &quot;Too Slow!&quot;, &quot;was fine but a bit slow&quot;);
+//		test.insertEvaluation(&quot;stud23&quot;, 125, &quot;Ok&quot;, &quot;c'); DROP TABLE Professor;&quot;);
+//		test.insertEvaluation(&quot;stud24&quot;, 125, &quot;Ok&quot;, &quot;hello&quot;);
+//		test.insertEvaluation(&quot;stud25&quot;, 125, &quot;Ok&quot;, &quot;I believe that I am a cat&quot;);
+//		test.insertEvaluation(&quot;stud26&quot;, 125, &quot;Ok&quot;, &quot;bunnys are so cute&quot;);
+//		test.insertEvaluation(&quot;stud27&quot;, 125, &quot;Ok&quot;, &quot;You are alright &quot;);
+//		test.insertEvaluation(&quot;stud28&quot;, 125, &quot;Ok&quot;, &quot;You are alright &quot;);
+		
+//		test.insertProfessor(&quot;prompeProf&quot;, Professor.hashPassword(&quot;mittPassord&quot;));
+
+		 
+		// test.getProfessorsForCoursse(&quot;tdt4140&quot;);
+		// test.getCoursestaughtByProfessor(&quot;pekkaa&quot;);
+		// test.getLectureHoursForCourse(&quot;tdt4140&quot;);
+		// test.getStartDate();
+//		 test.insertLecture(&quot;2017-02-22&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+//		 test.insertLecture(&quot;2017-02-23&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+//		 test.insertLecture(&quot;2017-02-24&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+//		 test.insertLecture(&quot;2017-02-25&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+//		 test.insertLecture(&quot;2017-02-26&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+//		 test.insertLecture(&quot;2017-02-28&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+		// test.insertCourseProfessor(&quot;sveinbra&quot;, &quot;tdt4145&quot;);
+		// test.insertStudent(&quot;negative&quot;,&quot;MTING&quot;);
+
+
+		// test.deleteStudent(&quot;bolle@stud.ntnu.no&quot;);
+
+		// test.insertCourseStudent(&quot;stud54@stud.ntnu.no &quot;, &quot;tdt4140&quot;);
+		// test.insertStudent(&quot;stud55&quot;, &quot;MLREAL&quot;);
+		
+//		 test.insertCourseStudent(&quot;stud5&quot;, &quot;tdt4140&quot;);
+		 
+
+		// System.out.println(test.getLastTwoCompletedLecturesForCourse(&quot;tdt4145&quot;));
+
+		// test.insertLecture(&quot;2016-09-03&quot;, &quot;08:00:00&quot;, &quot;tdt4140&quot;, &quot;pekkaa&quot;);
+		
+
+
+<span class="nc" id="L1306">	}</span>
+
+	public void setCourseRatingsOverTime(Course course) {
+		// must set: HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount1-5 in courseObject
+		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
+		
+<span class="nc" id="L1312">		HashMap&lt;Integer, Integer&gt; lecIDtoNumRatings = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L1314">		HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount1 = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L1315">		HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount2 = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L1316">		HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount3 = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L1317">		HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount4 = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L1318">		HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount5 = new HashMap&lt;&gt;();</span>
+
+								
+				try {
+							
+<span class="nc" id="L1323">					connect();</span>
+					
+<span class="nc" id="L1325">						stmt = conn.createStatement();</span>
+<span class="nc" id="L1326">						StringBuilder sb = new StringBuilder();</span>
+						
+<span class="nc" id="L1328">						sb.append(&quot;select e.rating, e.lectureID, count(*) As 'ratingCount' From Evaluation e JOIN Lecture l on e.lectureID = l.lectureID WHERE l.courseCode = '&quot;)</span>
+<span class="nc" id="L1329">						.append(course.getCourseCode()).append(&quot;' AND &quot;).append(SQLtimeConstraint(course))</span>
+<span class="nc" id="L1330">						.append(&quot; GROUP BY e.rating, e.lectureID ORDER BY e.lectureID;&quot;);</span>
+						
+						
+<span class="nc" id="L1333">						String query4 = sb.toString();			</span>
+<span class="nc" id="L1334">						System.out.println(query4);</span>
+						
+<span class="nc bnc" id="L1336" title="All 2 branches missed.">						if (stmt.execute(query4)) {</span>
+<span class="nc" id="L1337">							rs = stmt.getResultSet();</span>
+						}
+
+<span class="nc bnc" id="L1340" title="All 2 branches missed.">						while(rs.next()){</span>
+							
+<span class="nc" id="L1342">							String rating = rs.getString(1);</span>
+<span class="nc" id="L1343">							int lecID = rs.getInt(2);</span>
+<span class="nc" id="L1344">							int count = rs.getInt(3);</span>
+<span class="nc" id="L1345">							ArrayList&lt;String&gt; ratingValues = course.getRatingValues();</span>
+							
+<span class="nc bnc" id="L1347" title="All 2 branches missed.">							int numRatingsForLec = lecIDtoNumRatings.containsKey(lecID) ? lecIDtoNumRatings.get(lecID) : 0;</span>
+<span class="nc" id="L1348">							lecIDtoNumRatings.put(lecID, numRatingsForLec + count);</span>
+							
+<span class="nc bnc" id="L1350" title="All 2 branches missed.">							if(rating.equals(ratingValues.get(0))){</span>
+<span class="nc" id="L1351">								lecIDtoRatingCount1.put(lecID, count);</span>
+<span class="nc bnc" id="L1352" title="All 2 branches missed.">							}else if(rating.equals(ratingValues.get(1))) {</span>
+<span class="nc" id="L1353">								lecIDtoRatingCount2.put(lecID, count);</span>
+<span class="nc bnc" id="L1354" title="All 2 branches missed.">							}else if(rating.equals(ratingValues.get(2))) {</span>
+<span class="nc" id="L1355">								lecIDtoRatingCount3.put(lecID, count);</span>
+<span class="nc bnc" id="L1356" title="All 2 branches missed.">							}else if(rating.equals(ratingValues.get(3))) {</span>
+<span class="nc" id="L1357">								lecIDtoRatingCount4.put(lecID, count);</span>
+<span class="nc bnc" id="L1358" title="All 2 branches missed.">							}else if(rating.equals(ratingValues.get(4))) {</span>
+<span class="nc" id="L1359">								lecIDtoRatingCount5.put(lecID, count);</span>
+							}
+
+<span class="nc" id="L1362">						}</span>
+						
+<span class="nc" id="L1364">						course.setLecIDtoNumRatings(lecIDtoNumRatings);</span>
+<span class="nc" id="L1365">						course.setLecIDtoRatingCount1(lecIDtoRatingCount1);</span>
+<span class="nc" id="L1366">						course.setLecIDtoRatingCount2(lecIDtoRatingCount2);</span>
+<span class="nc" id="L1367">						course.setLecIDtoRatingCount3(lecIDtoRatingCount3);</span>
+<span class="nc" id="L1368">						course.setLecIDtoRatingCount4(lecIDtoRatingCount4);</span>
+<span class="nc" id="L1369">						course.setLecIDtoRatingCount5(lecIDtoRatingCount5);</span>
+						
+<span class="nc" id="L1371">					} catch (SQLException e) {</span>
+<span class="nc" id="L1372">						e.printStackTrace();</span>
+<span class="nc" id="L1373">					}</span>
+						
+<span class="nc" id="L1375">					close();		</span>
+		
+<span class="nc" id="L1377">	}</span>
+
+	private String SQLtimeConstraint(Course course) {
+		// generates appropriate sql query string for timeconstraint
+<span class="nc" id="L1381">		String timeConstraint = null;</span>
+<span class="nc" id="L1382">		char season = course.getSemester().charAt(0);</span>
+<span class="nc" id="L1383">		String year = course.getSemester().substring(1);</span>
+
+<span class="nc bnc" id="L1385" title="All 2 branches missed.">		if (course.isCurrentsemester()) {</span>
+<span class="nc" id="L1386">			timeConstraint = &quot;(lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now()))&quot;</span>
+					+ &quot;AND  YEAR(lectureDate) = &quot; + year;
+		} else {
+<span class="nc bnc" id="L1389" title="All 2 branches missed.">			if (season == 'V') {</span>
+<span class="nc" id="L1390">				timeConstraint = &quot; (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now())) AND (MONTH(lectureDate) &lt; 7) AND YEAR(lectureDate) = &quot;</span>
+						+ year;
+
+<span class="nc bnc" id="L1393" title="All 2 branches missed.">			} else if (season == 'H') {</span>
+<span class="nc" id="L1394">				timeConstraint = &quot; (lectureDate &lt; now() OR (lectureDate = now()  AND lectureTime &lt; now())) AND (MONTH(lectureDate) &gt;= 7) AND YEAR(lectureDate) = &quot;</span>
+						+ year;
+			}
+
+		}
+
+<span class="nc" id="L1400">		System.out.println(timeConstraint);</span>
+<span class="nc" id="L1401">		return timeConstraint;</span>
+	}
+
+	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
+		
+		try {
+<span class="nc" id="L1407">			connect();</span>
+			
+<span class="nc" id="L1409">			stmt = conn.createStatement();</span>
+						
+<span class="nc" id="L1411">			String query = &quot;select * from Professor where professorUsername = '&quot; + professorUsername +&quot;' and professorPassword = '&quot; + encryptedPassword +&quot;';&quot;;			</span>
+//			System.out.println(query);
+			
+<span class="nc bnc" id="L1414" title="All 2 branches missed.">			if (stmt.execute(query)) {</span>
+<span class="nc" id="L1415">				rs = stmt.getResultSet();</span>
+			}
+<span class="nc" id="L1417">		} catch (Exception e) {</span>
+<span class="nc" id="L1418">			System.out.println(&quot;error in DBC.checkProfessorPassword: &quot; + e.getMessage());</span>
+<span class="nc" id="L1419">		}</span>
+		
+<span class="nc" id="L1421">		return rs.next();</span>
+	}
+
+	public ArrayList&lt;String&gt; getCoursesStartingWith(String searchText, String nameOrCode) {
+<span class="nc" id="L1425">		ArrayList&lt;String&gt; courses = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc" id="L1427">		connect();</span>
+		try {
+<span class="nc" id="L1429">			String query = &quot;&quot;;</span>
+<span class="nc bnc" id="L1430" title="All 2 branches missed.">			if(nameOrCode.equals(&quot;code&quot;)){</span>
+<span class="nc" id="L1431">				query = &quot;select courseCode, courseName from Course Where courseCode like ?&quot;;</span>
+<span class="nc bnc" id="L1432" title="All 2 branches missed.">			}else if(nameOrCode.equals(&quot;name&quot;)){</span>
+<span class="nc" id="L1433">				query = &quot;select courseCode, courseName from Course Where courseName like ?;&quot;;</span>
+			}
+			 
+			
+<span class="nc" id="L1437">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1438">			prepStmt.setString(1, searchText + &quot;%&quot;);</span>
+<span class="nc" id="L1439">			System.out.println(query);</span>
+<span class="nc" id="L1440">			rs = prepStmt.executeQuery();</span>
+			
+<span class="nc bnc" id="L1442" title="All 2 branches missed.">			while(rs.next()){</span>
+<span class="nc" id="L1443">				courses.add(rs.getString(1) + &quot; &quot; + rs.getString(2));</span>
+			}
+
+<span class="nc" id="L1446">		} catch (Exception e) {</span>
+<span class="nc" id="L1447">			System.out.println(&quot;SQLException in getCoursesStartingWith: &quot; + e.getMessage());</span>
+<span class="nc" id="L1448">		}</span>
+		
+<span class="nc" id="L1450">		close();</span>
+		
+<span class="nc" id="L1452">		return courses;</span>
+	}
+
+	public void deleteCourseStudent(String username, String courseCode) {
+<span class="nc" id="L1456">		connect();</span>
+		try {
+<span class="nc" id="L1458">			String query = &quot;DELETE FROM CourseStudent WHERE courseCode='&quot; + courseCode + &quot;' AND studentUsername ='&quot; + username + &quot;';&quot;;</span>
+
+<span class="nc" id="L1460">			stmt = conn.createStatement();</span>
+<span class="nc" id="L1461">			stmt.executeUpdate(query);</span>
+
+<span class="nc" id="L1463">		} catch (Exception e) {</span>
+<span class="nc" id="L1464">			System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="nc" id="L1465">		}</span>
+<span class="nc" id="L1466">		close();</span>
+		
+<span class="nc" id="L1468">	}</span>
+
+	public ArrayList&lt;String&gt; getAllCourses() {
+<span class="nc" id="L1471">		ArrayList&lt;String&gt; courses = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc" id="L1473">		connect();</span>
+		try {
+<span class="nc" id="L1475">			String query = &quot;select courseCode, courseName from Course&quot;; </span>
+			
+<span class="nc" id="L1477">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1478">			rs = prepStmt.executeQuery();</span>
+			
+<span class="nc bnc" id="L1480" title="All 2 branches missed.">			while(rs.next()){</span>
+<span class="nc" id="L1481">				courses.add(rs.getString(1) + &quot; &quot; + rs.getString(2));</span>
+			}
+
+<span class="nc" id="L1484">		} catch (Exception e) {</span>
+<span class="nc" id="L1485">			System.out.println(&quot;SQLException in getCoursesStartingWith: &quot; + e.getMessage());</span>
+<span class="nc" id="L1486">		}</span>
+		
+<span class="nc" id="L1488">		close();</span>
+		
+<span class="nc" id="L1490">		return courses;</span>
+	}
+
+	public void updateProfessor(String username, String hashPassword) {
+		//  update Professor SET professorPassword = 'np' WHERE professorUsername = 'pekkaa';
+		
+<span class="nc" id="L1496">		connect();</span>
+		try {
+			
+			
+<span class="nc" id="L1500">			String query = &quot;update Professor SET professorPassword = ? WHERE professorUsername = ?;&quot;;</span>
+			
+<span class="nc" id="L1502">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1503">			prepStmt.setString(1, hashPassword);</span>
+<span class="nc" id="L1504">			prepStmt.setString(2, username);</span>
+<span class="nc" id="L1505">			int i = prepStmt.executeUpdate();</span>
+<span class="nc" id="L1506">			System.out.println(i+&quot; records inserted&quot;);  </span>
+
+
+<span class="nc" id="L1509">		} catch (Exception e) {</span>
+<span class="nc" id="L1510">			System.out.println(&quot;SQLException in InsertProfessor: &quot; + e.getMessage());</span>
+<span class="nc" id="L1511">		}</span>
+<span class="nc" id="L1512">		close();</span>
+		
+		
+		
+<span class="nc" id="L1516">	}</span>
+	
+	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
+		// inserts a new professor into database
+<span class="nc" id="L1520">		connect();</span>
+		try {
+<span class="nc" id="L1522">			String query =&quot;insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)&quot;;</span>
+			
+<span class="nc bnc" id="L1524" title="All 2 branches missed.">			if(tableHasValue(&quot;CourseRatingValues&quot;, &quot;courseCode&quot;, courseCode)){</span>
+<span class="nc" id="L1525">				query =  &quot;UPDATE CourseRatingValues SET courseCode = ?, rating1 = ?, rating2 = ?, rating3 = ?, rating4 = ?, rating5 = ?&quot;;</span>
+<span class="nc" id="L1526">				System.out.println(query);</span>
+			}
+			
+<span class="nc" id="L1529">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1530">			prepStmt.setString(1, courseCode);</span>
+<span class="nc" id="L1531">			prepStmt.setString(2, rating1);</span>
+<span class="nc" id="L1532">			prepStmt.setString(3, rating2);</span>
+<span class="nc" id="L1533">			prepStmt.setString(4, rating3);</span>
+<span class="nc" id="L1534">			prepStmt.setString(5, rating4);</span>
+<span class="nc" id="L1535">			prepStmt.setString(6, rating5);</span>
+			
+<span class="nc" id="L1537">			int i = prepStmt.executeUpdate();</span>
+<span class="nc" id="L1538">			System.out.println(i+&quot; records inserted&quot;);  </span>
+
+
+<span class="nc" id="L1541">		} catch (Exception e) {</span>
+<span class="nc" id="L1542">			System.out.println(&quot;SQLException in InsertCourseRatingValues: &quot; + e.getMessage());</span>
+<span class="nc" id="L1543">		}</span>
+<span class="nc" id="L1544">		close();</span>
+<span class="nc" id="L1545">	}</span>
+
+	private boolean tableHasValue(String table, String columnName, String value) {
+<span class="nc" id="L1548">		String query = &quot;select &quot; + columnName + &quot; from &quot; + table + &quot; WHERE &quot; +columnName + &quot;= '&quot; + value + &quot;';&quot;;</span>
+<span class="nc" id="L1549">		System.out.println(query);</span>
+		
+		try {
+<span class="nc" id="L1552">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1553">			rs = prepStmt.executeQuery();</span>
+<span class="nc" id="L1554">			return rs.next();</span>
+			
+<span class="nc" id="L1556">		} catch (SQLException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L1558">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L1560">		return false;</span>
+	}
+
+	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException {
+		
+<span class="nc" id="L1565">		int numWeeks = 0;</span>
+<span class="nc" id="L1566">		String[] startDateSplit = startDate.split(&quot;-&quot;);</span>
+<span class="nc" id="L1567">		int mmStart = Integer.valueOf(startDateSplit[1]) ;</span>
+<span class="nc" id="L1568">		int ddStart = Integer.valueOf(startDateSplit[2]);</span>
+<span class="nc" id="L1569">		int year = Calendar.getInstance().get(Calendar.YEAR);</span>
+<span class="nc" id="L1570">		LocalDate start = LocalDate.of(year, mmStart, ddStart);</span>
+		
+<span class="nc bnc" id="L1572" title="All 2 branches missed.">		if(repeat){</span>
+<span class="nc" id="L1573">			String[] endDateSplit = endDate.split(&quot;-&quot;);</span>
+<span class="nc" id="L1574">			int mmEnd = Integer.valueOf(endDateSplit[1]) ;</span>
+<span class="nc" id="L1575">			int ddEnd = Integer.valueOf(endDateSplit[2]);</span>
+			
+<span class="nc" id="L1577">			LocalDate end = LocalDate.of(year, mmEnd, ddEnd);</span>
+<span class="nc" id="L1578">			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);</span>
+		}
+		
+<span class="nc bnc" id="L1581" title="All 2 branches missed.">		for (int i = 0; i &lt; numWeeks + 1; i++) {</span>
+<span class="nc" id="L1582">			int MM = start.getMonthValue();</span>
+<span class="nc" id="L1583">			int DD = start.getDayOfMonth();</span>
+<span class="nc" id="L1584">			String date = year + &quot;-&quot; + MM + &quot;-&quot; + DD;</span>
+<span class="nc" id="L1585">			System.out.println(date);</span>
+<span class="nc" id="L1586">			insertLecture(date, startTime, courseCode, professorUsername);</span>
+			
+<span class="nc" id="L1588">			start = start.plusWeeks(1);</span>
+<span class="nc" id="L1589">			System.out.println(start);</span>
+		}
+
+		
+<span class="nc" id="L1593">	}</span>
+
+	public void deleteLecturesForPeriod (String courseCode, String startDate, String endDate) {
+		// deletes lectudeleteLecturesForPeriodres for this period.
+		
+<span class="nc" id="L1598">		connect();</span>
+		
+<span class="nc" id="L1600">		String query = &quot;DELETE FROM Lecture WHERE courseCode = ? AND lectureDate &gt;= ? AND lectureDate &lt;= ? &quot;;</span>
+		
+		try {
+<span class="nc" id="L1603">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1604">			prepStmt.setString(1, courseCode);</span>
+<span class="nc" id="L1605">			prepStmt.setString(2, startDate);</span>
+<span class="nc" id="L1606">			prepStmt.setString(3, endDate);</span>
+			
+<span class="nc" id="L1608">			prepStmt.executeUpdate();</span>
+			
+<span class="nc" id="L1610">		} catch (SQLException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L1612">			e.printStackTrace();</span>
+<span class="nc" id="L1613">		}</span>
+		
+<span class="nc" id="L1615">		close();</span>
+<span class="nc" id="L1616">	}</span>
+
+	public ArrayList&lt;String&gt; getLectureDateAndTimeForCourse(String courseCode){
+<span class="nc" id="L1619">		connect();</span>
+		
+<span class="nc" id="L1621">		ArrayList&lt;String&gt; lectures = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L1622">		String query = &quot;select lectureDate, lectureTime from Lecture where courseCode = ? ORDER BY lectureDate ASC&quot;;</span>
+		
+		try {
+<span class="nc" id="L1625">			prepStmt = conn.prepareStatement(query);</span>
+<span class="nc" id="L1626">			prepStmt.setString(1, courseCode);</span>
+<span class="nc" id="L1627">			rs = prepStmt.executeQuery();</span>
+			
+<span class="nc bnc" id="L1629" title="All 2 branches missed.">			while(rs.next()){</span>
+<span class="nc" id="L1630">				String date = rs.getString(1);</span>
+<span class="nc" id="L1631">				String time = rs.getString(2);</span>
+<span class="nc" id="L1632">				String result = String.format(&quot;%s \t \t %s&quot;,changeDateFormat(date), time);</span>
+<span class="nc" id="L1633">				lectures.add(result);	</span>
+						
+<span class="nc" id="L1635">			}</span>
+			
+<span class="nc" id="L1637">		} catch (SQLException e) {</span>
+<span class="nc" id="L1638">			e.printStackTrace();</span>
+<span class="nc" id="L1639">		}</span>
+		
+		
+		
+<span class="nc" id="L1643">		close();</span>
+<span class="nc" id="L1644">		return lectures;</span>
+	}
+	
+	public String changeDateFormat(String date){
+<span class="nc" id="L1648">		String[] dateSplit = date.split(&quot;-&quot;);</span>
+<span class="nc" id="L1649">		String yyyy = dateSplit[0];</span>
+<span class="nc" id="L1650">		String mm = dateSplit[1];</span>
+<span class="nc" id="L1651">		String dd = dateSplit[2];</span>
+		
+<span class="nc" id="L1653">		return dd + &quot;.&quot; + mm + &quot;.&quot; + yyyy;</span>
+	}
+	
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

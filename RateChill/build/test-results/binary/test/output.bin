@@ -1,0 +1,19 @@
+1 records inserted
+1 records inserted
+1 records inserted
+1 records inserted
+xSELECT lectureID FROM Lecture WHERE courseCode = 'TEST0001' and lectureDate='2016-12-10' and lectureTime = '14:15:00';
+ðSELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+6SQLException: Illegal operation on empty result set.
+OSQLException setEvaluationsForLecture: Illegal operation on empty result set.
+1 records inserted
+ðSELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+6SQLException: Illegal operation on empty result set.
+ðSELECT lectureID, lectureDate, lectureTime  FROM Lecture WHERE courseCode = 'TEST0001'  AND (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND  YEAR(lectureDate) = 2017 ORDER BY lectureDate DESC, lectureTime DESC;
+6SQLException: Illegal operation on empty result set.
+1 records inserted
+1 records inserted
+1 records inserted
+xSELECT lectureID FROM Lecture WHERE courseCode = 'TEST0001' and lectureDate='2017-04-21' and lectureTime = '08:00:00';
+1 records inserted
+1 records inserted

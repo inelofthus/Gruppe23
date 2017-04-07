@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Course.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">databaseobjects</a> &gt; <span class="el_source">Course.java</span></div><h1>Course.java</h1><pre class="source lang-java linenums">package databaseobjects;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import database.DBController;
+
+public class Course extends DatabaseUser{
+	
+<span class="pc" id="L15">	private ArrayList&lt;String&gt; ratingValues = new ArrayList&lt;&gt;(Arrays.asList(&quot;Perfect&quot;,&quot;Ok&quot;,&quot;Too Fast!&quot;,&quot;Too Slow!&quot;,&quot;Confused.. ?&quot;));</span>
+	private String courseCode;
+	private String courseName;
+	private int numLectureHours;
+	private ArrayList&lt;String&gt; professorUsernames;
+	private ArrayList&lt;Integer&gt; lectureIDs;
+	private ArrayList&lt;Integer&gt; completedLectureIDs;
+	private LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; completedLecturesIDDate;
+	private String semester;
+	private boolean taughtInSpring;
+	private boolean taughtInAutumn;
+	
+
+	//Constructor1
+<span class="fc" id="L29">	public Course(String courseCode) {</span>
+		// loads a course object with the newest semester
+<span class="fc" id="L31">		this.courseCode = courseCode;</span>
+<span class="fc" id="L32">		DBC.loadCourseInfo(this);</span>
+<span class="fc" id="L33">		this.semester = getCurrentSemester();</span>
+<span class="fc" id="L34">	}</span>
+	
+<span class="nc" id="L36">	public Course(String courseCode, String semester) {</span>
+		// loads a course object with the newest semester
+<span class="nc" id="L38">		this.courseCode = courseCode;</span>
+<span class="nc" id="L39">		this.semester = semester;</span>
+<span class="nc" id="L40">		DBC.loadCourseInfoForSemester(this, semester);</span>
+<span class="nc" id="L41">	}</span>
+	
+	//Constructor2 ONLY FOR USE WITH TESTING
+<span class="fc" id="L44">	public Course(String courseCode, DBController newDBC) {</span>
+<span class="fc" id="L45">			this.courseCode = courseCode;</span>
+<span class="fc" id="L46">			switchDBC(newDBC);</span>
+<span class="fc" id="L47">			DBC.loadCourseInfo(this);</span>
+<span class="fc" id="L48">			this.semester = getCurrentSemester();</span>
+<span class="fc" id="L49">		}</span>
+		
+	public boolean existsInDB(){
+<span class="fc" id="L52">		return DBC.courseExists(courseCode);</span>
+	}
+	
+	//Getters
+	
+	public boolean isTaughtInSpring() {
+<span class="fc" id="L58">		return taughtInSpring;</span>
+	}
+
+	public void setTaughtInSpring(boolean taughtInSpring) {
+<span class="fc" id="L62">		this.taughtInSpring = taughtInSpring;</span>
+<span class="fc" id="L63">	}</span>
+
+	public boolean isTaughtInAutumn() {
+<span class="fc" id="L66">		return taughtInAutumn;</span>
+	}
+
+	public void setTaughtInAutumn(boolean taughtInAutumn) {
+<span class="fc" id="L70">		this.taughtInAutumn = taughtInAutumn;</span>
+<span class="fc" id="L71">	}</span>
+
+	public String getSemester() {
+<span class="fc" id="L74">		return semester;</span>
+	}
+
+	
+	public ArrayList&lt;Integer&gt; getCompletedLectureIDs() {
+<span class="fc" id="L79">		return completedLectureIDs;</span>
+	}
+	
+	public LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; getCompletedLecturesIDDate() {
+<span class="fc" id="L83">		return completedLecturesIDDate;</span>
+	}
+	
+	public ArrayList&lt;Integer&gt; getLastTwoCompletedLectureIDs() {
+<span class="fc" id="L87">		ArrayList&lt;Integer&gt; lastTwo = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L88">		lastTwo.add(completedLectureIDs.get(0));</span>
+<span class="fc" id="L89">		lastTwo.add(completedLectureIDs.get(1));</span>
+<span class="fc" id="L90">		return lastTwo;</span>
+	}
+	
+	public String getCourseCode() {
+<span class="fc" id="L94">		return courseCode;</span>
+	}
+	
+	public String getCourseName() {
+<span class="fc" id="L98">		return courseName;</span>
+	}
+
+
+	public int getNumLectureHours() {
+<span class="fc" id="L103">		return numLectureHours;</span>
+	}
+
+	public ArrayList&lt;String&gt; getProfessorUsernames() {
+<span class="fc" id="L107">		return professorUsernames;</span>
+	}
+
+	public ArrayList&lt;Integer&gt; getLectureIDs() {
+<span class="fc" id="L111">		return lectureIDs;</span>
+	}
+	
+	public String getLectureTime(int lecID){
+<span class="fc" id="L115">		return completedLecturesIDDate.get(lecID).get(1);</span>
+	}
+	
+	public String getLectureDate(int lecID){
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if(completedLectureIDs.contains(lecID))	{</span>
+<span class="fc" id="L120">			return completedLecturesIDDate.get(lecID).get(0);	</span>
+		}
+		
+<span class="nc" id="L123">		return null;</span>
+		
+	}
+	
+	public LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; getLastTwoCompletedLectures() {
+<span class="fc" id="L128">		LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; lastTwoHashMap = new LinkedHashMap&lt;&gt;();</span>
+		
+		int id;
+		ArrayList&lt;String&gt; dateTime;
+		
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">		if(completedLectureIDs.size() &gt;= 2){</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">			for (int i = 0; i&lt;2; i++){</span>
+<span class="fc" id="L135">			id = completedLectureIDs.get(i);</span>
+<span class="fc" id="L136">			dateTime = completedLecturesIDDate.get(id);</span>
+<span class="fc" id="L137">			lastTwoHashMap.put(id, dateTime);	</span>
+		}
+<span class="nc bnc" id="L139" title="All 2 branches missed.">		}else if(completedLectureIDs.size() == 1){</span>
+<span class="nc" id="L140">			id = completedLectureIDs.get(0);</span>
+<span class="nc" id="L141">			dateTime = completedLecturesIDDate.get(id);</span>
+<span class="nc" id="L142">			lastTwoHashMap.put(id, dateTime);	</span>
+		}
+		
+		
+		
+<span class="fc" id="L147">		return lastTwoHashMap;</span>
+	}
+	
+	private String getCurrentSemester(){
+		
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		if(completedLectureIDs.size()&gt;0){</span>
+<span class="fc" id="L153">			String date = getLectureDate(completedLectureIDs.get(0));</span>
+<span class="fc" id="L154">			String[] dateSplit = date.split(&quot;-&quot;);</span>
+<span class="fc" id="L155">			String year = dateSplit[0];</span>
+<span class="fc" id="L156">			String month = dateSplit[1];</span>
+<span class="fc" id="L157">			char semester = 'H';</span>
+			
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">			if(Integer.valueOf(month) &lt; 7){</span>
+<span class="fc" id="L160">				semester = 'V';</span>
+			}
+			
+<span class="fc" id="L163">			return semester + year;</span>
+		} 	
+		
+<span class="fc" id="L166">		int Year = Calendar.getInstance().get(Calendar.YEAR);</span>
+<span class="fc" id="L167">		int Month = Calendar.getInstance().get(Calendar.MONTH) +1;</span>
+		char season;
+		
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">		if(Month &lt;= 7)</span>
+<span class="fc" id="L171">			season = 'V';</span>
+<span class="nc" id="L172">		else season = 'H';</span>
+		
+<span class="fc" id="L174">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L175">		sb.append(season).append(Year);</span>
+		
+<span class="fc" id="L177">		return sb.toString();</span>
+		
+	}
+	
+	//Setters
+	
+	public void setCompletedLectureIDs(ArrayList&lt;Integer&gt; completedLectureIDs) {
+<span class="fc" id="L184">		this.completedLectureIDs = completedLectureIDs;</span>
+<span class="fc" id="L185">	}</span>
+
+	public void setCompletedLecturesIDDate(LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; completedLecturesIDDate) {
+<span class="fc" id="L188">		this.completedLecturesIDDate = completedLecturesIDDate;</span>
+<span class="fc" id="L189">	}</span>
+	
+	public void setCourseCode(String courseCode) {
+<span class="nc" id="L192">		this.courseCode = courseCode;</span>
+<span class="nc" id="L193">	}</span>
+
+	public void setCourseName(String courseName) {
+<span class="fc" id="L196">		this.courseName = courseName;</span>
+<span class="fc" id="L197">	}</span>
+
+	public void setNumLectureHours(int numLectureHours) {
+<span class="fc" id="L200">		this.numLectureHours = numLectureHours;</span>
+<span class="fc" id="L201">	}</span>
+
+	public void setProfessorUsernames(ArrayList&lt;String&gt; professorUsernames) {
+<span class="fc" id="L204">		this.professorUsernames = professorUsernames;</span>
+<span class="fc" id="L205">	}</span>
+
+	public void setLectureIDs(ArrayList&lt;Integer&gt; lectureIDs) {
+<span class="fc" id="L208">		this.lectureIDs = lectureIDs;</span>
+<span class="fc" id="L209">	}</span>
+	
+	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException{
+<span class="nc" id="L212">		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);</span>
+<span class="nc" id="L213">	}</span>
+	
+	public void deleteLecturesForPeriod(String startDate, String endDate){
+		// deletes lectures in the period between start and endDate
+<span class="nc" id="L217">		DBC.deleteLecturesForPeriod(courseCode, startDate, endDate);</span>
+<span class="nc" id="L218">	}</span>
+	//To be used to generate lectures over time graph:
+	
+	public HashMap&lt;Integer, Integer&gt; lecIDtoNumRatings;
+	private HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount1;
+	private HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount2;
+	private HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount3;
+	private HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount4;
+	private HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount5;
+
+	public void setRatingsOverTime(){
+<span class="fc" id="L229">		DBC.setCourseRatingsOverTime(this);</span>
+<span class="fc" id="L230">	}</span>
+	
+	public ArrayList&lt;Integer&gt; getLecRatingCounts(int i){
+<span class="fc" id="L233">		ArrayList&lt;Integer&gt; count = new ArrayList&lt;&gt;();</span>
+		
+		
+<span class="pc bpc" id="L236" title="5 of 6 branches missed.">			switch (i) {</span>
+			case 1:
+<span class="fc" id="L238">				count = createCountArray(lecIDtoRatingCount1);</span>
+<span class="fc" id="L239">				break;</span>
+			case 2:
+<span class="nc" id="L241">				count = createCountArray(lecIDtoRatingCount2);</span>
+<span class="nc" id="L242">				break;	</span>
+			case 3:
+<span class="nc" id="L244">				count = createCountArray(lecIDtoRatingCount3);</span>
+<span class="nc" id="L245">				break;</span>
+			case 4:
+<span class="nc" id="L247">				count = createCountArray(lecIDtoRatingCount4);</span>
+<span class="nc" id="L248">				break;</span>
+			case 5:
+<span class="nc" id="L250">				count = createCountArray(lecIDtoRatingCount5);</span>
+<span class="nc" id="L251">				break;</span>
+
+			default:
+				break;
+			}
+<span class="fc" id="L256">		return count;</span>
+	}
+
+	public ArrayList&lt;String&gt; getDateArrayForGraph(){
+<span class="nc" id="L260">		ArrayList&lt;String&gt; dates = new ArrayList&lt;String&gt;(); </span>
+<span class="nc" id="L261">		Collections.reverse(completedLectureIDs);</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">		for(Integer lecID: completedLectureIDs){</span>
+<span class="nc" id="L263">			String date = completedLecturesIDDate.get(lecID).get(0);</span>
+<span class="nc" id="L264">			String[] dateSplit = date.split(&quot;-&quot;);</span>
+<span class="nc" id="L265">			String MM = dateSplit[1];</span>
+<span class="nc" id="L266">			String DD = dateSplit[2];</span>
+<span class="nc" id="L267">			date = DD + &quot;.&quot; + MM;</span>
+			
+<span class="nc" id="L269">			dates.add(date);</span>
+<span class="nc" id="L270">		}</span>
+<span class="nc" id="L271">		Collections.reverse(completedLectureIDs);</span>
+<span class="nc" id="L272">		return dates;</span>
+	}
+	
+	private ArrayList&lt;Integer&gt; createCountArray(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCountHash) {
+<span class="fc" id="L276">		ArrayList&lt;Integer&gt; count = new ArrayList&lt;&gt;();</span>
+		
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">		if(completedLectureIDs.size()&gt;0){</span>
+<span class="fc" id="L279">			Collections.reverse(completedLectureIDs);</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">			for (Integer lecID : completedLectureIDs) {</span>
+
+<span class="pc bpc" id="L283" title="1 of 2 branches missed.">				if (lecIDtoRatingCountHash.containsKey(lecID)) {</span>
+<span class="nc" id="L284">					count.add((lecIDtoRatingCountHash.get(lecID) * 100 / lecIDtoNumRatings.get(lecID)));</span>
+				} else
+<span class="fc" id="L286">					count.add(0);</span>
+<span class="fc" id="L287">			}</span>
+
+<span class="fc" id="L289">			Collections.reverse(completedLectureIDs);</span>
+		}
+		
+
+<span class="fc" id="L293">		return count;</span>
+	}
+
+	public ArrayList&lt;String&gt; getRatingValues() {
+<span class="fc" id="L297">		return ratingValues;</span>
+	}
+	
+	public void setLecIDtoNumRatings(HashMap&lt;Integer, Integer&gt; lecIDtoNumRatings) {
+<span class="nc" id="L301">		this.lecIDtoNumRatings = lecIDtoNumRatings;</span>
+<span class="nc" id="L302">	}</span>
+
+	public void setRatingValues(ArrayList&lt;String&gt; ratingValues) {
+<span class="nc" id="L305">		this.ratingValues = ratingValues;</span>
+<span class="nc" id="L306">	}</span>
+
+	public void setLecIDtoRatingCount1(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount1) {
+<span class="fc" id="L309">		this.lecIDtoRatingCount1 = lecIDtoRatingCount1;</span>
+<span class="fc" id="L310">	}</span>
+
+	public void setLecIDtoRatingCount2(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount2) {
+<span class="fc" id="L313">		this.lecIDtoRatingCount2 = lecIDtoRatingCount2;</span>
+<span class="fc" id="L314">	}</span>
+
+	public void setLecIDtoRatingCount3(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount3) {
+<span class="fc" id="L317">		this.lecIDtoRatingCount3 = lecIDtoRatingCount3;</span>
+<span class="fc" id="L318">	}</span>
+
+	public void setLecIDtoRatingCount4(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount4) {
+<span class="fc" id="L321">		this.lecIDtoRatingCount4 = lecIDtoRatingCount4;</span>
+<span class="fc" id="L322">	}</span>
+
+	public void setLecIDtoRatingCount5(HashMap&lt;Integer, Integer&gt; lecIDtoRatingCount5) {
+<span class="fc" id="L325">		this.lecIDtoRatingCount5 = lecIDtoRatingCount5;</span>
+<span class="fc" id="L326">	}</span>
+	
+	public boolean isCurrentsemester(){
+		
+<span class="fc" id="L330">		char CourseSeason = semester.charAt(0);</span>
+<span class="fc" id="L331">		int CourseYear = Integer.valueOf(semester.substring(1));</span>
+<span class="fc" id="L332">		int ActualYear = Calendar.getInstance().get(Calendar.YEAR);</span>
+<span class="fc" id="L333">		int Month = Calendar.getInstance().get(Calendar.MONTH) +1;</span>
+		char ActualSeason;
+		
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if(Month &lt;= 7)</span>
+<span class="fc" id="L337">			ActualSeason = 'V';</span>
+<span class="nc" id="L338">		else ActualSeason = 'H';</span>
+		
+<span class="pc bpc" id="L340" title="2 of 4 branches missed.">		return (CourseSeason == ActualSeason &amp;&amp; CourseYear == ActualYear);</span>
+		
+	}
+
+	//To be used in professor SEE EVALUATIONS:
+	
+<span class="pc" id="L346">	private ArrayList&lt;Integer&gt; lectureIDsMonth1 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L347">	private ArrayList&lt;Integer&gt; lectureIDsMonth2 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L348">	private ArrayList&lt;Integer&gt; lectureIDsMonth3 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L349">	private ArrayList&lt;Integer&gt; lectureIDsMonth4 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L350">	private ArrayList&lt;Integer&gt; lectureIDsMonth5 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L351">	private ArrayList&lt;Integer&gt; lectureIDsMonth6 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L352">	private ArrayList&lt;Integer&gt; lectureIDsMonth7 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L353">	private ArrayList&lt;Integer&gt; lectureIDsMonth8 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L354">	private ArrayList&lt;Integer&gt; lectureIDsMonth9 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L355">	private ArrayList&lt;Integer&gt; lectureIDsMonth10 = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L356">	private ArrayList&lt;Integer&gt; lectureIDsMonth11= new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L357">	private ArrayList&lt;Integer&gt; lectureIDsMonth12 = new ArrayList&lt;&gt;();</span>
+	
+	public void setLectureByMonth(){
+<span class="nc bnc" id="L360" title="All 2 branches missed.">		for(int lecID: completedLectureIDs){</span>
+<span class="nc" id="L361">				String date = completedLecturesIDDate.get(lecID).get(0);</span>
+<span class="nc" id="L362">				String[] dateSplit = date.split(&quot;-&quot;);</span>
+<span class="nc" id="L363">				String MM = dateSplit[1];</span>
+				
+<span class="nc bnc" id="L365" title="All 50 branches missed.">				switch (MM) {</span>
+				case &quot;01&quot;:
+<span class="nc" id="L367">					lectureIDsMonth1.add(lecID);</span>
+<span class="nc" id="L368">					break;</span>
+				case &quot;02&quot;:
+<span class="nc" id="L370">					lectureIDsMonth2.add(lecID);</span>
+<span class="nc" id="L371">					break;</span>
+				case &quot;03&quot;:
+<span class="nc" id="L373">					lectureIDsMonth3.add(lecID);</span>
+<span class="nc" id="L374">					break;</span>
+				case &quot;04&quot;:
+<span class="nc" id="L376">					lectureIDsMonth4.add(lecID);</span>
+<span class="nc" id="L377">					break;</span>
+				case &quot;05&quot;:
+<span class="nc" id="L379">					lectureIDsMonth5.add(lecID);</span>
+<span class="nc" id="L380">					break;</span>
+				case &quot;06&quot;:
+<span class="nc" id="L382">					lectureIDsMonth6.add(lecID);</span>
+<span class="nc" id="L383">					break;</span>
+				case &quot;07&quot;:
+<span class="nc" id="L385">					lectureIDsMonth7.add(lecID);</span>
+<span class="nc" id="L386">					break;</span>
+				case &quot;08&quot;:
+<span class="nc" id="L388">					lectureIDsMonth8.add(lecID);</span>
+<span class="nc" id="L389">					break;</span>
+				case &quot;09&quot;:
+<span class="nc" id="L391">					lectureIDsMonth9.add(lecID);</span>
+<span class="nc" id="L392">					break;</span>
+				case &quot;10&quot;:
+<span class="nc" id="L394">					lectureIDsMonth10.add(lecID);</span>
+<span class="nc" id="L395">					break;</span>
+				case &quot;11&quot;:
+<span class="nc" id="L397">					lectureIDsMonth11.add(lecID);</span>
+<span class="nc" id="L398">					break;</span>
+				case &quot;12&quot;:
+<span class="nc" id="L400">					lectureIDsMonth12.add(lecID);</span>
+<span class="nc" id="L401">					break;</span>
+
+				default:
+					break;
+				}
+			
+<span class="nc" id="L407">		}</span>
+<span class="nc" id="L408">	}</span>
+
+	public ArrayList&lt;Integer&gt; getLectureIDsMonth(int monthNum){
+<span class="nc" id="L411">		ArrayList&lt;Integer&gt; result = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L413" title="All 13 branches missed.">		switch (monthNum) {</span>
+		case 1:
+<span class="nc" id="L415">			result = lectureIDsMonth1;</span>
+<span class="nc" id="L416">			break;</span>
+		case 2:
+<span class="nc" id="L418">			result = lectureIDsMonth2;</span>
+<span class="nc" id="L419">			break;</span>
+		case 3:
+<span class="nc" id="L421">			result = lectureIDsMonth3;</span>
+<span class="nc" id="L422">			break;</span>
+		case 4:
+<span class="nc" id="L424">			result = lectureIDsMonth4;</span>
+<span class="nc" id="L425">			break;</span>
+		case 5:
+<span class="nc" id="L427">			result = lectureIDsMonth5;</span>
+<span class="nc" id="L428">			break;</span>
+		case 6:
+<span class="nc" id="L430">			result = lectureIDsMonth6;</span>
+<span class="nc" id="L431">			break;</span>
+		case 7:
+<span class="nc" id="L433">			result = lectureIDsMonth7;</span>
+<span class="nc" id="L434">			break;</span>
+		case 8:
+<span class="nc" id="L436">			result = lectureIDsMonth8;</span>
+<span class="nc" id="L437">			break;</span>
+		case 9:
+<span class="nc" id="L439">			result = lectureIDsMonth9;</span>
+<span class="nc" id="L440">			break;</span>
+		case 10:
+<span class="nc" id="L442">			result = lectureIDsMonth10;</span>
+<span class="nc" id="L443">			break;</span>
+		case 11:
+<span class="nc" id="L445">			result = lectureIDsMonth11;</span>
+<span class="nc" id="L446">			break;</span>
+		case 12:
+<span class="nc" id="L448">			result = lectureIDsMonth12;</span>
+<span class="nc" id="L449">			break;</span>
+
+		default:
+			break;
+		}
+<span class="nc" id="L454">		return result;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

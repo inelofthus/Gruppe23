@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="testingDBObjects.CourseTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2017-04-07T11:15:22" hostname="NicolaiPC" time="0.011">
+  <properties/>
+  <testcase name="TestgetLastTwoCompletedLectureIDs" classname="testingDBObjects.CourseTest" time="0.001"/>
+  <testcase name="TestgetLectureIDs" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetCourseCode" classname="testingDBObjects.CourseTest" time="0.001"/>
+  <testcase name="TestgetCourseName" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetCompletedLecturesIDDate" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetRatingValues" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetLectureDate" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetLectureTime" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestisCurrentsemester" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetSemester" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestisTaughtInAutumn" classname="testingDBObjects.CourseTest" time="0.001"/>
+  <testcase name="TestgetNumLectureHours" classname="testingDBObjects.CourseTest" time="0.001"/>
+  <testcase name="TestisTaughtInSpring" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetLastTwoCompletedLectures" classname="testingDBObjects.CourseTest" time="0.001"/>
+  <testcase name="TestgetLecRatingCounts" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="TestgetProfessorUsernames" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <testcase name="testGetCompletedLectureIDs" classname="testingDBObjects.CourseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

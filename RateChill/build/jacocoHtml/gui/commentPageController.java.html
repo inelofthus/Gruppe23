@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>commentPageController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">commentPageController.java</span></div><h1>commentPageController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Stack;
+
+import com.sun.javafx.scene.control.SelectedCellsMap;
+
+import databaseobjects.Course;
+import databaseobjects.Evaluation;
+import databaseobjects.Lecture;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+<span class="nc" id="L30">public class commentPageController implements Initializable {</span>
+
+	//fxml objects
+	@FXML
+	public ToggleButton seeComments1;
+	public ToggleButton seeComments2;
+	public ToggleButton seeComments3;
+	public ToggleButton seeComments4;
+	public ToggleButton seeComments5;
+	@FXML
+	public Button home;
+	public Button back;
+	public Button logout;
+	public Button customize;
+	public Button showAllComments;
+	
+	@FXML
+	public TextArea textArea;
+<span class="nc" id="L48">	public Text text = null;</span>
+	public VBox vBox;
+	
+<span class="nc" id="L51">    Integer lectureID = mainController.getInstance().getChosenProfessorLecture();</span>
+	
+<span class="nc" id="L53">	private Lecture lecture = new Lecture(lectureID);</span>
+<span class="nc" id="L54">	private Course course = mainController.getInstance().getCourse();</span>
+<span class="nc" id="L55">	private ArrayList&lt;String&gt; ratingValues = lecture.getRatingValues();</span>
+<span class="nc" id="L56">	private Stack&lt;String&gt; stack = mainController.getInstance().getStack();</span>
+	
+	
+	public String createString() {
+<span class="nc" id="L60">		ArrayList&lt;String&gt; als = selectedButtons();</span>
+<span class="nc" id="L61">		String allComment = &quot;&quot;; </span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		for (String string:als){</span>
+<span class="nc" id="L63">			allComment += string + &quot;\n&quot;;</span>
+<span class="nc" id="L64">		}</span>
+<span class="nc" id="L65">		return allComment;</span>
+	}
+	
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L70">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L72">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L75">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L76">		stage.setScene(scene);</span>
+<span class="nc" id="L77">		stage.show();</span>
+<span class="nc" id="L78">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L82" title="All 2 branches missed.">		if (event.getSource() == home) {</span>
+<span class="nc" id="L83">			loadNextScene(home, stage, &quot;courseProf.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L85" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L86">			loadNextScene(back, stage, stack.pop());</span>
+		}
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (event.getSource() == logout) {</span>
+<span class="nc" id="L89">			loadNextScene(logout, stage, &quot;login.fxml&quot;);</span>
+		}
+<span class="nc" id="L91">	}</span>
+	
+	public boolean isUserButtonPushed(ActionEvent event) {
+<span class="nc bnc" id="L94" title="All 6 branches missed.">		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {</span>
+<span class="nc" id="L95">			return true;</span>
+		}
+<span class="nc" id="L97">		return false;</span>
+	}
+	
+	public boolean isCommentButtonsPushed() {
+<span class="nc bnc" id="L101" title="All 10 branches missed.">		if (seeComments1.isSelected() || seeComments2.isSelected() || seeComments3.isSelected() || seeComments4.isSelected() || seeComments5.isSelected()) {</span>
+<span class="nc" id="L102">			return true;</span>
+		}
+<span class="nc" id="L104">		return false;</span>
+	}
+	
+	public ArrayList&lt;String&gt; selectedButtons() {
+<span class="nc" id="L108">		ArrayList&lt;String&gt; currentEvaluations = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		if (seeComments1.isSelected()){</span>
+<span class="nc" id="L110">			currentEvaluations.add(ratingValues.get(0) + &quot; comments:&quot;);</span>
+<span class="nc" id="L111">			ArrayList&lt;Evaluation&gt; Evaluations1 = lecture.getEvaluationsRating1();</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">			for (Evaluation eval:Evaluations1) {</span>
+<span class="nc" id="L113">				currentEvaluations.add(eval.getComment());</span>
+<span class="nc" id="L114">			}</span>
+<span class="nc" id="L115">			currentEvaluations.add(&quot;&quot;);</span>
+		}
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (seeComments2.isSelected()){</span>
+<span class="nc" id="L118">			currentEvaluations.add(ratingValues.get(1) + &quot; comments:&quot;);</span>
+<span class="nc" id="L119">			ArrayList&lt;Evaluation&gt; Evaluations2 = lecture.getEvaluationsRating2();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">			for (Evaluation eval:Evaluations2) {</span>
+<span class="nc" id="L121">				currentEvaluations.add(eval.getComment());</span>
+<span class="nc" id="L122">			}</span>
+<span class="nc" id="L123">			currentEvaluations.add(&quot;&quot;);</span>
+		}
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		if (seeComments3.isSelected()){</span>
+<span class="nc" id="L126">			currentEvaluations.add(ratingValues.get(2) + &quot; comments:&quot;);</span>
+<span class="nc" id="L127">			ArrayList&lt;Evaluation&gt; Evaluations3 = lecture.getEvaluationsRating3();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">			for (Evaluation eval:Evaluations3) {</span>
+<span class="nc" id="L129">				currentEvaluations.add(eval.getComment());</span>
+<span class="nc" id="L130">			}</span>
+<span class="nc" id="L131">			currentEvaluations.add(&quot;&quot;);</span>
+		}
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (seeComments4.isSelected()){</span>
+<span class="nc" id="L134">			currentEvaluations.add(ratingValues.get(3) + &quot; comments:&quot;);</span>
+<span class="nc" id="L135">			ArrayList&lt;Evaluation&gt; Evaluations4 = lecture.getEvaluationsRating4();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">			for (Evaluation eval:Evaluations4) {</span>
+<span class="nc" id="L137">				currentEvaluations.add(eval.getComment());</span>
+<span class="nc" id="L138">			}</span>
+<span class="nc" id="L139">			currentEvaluations.add(&quot;&quot;);</span>
+		}
+<span class="nc bnc" id="L141" title="All 2 branches missed.">		if (seeComments5.isSelected()){</span>
+<span class="nc" id="L142">			currentEvaluations.add(ratingValues.get(4) + &quot; comments:&quot;);</span>
+<span class="nc" id="L143">			ArrayList&lt;Evaluation&gt; Evaluations5 = lecture.getEvaluationsRating5();</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">			for (Evaluation eval:Evaluations5) {</span>
+<span class="nc" id="L145">				currentEvaluations.add(eval.getComment());</span>
+<span class="nc" id="L146">			}</span>
+<span class="nc" id="L147">			currentEvaluations.add(&quot;&quot;);</span>
+			
+		}
+<span class="nc" id="L150">		return currentEvaluations;</span>
+	}
+	
+	
+	
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L158">		Stage stage = null;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		if (isUserButtonPushed(event)) {</span>
+<span class="nc" id="L160">			userButtons(event, stage);</span>
+<span class="nc" id="L161">			return;</span>
+		}
+<span class="nc bnc" id="L163" title="All 2 branches missed.">		else if (event.getSource() == customize) {</span>
+<span class="nc" id="L164">			stack.push(&quot;commentPage.fxml&quot;);</span>
+<span class="nc" id="L165">			loadNextScene(customize, stage, &quot;customizeButtons.fxml&quot;);</span>
+<span class="nc" id="L166">			return;</span>
+		}
+<span class="nc bnc" id="L168" title="All 2 branches missed.">		else if (event.getSource() == showAllComments) {</span>
+			//make every comment appear
+<span class="nc" id="L170">			return;</span>
+		}
+<span class="nc bnc" id="L172" title="All 2 branches missed.">		if (isCommentButtonsPushed()){</span>
+<span class="nc" id="L173">			textArea.setText(createString());</span>
+		}
+		else {
+<span class="nc" id="L176">			textArea.setText(&quot;You have not selected to show any comments.&quot;);</span>
+		}
+<span class="nc" id="L178">	}</span>
+	
+	
+	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method
+<span class="nc" id="L186">		textArea.setEditable(false);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">		if(!isCommentButtonsPushed()) {</span>
+<span class="nc" id="L188">			textArea.setText(&quot;You have not selected to show any comments.&quot;);</span>
+		}
+		
+		
+<span class="nc" id="L192">		seeComments1.setText(ratingValues.get(0) + &quot; comments&quot;);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		if(seeComments1.getText().contains(&quot;nix&quot;)){</span>
+<span class="nc" id="L194">			seeComments1.setText(&quot;&quot;);</span>
+<span class="nc" id="L195">			seeComments1.setDisable(true);</span>
+		}
+<span class="nc" id="L197">		seeComments2.setText(ratingValues.get(1) + &quot; comments&quot;);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">		if(seeComments2.getText().contains(&quot;nix&quot;)){</span>
+<span class="nc" id="L199">			seeComments2.setText(&quot;&quot;);</span>
+<span class="nc" id="L200">			seeComments2.setDisable(true);</span>
+		}
+<span class="nc" id="L202">		seeComments3.setText(ratingValues.get(2) + &quot; comments&quot;);</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">		if(seeComments3.getText().contains(&quot;nix&quot;)){</span>
+<span class="nc" id="L204">			seeComments3.setText(&quot;&quot;);</span>
+<span class="nc" id="L205">			seeComments3.setDisable(true);</span>
+		}
+<span class="nc" id="L207">		seeComments4.setText(ratingValues.get(3) + &quot; comments&quot;);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">		if(seeComments4.getText().contains(&quot;nix&quot;)){</span>
+<span class="nc" id="L209">			seeComments4.setText(&quot;&quot;);</span>
+<span class="nc" id="L210">			seeComments4.setDisable(true);</span>
+		}
+<span class="nc" id="L212">		seeComments5.setText(ratingValues.get(4) + &quot; comments&quot;);</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">		if(seeComments5.getText().contains(&quot;nix&quot;)){</span>
+<span class="nc" id="L214">			seeComments5.setText(&quot;&quot;);</span>
+<span class="nc" id="L215">			seeComments5.setDisable(true);</span>
+		}
+		
+<span class="nc" id="L218">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>lectureProfController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">lectureProfController.java</span></div><h1>lectureProfController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.ResourceBundle;
+import java.util.Stack;
+
+import database.DBController;
+import databaseobjects.Course;
+import databaseobjects.Lecture;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+<span class="nc" id="L25">public class lectureProfController implements Initializable {</span>
+
+	
+	@FXML
+	public Button indivLecture;
+	public Button allLectures;
+	public Button customize;
+	public Button editLectures;
+	
+	public Button home;
+	public Button back;
+	public Button logout;
+	
+	@FXML
+	public Text month;
+	public Hyperlink prevMonth;
+	public Hyperlink nextMonth;
+	public Hyperlink month1;
+	public Hyperlink month2;
+	public Hyperlink month3;
+	public Hyperlink month4;
+	public Hyperlink month5;
+	public Hyperlink month6;
+	public ListView&lt;String&gt; lectures;
+	
+<span class="nc" id="L50">	private boolean spring = true;</span>
+	private Course course;
+	private int monthNum;
+	private ArrayList&lt;String&gt; thisMonthsLectures;
+<span class="nc" id="L54">	private Stack&lt;String&gt; stack = null;</span>
+<span class="nc" id="L55">	private DBController DBC = new DBController();</span>
+	
+	public void loadLecture(Lecture lecture) {
+<span class="nc" id="L58">		mainController.getInstance().setLecture(lecture);</span>
+<span class="nc" id="L59">	}</span>
+	
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L63">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L65">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L68">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L69">		stage.setScene(scene);</span>
+<span class="nc" id="L70">		stage.show();	</span>
+<span class="nc" id="L71">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (event.getSource() == home) {</span>
+<span class="nc" id="L76">			loadNextScene(home, stage, &quot;courseProf.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L79">			loadNextScene(back, stage, &quot;courseProf.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (event.getSource() == logout) {</span>
+<span class="nc" id="L82">			loadNextScene(logout, stage, &quot;login.fxml&quot;);</span>
+		}
+<span class="nc" id="L84">	}</span>
+	
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L89">		Stage stage = null;</span>
+<span class="nc" id="L90">		userButtons(event, stage);</span>
+		
+<span class="nc bnc" id="L92" title="All 2 branches missed.">		if(event.getSource() == indivLecture){</span>
+<span class="nc" id="L93">			int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); </span>
+<span class="nc" id="L94">			Lecture lec = new Lecture(lecID);</span>
+<span class="nc" id="L95">			loadLecture(lec);</span>
+<span class="nc" id="L96">			mainController.getInstance().setChosenProfessorLecture(lecID);</span>
+<span class="nc" id="L97">			stack.push(&quot;lectureProf.fxml&quot;);</span>
+<span class="nc" id="L98">			loadNextScene(indivLecture, stage, &quot;individualCharts.fxml&quot;);</span>
+<span class="nc" id="L99">		}</span>
+		
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		else if(event.getSource() == allLectures){</span>
+<span class="nc" id="L102">			System.out.println(&quot;Button pressed&quot;);</span>
+<span class="nc" id="L103">			stack.push(&quot;lectureProf.fxml&quot;);</span>
+<span class="nc" id="L104">			loadNextScene(allLectures, stage, &quot;evaluationsOverTime.fxml&quot;);</span>
+		}
+		
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		else if (event.getSource() == customize) {</span>
+<span class="nc" id="L108">			stack.push(&quot;lectureProf.fxml&quot;);</span>
+<span class="nc" id="L109">			loadNextScene(customize, stage, &quot;customizeButtons.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		else if (event.getSource() == editLectures) {</span>
+<span class="nc" id="L112">			stack.push(&quot;lectureProf.fxml&quot;);</span>
+<span class="nc" id="L113">			loadNextScene(editLectures, stage, &quot;addLectures.fxml&quot;);</span>
+		}
+<span class="nc" id="L115">	}</span>
+	
+	@FXML 
+	private void handleHyperLinkAction(ActionEvent event) throws IOException{
+		
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		if(event.getSource() == nextMonth){</span>
+<span class="nc bnc" id="L121" title="All 4 branches missed.">			if(monthNum != 6 &amp;&amp; monthNum != 12){</span>
+<span class="nc" id="L122">	    		monthNum ++;</span>
+<span class="nc" id="L123">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		}		if(event.getSource() == prevMonth){</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">			if(monthNum != 1 &amp;&amp; monthNum != 7){</span>
+<span class="nc" id="L127">	    		monthNum --;</span>
+<span class="nc" id="L128">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		}		if(event.getSource() == month1){</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">	    	if(monthNum != 1 &amp;&amp; monthNum != 7){</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">	    		if(spring) monthNum = 1;</span>
+<span class="nc" id="L133">	    		else monthNum = 7;</span>
+<span class="nc" id="L134">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L136" title="All 2 branches missed.">	    }if(event.getSource() == month2){</span>
+<span class="nc bnc" id="L137" title="All 4 branches missed.">	    	if(monthNum != 2 &amp;&amp; monthNum != 8){</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">	    		if(spring) monthNum = 2;</span>
+<span class="nc" id="L139">	    		else monthNum = 8;</span>
+<span class="nc" id="L140">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L142" title="All 2 branches missed.">	    }if(event.getSource() == month3){</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">	    	if(monthNum != 3 &amp;&amp; monthNum != 9){</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">	    		if(spring) monthNum = 3;</span>
+<span class="nc" id="L145">	    		else monthNum = 9;</span>
+<span class="nc" id="L146">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L148" title="All 2 branches missed.">	    }if(event.getSource() == month4){</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">	    	if(monthNum != 4 &amp;&amp; monthNum != 10){</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">	    		if(spring) monthNum = 4;</span>
+<span class="nc" id="L151">	    		else monthNum = 10;</span>
+<span class="nc" id="L152">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L154" title="All 2 branches missed.">	    }if(event.getSource() == month5){</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">	    	if(monthNum != 5 &amp;&amp; monthNum != 11){</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">	    		if(spring) monthNum = 5;</span>
+<span class="nc" id="L157">	    		else monthNum = 11;</span>
+<span class="nc" id="L158">	    		updateMonth(monthNum);</span>
+	    	}
+<span class="nc bnc" id="L160" title="All 2 branches missed.">	    }if(event.getSource() == month6){</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">	    	if(monthNum != 6 &amp;&amp; monthNum != 12){</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">	    		if(spring) monthNum = 6;</span>
+<span class="nc" id="L163">	    		else monthNum = 12;</span>
+<span class="nc" id="L164">	    		updateMonth(monthNum);</span>
+	    	}
+	    }
+<span class="nc" id="L167">	}</span>
+	   
+
+	private void updateMonth(int monthNum2) {
+		// update this months lectures
+		// change text in listview and month title
+		
+<span class="nc" id="L174">		month.setText(getMonthText(monthNum));</span>
+<span class="nc" id="L175">		ArrayList&lt;Integer&gt; lecIDs = course.getLectureIDsMonth(monthNum);</span>
+<span class="nc" id="L176">		thisMonthsLectures = getLectureDates(lecIDs);</span>
+<span class="nc" id="L177">		lectures.getItems().clear();</span>
+<span class="nc" id="L178">		lectures.getItems().addAll(thisMonthsLectures);</span>
+		
+<span class="nc" id="L180">	}</span>
+
+
+	
+
+	private String getMonthText(int monthNum) {
+		 String monthString;
+<span class="nc bnc" id="L187" title="All 13 branches missed.">	        switch (monthNum) {</span>
+<span class="nc" id="L188">	            case 1:  monthString = &quot;January&quot;;</span>
+<span class="nc" id="L189">	                     break;</span>
+<span class="nc" id="L190">	            case 2:  monthString = &quot;February&quot;;</span>
+<span class="nc" id="L191">	                     break;</span>
+<span class="nc" id="L192">	            case 3:  monthString = &quot;March&quot;;</span>
+<span class="nc" id="L193">	                     break;</span>
+<span class="nc" id="L194">	            case 4:  monthString = &quot;April&quot;;</span>
+<span class="nc" id="L195">	                     break;</span>
+<span class="nc" id="L196">	            case 5:  monthString = &quot;May&quot;;</span>
+<span class="nc" id="L197">	                     break;</span>
+<span class="nc" id="L198">	            case 6:  monthString = &quot;June&quot;;</span>
+<span class="nc" id="L199">	                     break;</span>
+<span class="nc" id="L200">	            case 7:  monthString = &quot;July&quot;;</span>
+<span class="nc" id="L201">	                     break;</span>
+<span class="nc" id="L202">	            case 8:  monthString = &quot;August&quot;;</span>
+<span class="nc" id="L203">	                     break;</span>
+<span class="nc" id="L204">	            case 9:  monthString = &quot;September&quot;;</span>
+<span class="nc" id="L205">	                     break;</span>
+<span class="nc" id="L206">	            case 10: monthString = &quot;October&quot;;</span>
+<span class="nc" id="L207">	                     break;</span>
+<span class="nc" id="L208">	            case 11: monthString = &quot;November&quot;;</span>
+<span class="nc" id="L209">	                     break;</span>
+<span class="nc" id="L210">	            case 12: monthString = &quot;December&quot;;</span>
+<span class="nc" id="L211">	                     break;</span>
+<span class="nc" id="L212">	            default: monthString = &quot;Invalid month&quot;;</span>
+	                     break;
+	        }
+	        
+<span class="nc" id="L216">	      return monthString;</span>
+	}
+
+	private ArrayList&lt;String&gt; getLectureDates(ArrayList&lt;Integer&gt; lecIDs) {
+<span class="nc" id="L220">		ArrayList&lt;String&gt; date = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L222" title="All 2 branches missed.">		for(int lecID:lecIDs){</span>
+<span class="nc" id="L223">			date.add(DBC.changeDateFormat( course.getLectureDate(lecID) ) ) ;</span>
+<span class="nc" id="L224">		}</span>
+		
+				
+<span class="nc" id="L227">		return date;</span>
+	}
+	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// Set text of buttons to contain date of lecture
+		
+<span class="nc" id="L235">		lectures.getItems().clear();</span>
+<span class="nc" id="L236">		this.course = mainController.getInstance().getCourse();</span>
+<span class="nc" id="L237">		this.course = new Course(course.getCourseCode());</span>
+<span class="nc" id="L238">		this.monthNum = Calendar.getInstance().get(Calendar.MONTH) + 1;</span>
+		
+<span class="nc" id="L240">		course.setLectureByMonth();</span>
+		//initializing stack for back-buttons to come
+<span class="nc" id="L242">		this.stack = mainController.getInstance().getStack();</span>
+		
+		//resetting the stack
+<span class="nc bnc" id="L245" title="All 2 branches missed.">		if(!stack.isEmpty()) {</span>
+<span class="nc" id="L246">			stack.clear();</span>
+		}
+		
+<span class="nc" id="L249">		month.setText(getMonthText(monthNum));</span>
+		
+<span class="nc bnc" id="L251" title="All 2 branches missed.">		if(monthNum &gt; 6){</span>
+<span class="nc" id="L252">			month1.setText(&quot;Jul&quot;);</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">			if(course.getLectureIDsMonth(7).isEmpty()){</span>
+<span class="nc" id="L254">				month1.setDisable(true);</span>
+			}
+<span class="nc" id="L256">			month2.setText(&quot;Aug&quot;);</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">			if(course.getLectureIDsMonth(8).isEmpty()){</span>
+<span class="nc" id="L258">				month2.setDisable(true);</span>
+			}
+<span class="nc" id="L260">			month3.setText(&quot;Sep&quot;);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">			if(course.getLectureIDsMonth(9).isEmpty()){</span>
+<span class="nc" id="L262">				month3.setDisable(true);</span>
+			}
+<span class="nc" id="L264">			month4.setText(&quot;Oct&quot;);</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">			if(course.getLectureIDsMonth(10).isEmpty()){</span>
+<span class="nc" id="L266">				month4.setDisable(true);</span>
+			}
+<span class="nc" id="L268">			month5.setText(&quot;Nov&quot;);</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">			if(course.getLectureIDsMonth(11).isEmpty()){</span>
+<span class="nc" id="L270">				month5.setDisable(true);</span>
+			}
+<span class="nc" id="L272">			month6.setText(&quot;Des&quot;);</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">			if(course.getLectureIDsMonth(12).isEmpty()){</span>
+<span class="nc" id="L274">				month6.setDisable(true);</span>
+			}
+<span class="nc" id="L276">			spring = false;</span>
+		}else{
+<span class="nc bnc" id="L278" title="All 2 branches missed.">			if(course.getLectureIDsMonth(1).isEmpty()){</span>
+<span class="nc" id="L279">				month1.setDisable(true);</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">			}if(course.getLectureIDsMonth(2).isEmpty()){</span>
+<span class="nc" id="L281">				month2.setDisable(true);</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">			}if(course.getLectureIDsMonth(3).isEmpty()){</span>
+<span class="nc" id="L283">				month3.setDisable(true);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">			}if(course.getLectureIDsMonth(4).isEmpty()){</span>
+<span class="nc" id="L285">				month4.setDisable(true);</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">			}if(course.getLectureIDsMonth(5).isEmpty()){</span>
+<span class="nc" id="L287">				month5.setDisable(true);</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">			}if(course.getLectureIDsMonth(6).isEmpty()){</span>
+<span class="nc" id="L289">				month6.setDisable(true);</span>
+			}
+		}
+		
+		
+<span class="nc" id="L294">		ArrayList&lt;Integer&gt; lecIDs = course.getLectureIDsMonth(monthNum);</span>
+		
+<span class="nc" id="L296">		thisMonthsLectures = getLectureDates(lecIDs);</span>
+		
+<span class="nc bnc" id="L298" title="All 2 branches missed.">		while(thisMonthsLectures.isEmpty()){</span>
+<span class="nc bnc" id="L299" title="All 6 branches missed.">			if(monthNum == 1 || monthNum == 7 || monthNum &lt; 0){</span>
+<span class="nc" id="L300">				break;</span>
+			}
+<span class="nc" id="L302">			monthNum-- ;</span>
+<span class="nc" id="L303">			updateMonth(monthNum);</span>
+		}
+		
+		
+		
+<span class="nc" id="L308">		lectures.getItems().clear();</span>
+<span class="nc" id="L309">		lectures.getItems().addAll(thisMonthsLectures);</span>
+		
+		
+<span class="nc" id="L312">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

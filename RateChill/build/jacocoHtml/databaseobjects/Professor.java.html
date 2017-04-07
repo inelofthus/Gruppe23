@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Professor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">databaseobjects</a> &gt; <span class="el_source">Professor.java</span></div><h1>Professor.java</h1><pre class="source lang-java linenums">package databaseobjects;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import database.DBController;
+
+
+public class Professor extends DatabaseUser {
+	private String username;
+	String encryptedPassword;
+	ArrayList&lt;String&gt; courseIDs;
+	HashMap&lt;String, String&gt; courseIDNames;
+	
+	// Constructor 1
+<span class="fc" id="L18">	public Professor(String professorUsername) {</span>
+<span class="fc" id="L19">		this.username = professorUsername;</span>
+<span class="fc" id="L20">		DBC.loadProfessorInfo(this);</span>
+<span class="fc" id="L21">		this.encryptedPassword = DBC.getStringArray(&quot;select professorPassword from Professor Where professorUsername = '&quot; + professorUsername + &quot;';&quot;).get(0);</span>
+<span class="fc" id="L22">	}</span>
+	
+	public boolean isCorrectPassword(String encryptedPassword) {
+				
+		try {
+<span class="fc" id="L27">			return DBC.checkProfessorPassword(username, encryptedPassword);</span>
+<span class="nc" id="L28">		} catch (SQLException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L30">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L32">		return false;</span>
+	}
+
+	// Constructor2 for use in testing
+<span class="fc" id="L36">	public Professor(String professorUsername, String encryptedPassword, DBController newDBC) {</span>
+<span class="fc" id="L37">		this.username = professorUsername;</span>
+<span class="fc" id="L38">		switchDBC(newDBC);</span>
+<span class="fc" id="L39">		DBC.loadProfessorInfo(this);</span>
+<span class="fc" id="L40">	}</span>
+	
+	public boolean existsInDB(){
+<span class="fc" id="L43">		return DBC.professorExists(username);</span>
+	}
+	
+	// Getters
+	public HashMap&lt;String, String&gt; getCourseIDNames() {
+<span class="fc" id="L48">		return courseIDNames;</span>
+	}
+
+	public ArrayList&lt;Integer&gt; getLecturesForCourse(String courseCode){
+		// returns lectureIDs for all lectures given by this professor that have already passed
+		// Order is with the newest lecture first
+<span class="fc" id="L54">		return DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);</span>
+	}
+	
+	public ArrayList&lt;Integer&gt; getLastTwoCompletedLecturesForCourse(String courseCode){
+		// returns lectureIDs for last two lectures given by this professor that have already passed in specified course
+		// Order is with the newest lecture first
+<span class="fc" id="L60">		ArrayList&lt;Integer&gt; lastTwoCompleteLectures = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L61">		ArrayList&lt;Integer&gt; allCompletedLectures = DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);</span>
+		
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">		if(allCompletedLectures.size() ==1)</span>
+<span class="fc" id="L64">			lastTwoCompleteLectures.add(allCompletedLectures.get(0));</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">		else if(allCompletedLectures.size() &gt;= 2){</span>
+<span class="nc" id="L66">			lastTwoCompleteLectures.add(allCompletedLectures.get(0));</span>
+<span class="nc" id="L67">			lastTwoCompleteLectures.add(allCompletedLectures.get(1));</span>
+		}
+		
+<span class="fc" id="L70">		return lastTwoCompleteLectures;</span>
+	}
+	
+	public String getUsername() {
+<span class="fc" id="L74">		return username;</span>
+	}
+
+
+	public ArrayList&lt;String&gt; getCourseIDs() {
+<span class="fc" id="L79">		return courseIDs;</span>
+	}
+	
+	public String getCourseNameForCourse(String courseCode) {
+		// will give the corresponding courseName for the students Course
+<span class="fc" id="L84">		return courseIDNames.get(courseCode);</span>
+	}
+	
+	//Setters
+	public void setCourseIDNames(HashMap&lt;String, String&gt; courseIDNames) {
+<span class="fc" id="L89">		this.courseIDNames = courseIDNames;</span>
+<span class="fc" id="L90">	}</span>
+
+	public void setCourseIDs(ArrayList&lt;String&gt; courseIDs) {
+<span class="fc" id="L93">		this.courseIDs = courseIDs;</span>
+<span class="fc" id="L94">	}</span>
+
+	
+	public static String hashPassword(String password) {
+<span class="fc" id="L98">		MessageDigest md = null;</span>
+		try {
+<span class="fc" id="L100">			md = MessageDigest.getInstance(&quot;MD5&quot;);</span>
+<span class="nc" id="L101">		} catch (NoSuchAlgorithmException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L103">			e.printStackTrace();</span>
+<span class="fc" id="L104">		}</span>
+<span class="fc" id="L105">		md.update(password.getBytes());</span>
+<span class="fc" id="L106">		byte[] b = md.digest();</span>
+<span class="fc" id="L107">		StringBuffer sb = new StringBuffer();</span>
+		
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		for(byte b1: b){</span>
+<span class="fc" id="L110">			sb.append(Integer.toHexString(b1 &amp; 0xff).toString());</span>
+		}
+		
+		
+<span class="fc" id="L114">		return sb.toString();</span>
+	}
+
+	public boolean hasPassword() {
+		
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		return !encryptedPassword.equals(&quot;np&quot;);</span>
+	}
+	
+	//////////////END OF USEFUL CODE ////////////////////////////
+	
+	//OLD LOAD FUNCTION	
+	
+	/*public void loadInfo(){
+		try {
+			courseIDs = DBC.getCoursesTaughtByProfessor(username);
+			
+		} catch (Exception e) {
+			
+			if (!existsInDB()) {
+				throw new NoSuchElementException(&quot;No courses exists for this professor&quot;);
+			}
+			System.out.println(e.getMessage());
+		}
+	}*/
+	
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

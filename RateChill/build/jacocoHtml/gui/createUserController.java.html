@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>createUserController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">createUserController.java</span></div><h1>createUserController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+
+import database.DBController;
+import databaseobjects.Lecture;
+import databaseobjects.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+
+<span class="nc" id="L31">public class createUserController implements Initializable {</span>
+
+	//fxml objects
+	@FXML
+	public Text badUsername;
+	public Text userCreated;
+	public Button back;
+	public Button finish;
+	public ToggleButton student;
+	public ToggleButton professor;
+	public ToggleGroup toggleGroup;
+	public TextField username;
+	
+<span class="nc" id="L44">	DBController DBC = new DBController();</span>
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L47">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L49">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L52">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L53">		stage.setScene(scene);</span>
+<span class="nc" id="L54">		stage.show();	</span>
+<span class="nc" id="L55">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L60">			loadNextScene(back, stage, &quot;loginStud.fxml&quot;);</span>
+		}
+<span class="nc" id="L62">	}</span>
+
+
+	
+	public void createStudentUser(String name) {
+<span class="nc" id="L67">		DBC.insertStudent(name,&quot;&quot;);</span>
+<span class="nc" id="L68">	}</span>
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L72">		Stage stage = null;</span>
+<span class="nc" id="L73">		userButtons(event, stage);</span>
+<span class="nc" id="L74">		boolean validInput = true;</span>
+		
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		if (event.getSource() == finish){</span>
+<span class="nc" id="L77">			Student stud = new Student(username.getText());</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">			if(stud.existsInDB()) {</span>
+<span class="nc" id="L79">				validInput = false;</span>
+<span class="nc" id="L80">				System.out.println(validInput);</span>
+<span class="nc" id="L81">				badUsername.setText(&quot;Username taken, please make a new one&quot;);</span>
+<span class="nc" id="L82">				return;</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">			}if(stud.getUsername().length() &gt; 30) {</span>
+<span class="nc" id="L84">				validInput = false;</span>
+<span class="nc" id="L85">				System.out.println(validInput);</span>
+<span class="nc" id="L86">				badUsername.setText(&quot;Username too long, please make a new one&quot;);</span>
+<span class="nc" id="L87">				return;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			}if(username.getText().isEmpty()){</span>
+<span class="nc" id="L89">				validInput = false;</span>
+<span class="nc" id="L90">				System.out.println(validInput);</span>
+<span class="nc" id="L91">				badUsername.setText(&quot;Please write a username&quot;);</span>
+<span class="nc" id="L92">				return;</span>
+			}
+			
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			if(validInput){</span>
+<span class="nc" id="L96">				createStudentUser(username.getText());</span>
+<span class="nc" id="L97">				loadNextScene(finish, stage, &quot;loginStud.fxml&quot;);</span>
+			}
+			
+		}			
+<span class="nc" id="L101">	}</span>
+	
+	
+	
+	
+	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method
+		
+<span class="nc" id="L112">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

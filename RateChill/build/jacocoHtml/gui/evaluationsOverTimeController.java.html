@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>evaluationsOverTimeController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">evaluationsOverTimeController.java</span></div><h1>evaluationsOverTimeController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Stack;
+
+import databaseobjects.Course;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+<span class="nc" id="L26">public class evaluationsOverTimeController implements Initializable {</span>
+
+	//fxml objects
+	@FXML
+	public Text debugText;
+	public Button home;
+	public Button logout;
+	public Button back;
+	public Button customize;
+	
+	
+	@FXML
+	public LineChart&lt;String, Integer&gt; lineChart;
+	public CategoryAxis xAxis;
+	public NumberAxis yAxis;
+<span class="nc" id="L41">	private ObservableList&lt;String&gt; lectureDates = FXCollections.observableArrayList();</span>
+<span class="nc" id="L42">	private Stack&lt;String&gt; stack = mainController.getInstance().getStack();</span>
+	
+<span class="nc" id="L44">	Course course = mainController.getInstance().getCourse();</span>
+	
+	
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L49">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L51">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L54">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L55">		stage.setScene(scene);</span>
+<span class="nc" id="L56">		stage.show();</span>
+<span class="nc" id="L57">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L61" title="All 2 branches missed.">		if (event.getSource() == home) {</span>
+<span class="nc" id="L62">			loadNextScene(home, stage, &quot;courseProf.fxml&quot;);</span>
+		}
+		
+<span class="nc bnc" id="L65" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L66">			loadNextScene(back, stage, stack.pop());</span>
+		}
+		
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		if (event.getSource() == logout) {</span>
+<span class="nc" id="L70">			loadNextScene(logout, stage, &quot;login.fxml&quot;);</span>
+		}
+<span class="nc" id="L72">	}</span>
+	
+	public boolean isUserButtonPushed(ActionEvent event) {
+<span class="nc bnc" id="L75" title="All 6 branches missed.">		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {</span>
+<span class="nc" id="L76">			return true;</span>
+		}
+<span class="nc" id="L78">		return false;</span>
+	}
+	
+	
+	//needs a fix
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L85">		Stage stage = null;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (isUserButtonPushed(event)) {</span>
+<span class="nc" id="L87">			userButtons(event, stage);</span>
+<span class="nc" id="L88">			return;</span>
+		}
+<span class="nc bnc" id="L90" title="All 2 branches missed.">		else if (event.getSource() == customize) {</span>
+<span class="nc" id="L91">			stack.push(&quot;evaluationsOverTime.fxml&quot;);</span>
+<span class="nc" id="L92">			loadNextScene(customize, stage, &quot;customizeButtons.fxml&quot;);</span>
+<span class="nc" id="L93">			return;</span>
+		}
+<span class="nc" id="L95">	}</span>
+	
+	
+	public XYChart.Series&lt;String, Integer&gt; createSeries(ArrayList&lt;Integer&gt; numbersList) {
+		
+<span class="nc" id="L100">		XYChart.Series&lt;String, Integer&gt; series = new XYChart.Series&lt;String, Integer&gt;();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		for (int i = 0;i&lt;lectureDates.size();i++) {</span>
+<span class="nc" id="L102">			XYChart.Data&lt;String, Integer&gt; ratingData = new XYChart.Data&lt;String,Integer&gt;(lectureDates.get(i), numbersList.get(i));</span>
+<span class="nc" id="L103">			series.getData().add(ratingData);</span>
+		}
+<span class="nc" id="L105">		return series;</span>
+	}
+	
+	public XYChart.Series&lt;String, Integer&gt; createSeries(ArrayList&lt;Integer&gt; numbersList, String label) {
+		
+<span class="nc" id="L110">		XYChart.Series&lt;String, Integer&gt; series = new XYChart.Series&lt;String, Integer&gt;();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		for (int i = 0;i&lt;lectureDates.size();i++) {</span>
+<span class="nc" id="L112">			XYChart.Data&lt;String, Integer&gt; ratingData = new XYChart.Data&lt;String,Integer&gt;(lectureDates.get(i), numbersList.get(i));</span>
+<span class="nc" id="L113">			series.getData().add(ratingData);</span>
+<span class="nc" id="L114">			series.setName(label);</span>
+		}
+<span class="nc" id="L116">		return series;</span>
+	}
+	
+	public void setEvaluationData(XYChart.Series&lt;String, Integer&gt; list) {
+<span class="nc" id="L120">		lineChart.getData().add(list);</span>
+<span class="nc" id="L121">	}</span>
+	
+	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		
+<span class="nc" id="L129">		course.setRatingsOverTime();</span>
+		
+<span class="nc" id="L131">		lectureDates = FXCollections.observableArrayList(course.getDateArrayForGraph());</span>
+		
+<span class="nc" id="L133">		xAxis.setCategories(lectureDates);</span>
+		
+		
+<span class="nc" id="L136">		ArrayList&lt;Integer&gt; count1 = course.getLecRatingCounts(1);</span>
+		
+<span class="nc" id="L138">		ArrayList&lt;Integer&gt; count2 = course.getLecRatingCounts(2);</span>
+		
+<span class="nc" id="L140">		ArrayList&lt;Integer&gt; count3 = course.getLecRatingCounts(3);</span>
+		
+<span class="nc" id="L142">		ArrayList&lt;Integer&gt; count4 = course.getLecRatingCounts(4);</span>
+		
+<span class="nc" id="L144">		ArrayList&lt;Integer&gt; count5 = course.getLecRatingCounts(5);</span>
+		
+<span class="nc" id="L146">		setEvaluationData(createSeries(count1, course.getRatingValues().get(0)));	</span>
+<span class="nc" id="L147">		setEvaluationData(createSeries(count2, course.getRatingValues().get(1)));		</span>
+<span class="nc" id="L148">		setEvaluationData(createSeries(count3, course.getRatingValues().get(2)));	</span>
+<span class="nc" id="L149">		setEvaluationData(createSeries(count4, course.getRatingValues().get(3)));		</span>
+<span class="nc" id="L150">		setEvaluationData(createSeries(count5, course.getRatingValues().get(4)));	;	</span>
+		
+<span class="nc" id="L152">		lineChart.setCreateSymbols(false);</span>
+		
+<span class="nc" id="L154">		xAxis.setLabel(&quot;Date&quot;);</span>
+<span class="nc" id="L155">		yAxis.setLabel(&quot;Percent&quot;);</span>
+		
+		
+		
+		
+<span class="nc" id="L160">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

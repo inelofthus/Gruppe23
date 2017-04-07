@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">databaseobjects</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package databaseobjects;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import database.DBController;
+
+
+public class Student extends DatabaseUser{
+	private String username;
+	private String studyProgram;
+	private ArrayList&lt;String&gt; courseIDs;
+	private HashMap&lt;String, String&gt; courseIDNames;
+	
+	//Constructor1
+<span class="fc" id="L16">	public Student(String username) {</span>
+<span class="fc" id="L17">		this.username = username;</span>
+<span class="fc" id="L18">		DBC.loadStudentInfo(this);</span>
+<span class="fc" id="L19">	}</span>
+	
+	//Constructor2 used in testing
+<span class="fc" id="L22">	public Student(String username, DBController newDBC) {</span>
+<span class="fc" id="L23">		switchDBC(newDBC);</span>
+<span class="fc" id="L24">		this.username = username;</span>
+<span class="fc" id="L25">		DBC.loadStudentInfo(this);</span>
+<span class="fc" id="L26">	}</span>
+	
+	
+	public HashMap&lt;String, String&gt; getCourseIDNames() {
+<span class="fc" id="L30">		return courseIDNames;</span>
+	}
+
+
+	public void setCourseIDNames(HashMap&lt;String, String&gt; courseIDNames) {
+<span class="fc" id="L35">		this.courseIDNames = courseIDNames;</span>
+<span class="fc" id="L36">	}</span>
+
+	
+	public boolean existsInDB(){
+<span class="fc" id="L40">		return DBC.studentExists(username);</span>
+	}
+	
+
+	
+	public void setStudyProgram(String studyProgram) {
+<span class="fc" id="L46">		this.studyProgram = studyProgram;</span>
+<span class="fc" id="L47">	}</span>
+
+	public void setCourseIDs(ArrayList&lt;String&gt; courseIDs) {
+<span class="fc" id="L50">		this.courseIDs = courseIDs;</span>
+<span class="fc" id="L51">	}</span>
+
+	public String getCourseNameForCourse(String courseCode) {
+		// will give the corresponding courseName for the students Course
+<span class="fc" id="L55">		return courseIDNames.get(courseCode);</span>
+	}
+
+	public void giveEvaluation(int lectureID, String rating, String comment){
+<span class="nc" id="L59">		DBC.insertEvaluation(username, lectureID, rating, comment);</span>
+		//TODO: Form validation
+<span class="nc" id="L61">	}</span>
+	
+	public void overWriteEvaluation(int lectureID, String rating, String comment){
+<span class="fc" id="L64">		DBC.overwriteEvaluation(username, lectureID, rating, comment);</span>
+<span class="fc" id="L65">	}</span>
+
+	public String getUsername() {
+<span class="fc" id="L68">		return username;</span>
+	}
+
+	public String getStudyProgram() {
+<span class="fc" id="L72">		return studyProgram;</span>
+	}
+
+	public ArrayList&lt;String&gt; getCourseIDs() {
+<span class="nc" id="L76">		return courseIDs;</span>
+	}
+	
+	public boolean hasEvaluatedLecture(int lecID){
+<span class="nc" id="L80">		return DBC.studentHasEvaluatedLecture(username, lecID);</span>
+	}
+
+	public void addCourse(String courseCode, String courseName) {
+		// adds course to list and then database
+<span class="nc" id="L85">		courseIDs.add(courseCode);</span>
+<span class="nc" id="L86">		courseIDNames.put(courseCode, courseName);</span>
+<span class="nc" id="L87">		DBC.insertCourseStudent(username, courseCode);</span>
+<span class="nc" id="L88">	}</span>
+	
+	public void removeCourse(String courseCode){
+<span class="nc" id="L91">		courseIDs.remove(courseCode);</span>
+<span class="nc" id="L92">		courseIDNames.remove(courseCode);</span>
+<span class="nc" id="L93">		DBC.deleteCourseStudent(username, courseCode);</span>
+<span class="nc" id="L94">	}</span>
+	
+	//Old load function:
+	/*public void loadInfo(){
+	try {
+		studyProgram = DBC.getStudyProgram(getEmail());
+		courseIDs = DBC.getStudentCourses(getEmail());
+		String query = &quot;select courseName from Course as c, CourseStudent as cs WHERE c.courseCode = cs.courseCode AND studentEmail = '&quot;+ getEmail() + &quot;';&quot;;
+		courseNames = DBC.getStringArray(query);
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		if (!existsInDB()) {
+			throw new IllegalAccessError(&quot;User does not exist in database&quot;);
+		}
+		System.out.println(e.getMessage());
+	}
+			
+}*/
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

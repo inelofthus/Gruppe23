@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="testingDBObjects.ProfessorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-04-07T11:15:22" hostname="NicolaiPC" time="0.003">
+  <properties/>
+  <testcase name="testgetCourseIDs" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <testcase name="testgetLecturesForCourse" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <testcase name="testgetCourseNameForCourse" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <testcase name="testisCorrectPassword" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <testcase name="testhashPassword" classname="testingDBObjects.ProfessorTest" time="0.001"/>
+  <testcase name="testgetLastTwoCompletedLecturesForCourse" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <testcase name="testgetCourseIDNames" classname="testingDBObjects.ProfessorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

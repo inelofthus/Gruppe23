@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco';
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+jacoco {
+	toolVersion = "0.7.6.201602180812"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+
+}
+
+jacocoTestReport {
+	reports {
+		html.destination "${buildDir}/jacocoHtml"
+		xml.enabled = false
+		csv.enabled = false
+	}
+}
+
+test.finalizedBy jacocoTestReport
+
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile files('lib/mysql-connector-java-5.1.40-bin.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+

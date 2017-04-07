@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>lectureStudController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">lectureStudController.java</span></div><h1>lectureStudController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.ResourceBundle;
+
+import database.DBController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+<span class="nc" id="L23">public class lectureStudController implements Initializable {</span>
+
+	
+	@FXML
+	public Button lecture1;
+	public Button lecture2;
+	public Button home;
+	public Button back;
+	public Button logout;
+	public Text errorMsg;
+	
+<span class="nc" id="L34">	private DBController DBC = new DBController();</span>
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L37">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L39">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L42">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L43">		stage.setScene(scene);</span>
+<span class="nc" id="L44">		stage.show();	</span>
+<span class="nc" id="L45">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L49" title="All 2 branches missed.">		if(event.getSource() == home) {</span>
+<span class="nc" id="L50">			loadNextScene(home, stage, &quot;courseStud.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L53">			loadNextScene(back, stage, &quot;courseStud.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		if (event.getSource() == logout) {</span>
+<span class="nc" id="L56">			loadNextScene(logout, stage, &quot;login.fxml&quot;);</span>
+		}
+<span class="nc" id="L58">	}</span>
+	
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L63">		Stage stage = null;</span>
+<span class="nc" id="L64">		userButtons(event, stage);</span>
+		
+<span class="nc" id="L66">		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();</span>
+		
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		if (numberOfLectures==0) {</span>
+			
+<span class="nc" id="L70">			return;</span>
+		}
+<span class="nc bnc" id="L72" title="All 4 branches missed.">		else if(event.getSource()==lecture1 &amp;&amp; numberOfLectures&gt;0){</span>
+	    	//get reference to the button's stage         
+<span class="nc" id="L74">	        mainController.getInstance().setChosenStudentLecture(getKeyLec1());</span>
+<span class="nc" id="L75">	        loadNextScene(lecture1, stage, &quot;evaluationStud.fxml&quot;);</span>
+	    }
+<span class="nc bnc" id="L77" title="All 4 branches missed.">	    else if(event.getSource() == lecture2 &amp;&amp; numberOfLectures&gt;1){</span>
+<span class="nc" id="L78">	    	mainController.getInstance().setChosenStudentLecture(getKeyLec2());</span>
+<span class="nc" id="L79">	    	loadNextScene(lecture2, stage, &quot;evaluationStud.fxml&quot;);</span>
+	    }
+	    
+<span class="nc" id="L82">	} </span>
+	   
+	
+	
+	private int getKeyLec2() {
+		// helper method that returns the lectureID of the first lecture of lastTwoLectures		
+<span class="nc" id="L88">		LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; map = mainController.getInstance().getLastTwoLecturesStudent();</span>
+<span class="nc" id="L89">		Iterator&lt;Integer&gt; entries = map.keySet().iterator();</span>
+<span class="nc" id="L90">		return entries.next();</span>
+	}
+	
+	private int getKeyLec1() {
+		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
+<span class="nc" id="L95">		LinkedHashMap&lt;Integer, ArrayList&lt;String&gt;&gt; map = mainController.getInstance().getLastTwoLecturesStudent();</span>
+<span class="nc" id="L96">		Iterator&lt;Integer&gt; entries = map.keySet().iterator();</span>
+<span class="nc" id="L97">		entries.next();</span>
+<span class="nc" id="L98">		return entries.next();</span>
+		
+		
+	}
+
+
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// Set text of buttons to contain date of lecture
+<span class="nc" id="L108">		int numberOfLectures = mainController.getInstance().getCourse().getLectureIDs().size();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		if (numberOfLectures==0) {</span>
+<span class="nc" id="L110">			errorMsg.setText(&quot;No lectures registered for this course&quot;);</span>
+<span class="nc" id="L111">			lecture1.setVisible(false);</span>
+<span class="nc" id="L112">			lecture2.setVisible(false);</span>
+<span class="nc" id="L113">			return;</span>
+		}
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		else if(numberOfLectures&lt;2) {</span>
+<span class="nc" id="L116">			lecture1.setText(DBC.changeDateFormat(getLectureDateText(getKeyLec1()))  );</span>
+		}
+		else {
+<span class="nc" id="L119">			lecture1.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec1())) );</span>
+<span class="nc" id="L120">			lecture2.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec2())) );</span>
+			
+		}
+		
+		
+<span class="nc" id="L125">	}</span>
+
+
+
+	private String getLectureDateText(int lecID) {
+		// TODO Auto-generated method stub
+<span class="nc" id="L131">		String date = &quot;&quot;;</span>
+		
+		try {
+<span class="nc" id="L134">		date = mainController.getInstance().getCourse().getLectureDate(lecID);</span>
+<span class="nc" id="L135">		System.out.println(date);</span>
+<span class="nc" id="L136">		} catch (Exception e) {</span>
+<span class="nc" id="L137">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L138">		}</span>
+				
+<span class="nc" id="L140">		return date;</span>
+	}
+	
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

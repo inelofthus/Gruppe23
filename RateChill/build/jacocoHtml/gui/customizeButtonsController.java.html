@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>customizeButtonsController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RateChill</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">customizeButtonsController.java</span></div><h1>customizeButtonsController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.Stack;
+
+import database.DBController;
+import databaseobjects.Course;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+
+<span class="nc" id="L26">public class customizeButtonsController implements Initializable {</span>
+
+	//fxml objects
+	@FXML
+	public Button home;
+	public Button back;
+	public Button logout;
+	
+	
+	public Button submitChanges;
+	public Button preview;
+	public ToggleButton button1;
+	public ToggleButton button2;
+	public ToggleButton button3;
+	public ToggleButton button4;
+	public ToggleButton button5;
+	public TextField buttonText1;
+	public TextField buttonText2;
+	public TextField buttonText3;
+	public TextField buttonText4;
+	public TextField buttonText5;
+	public Text errorText;
+	
+	
+<span class="nc" id="L50">	DBController DBC = new DBController();</span>
+<span class="nc" id="L51">	Course course = mainController.getInstance().getCourse();</span>
+<span class="nc" id="L52">	ArrayList&lt;String&gt; ratings = course.getRatingValues();</span>
+<span class="nc" id="L53">	ArrayList&lt;TextField&gt; texts = new ArrayList&lt;TextField&gt;();</span>
+<span class="nc" id="L54">	ArrayList&lt;ToggleButton&gt; buttons = new ArrayList&lt;ToggleButton&gt;();</span>
+<span class="nc" id="L55">	private Stack&lt;String&gt; stack = mainController.getInstance().getStack();</span>
+	
+	
+	private void createHelpingLists() {
+<span class="nc" id="L59">		texts.add(buttonText1);</span>
+<span class="nc" id="L60">		texts.add(buttonText2);</span>
+<span class="nc" id="L61">		texts.add(buttonText3);</span>
+<span class="nc" id="L62">		texts.add(buttonText4);</span>
+<span class="nc" id="L63">		texts.add(buttonText5);</span>
+<span class="nc" id="L64">		buttons.add(button1);</span>
+<span class="nc" id="L65">		buttons.add(button2);</span>
+<span class="nc" id="L66">		buttons.add(button3);</span>
+<span class="nc" id="L67">		buttons.add(button4);</span>
+<span class="nc" id="L68">		buttons.add(button5);</span>
+<span class="nc" id="L69">	}</span>
+	
+	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
+<span class="nc" id="L72">		stage=(Stage) button.getScene().getWindow();</span>
+		Parent root;
+<span class="nc" id="L74">		root = FXMLLoader.load(getClass().getResource(string));</span>
+		
+		//create a new scene with root and set the stage
+<span class="nc" id="L77">		Scene scene = new Scene(root);</span>
+<span class="nc" id="L78">		stage.setScene(scene);</span>
+<span class="nc" id="L79">		stage.show();	</span>
+<span class="nc" id="L80">	}</span>
+	
+	
+	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+<span class="nc bnc" id="L84" title="All 2 branches missed.">		if (event.getSource() == home) {</span>
+<span class="nc" id="L85">			loadNextScene(home, stage, &quot;courseProf.fxml&quot;);</span>
+		}
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (event.getSource() == back) {</span>
+<span class="nc" id="L88">			loadNextScene(back, stage, stack.pop());</span>
+<span class="nc" id="L89">			return;</span>
+		}
+<span class="nc bnc" id="L91" title="All 2 branches missed.">		if (event.getSource() == logout) {</span>
+<span class="nc" id="L92">			loadNextScene(logout, stage, &quot;login.fxml&quot;);</span>
+		}
+<span class="nc" id="L94">	}</span>
+	
+	public boolean isUserButtonPushed(ActionEvent event) {
+<span class="nc bnc" id="L97" title="All 6 branches missed.">		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {</span>
+<span class="nc" id="L98">			return true;</span>
+		}
+<span class="nc" id="L100">		return false;</span>
+	}
+	
+	public boolean haveMadeButtonChanges() {
+<span class="nc bnc" id="L104" title="All 10 branches missed.">		if (buttonIsChanged(buttonText1) || buttonIsChanged(buttonText2) || buttonIsChanged(buttonText3) || buttonIsChanged(buttonText4) || buttonIsChanged(buttonText5)) {</span>
+<span class="nc" id="L105">			return true;</span>
+		}
+<span class="nc" id="L107">		return false;</span>
+	}
+	
+	
+	public void setPreviewTexts(ArrayList&lt;String&gt; array) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		for (int i = 0; i&lt;5;i++) {</span>
+<span class="nc" id="L113">			buttons.get(i).setText(array.get(i));</span>
+		}
+<span class="nc" id="L115">	}</span>
+	
+	
+	public void initializePreview() {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		for (int i = 0; i&lt;5;i++) {</span>
+<span class="nc" id="L120">			buttons.get(i).setText(ratings.get(i));</span>
+		}
+<span class="nc" id="L122">	}</span>
+	
+	public boolean buttonIsChanged(TextField text) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		if(text.getText().length()&gt;0) {</span>
+<span class="nc" id="L126">			return true;</span>
+		}
+<span class="nc" id="L128">		return false;</span>
+	}
+	
+	public ArrayList&lt;String&gt; makeListOfValues() {
+<span class="nc" id="L132">		ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		for(int i = 0;i&lt;5;i++) {</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">			if (buttonIsChanged(texts.get(i))) {</span>
+<span class="nc" id="L135">				list.add(texts.get(i).getText());</span>
+			}
+			else {
+<span class="nc" id="L138">				list.add(ratings.get(i));</span>
+			}
+		}
+<span class="nc" id="L141">		return list;</span>
+	}
+	
+	public boolean equalRatings(ArrayList&lt;String&gt; checkList) {
+<span class="nc" id="L145">		Set&lt;String&gt; set = new HashSet&lt;String&gt;(checkList);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if(set.size()&lt;checkList.size()) {</span>
+<span class="nc" id="L147">			return true;</span>
+		}
+<span class="nc" id="L149">		return false;</span>
+	}
+	
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException{
+<span class="nc" id="L154">		Stage stage = null;</span>
+<span class="nc" id="L155">		errorText.setText(&quot;&quot;);</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">		if (isUserButtonPushed(event)) {</span>
+<span class="nc" id="L157">			userButtons(event, stage);</span>
+<span class="nc" id="L158">			return;</span>
+		}
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		else if(event.getSource() == preview) {</span>
+<span class="nc" id="L161">			setPreviewTexts(makeListOfValues());</span>
+<span class="nc" id="L162">			return;</span>
+		}
+<span class="nc bnc" id="L164" title="All 2 branches missed.">		else if (event.getSource() == submitChanges){</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">			if (!haveMadeButtonChanges()) {</span>
+<span class="nc" id="L166">				errorText.setText(&quot;You have not made any changes&quot;);</span>
+<span class="nc" id="L167">				return;</span>
+			}			
+<span class="nc" id="L169">			ArrayList&lt;String&gt; inputValues = makeListOfValues();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">			if(tooLongInput(inputValues)){</span>
+<span class="nc" id="L171">				errorText.setText(&quot;Too long text. There max length of a rating value is 20characters. &quot;);</span>
+<span class="nc" id="L172">				return;</span>
+			}
+<span class="nc bnc" id="L174" title="All 2 branches missed.">			if (equalRatings(inputValues)) {</span>
+<span class="nc" id="L175">				errorText.setText(&quot;There exists duplicate rating-values, please make them unique&quot;);</span>
+<span class="nc" id="L176">				return;</span>
+			}
+			
+<span class="nc" id="L179">			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));</span>
+<span class="nc" id="L180">			loadNextScene(submitChanges, stage, stack.pop());</span>
+<span class="nc" id="L181">			course.setRatingValues(inputValues);</span>
+<span class="nc" id="L182">			mainController.getInstance().setCourse(course);</span>
+		}
+<span class="nc" id="L184">		return;</span>
+	}
+	
+	
+	
+	
+	
+	
+	private boolean tooLongInput(ArrayList&lt;String&gt; inputValues) {
+		
+<span class="nc bnc" id="L194" title="All 2 branches missed.">		for(String rv: inputValues){</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">			if(rv.length() &gt; 20){</span>
+<span class="nc" id="L196">				return true;</span>
+			}
+<span class="nc" id="L198">		}</span>
+<span class="nc" id="L199">		return false;</span>
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method
+<span class="nc" id="L205">		createHelpingLists();</span>
+<span class="nc" id="L206">		initializePreview();</span>
+<span class="nc" id="L207">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
