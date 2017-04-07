@@ -153,7 +153,6 @@ public class DBControllerTest {
 		assertTrue(dbc.evaluationExists(lectureID, "testStud"));
 		
 		//Delete
-		
 		TestData.deleteTestDataEvaluation();
 		assertFalse(eval.existsInDB());
 		assertFalse(updatedEval.existsInDB());
