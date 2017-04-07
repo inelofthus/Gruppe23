@@ -144,11 +144,6 @@ public class CourseTest {
 		ArrayList<Integer>  expected = new ArrayList<>(Arrays.asList(0,0,0));
 		
 		assertEquals(expected, actual);
-		
-		actual = course.getLecRatingCounts(2);
-		expected = new ArrayList<>(Arrays.asList(0,0,1));
-		
-		assertEquals(expected, actual);
 	}
 	
 	@Test
