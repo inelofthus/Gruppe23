@@ -63,29 +63,13 @@ public class DBController {
 		// takes an SQL query as input. Returns a string that contains all data
 		// from first column of table
 		connect();
-
-		ArrayList<String> list = new ArrayList<>();
-		try {
-			stmt = conn.createStatement();
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				list.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
+		ArrayList<String> list = getStringArrayNC(query);		
 		close();
-		// System.out.println(professor);
 		return list;
 	}
 	
 	public ArrayList<String> getStringArrayNC(String query) {
+		// NC stands for no connect 
 		// takes an SQL query as input. Returns a string that contains all data
 		// from first column of table
 
@@ -135,31 +119,7 @@ public class DBController {
 		return list;
 	}
 
-	public int getInt(String query) {
-		// takes an sqlQuery as input and returns a list containing the int
-		// elements of the first column
-
-		int ans = 0;
-		connect();
-
-		try {
-			stmt = conn.createStatement();
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
-			ans = rs.getInt(1);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-
-		close();
-		return ans;
-
-	}
+	
 
 	// Course info
 
