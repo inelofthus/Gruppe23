@@ -153,7 +153,6 @@ public class DBController {
 		}
 
 		close();
-
 	}
 
 	public void insertCourseCon(String courseCode, String courseName, int lectureHours, boolean taughtInSpring, boolean taughtInAutumn) {

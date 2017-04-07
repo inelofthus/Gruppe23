@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import GUItest.DummyMainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import database.DBController;
@@ -33,11 +35,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import testingDBObjects.DummyDBController;
 
 public class addLecturesController implements Initializable {
-
-
-	
 
 	// fxml objects
 	
@@ -70,9 +70,10 @@ public class addLecturesController implements Initializable {
 	@FXML
 	public ListView<String> listView;
 	
-	Course course = mainController.getInstance().getCourse();
+	mainController mainCon = mainController.getInstance();
+	Course course = mainCon.getCourse();
 	String courseCode = course.getCourseCode();
-	String prof = mainController.getInstance().getProfessor().getUsername();
+	String prof = mainCon.getProfessor().getUsername();
 	DBController dbc = new DBController(); 
 	
 	private Pattern pattern;
@@ -209,6 +210,18 @@ public class addLecturesController implements Initializable {
 	  matcher = pattern.matcher(time);
 	  return matcher.matches();
 	}
+	
+	public addLecturesController() {
+
+	}
+	
+	//Constructor for testing
+	public addLecturesController(String str) {
+	// dummyDBC is only for testing. It does not access the database
+		this.dbc = new DummyDBController();
+		this.mainCon = new DummyMainController();
+	}
+	
 	
 	
 	
