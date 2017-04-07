@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testingDBObjects.EvaluationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-04-07T11:15:22" hostname="NicolaiPC" time="0.001">
-  <properties/>
-  <testcase name="testgetComment" classname="testingDBObjects.EvaluationTest" time="0.0"/>
-  <testcase name="testgetRating" classname="testingDBObjects.EvaluationTest" time="0.001"/>
-  <testcase name="testgetLectureid" classname="testingDBObjects.EvaluationTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
