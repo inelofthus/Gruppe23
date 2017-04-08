@@ -60,27 +60,8 @@ public class Evaluation extends DatabaseUser {
 		this.rating = rating;
 	}
 
-
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
 
-	
-	//////////////////END OF USEFUL CODE /////////////////////
-	//Old load function
-	
-	/*public void loadInfo(){
-	try {
-		rating = DBC.getEvaluationRatingAndComment(lectureid, studentUsername).get(0);
-		comment = DBC.getEvaluationRatingAndComment(lectureid, studentUsername).get(1);
-		
-	} catch (Exception e) {
-		// TODO: handle exception
-		if (!existsInDB()) {
-			throw new NoSuchElementException("Evaluation does not exist in database");
-		}
-		System.out.println(e.getMessage());
-	}
-			
-}*/
 }

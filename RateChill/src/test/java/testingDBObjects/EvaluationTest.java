@@ -10,9 +10,21 @@ public class EvaluationTest {
 	// A dummy DBC has no interaction with database. It just sets values as described in exampleValues.txt
 	DBController dummyDBC = new DummyDBController();
 	Evaluation eval = new Evaluation(1, "karimj@stud.ntnu.no", dummyDBC);
+	Evaluation eval2 = new Evaluation(1, "stupidStud", dummyDBC);
 	
 	@Test
-	public void testgetRating() {
+	public void TestexistsInDB(){
+		boolean actual = eval.existsInDB();
+		boolean expected = true;
+		
+		assertEquals(expected, actual);
+		
+		actual = eval2.existsInDB();
+		expected = false;
+	}
+	
+	@Test
+	public void TestgetRating() {
 		String actual = eval.getRating();
 		String expected = "Ok";
 		
@@ -20,7 +32,7 @@ public class EvaluationTest {
 	}
 	
 	@Test
-	public void testgetComment() {
+	public void TestgetComment() {
 		String actual = eval.getComment();
 		String expected = "yeah it was ok";
 		
@@ -28,9 +40,17 @@ public class EvaluationTest {
 	}	
 	
 	@Test
-	public void testgetLectureid() {
+	public void TestgetLectureid() {
 		int actual = eval.getLectureid();
 		int expected = 1;
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void TestgetstudentUsername(){
+		String actual = eval.getstudentUsername();
+		String expected = "karimj@stud.ntnu.no";
 		
 		assertEquals(expected, actual);
 	}
