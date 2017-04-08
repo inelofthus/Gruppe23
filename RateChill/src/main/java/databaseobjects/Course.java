@@ -74,7 +74,6 @@ public class Course extends DatabaseUser{
 		return semester;
 	}
 
-	
 	public ArrayList<Integer> getCompletedLectureIDs() {
 		return completedLectureIDs;
 	}
@@ -97,7 +96,6 @@ public class Course extends DatabaseUser{
 	public String getCourseName() {
 		return courseName;
 	}
-
 
 	public int getNumLectureHours() {
 		return numLectureHours;

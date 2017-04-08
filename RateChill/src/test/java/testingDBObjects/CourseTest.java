@@ -17,6 +17,20 @@ public class CourseTest {
 	// A dummy DBC has no interaction with database. It just sets values as described in exampleValues.txt
 	DBController dummyDBC = new DummyDBController();
 	Course course = new Course("TDT4140", dummyDBC);
+	Course course2 = new Course("TDT1234", dummyDBC);
+	
+	@Test
+	public void TestExistsInDB(){
+		boolean actual = course.existsInDB();
+		boolean expected = true;
+		
+		assertEquals(expected, actual);
+		
+		actual = course2.existsInDB();
+		expected = false;
+		
+		assertEquals(expected, actual);
+	}
 	
 	@Test
 	public void testGetCompletedLectureIDs() {
@@ -95,7 +109,6 @@ public class CourseTest {
 		assertEquals(expected, actual);
 	}
 
-
 	@Test
 	public void  TestgetProfessorUsernames() {
 		ArrayList<String> actual = course.getProfessorUsernames();
@@ -130,18 +143,39 @@ public class CourseTest {
 	}
 	
 	@Test
-	public void  TestgetSemester() {
-		String actual = course.getSemester();
-		String expected = "V2017";
+	public void  TestgetLecRatingCounts() {
+		course.setRatingsOverTime();
+		ArrayList<Integer> actual = course.getLecRatingCounts(1);
+		ArrayList<Integer>  expected = new ArrayList<>(Arrays.asList(0,0,0));
+		assertEquals(expected, actual);
+		
+		actual = course.getLecRatingCounts(2);
+		expected = new ArrayList<>(Arrays.asList(0,0,100));
+		assertEquals(expected, actual);
+		
+		actual = course.getLecRatingCounts(3);
+		expected = new ArrayList<>(Arrays.asList(0,0,0));
+		assertEquals(expected, actual);
+		
+		actual = course.getLecRatingCounts(4);
+		assertEquals(expected, actual);
+		
+		actual = course.getLecRatingCounts(5);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void  TestgetDateArrayForGraph() {
+		ArrayList<String> actual = course.getDateArrayForGraph();
+		ArrayList<String> expected = new ArrayList<>(Arrays.asList("03.01","02.01","01.01"));
 		
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	public void  TestgetLecRatingCounts() {
-		course.setRatingsOverTime();
-		ArrayList<Integer> actual = course.getLecRatingCounts(1);
-		ArrayList<Integer>  expected = new ArrayList<>(Arrays.asList(0,0,0));
+	public void  TestgetSemester() {
+		String actual = course.getSemester();
+		String expected = "V2017";
 		
 		assertEquals(expected, actual);
 	}
@@ -167,4 +201,21 @@ public class CourseTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void TestgetLectureIDsMonth(){
+		
+		course.setLectureByMonth();
+		
+		ArrayList<Integer> actual  = course.getLectureIDsMonth(1);
+		ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(1,2,3));
+		assertEquals(expected, actual);
+		
+		expected = new ArrayList<>();
+		
+		for(int i = 2; i < 13; i++ ){
+			actual = course.getLectureIDsMonth(i);
+			assertEquals(expected, actual);
+		}
+	}
+	
 }
