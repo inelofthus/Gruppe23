@@ -21,7 +21,7 @@
          <font>
             <Font size="24.0" />
          </font></Text>
-      <ToggleButton fx:id="rating1" layoutX="31.0" layoutY="151.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Perfect">
+      <ToggleButton fx:id="rating1" layoutX="31.0" layoutY="151.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionStud" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Perfect">
          <font>
             <Font size="18.0" />
          </font>
@@ -29,22 +29,22 @@
             <ToggleGroup fx:id="group" />
          </toggleGroup>
       </ToggleButton>
-      <ToggleButton fx:id="rating2" layoutX="31.0" layoutY="208.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Ok" toggleGroup="$group">
+      <ToggleButton fx:id="rating2" layoutX="31.0" layoutY="208.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionStud" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Ok" toggleGroup="$group">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="rating3" layoutX="31.0" layoutY="265.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Too Fast!" toggleGroup="$group">
+      <ToggleButton fx:id="rating3" layoutX="31.0" layoutY="265.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionStud" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Too Fast!" toggleGroup="$group">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="rating4" layoutX="31.0" layoutY="322.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Too Slow!" toggleGroup="$group">
+      <ToggleButton fx:id="rating4" layoutX="31.0" layoutY="322.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionStud" prefHeight="47.0" prefWidth="287.0" styleClass="toggle" text="Too Slow!" toggleGroup="$group">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="rating5" layoutX="31.0" layoutY="378.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="287.0" styleClass="toggle" text="Confused.. ?" toggleGroup="$group">
+      <ToggleButton fx:id="rating5" layoutX="31.0" layoutY="378.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionStud" prefHeight="45.0" prefWidth="287.0" styleClass="toggle" text="Confused.. ?" toggleGroup="$group">
          <font>
             <Font size="18.0" />
          </font>

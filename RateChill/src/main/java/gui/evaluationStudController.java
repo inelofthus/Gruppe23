@@ -19,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -59,7 +61,63 @@ public class evaluationStudController implements Initializable {
 		mainController.getInstance().getStudents().overWriteEvaluation(lecID, rating, comment);
 	}
 	
+	public void handleKeyActionStud(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			submitButton();
+		}
+	}
 	
+	
+	private void submitButton() {
+		Stage stage = null;
+		welcomeText.setVisible(false);
+		
+		//checks if something is selected and gives error message
+		if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
+				|| rating1.isSelected())) {
+			overwriteText.setText("Choose a rating");
+			submitted.setText("");
+			rec.setFill(Color.RED);
+			debugText.setText("");
+			return;
+		}
+		
+		
+		//if the user already has submitted one or more evaluations on the subject, it gets overwritten
+		if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+			
+			
+			String comment = feedback.getText();
+			
+			//the actual overwriting function
+			overwriting(lectureID, selectedButton(), comment);
+			
+			//removing other messages the GUI displays and setting the overwritten text
+			debugText.setText("");
+			submitted.setText("");
+			rec.setFill(Color.BLUE);
+			String overwritten = "Your submission has been overwritten";
+			overwriteText.setText(overwritten);
+			return;
+		}
+		//checks which rating-button is selected and sets the rating to the selected value
+		//stores the feedback comment
+		String comment = feedback.getText();
+		
+		//insertEvaluation into database
+		createEvaluation(lectureID, selectedButton(), comment);
+		
+		//visual confirmation that the evaluation has been submitted
+		rec.setFill(Color.GREEN);
+		debugText.setText("");
+		submitted.setText("Submitted!");
+		
+		//sets the text on the submit-button to overwrite
+		submit.setText("Overwrite");
+		
+		
+	}
+
 	private String selectedButton() {
 		String rating = "";
 		if (rating4.isSelected()){
@@ -115,49 +173,13 @@ public class evaluationStudController implements Initializable {
 		
 		if (event.getSource() == submit){
 			
-			//checks if something is selected and gives error message
-			if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
-					|| rating1.isSelected())) {
-				overwriteText.setText("Choose a rating");
-				submitted.setText("");
-				rec.setFill(Color.RED);
-				debugText.setText("");
-				return;
+			submitButton();
+			
+
 			}
 			
-			
-			//if the user already has submitted one or more evaluations on the subject, it gets overwritten
-			if (mainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
-				
-				
-				String comment = feedback.getText();
-				
-				//the actual overwriting function
-				overwriting(lectureID, selectedButton(), comment);
-				
-				//removing other messages the GUI displays and setting the overwritten text
-				debugText.setText("");
-				submitted.setText("");
-				rec.setFill(Color.BLUE);
-				String overwritten = "Your submission has been overwritten";
-				overwriteText.setText(overwritten);
-				return;
-			}
-			//checks which rating-button is selected and sets the rating to the selected value
-			//stores the feedback comment
-			String comment = feedback.getText();
-			
-			//insertEvaluation into database
-			createEvaluation(lectureID, selectedButton(), comment);
-			
-			//visual confirmation that the evaluation has been submitted
-			rec.setFill(Color.GREEN);
-			debugText.setText("");
-			submitted.setText("Submitted!");
-			
-			//sets the text on the submit-button to overwrite
-			submit.setText("Overwrite");
-		}
+
+		
 	}
 	//
 	
