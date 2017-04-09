@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import GUItest.DummyMainController;
+//import GUItest.DummyMainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import database.DBController;
@@ -35,7 +35,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import testingDBObjects.DummyDBController;
+//import testingDBObjects.DummyDBController;
 
 public class addLecturesController implements Initializable {
 
@@ -216,11 +216,12 @@ public class addLecturesController implements Initializable {
 	}
 	
 	//Constructor for testing
-	public addLecturesController(String str) {
+	/*public addLecturesController(String str) {
 	// dummyDBC is only for testing. It does not access the database
 		this.dbc = new DummyDBController();
 		this.mainCon = new DummyMainController();
 	}
+	*/
 	
 	
 	
