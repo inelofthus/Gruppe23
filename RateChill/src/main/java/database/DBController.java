@@ -58,7 +58,9 @@ public class DBController {
 	java.sql.PreparedStatement prepStmt = null;
 	ResultSet rs = null;
 
-	// Frequently used SQL methods
+	
+	// ----- Frequently used SQL methods ----- //
+	
 	public ArrayList<String> getStringArray(String query) {
 		// takes an SQL query as input. Returns a string that contains all data
 		// from first column of table
@@ -92,70 +94,79 @@ public class DBController {
 		// System.out.println(professor);
 		return list;
 	}
+	
+	private String SQLtimeConstraint(Course course) {
+		// generates appropriate sql query string for timeconstraint
+		String timeConstraint = null;
+		char season = course.getSemester().charAt(0);
+		String year = course.getSemester().substring(1);
 
-	public ArrayList<Integer> getIntArray(String query) {
-		// takes an sqlQuery as input and returns a list containing the String
-		// elements of the first column
-		connect();
+		if (course.isCurrentsemester()) {
+			timeConstraint = "(lectureDate < now() OR (lectureDate = now()  AND lectureTime < now()))"
+					+ "AND  YEAR(lectureDate) = " + year;
+		} else {
+			if (season == 'V') {
+				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) < 7) AND YEAR(lectureDate) = "
+						+ year;
 
-		ArrayList<Integer> list = new ArrayList<>();
-		try {
-			stmt = conn.createStatement();
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
+			} else if (season == 'H') {
+				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) >= 7) AND YEAR(lectureDate) = "
+						+ year;
 			}
 
-			while (rs.next()) {
-				list.add(rs.getInt(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
 		}
 
-		close();
-		// System.out.println(professor);
-		return list;
+		System.out.println(timeConstraint);
+		return timeConstraint;
+	}
+
+	private boolean tableHasValue(String table, String columnName, String value) {
+		String query = "select " + columnName + " from " + table + " WHERE " +columnName + "= '" + value + "';";
+		System.out.println(query);
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			rs = prepStmt.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public String changeDateFormat(String date){
+		String[] dateSplit = date.split("-");
+		String yyyy = dateSplit[0];
+		String mm = dateSplit[1];
+		String dd = dateSplit[2];
+		
+		return dd + "." + mm + "." + yyyy;
 	}
 
 	
-
-	// Course info
-
+	// ----- COURSE ----- //
+	
 	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring, int taughtInAutumn) {
 		// inserts a new row in Course table of database
 		connect();
-
-		try {
-			String query = "INSERT INTO Course VALUES(?,?,?,?,?)";
-
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, courseCode);
-			prepStmt.setString(2, courseName);
-			prepStmt.setInt(3, lectureHours);
-			prepStmt.setInt(4, taughtInSpring);
-			prepStmt.setInt(5, taughtInAutumn);
-			int i = prepStmt.executeUpdate();
-			System.out.println(i + " records inserted"); 
-
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("INSERT INTO Course VALUES('").append(courseCode).append("','").append(courseName).append("','")
-//					.append(courseLocation).append("',").append(lectureHours).append(");");
-//
-//			String query = sb.toString();
-//
-//			stmt = conn.createStatement();
-//			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+		boolean spring = true;
+		boolean autumn = true;
+		
+		if (taughtInSpring == 0){
+			spring = false;
 		}
+		if (taughtInAutumn == 0){
+			autumn = false;
+		}
+		
+		insertCourseNC(courseCode, courseName, lectureHours, spring, autumn);
 
 		close();
 	}
 
-	public void insertCourseCon(String courseCode, String courseName, int lectureHours, boolean taughtInSpring, boolean taughtInAutumn) {
+	public void insertCourseNC(String courseCode, String courseName, int lectureHours, boolean taughtInSpring, boolean taughtInAutumn) {
 		// inserts a new row in Course table of database when already connected
 		try {
 			String query = "INSERT INTO Course VALUES(?,?,?,?,?)";
@@ -468,8 +479,86 @@ public class DBController {
 
 	}
 
-	// Lecture info
+	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode){
+		connect();
+		
+		ArrayList<String> lectures = new ArrayList<>();
+		String query = "select lectureDate, lectureTime from Lecture where courseCode = ? ORDER BY lectureDate ASC";
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			rs = prepStmt.executeQuery();
+			
+			while(rs.next()){
+				String date = rs.getString(1);
+				String time = rs.getString(2);
+				String result = String.format("%s \t \t %s",changeDateFormat(date), time);
+				lectures.add(result);			
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		close();
+		return lectures;
+	}
 
+	public ArrayList<String> getAllCourses() {
+		ArrayList<String> courses = new ArrayList<>();
+		
+		connect();
+		try {
+			String query = "select courseCode, courseName from Course"; 
+			
+			prepStmt = conn.prepareStatement(query);
+			rs = prepStmt.executeQuery();
+			
+			while(rs.next()){
+				courses.add(rs.getString(1) + " " + rs.getString(2));
+			}
+
+		} catch (Exception e) {
+			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
+		}
+		
+		close();
+		
+		return courses;
+	}
+
+	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
+		// inserts a new professor into database
+		connect();
+		try {
+			String query ="insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
+			
+			if(tableHasValue("CourseRatingValues", "courseCode", courseCode)){
+				query =  "UPDATE CourseRatingValues SET courseCode = ?, rating1 = ?, rating2 = ?, rating3 = ?, rating4 = ?, rating5 = ?";
+				System.out.println(query);
+			}
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, rating1);
+			prepStmt.setString(3, rating2);
+			prepStmt.setString(4, rating3);
+			prepStmt.setString(5, rating4);
+			prepStmt.setString(6, rating5);
+			
+			int i = prepStmt.executeUpdate();
+			System.out.println(i+" records inserted");  
+
+
+		} catch (Exception e) {
+			System.out.println("SQLException in InsertCourseRatingValues: " + e.getMessage());
+		}
+		close();
+	}
+
+	
+	// ----- LECTURE ----- //
 	public void loadLectureInfo(Lecture lecture) {
 		connect();
 
@@ -505,7 +594,6 @@ public class DBController {
 			System.out.println("SQLException loadLectureInfo: " + e.getMessage());
 		}
 
-		// hjelpemetode tar seg av å hente og legge til evaluations:
 		setEvaluationsForLecture(lecture, courseCode);
 
 		close();
@@ -620,9 +708,7 @@ public class DBController {
 
 		close();
 	}
-
-	// Forutsetter at det kun er én lecture i
-	// et fag per dag per tidspunkt. Brukes midlertidig til testing
+	
 	public int getLectureID(ArrayList<String> dateTime, String courseCode) {
 		connect();
 		int id = -1;
@@ -701,7 +787,60 @@ public class DBController {
 
 	}
 
-	// Professor info
+	public void deleteLecturesForPeriod (String courseCode, String startDate, String endDate) {
+		// deletes lectudeleteLecturesForPeriodres for this period.
+		
+		connect();
+		
+		String query = "DELETE FROM Lecture WHERE courseCode = ? AND lectureDate >= ? AND lectureDate <= ? ";
+		
+		try {
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, courseCode);
+			prepStmt.setString(2, startDate);
+			prepStmt.setString(3, endDate);
+			
+			prepStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		close();
+	}
+
+	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException {
+		
+		int numWeeks = 0;
+		String[] startDateSplit = startDate.split("-");
+		int mmStart = Integer.valueOf(startDateSplit[1]) ;
+		int ddStart = Integer.valueOf(startDateSplit[2]);
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		LocalDate start = LocalDate.of(year, mmStart, ddStart);
+		
+		if(repeat){
+			String[] endDateSplit = endDate.split("-");
+			int mmEnd = Integer.valueOf(endDateSplit[1]) ;
+			int ddEnd = Integer.valueOf(endDateSplit[2]);
+			
+			LocalDate end = LocalDate.of(year, mmEnd, ddEnd);
+			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);
+		}
+		
+		for (int i = 0; i < numWeeks + 1; i++) {
+			int MM = start.getMonthValue();
+			int DD = start.getDayOfMonth();
+			String date = year + "-" + MM + "-" + DD;
+			insertLecture(date, startTime, courseCode, professorUsername);
+			
+			start = start.plusWeeks(1);
+		}	
+	}
+
+	
+	// ----- PROFESSOR ----- //
+	
 	public void loadProfessorInfo(Professor prof) {
 		// Must retrieve and update the following info from DB:
 		// courseIDs = list of all courses that professor teaches
@@ -768,25 +907,11 @@ public class DBController {
 	public void insertProfessor(String professorUsername, String password) {
 		// inserts a new professor into database
 		connect();
-		try {
-			
-			
-			String query = "INSERT INTO Professor VALUES(?,?)";
-			
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, professorUsername);
-			prepStmt.setString(2, password);
-			int i = prepStmt.executeUpdate();
-			System.out.println(i+" records inserted");  
-
-
-		} catch (Exception e) {
-			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
-		}
+		insertProfessorNC(professorUsername, password);
 		close();
 	}
 
-	public void insertProfessorCon(String professorUsername, String password) {
+	public void insertProfessorNC(String professorUsername, String password) {
 		// inserts a new professor into database
 		try {
 			
@@ -878,7 +1003,44 @@ public class DBController {
 		close();
 	}
 
-	// Student info
+	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
+		
+		try {
+			connect();
+			
+			stmt = conn.createStatement();
+						
+			String query = "select * from Professor where professorUsername = '" + professorUsername +"' and professorPassword = '" + encryptedPassword +"';";			
+			
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+		} catch (Exception e) {
+			System.out.println("error in DBC.checkProfessorPassword: " + e.getMessage());
+		}
+		
+		return rs.next();
+	}
+
+	public void updateProfessor(String username, String hashPassword) {
+		connect();
+		try {
+			String query = "update Professor SET professorPassword = ? WHERE professorUsername = ?;";
+			
+			prepStmt = conn.prepareStatement(query);
+			prepStmt.setString(1, hashPassword);
+			prepStmt.setString(2, username);
+			prepStmt.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
+		}
+		close();	
+	}
+	
+	
+	
+	// ----- STUDENT ----- //
 
 	public void loadStudentInfo(Student student) {
 		// Need to get following info about student and update Student Object
@@ -1020,30 +1182,16 @@ public class DBController {
 
 	}
 
-	// CourseProfessor info
+	
+	// ----- COURSE PROFESSOR ----- //
+	
 	public void insertCourseProfessor(String professorUsername, String courseCode) {
 		connect();
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into CourseProfessor (professorUsername, courseCode)")
-					.append(" SELECT Professor.professorUsername, Course.courseCode").append(" FROM Course, Professor")
-					.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND professorUsername = '")
-					.append(professorUsername).append("'");
-
-			String query = sb.toString();
-			// System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
+		insertCourseProfessorNC(professorUsername, courseCode);
 		close();
 	}
-
-	public void insertCourseProfessorCon(String professorUsername, String courseCode) {
+	
+	public void insertCourseProfessorNC(String professorUsername, String courseCode) {
 		//already connected
 		try {
 
@@ -1062,10 +1210,11 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
 	}	
+
 	
-	// CourseStudent info
+	// ----- COURSE STUDENT ----- //
+	
 	public void insertCourseStudent(String studentUsername, String courseCode) {
 		connect();
 		try {
@@ -1088,7 +1237,23 @@ public class DBController {
 		close();
 	}
 
-	// Evaluation info
+	public void deleteCourseStudent(String username, String courseCode) {
+		connect();
+		try {
+			String query = "DELETE FROM CourseStudent WHERE courseCode='" + courseCode + "' AND studentUsername ='" + username + "';";
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+		}
+		close();
+	}
+
+	
+	// ----- EVALUATION ----- //
+	
 	public void loadEvaluationInfo(Evaluation evaluation) {
 
 		connect();
@@ -1208,62 +1373,6 @@ public class DBController {
 		return hasNext;
 	}
 
-	// Main for testing
-	public static void main(String[] args) throws ParseException {
-		DBController test = new DBController();
-		test.connect();
-		System.out.println(test.tableHasValue("CourseRatingValues", "courseCode", "TDT4140"));
-		
-		
-//		test.deleteCourseStudent("stud1", "tdt4140");
-//		System.out.println(test.getCoursesStartingWith("pr", "name"));
-//		test.insertCourse("code", "name", 4, 0, 1);
-//		test.insertStudent("c'); DROP TABLE Professor;", "test");
-//		test.insertCourseStudent("karimj", "tdt4145");
-
-//		test.insertProfessor("c'); DROP TABLE Professor;", "testPas");
-//		test.overwriteEvaluation("stud21", 125, "Too Slow!", "This is easy");
-//		test.overwriteEvaluation("stud22", 125, "Too Slow!", "was fine but a bit slow");
-//		test.insertEvaluation("stud23", 125, "Ok", "c'); DROP TABLE Professor;");
-//		test.insertEvaluation("stud24", 125, "Ok", "hello");
-//		test.insertEvaluation("stud25", 125, "Ok", "I believe that I am a cat");
-//		test.insertEvaluation("stud26", 125, "Ok", "bunnys are so cute");
-//		test.insertEvaluation("stud27", 125, "Ok", "You are alright ");
-//		test.insertEvaluation("stud28", 125, "Ok", "You are alright ");
-		
-//		test.insertProfessor("prompeProf", Professor.hashPassword("mittPassord"));
-
-		 
-		// test.getProfessorsForCoursse("tdt4140");
-		// test.getCoursestaughtByProfessor("pekkaa");
-		// test.getLectureHoursForCourse("tdt4140");
-		// test.getStartDate();
-//		 test.insertLecture("2017-02-22", "08:00:00", "tdt4140", "pekkaa");
-//		 test.insertLecture("2017-02-23", "08:00:00", "tdt4140", "pekkaa");
-//		 test.insertLecture("2017-02-24", "08:00:00", "tdt4140", "pekkaa");
-//		 test.insertLecture("2017-02-25", "08:00:00", "tdt4140", "pekkaa");
-//		 test.insertLecture("2017-02-26", "08:00:00", "tdt4140", "pekkaa");
-//		 test.insertLecture("2017-02-28", "08:00:00", "tdt4140", "pekkaa");
-		// test.insertCourseProfessor("sveinbra", "tdt4145");
-		// test.insertStudent("negative","MTING");
-
-
-		// test.deleteStudent("bolle@stud.ntnu.no");
-
-		// test.insertCourseStudent("stud54@stud.ntnu.no ", "tdt4140");
-		// test.insertStudent("stud55", "MLREAL");
-		
-//		 test.insertCourseStudent("stud5", "tdt4140");
-		 
-
-		// System.out.println(test.getLastTwoCompletedLecturesForCourse("tdt4145"));
-
-		// test.insertLecture("2016-09-03", "08:00:00", "tdt4140", "pekkaa");
-		
-
-
-	}
-
 	public void setCourseRatingsOverTime(Course course) {
 		// must set: HashMap<Integer, Integer> lecIDtoRatingCount1-5 in courseObject
 		// This creates the list and linked Hash map with the completed lectures in a given semester and their dates and sets the result in the course object
@@ -1335,283 +1444,6 @@ public class DBController {
 		
 	}
 
-	private String SQLtimeConstraint(Course course) {
-		// generates appropriate sql query string for timeconstraint
-		String timeConstraint = null;
-		char season = course.getSemester().charAt(0);
-		String year = course.getSemester().substring(1);
-
-		if (course.isCurrentsemester()) {
-			timeConstraint = "(lectureDate < now() OR (lectureDate = now()  AND lectureTime < now()))"
-					+ "AND  YEAR(lectureDate) = " + year;
-		} else {
-			if (season == 'V') {
-				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) < 7) AND YEAR(lectureDate) = "
-						+ year;
-
-			} else if (season == 'H') {
-				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) >= 7) AND YEAR(lectureDate) = "
-						+ year;
-			}
-
-		}
-
-		System.out.println(timeConstraint);
-		return timeConstraint;
-	}
-
-	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
-		
-		try {
-			connect();
-			
-			stmt = conn.createStatement();
-						
-			String query = "select * from Professor where professorUsername = '" + professorUsername +"' and professorPassword = '" + encryptedPassword +"';";			
-//			System.out.println(query);
-			
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-		} catch (Exception e) {
-			System.out.println("error in DBC.checkProfessorPassword: " + e.getMessage());
-		}
-		
-		return rs.next();
-	}
-
-	public ArrayList<String> getCoursesStartingWith(String searchText, String nameOrCode) {
-		ArrayList<String> courses = new ArrayList<>();
-		
-		connect();
-		try {
-			String query = "";
-			if(nameOrCode.equals("code")){
-				query = "select courseCode, courseName from Course Where courseCode like ?";
-			}else if(nameOrCode.equals("name")){
-				query = "select courseCode, courseName from Course Where courseName like ?;";
-			}
-			 
-			
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, searchText + "%");
-			System.out.println(query);
-			rs = prepStmt.executeQuery();
-			
-			while(rs.next()){
-				courses.add(rs.getString(1) + " " + rs.getString(2));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
-		}
-		
-		close();
-		
-		return courses;
-	}
-
-	public void deleteCourseStudent(String username, String courseCode) {
-		connect();
-		try {
-			String query = "DELETE FROM CourseStudent WHERE courseCode='" + courseCode + "' AND studentUsername ='" + username + "';";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		
-	}
-
-	public ArrayList<String> getAllCourses() {
-		ArrayList<String> courses = new ArrayList<>();
-		
-		connect();
-		try {
-			String query = "select courseCode, courseName from Course"; 
-			
-			prepStmt = conn.prepareStatement(query);
-			rs = prepStmt.executeQuery();
-			
-			while(rs.next()){
-				courses.add(rs.getString(1) + " " + rs.getString(2));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
-		}
-		
-		close();
-		
-		return courses;
-	}
-
-	public void updateProfessor(String username, String hashPassword) {
-		//  update Professor SET professorPassword = 'np' WHERE professorUsername = 'pekkaa';
-		
-		connect();
-		try {
-			
-			
-			String query = "update Professor SET professorPassword = ? WHERE professorUsername = ?;";
-			
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, hashPassword);
-			prepStmt.setString(2, username);
-			int i = prepStmt.executeUpdate();
-			System.out.println(i+" records inserted");  
-
-
-		} catch (Exception e) {
-			System.out.println("SQLException in InsertProfessor: " + e.getMessage());
-		}
-		close();
-		
-		
-		
-	}
 	
-	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
-		// inserts a new professor into database
-		connect();
-		try {
-			String query ="insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
-			
-			if(tableHasValue("CourseRatingValues", "courseCode", courseCode)){
-				query =  "UPDATE CourseRatingValues SET courseCode = ?, rating1 = ?, rating2 = ?, rating3 = ?, rating4 = ?, rating5 = ?";
-				System.out.println(query);
-			}
-			
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, courseCode);
-			prepStmt.setString(2, rating1);
-			prepStmt.setString(3, rating2);
-			prepStmt.setString(4, rating3);
-			prepStmt.setString(5, rating4);
-			prepStmt.setString(6, rating5);
-			
-			int i = prepStmt.executeUpdate();
-			System.out.println(i+" records inserted");  
-
-
-		} catch (Exception e) {
-			System.out.println("SQLException in InsertCourseRatingValues: " + e.getMessage());
-		}
-		close();
-	}
-
-	private boolean tableHasValue(String table, String columnName, String value) {
-		String query = "select " + columnName + " from " + table + " WHERE " +columnName + "= '" + value + "';";
-		System.out.println(query);
-		
-		try {
-			prepStmt = conn.prepareStatement(query);
-			rs = prepStmt.executeQuery();
-			return rs.next();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException {
-		
-		int numWeeks = 0;
-		String[] startDateSplit = startDate.split("-");
-		int mmStart = Integer.valueOf(startDateSplit[1]) ;
-		int ddStart = Integer.valueOf(startDateSplit[2]);
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		LocalDate start = LocalDate.of(year, mmStart, ddStart);
-		
-		if(repeat){
-			String[] endDateSplit = endDate.split("-");
-			int mmEnd = Integer.valueOf(endDateSplit[1]) ;
-			int ddEnd = Integer.valueOf(endDateSplit[2]);
-			
-			LocalDate end = LocalDate.of(year, mmEnd, ddEnd);
-			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);
-		}
-		
-		for (int i = 0; i < numWeeks + 1; i++) {
-			int MM = start.getMonthValue();
-			int DD = start.getDayOfMonth();
-			String date = year + "-" + MM + "-" + DD;
-			System.out.println(date);
-			insertLecture(date, startTime, courseCode, professorUsername);
-			
-			start = start.plusWeeks(1);
-			System.out.println(start);
-		}
-
-		
-	}
-
-	public void deleteLecturesForPeriod (String courseCode, String startDate, String endDate) {
-		// deletes lectudeleteLecturesForPeriodres for this period.
-		
-		connect();
-		
-		String query = "DELETE FROM Lecture WHERE courseCode = ? AND lectureDate >= ? AND lectureDate <= ? ";
-		
-		try {
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, courseCode);
-			prepStmt.setString(2, startDate);
-			prepStmt.setString(3, endDate);
-			
-			prepStmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		close();
-	}
-
-	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode){
-		connect();
-		
-		ArrayList<String> lectures = new ArrayList<>();
-		String query = "select lectureDate, lectureTime from Lecture where courseCode = ? ORDER BY lectureDate ASC";
-		
-		try {
-			prepStmt = conn.prepareStatement(query);
-			prepStmt.setString(1, courseCode);
-			rs = prepStmt.executeQuery();
-			
-			while(rs.next()){
-				String date = rs.getString(1);
-				String time = rs.getString(2);
-				String result = String.format("%s \t \t %s",changeDateFormat(date), time);
-				lectures.add(result);	
-						
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		close();
-		return lectures;
-	}
 	
-	public String changeDateFormat(String date){
-		String[] dateSplit = date.split("-");
-		String yyyy = dateSplit[0];
-		String mm = dateSplit[1];
-		String dd = dateSplit[2];
-		
-		return dd + "." + mm + "." + yyyy;
-	}
-	
-
-
 }

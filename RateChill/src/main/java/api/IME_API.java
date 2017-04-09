@@ -89,9 +89,9 @@ public class IME_API {
 		    String professorUsername = rootobj.getAsJsonObject("course").
 		    		getAsJsonArray("educationalRole").get(0).getAsJsonObject().
 		    		get("person").getAsJsonObject().get("username").getAsString();
-		    dbc.insertCourseCon(courseCode, courseName, lectureHours, taughtInSpring, taughtInAutumn);
-		    dbc.insertProfessorCon(professorUsername, "np");
-		    dbc.insertCourseProfessorCon(professorUsername, courseCode);
+		    dbc.insertCourseNC(courseCode, courseName, lectureHours, taughtInSpring, taughtInAutumn);
+		    dbc.insertProfessorNC(professorUsername, "np");
+		    dbc.insertCourseProfessorNC(professorUsername, courseCode);
 	    	
 		    lecAPI.getApiInfoAndInsertToDB(courseCode, professorUsername);
 		    

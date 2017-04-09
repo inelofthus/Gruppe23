@@ -57,12 +57,6 @@ public class DummyDBController extends DBController{
 		return super.getStringArray(query);
 	}
 
-	@Override
-	public ArrayList<Integer> getIntArray(String query) {
-		// TODO Auto-generated method stub
-		return super.getIntArray(query);
-	}
-
 
 	@Override
 	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring, int taughtInAutumn) {
