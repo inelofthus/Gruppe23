@@ -100,7 +100,7 @@ public class LecturesAPI {
 				String[] weeks = weeksList.get(i).getAsString().split("-");
 				int weekStart = Integer.parseInt(weeks[0]);
 				int weekEnd = Integer.parseInt(weeks[1]);
-				for (int week = weekStart; week < weekEnd; week++){
+				for (int week = weekStart; week <= weekEnd; week++){
 					cal.set(Calendar.WEEK_OF_YEAR, week);   
 					lectureDates.add(sdf.format(cal.getTime()));
 				}
