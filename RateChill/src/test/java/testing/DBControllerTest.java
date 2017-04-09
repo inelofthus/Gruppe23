@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+
 import org.junit.Test;
 import database.DBController;
 import databaseobjects.Course;
@@ -70,7 +72,7 @@ public class DBControllerTest {
 	}
 	
 	@Test
-	public void professorCRUD(){
+	public void professorCRUD() throws SQLException{
 		
 		//Create
 		dbc.insertProfessor("testProf", Professor.hashPassword("pass"));
@@ -84,6 +86,8 @@ public class DBControllerTest {
 		assertTrue(dbc.professorExists("testProf"));
 		
 		//Update
+		dbc.updateProfessor("testProf", Professor.hashPassword("hei"));
+		assertTrue(dbc.checkProfessorPassword("testProf", Professor.hashPassword("hei")));
 		
 		//Delete
 		dbc.deleteProfessor("testProf");
@@ -112,9 +116,15 @@ public class DBControllerTest {
 		assertTrue(lect.existsInDB());
 		assertTrue(dbc.lectureExists(lectureID));
 		
+		dbc.addLectures("TEST0001", "08:00:00", "2017-01-01", "2017-01-16", true, "testProf");
+		ArrayList<String> lecDT = new ArrayList<String>();
+		lecDT.addAll(Arrays.asList("10.12.2016 \t \t 14:15:00", "01.01.2017 \t \t 08:00:00",
+				"08.01.2017 \t \t 08:00:00", "15.01.2017 \t \t 08:00:00"));
+		assertEquals(dbc.getLectureDateAndTimeForCourse("TEST0001"), lecDT);
 		//Delete
 		
-		TestData.deleteTestDataLecture();
+		dbc.deleteLecture(lectureID);
+		TestData.deleteTestData();
 		assertFalse(lect.existsInDB());
 		assertFalse(dbc.lectureExists(lectureID));
 		
@@ -127,7 +137,6 @@ public class DBControllerTest {
 		
 		//Create
 		
-//		GregorianCalendar calendar = new GregorianCalendar(2017, 3, 21, 8, 0);
 		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-04-21","08:00:00"));
 		int lectureID = dbc.getLectureID(dateTime,"TEST0001");
 		dbc.insertEvaluation("testStud", lectureID, "Perfect", "Det var perfekt");
@@ -150,13 +159,37 @@ public class DBControllerTest {
 		assertEquals("testStud", updatedEval.getstudentUsername());
 		
 		assertTrue(updatedEval.existsInDB());
+		assertTrue(dbc.studentHasEvaluatedLecture("testStud", lectureID));
 		assertTrue(dbc.evaluationExists(lectureID, "testStud"));
 		
 		//Delete
-		TestData.deleteTestDataEvaluation();
+		dbc.deleteCourseStudent("testStud", "TEST0001");
+		TestData.deleteTestData();
 		assertFalse(eval.existsInDB());
 		assertFalse(updatedEval.existsInDB());
 		assertFalse(dbc.evaluationExists(lectureID, "testStud"));
+	}
+	
+	@Test
+	public void professorCourseCRUD() throws SQLException{
+		TestData.createTestData();
+		ArrayList<String> profCourses = new ArrayList<String>();
+		profCourses.add("TEST0001");
+		
+		assertEquals(dbc.getCoursesTaughtByProfessor("testProf"), profCourses);
+		
+		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-01-21","08:00:00"));
+		int lectureID = dbc.getLectureID(dateTime, "TEST0001");
+		ArrayList<Integer> compLec = new ArrayList<Integer>();
+		compLec.add(lectureID);
+		assertEquals(compLec, dbc.getCompletedLecturesForCourseByProfessor("TEST0001", "testProf"));
+		
+		TestData.deleteTestData();
+	}
+	
+	@Test
+	public void dbcMethods(){
+		assertEquals(dbc.changeDateFormat("2017-05-01"), "01.05.2017");
 	}
 	
 }
