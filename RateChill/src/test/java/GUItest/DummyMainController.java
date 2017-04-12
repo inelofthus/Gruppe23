@@ -8,9 +8,9 @@ import databaseobjects.Course;
 import databaseobjects.Lecture;
 import databaseobjects.Professor;
 import databaseobjects.Student;
-import gui.mainController;
+import gui.MainController;
 
-public class DummyMainController extends mainController {
+public class DummyMainController extends MainController {
 
 	@Override
 	public Stack<String> getStack() {
