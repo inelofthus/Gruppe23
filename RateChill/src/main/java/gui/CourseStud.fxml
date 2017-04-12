@@ -12,22 +12,22 @@
             <Font size="31.0" />
          </font>
       </Text>
-      <Button fx:id="fag1" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag1" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="fag2" layoutX="340.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag2" layoutX="340.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="fag3" layoutX="15.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag3" layoutX="15.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="fag4" layoutX="339.0" layoutY="216.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="fag4" layoutX="339.0" layoutY="216.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="134.0" prefWidth="300.0" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>

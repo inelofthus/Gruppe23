@@ -147,6 +147,7 @@ public class CourseStudController implements Initializable {
 		}
 		for (int x=0; x<numberOfCourses; x++) {
 			setSubjectButtonText(x, buttons.get(x));
+			buttons.get(x).setVisible(true);
 		}
 	}
 
