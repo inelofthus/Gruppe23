@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CourseStudController">
    <children>
-         <Text layoutX="218.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Course">
+         <Text layoutX="225.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Course">
          <font>
             <Font size="31.0" />
          </font>
@@ -32,7 +32,10 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="errorNumber" fill="RED" layoutX="57.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="306.0" />
+      <Text fx:id="errorNumber" fill="RED" layoutX="154.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="348.0">
+         <font>
+            <Font size="22.0" />
+         </font></Text>
       <Button fx:id="chooseCourses" layoutX="446.0" layoutY="368.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="173.0" text="Add new courses" />
       <Button fx:id="logout" layoutX="538.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
    </children>

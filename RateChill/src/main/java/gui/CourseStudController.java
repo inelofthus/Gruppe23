@@ -136,15 +136,13 @@ public class CourseStudController implements Initializable {
 		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
 		int numberOfCourses = MainController.getInstance().getStudents().getCourseIDs().size();
 		if(numberOfCourses == 0) {
-	    	errorNumber.setText("You don't have any courses!");
+	    	errorNumber.setText("You don't have any courses yet!");
 		}
 		buttons.add(fag1);
 		buttons.add(fag2);
 		buttons.add(fag3);
 		buttons.add(fag4);
-		if(numberOfCourses == 0) {
-			errorNumber.setText("You don't have any courses!");
-		}
+		
 		for (int x=0; x<numberOfCourses; x++) {
 			setSubjectButtonText(x, buttons.get(x));
 			buttons.get(x).setVisible(true);

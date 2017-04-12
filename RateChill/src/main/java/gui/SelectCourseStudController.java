@@ -100,11 +100,14 @@ public class SelectCourseStudController implements Initializable {
 			badSearch.setText("");
 			System.out.println("sendRight pressed");
 			String s = options.getSelectionModel().getSelectedItem();
-			String[] stringSplit = s.split("\\s+",2); // splits into array with
-													// courseCode and courseName
-			String courseCode = stringSplit[0];
-			String courseName = stringSplit[1];
-
+			String courseCode = "";
+			String courseName = "";
+			if (s != null){
+				String[] stringSplit = s.split("\\s+",2); // splits into array with
+														// courseCode and courseName
+				courseCode = stringSplit[0];
+				courseName = stringSplit[1];
+			}
 			if (s != null && checkCourseChoice(courseCode)) {
 				stud.addCourse(courseCode, courseName);
 				options.getSelectionModel().clearSelection();
