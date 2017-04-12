@@ -529,7 +529,7 @@ public class DBController {
 	}
 
 	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
-		// inserts a new professor into database
+		// inserts new rating values for a given course into the database
 		connect();
 		try {
 			String query ="insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";

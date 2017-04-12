@@ -25,6 +25,7 @@ public class DBControllerTest {
 	
 	@Test
 	public void courseCRUD(){
+		TestData.deleteTestData();
 				
 		//Create
 		dbc.insertCourse("TEST0001", "TestName", 4, 1, 1);
@@ -40,6 +41,12 @@ public class DBControllerTest {
 		assertTrue(dbc.courseExists("TEST0001"));
 		
 		//Update
+		dbc.insertCourseRatingValues("TEST0001", "Good", "Very good", "Bad", "Very bad", "OK");
+		dbc.loadCourseInfo(course);
+		ArrayList<String> expRateVal = new ArrayList<String>(Arrays.asList
+				("Good", "Very good", "Bad", "Very bad", "OK")); 
+		assertEquals(expRateVal, course.getRatingValues());
+		
 		
 		//Delete
 		dbc.deleteCourse("TEST0001");
@@ -104,7 +111,6 @@ public class DBControllerTest {
 		
 		//Create
 		
-//		GregorianCalendar calendar = new GregorianCalendar(2016, 11, 10, 14, 15);
 		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2016-12-10","14:15:00"));
 		dbc.insertLecture("2016-12-10", "14:15:00", "TEST0001", "testProf");
 		int lectureID = dbc.getLectureID(dateTime, "TEST0001");
