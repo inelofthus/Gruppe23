@@ -1,4 +1,4 @@
-package GUItest;
+package gui;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
