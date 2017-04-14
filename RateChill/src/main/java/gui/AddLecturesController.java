@@ -81,6 +81,8 @@ public class AddLecturesController implements Initializable {
 	
 	private static final String TIME24HOURS_PATTERN =
 	           "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+	
+	Color myRed = new Color(0.937, 0.290, 0.290, 1);
 
 
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
@@ -135,7 +137,7 @@ public class AddLecturesController implements Initializable {
 			if (repeat.isSelected() && endDate.getValue() == null){
 				errorText += "Select an end date or uncheck weekly repetition. ";
 			}
-			errorBar.setFill(Color.RED);
+			errorBar.setFill(myRed);
 			errorMessage.setText(errorText);
 			errorBar.setVisible(true);
 			
@@ -150,12 +152,12 @@ public class AddLecturesController implements Initializable {
 				MainController.getInstance().setCourse(new Course(courseCode));
 				listView.getItems().clear();
 				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
-				errorBar.setFill(Color.PALEGREEN);
+				errorBar.setFill(Color.DARKSEAGREEN);
 				errorMessage.setText("Lecture successfully added");
 				errorBar.setVisible(true);
 			} catch (SQLException e) {
 				System.out.println("Lecture already exists for this date and time" + e.getMessage());
-				errorBar.setFill(Color.RED);
+				errorBar.setFill(myRed);
 				errorBar.setVisible(true);
 				errorMessage.setText("Lecture already exists for this date and time");
 			}
@@ -166,14 +168,14 @@ public class AddLecturesController implements Initializable {
 	public void removeLecturesInPeriod(ActionEvent e){
 		if (removeStart.getValue() == null || removeEnd.getValue() == null){
 			errorMessage.setText("Select a period");
-			errorBar.setFill(Color.RED);
+			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
 			
 		}
 		else{
 			dbc.deleteLecturesForPeriod(courseCode, removeStart.getValue().toString(), removeEnd.getValue().toString());
 			errorMessage.setText("Lectures successfully deleted");
-			errorBar.setFill(Color.PALEGREEN);
+			errorBar.setFill(Color.DARKSEAGREEN);
 			errorBar.setVisible(true);
 			listView.getItems().clear();
 			listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
@@ -197,7 +199,7 @@ public class AddLecturesController implements Initializable {
 		dbc.deleteLecture(dbc.getLectureID(dateTime, courseCode));
 		listView.getItems().clear();
 		listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
-		errorBar.setFill(Color.PALEGREEN);
+		errorBar.setFill(Color.DARKSEAGREEN);
 		errorMessage.setText("Lecture successfully deleted");
 		errorBar.setVisible(true);
 		

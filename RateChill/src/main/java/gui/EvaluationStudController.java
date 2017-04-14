@@ -38,10 +38,7 @@ public class EvaluationStudController implements Initializable {
 	public ToggleButton rating5;	
 	public ToggleGroup group;
 	public Button submit;
-	public Text debugText;
-	public Text submitted;
-	public Text overwriteText;
-	public Text welcomeText;
+	public Text errorText;
 	public Button home;
 	public Button back;
 	public Button logout;
@@ -70,15 +67,13 @@ public class EvaluationStudController implements Initializable {
 	
 	private void submitButton() {
 		Stage stage = null;
-		welcomeText.setVisible(false);
 		
 		//checks if something is selected and gives error message
 		if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
 				|| rating1.isSelected())) {
-			overwriteText.setText("Choose a rating");
-			submitted.setText("");
-			rec.setFill(Color.RED);
-			debugText.setText("");
+			errorText.setText("Choose a rating");
+			Color myRed = new Color(0.937, 0.290, 0.290, 1);
+			rec.setFill(myRed);
 			return;
 		}
 		
@@ -93,11 +88,9 @@ public class EvaluationStudController implements Initializable {
 			overwriting(lectureID, selectedButton(), comment);
 			
 			//removing other messages the GUI displays and setting the overwritten text
-			debugText.setText("");
-			submitted.setText("");
-			rec.setFill(Color.BLUE);
+			rec.setFill(Color.DARKSEAGREEN);
 			String overwritten = "Your submission has been overwritten";
-			overwriteText.setText(overwritten);
+			errorText.setText(overwritten);
 			return;
 		}
 		//checks which rating-button is selected and sets the rating to the selected value
@@ -108,9 +101,8 @@ public class EvaluationStudController implements Initializable {
 		createEvaluation(lectureID, selectedButton(), comment);
 		
 		//visual confirmation that the evaluation has been submitted
-		rec.setFill(Color.GREEN);
-		debugText.setText("");
-		submitted.setText("Submitted!");
+		rec.setFill(Color.PALEGREEN);
+		errorText.setText("Submitted!");
 		
 		//sets the text on the submit-button to overwrite
 		submit.setText("Overwrite");
@@ -169,7 +161,6 @@ public class EvaluationStudController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
-		welcomeText.setVisible(false);
 		
 		if (event.getSource() == submit){
 			
@@ -189,10 +180,8 @@ public class EvaluationStudController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
 		rec.setFill(Color.TRANSPARENT);
-		debugText.setText("");
 		if(!MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Submit");
-			overwriteText.setText("");
 		}
 		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			
@@ -200,9 +189,8 @@ public class EvaluationStudController implements Initializable {
 			feedback.setText(eval.getComment());
 			
 			submit.setText("Overwrite");
-			rec.setFill(Color.BLUE);
-			welcomeText.setVisible(false);
-			overwriteText.setText("Evaluation already given, overwrite?");
+			rec.setFill(Color.CORNFLOWERBLUE);
+			errorText.setText("Evaluation already given, overwrite?");
 		}
 		ArrayList<String> ratingValues = course.getRatingValues();
 		rating1.setText(ratingValues.get(0));

@@ -26,7 +26,7 @@ public class LoginController implements Initializable {
 
 	
 	@FXML
-	public Button backButton;
+	public Button back;
 	public Button student;
 	public Button professor;
 	public TextField profUsername; 
@@ -77,8 +77,8 @@ public class LoginController implements Initializable {
 	//returns you to login.fxml
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
-		if (event.getSource() == backButton) {
-			loadNextScene(backButton, stage, "Login.fxml");
+		if (event.getSource() == back) {
+			loadNextScene(back, stage, "Login.fxml");
 		}
 	} 
 	

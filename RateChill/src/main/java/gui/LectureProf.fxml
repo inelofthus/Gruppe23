@@ -7,49 +7,66 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureProfController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureProfController">
    <children>
-      <Text layoutX="136.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See evaluations">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="94.0" layoutX="-18.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
+      <Text layoutX="1.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="See evaluations" textAlignment="CENTER" wrappingWidth="654.999993990139">
          <font>
             <Font size="48.0" />
          </font>
       </Text>
-      <Button fx:id="allLectures" layoutX="269.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true" />
-      <Hyperlink fx:id="month1" layoutX="48.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="Jan" />
-      <Hyperlink fx:id="month2" layoutX="74.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="Feb" />
-      <Hyperlink fx:id="month4" layoutX="130.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="Apr" />
-      <Hyperlink fx:id="month3" layoutX="102.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="Mar" />
-      <Hyperlink fx:id="month5" layoutX="157.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="May" />
-      <Hyperlink fx:id="month6" layoutX="188.0" layoutY="125.0" onAction="#handleHyperLinkAction" text="Jun" />
-      <Hyperlink fx:id="prevMonth" layoutX="48.0" layoutY="144.0" onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0" text="&lt;" />
-      <Hyperlink fx:id="nextMonth" layoutX="201.0" layoutY="144.0" onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0" text="&gt;" />
-      <ListView fx:id="lectures" layoutX="22.0" layoutY="186.0" prefHeight="200.0" prefWidth="219.0" />
-      <Button fx:id="indivLecture" layoutX="464.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true" />
-      <Text fx:id="month" layoutX="99.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:">
+      <Button fx:id="allLectures" layoutX="382.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true" />
+      <Hyperlink fx:id="month1" layoutX="135.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="Jan" />
+      <Hyperlink fx:id="month2" layoutX="161.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="Feb" />
+      <Hyperlink fx:id="month4" layoutX="217.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="Apr" />
+      <Hyperlink fx:id="month3" layoutX="189.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="Mar" />
+      <Hyperlink fx:id="month5" layoutX="244.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="May" />
+      <Hyperlink fx:id="month6" layoutX="275.0" layoutY="174.0" onAction="#handleHyperLinkAction" text="Jun" />
+      <Hyperlink fx:id="prevMonth" layoutX="135.0" layoutY="193.0" onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0" text="&lt;" />
+      <Hyperlink fx:id="nextMonth" layoutX="288.0" layoutY="193.0" onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0" text="&gt;" />
+      <ListView fx:id="lectures" layoutX="109.0" layoutY="235.0" prefHeight="200.0" prefWidth="219.0" />
+      <Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true" />
+      <Text fx:id="month" layoutX="184.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
          </font>
       </Text>
-      <ToolBar prefHeight="41.0" prefWidth="655.0">
+      <ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
         <items>
-            <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" text="Home" />
-          <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" text="Back" />
+            <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Home" textAlignment="CENTER" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+          <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
             <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="530.0">
                <children>
-                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" text="Customize evaluation buttons">
+                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Customize evaluation buttons" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="editLectures" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="98.0" text="Edit lectures" textAlignment="CENTER" wrapText="true">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="| ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="editLectures" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="20.0" prefWidth="94.0" styleClass="menuButton" text="Edit lectures" textAlignment="CENTER" wrapText="true">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" text="Logout" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="| ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
                </children>
             </HBox>
         </items>

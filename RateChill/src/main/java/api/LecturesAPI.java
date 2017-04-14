@@ -59,7 +59,7 @@ public class LecturesAPI {
 		    			try {
 		    				dbc.insertLecture(lectureDates.get(j), lectureStart, courseCode, professorUsername);
 						} catch (Exception e) {
-							System.out.println("Lecture already exists");
+							System.out.println(e);
 						}
 		    		}
 

@@ -1,9 +1,9 @@
 .button {
     -fx-background-color : #ffffff;
-    -fx-text-fill        : #d11d1d;
+    -fx-text-fill        : #000000;
     -fx-border-style	 : solid;
     -fx-border-width: 2px;
-    -fx-border-color: #000000;
+    -fx-border-color: #cccccc;
     }
 
 .button:hover {
@@ -14,18 +14,18 @@
     -fx-background-color : #f9f7f7;
     -fx-border-style: solid;
     -fx-border-width: 2px;
-    -fx-border-color: #000000;
-    -fx-border-radius: 4px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 0px;
 
 
     }
 
 .toggle {
 	-fx-background-color : #ffffff;
-    -fx-text-fill        : #d11d1d;
+    -fx-text-fill        : #000000;
     -fx-border-style	 : solid;
     -fx-border-width: 2px;
-    -fx-border-color: #000000;
+    -fx-border-color: #cccccc;
     
 }
 
@@ -48,10 +48,30 @@
     -fx-border-color: #d11d1d;
 }
 
+.menuBar {
+	-fx-background-color: #ef4a4a;
+}
 
-.background {
-	-fx-background-color : #cccccc;
+.header {
+	-fx-font-size: 32px;
+	-fx-fill: white;
+}
+
+.menuButton {
+	-fx-background-color: none;
+	-fx-border-width: 0px;
+	-fx-text-fill: #ffffff;
+}
+
+.menuButton:hover{
+	-fx-background-color: #d84343;
 }
 
 .textLogo {
 	-fx-text-fill : #d11d1d;
+}
+
+.background {
+	-fx-background-color : #eeeeee;
+}
+
