@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -49,6 +51,8 @@ public class LectureProfController implements Initializable {
 	
 	@FXML
 	public Hyperlink editLecturesLink;
+	public Text errorText;
+	public Rectangle errorBar;
 	
 	private boolean spring = true;
 	private Course course;
@@ -93,12 +97,21 @@ public class LectureProfController implements Initializable {
 		userButtons(event, stage);
 		
 		if(event.getSource() == indivLecture){
+			try{
 			int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); 
 			Lecture lec = new Lecture(lecID);
 			loadLecture(lec);
 			MainController.getInstance().setChosenProfessorLecture(lecID);
 			stack.push("LectureProf.fxml");
 			loadNextScene(indivLecture, stage, "IndividualCharts.fxml");
+			
+			}
+			catch(Exception e){
+				errorText.setText("Choose a lecture from the calendar, or see graph for lectures over time");
+				Color myRed = new Color(0.937, 0.290, 0.290, 1);
+				errorBar.setFill(myRed);
+				errorBar.setVisible(true);
+			}
 		}
 		
 		else if(event.getSource() == allLectures){
@@ -224,9 +237,7 @@ public class LectureProfController implements Initializable {
 		
 		for(int lecID:lecIDs){
 			date.add(DBC.changeDateFormat( course.getLectureDate(lecID) ) ) ;
-		}
-		
-				
+		}				
 		return date;
 	}
 	

@@ -19,7 +19,10 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <Button fx:id="allLectures" layoutX="382.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="allLectures" layoutX="382.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
       <Hyperlink fx:id="month1" layoutX="114.0" layoutY="162.0" onAction="#handleHyperLinkAction" text="Jan">
          <font>
             <Font size="16.0" />
@@ -53,7 +56,10 @@
             <Font size="16.0" />
          </font></Hyperlink>
       <ListView fx:id="lectures" layoutX="109.0" layoutY="235.0" prefHeight="200.0" prefWidth="219.0" />
-      <Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
       <Text fx:id="month" layoutX="185.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" textAlignment="CENTER">
          <font>
             <Font size="21.0" />
@@ -96,5 +102,11 @@
         </items>
       </ToolBar>
       <Hyperlink fx:id="editLecturesLink" layoutX="182.0" layoutY="435.0" onAction="#handleButtonAction" text="Edit lectures" />
+      <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="25.0" layoutX="-2.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="666.0" />
+      <Text fx:id="errorText" layoutX="87.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="481.15948486328125">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

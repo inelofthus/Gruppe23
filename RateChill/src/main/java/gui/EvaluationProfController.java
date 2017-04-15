@@ -37,11 +37,11 @@ public class EvaluationProfController implements Initializable {
 	public Button logout;
 	public Button customize;
 
-	Course course = MainController.getInstance().getCourse();
-	
 	@FXML
 	public BarChart<String, Integer> barchart;
 	public CategoryAxis xAxis;
+	
+	Course course = MainController.getInstance().getCourse();
 	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();	
 	private Lecture lecture = MainController.getInstance().getLecture();
 	private Stack<String> stack = MainController.getInstance().getStack();
@@ -79,8 +79,6 @@ public class EvaluationProfController implements Initializable {
 		return false;
 	}
 	
-	
-	//needs a fix
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;

@@ -19,6 +19,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -37,12 +39,14 @@ public class SelectCourseStudController implements Initializable {
 	public TextField searchText;
 	public Text badSearch;
 	public Text badChoice;
+	public Rectangle errorBar;
 
 	@FXML
 	public ListView<String> options;
 	public ListView<String> choices;
 
 	private ArrayList<String> allCourses;
+	Color myRed = new Color(0.937, 0.290, 0.290, 1);
 	
 	private Student stud = MainController.getInstance().getStudents();
 	DBController DBC = new DBController();
@@ -73,14 +77,6 @@ public class SelectCourseStudController implements Initializable {
 		}
 	}
 
-	// public boolean isUserButtonPushed(ActionEvent event) {
-	// if (event.getSource() == home || event.getSource() == back ||
-	// event.getSource() == logout) {
-	// return true;
-	// }
-	// return false;
-	// }
-
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
 		if (event.getSource() == search) {
@@ -91,6 +87,8 @@ public class SelectCourseStudController implements Initializable {
 			options.getItems().clear();
 			if (searchResult.isEmpty()) {
 				badSearch.setText("No courses matching your search");
+				errorBar.setFill(myRed);
+				errorBar.setVisible(true);
 			}
 			options.getItems().addAll(searchResult);
 		}
@@ -156,10 +154,14 @@ public class SelectCourseStudController implements Initializable {
 		if (stud.getCourseIDs().contains(s)) {
 			badChoice.setText("This course is already added");
 			okChoice = false;
+			errorBar.setFill(myRed);
+			errorBar.setVisible(true);
 		}
 		if (stud.getCourseIDs().size() >= 4) {
 			badChoice.setText("Max 4 courses");
 			okChoice = false;
+			errorBar.setFill(myRed);
+			errorBar.setVisible(true);
 		}
 
 		return okChoice;

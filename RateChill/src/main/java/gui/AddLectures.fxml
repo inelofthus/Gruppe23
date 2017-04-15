@@ -99,6 +99,10 @@
          </font>
       </Text>
       <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="25.0" layoutX="-6.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="666.0" />
-      <Text fx:id="errorMessage" layoutX="104.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="446.1367492675781" />
+      <Text fx:id="errorMessage" layoutX="104.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="446.1367492675781">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
