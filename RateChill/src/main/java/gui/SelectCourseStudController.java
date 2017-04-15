@@ -61,8 +61,10 @@ public class SelectCourseStudController implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
-
-	public void userButtons(ActionEvent event, Stage stage) throws IOException {
+	
+	@FXML
+	public void userButtons(ActionEvent event) throws IOException {
+		Stage stage = null;
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "CourseStud.fxml");
 		}

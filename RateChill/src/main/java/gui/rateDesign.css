@@ -1,3 +1,7 @@
+ListView, InputField {
+	-fx-font-size: 14px;
+}
+
 .button {
     -fx-background-color : #ffffff;
     -fx-text-fill        : #000000;
