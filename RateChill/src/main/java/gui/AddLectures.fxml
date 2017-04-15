@@ -28,6 +28,9 @@
             <TableColumn editable="false" prefWidth="105.0" sortable="false" text="Date" />
             <TableColumn prefWidth="105.0" sortable="false" text="Time" />
          </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <Pane layoutX="350.0" layoutY="161.0" prefHeight="241.0" prefWidth="217.0">
          <children>

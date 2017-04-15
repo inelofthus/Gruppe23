@@ -101,7 +101,7 @@ public class EvaluationStudController implements Initializable {
 		createEvaluation(lectureID, selectedButton(), comment);
 		
 		//visual confirmation that the evaluation has been submitted
-		rec.setFill(Color.PALEGREEN);
+		rec.setFill(Color.DARKSEAGREEN);
 		errorText.setText("Submitted!");
 		
 		//sets the text on the submit-button to overwrite

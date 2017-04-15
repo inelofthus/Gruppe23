@@ -51,7 +51,10 @@
          <font>
             <Font size="19.0" />
          </font></TextArea>
-      <Text fx:id="errorText" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="655.0" />
+      <Text fx:id="errorText" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="655.0">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
       <Button fx:id="submit" layoutX="334.0" layoutY="427.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="287.0" text="Submit feedback" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="19.0" />

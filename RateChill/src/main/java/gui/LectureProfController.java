@@ -47,6 +47,9 @@ public class LectureProfController implements Initializable {
 	public Hyperlink month6;
 	public ListView<String> lectures;
 	
+	@FXML
+	public Hyperlink editLecturesLink;
+	
 	private boolean spring = true;
 	private Course course;
 	private int monthNum;
@@ -108,7 +111,7 @@ public class LectureProfController implements Initializable {
 			stack.push("LectureProf.fxml");
 			loadNextScene(customize, stage, "CustomizeButtons.fxml");
 		}
-		else if (event.getSource() == editLectures) {
+		else if (event.getSource() == editLectures || event.getSource() == editLecturesLink) {
 			stack.push("LectureProf.fxml");
 			loadNextScene(editLectures, stage, "AddLectures.fxml");
 		}
