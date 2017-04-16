@@ -84,8 +84,11 @@ public class Course extends DatabaseUser{
 	
 	public ArrayList<Integer> getLastTwoCompletedLectureIDs() {
 		ArrayList<Integer> lastTwo = new ArrayList<>();
-		lastTwo.add(completedLectureIDs.get(0));
-		lastTwo.add(completedLectureIDs.get(1));
+		if(completedLectureIDs.size() > 0 ){
+			lastTwo.add(completedLectureIDs.get(0));
+		}if(completedLectureIDs.size() > 1){
+			lastTwo.add(completedLectureIDs.get(1));
+		}
 		return lastTwo;
 	}
 	

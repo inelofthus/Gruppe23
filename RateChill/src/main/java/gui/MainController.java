@@ -37,7 +37,7 @@ public class MainController {
 		this.course = course;
 	}
 
-	private LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesStudent;
+	private LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesStudent = new LinkedHashMap<>();
 	private LinkedHashMap<Integer, ArrayList<String>> lastTwoLecturesProfessor;
 	private Integer chosenStudentLecture;
 	private Integer chosenProfessorLecture;

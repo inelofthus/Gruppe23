@@ -105,9 +105,9 @@ public class LectureStudController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set text of buttons to contain date of lecture
-		int numberOfLectures = MainController.getInstance().getCourse().getLectureIDs().size();
+		int numberOfLectures = MainController.getInstance().getCourse().getLastTwoCompletedLectureIDs().size();
 		if (numberOfLectures==0) {
-			errorMsg.setText("No lectures are registered for this course yet");
+			errorMsg.setText("No completed lectures have been registered for this course yet");
 			lecture1.setVisible(false);
 			lecture2.setVisible(false);
 			return;
