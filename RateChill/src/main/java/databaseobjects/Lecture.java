@@ -83,20 +83,20 @@ public class Lecture extends DatabaseUser {
 		
 		switch (ratingNum) {
 		case 1:
-			return EvaluationsRating1.size();
-			
+			count = EvaluationsRating1.size();
+			break;
 		case 2:
-			return EvaluationsRating2.size();
-			
+			count =  EvaluationsRating2.size();
+			break;
 		case 3:
-			return EvaluationsRating3.size();
-			
+			count =  EvaluationsRating3.size();
+			break;
 		case 4:
-			return EvaluationsRating4.size();
-			
+			count =  EvaluationsRating4.size();
+			break;
 		case 5:
-			return EvaluationsRating5.size();
-
+			count =  EvaluationsRating5.size();
+			break;
 		default:
 			break;
 		}
@@ -106,11 +106,7 @@ public class Lecture extends DatabaseUser {
 		}
 		
 		return count;
-		
-		
-//		String query = "SELECT Count(Distinct e.rating) as ratingCount, e.rating From Evaluation e WHERE lectureID =" + lectureID + " AND rating = '"+ ratingValue +"';";
-//		//System.out.println(query);
-//		return DBC.getInt(query);
+
 	}
 		
 	public ArrayList<Evaluation> getEvaluationsRating1() {
@@ -186,48 +182,5 @@ public class Lecture extends DatabaseUser {
 	public void setEvaluationsRating5(ArrayList<Evaluation> EvaluationsRating5) {
 		this.EvaluationsRating5 = EvaluationsRating5;
 	}
-
-	
-	
-	///////////////////////END OF USEFUL CODE //////////////////////////
-	//Old load Funcion:
-	
-	/*public void loadInfo(){
-		try {
-			String date = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(0);
-			String time = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(1);
-			courseCode = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(2);
-			professor = DBC.getLectureDateTimeCourseCodeAndProfessor(lectureID).get(3);
-			lectureDateAndTime = stringToCalender(date, time);
-			evaluations = DBC.getEvaluationsForLecture(lectureID, DBC);
-			
-		} catch (Exception e){
-			// TODO:handle exception
-			if (!existsInDB()) {
-				throw new NoSuchElementException("Lecture does not exist in database");
-			}
-			System.out.println(e.getMessage());
-		}
-				
-	}*/
-	
-	/*private GregorianCalendar stringToCalender(String date, String time){
-		// date format: "YYYY-MM-DD"
-		// time format: "hh:mm:ss"
-		String[] dateSplit = date.split("-");
-		int YYYY = Integer.valueOf(dateSplit[0]);
-		int MM = Integer.valueOf(dateSplit[1]);
-		int DD = Integer.valueOf(dateSplit[2]);
-		
-		String[] timeSplit = time.split(":");
-		int hh = Integer.valueOf(timeSplit[0]);
-		int mm = Integer.valueOf(timeSplit[1]);
-		int ss = Integer.valueOf(timeSplit[2]);
-		
-		GregorianCalendar calendar = new GregorianCalendar(YYYY, MM, DD, hh, mm, ss);
-		
-		return calendar;
-		
-	}*/
 	
 }

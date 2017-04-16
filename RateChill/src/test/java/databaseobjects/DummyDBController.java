@@ -208,10 +208,10 @@ public class DummyDBController extends DBController{
 		lecture.setCourseCode("TDT4140");
 		lecture.setProfessor("pekkaa");
 		
-		Evaluation eval = new Evaluation("Ok", "yeah it was ok", 1, "karimj@stud.ntnu.no");
+		Evaluation eval = new Evaluation(1, "karimj", new DummyDBController());
 		lecture.setEvaluations(new ArrayList<>(Arrays.asList(eval)));
 		lecture.setEvaluationsRating1(new ArrayList<Evaluation>());
-		lecture.setEvaluationsRating2(new ArrayList<Evaluation>(Arrays.asList(eval)));
+		lecture.setEvaluationsRating2(new ArrayList<>(Arrays.asList(eval)));
 		lecture.setEvaluationsRating3(new ArrayList<Evaluation>());
 		lecture.setEvaluationsRating4(new ArrayList<Evaluation>());
 		lecture.setEvaluationsRating5(new ArrayList<Evaluation>());

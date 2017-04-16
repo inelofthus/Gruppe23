@@ -64,25 +64,59 @@ public class LectureTest {
 		@Test
 		public void testgetEvaluations() {
 			String actual = lec.getEvaluations().get(0).getRating();
-			String expected = "Ok";
+			String expected = "Ok";		
+			assertEquals(expected, actual);
 			
+			ArrayList<Evaluation> expectedEvalSpecific = new ArrayList<>();
+			ArrayList<Evaluation> actualEvalSpecific = lec.getEvaluationsRating1();
+			assertEquals(expectedEvalSpecific, actualEvalSpecific);
+
+			actualEvalSpecific = lec.getEvaluationsRating3();
+			assertEquals(expectedEvalSpecific, actualEvalSpecific);
+			
+			actualEvalSpecific = lec.getEvaluationsRating4();
+			assertEquals(expectedEvalSpecific, actualEvalSpecific);
+			
+			actualEvalSpecific = lec.getEvaluationsRating5();
+			assertEquals(expectedEvalSpecific, actualEvalSpecific);
+			
+			actual = lec.getEvaluationsRating2().get(0).getRating();
+			expected = "Ok";		;
 			assertEquals(expected, actual);
 		}
 		
 		@Test
-		public void testgetRatingCountOk() {
-			int actual = lec.getRatingCount(2);
-			int expected = 1;
-			
-			assertEquals(expected, actual);
-		}
-		
-		@Test
-		public void testgetRatingCountPerfect() {
+		public void testgetRatingCount() {
 			int actual = lec.getRatingCount(1);
 			int expected = 0;
+			assertEquals(expected, actual);
+				
+			actual = lec.getRatingCount(2);
+			expected = 1;
+			assertEquals(expected, actual);
+			
+			actual = lec.getRatingCount(3);
+			expected = 0;
+			assertEquals(expected, actual);
+			
+			actual = lec.getRatingCount(4);
+			expected = 0;
+			assertEquals(expected, actual);
+			
+			actual = lec.getRatingCount(5);
+			expected = 0;
 			
 			assertEquals(expected, actual);
+		}
+		
+		@Test(expected=IllegalArgumentException.class)
+		public void testgetRatingCountBadInput(){
+			lec.getRatingCount(6);
+		}
+		
+		@Test
+		public void testgetRatingValues(){
+			System.out.println(lec.getRatingValues());
 		}
 
 }
