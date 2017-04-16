@@ -15,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -51,6 +53,72 @@ public class CreateProfUserController implements Initializable {
 		}
 	}
 	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			handleCreateProf();
+		}
+	}
+	
+	private void handleCreateProf() throws IOException{
+		Stage stage = null;
+		
+		boolean errors = false;
+		if (username.getText().isEmpty()) {
+			badUsername.setText("Please write your NTNU username");
+			errors = true;
+			return;
+		}else badUsername.setText("");
+		if (password.getText().isEmpty()) {
+			passwordNoMatch.setText("Please set a password");
+			errors = true;
+			return;
+		}else passwordNoMatch.setText("");
+		if (RepeatPassword.getText().isEmpty()) {
+			passwordNoMatch.setText("Please repeat the password");
+			errors = true;
+			return;
+		}else passwordNoMatch.setText("");
+		if(username.getText().length() > 10){
+			badUsername.setText("Username too long (max 10 characters)");
+			errors = true;
+			return;
+		}else badUsername.setText("");
+		if (!password.getText().equals(RepeatPassword.getText())) {
+			passwordNoMatch.setText("Passwords don't match");
+			errors = true;
+			return;
+		}else passwordNoMatch.setText("");
+		if (password.getText().length()<3) {
+			passwordNoMatch.setText("Your password is too short");
+			errors = true;
+			return;
+		}else passwordNoMatch.setText("");
+		
+		if (!errors){	
+			
+			if (DBC.professorExists(username.getText())) {
+				Professor prof = new Professor(username.getText());
+
+				if (prof.hasPassword()) {
+					badUsername.setText("This professor already has a user");
+					return;
+				} else
+					badUsername.setText("");
+				
+				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
+				MainController.getInstance().createUser = true;
+				loadNextScene(finish, stage, "LoginProf.fxml");
+				
+			}else{
+				badUsername.setText("Not a valid professor username");
+					return;
+			}
+			
+			
+			
+		}
+	}
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
@@ -58,52 +126,7 @@ public class CreateProfUserController implements Initializable {
 		
 		
 		if (event.getSource() == finish){
-			boolean errors = false;
-			if (username.getText().isEmpty()) {
-				badUsername.setText("Please create a username");
-				errors = true;
-				return;
-			}else badUsername.setText("");
-			if (password.getText().isEmpty()) {
-				passwordNoMatch.setText("Please set a password");
-				errors = true;
-				return;
-			}else passwordNoMatch.setText("");
-			if (RepeatPassword.getText().isEmpty()) {
-				passwordNoMatch.setText("Please repeat the password");
-				errors = true;
-				return;
-			}else passwordNoMatch.setText("");
-			if(username.getText().length() > 10){
-				badUsername.setText("Username too long (max 10 characters)");
-				errors = true;
-				return;
-			}else badUsername.setText("");
-			if (!password.getText().equals(RepeatPassword.getText())) {
-				passwordNoMatch.setText("Passwords don't match");
-				errors = true;
-				return;
-			}else passwordNoMatch.setText("");
-			if (password.getText().length()<3) {
-				passwordNoMatch.setText("Your password is too short");
-				errors = true;
-				return;
-			}else passwordNoMatch.setText("");
-			
-			if (!errors){			
-				Professor prof = new Professor(username.getText());
-				if (prof.hasPassword()) {
-					badUsername.setText("This professor already has a user");
-					return;
-				}else badUsername.setText("");
-				if(!prof.existsInDB()) {
-					badUsername.setText("Not a valid professor username");
-					return;
-				}else badUsername.setText("");
-				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
-				MainController.getInstance().createUser = true;
-				loadNextScene(finish, stage, "LoginProf.fxml");
-			}
+			handleCreateProf();
 		}			
 	}
 	
