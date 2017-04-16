@@ -41,6 +41,7 @@ public class CommentPageController implements Initializable {
 	public Button back;
 	public Button logout;
 	public Button customize;
+	public Button customize1;
 	public Button showAllComments;
 	
 	@FXML
@@ -65,6 +66,14 @@ public class CommentPageController implements Initializable {
 		return allComment;
 	}
 	
+	public String createStringAll() {
+		ArrayList<String> als = showAllComments();
+		String comments = ""; 
+		for (String string:als){
+			comments += string + "\n";
+		}
+		return comments;
+	}
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -151,7 +160,50 @@ public class CommentPageController implements Initializable {
 	}
 	
 	
-	
+	public ArrayList<String> showAllComments() {
+		ArrayList<String> current = new ArrayList<String>();
+		ArrayList<Evaluation> Evaluations1 = lecture.getEvaluationsRating1();
+		ArrayList<Evaluation> Evaluations2 = lecture.getEvaluationsRating2();
+		ArrayList<Evaluation> Evaluations3 = lecture.getEvaluationsRating3();
+		ArrayList<Evaluation> Evaluations4 = lecture.getEvaluationsRating4();
+		ArrayList<Evaluation> Evaluations5 = lecture.getEvaluationsRating5();
+		if (!Evaluations1.isEmpty()) {
+			current.add(ratingValues.get(0) + " comments:");
+			for (Evaluation eval:Evaluations1) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations2.isEmpty()) {
+			current.add(ratingValues.get(1) + " comments:");
+			for (Evaluation eval:Evaluations2) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations3.isEmpty()) {
+			current.add(ratingValues.get(2) + " comments:");
+			for (Evaluation eval:Evaluations3) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations4.isEmpty()) {
+			current.add(ratingValues.get(3) + " comments:");
+			for (Evaluation eval:Evaluations4) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations5.isEmpty()) {
+			current.add(ratingValues.get(4) + " comments:");
+			for (Evaluation eval:Evaluations5) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		return current;
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -165,10 +217,16 @@ public class CommentPageController implements Initializable {
 			loadNextScene(customize, stage, "CustomizeButtons.fxml");
 			return;
 		}
-		else if (event.getSource() == showAllComments) {
-			//make every comment appear
+		else if (event.getSource()==customize1) {
+			stack.push("CommentPage.fxml");
+			loadNextScene(customize1, stage, "CustomizeButtons.fxml");
 			return;
 		}
+		else if (event.getSource() == showAllComments) {
+			textArea.setText(createStringAll());
+			return;
+		}
+		
 		if (isCommentButtonsPushed()){
 			textArea.setText(createString());
 		}
@@ -183,38 +241,52 @@ public class CommentPageController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-		textArea.setEditable(false);
-		if(!isCommentButtonsPushed()) {
-			textArea.setText("You have not selected to show any comments.");
-		}
-		
-		
-		seeComments1.setText(ratingValues.get(0) + " comments");
-		if(seeComments1.getText().contains("nix")){
-			seeComments1.setText("");
-			seeComments1.setDisable(true);
-		}
-		seeComments2.setText(ratingValues.get(1) + " comments");
-		if(seeComments2.getText().contains("nix")){
-			seeComments2.setText("");
-			seeComments2.setDisable(true);
-		}
-		seeComments3.setText(ratingValues.get(2) + " comments");
-		if(seeComments3.getText().contains("nix")){
-			seeComments3.setText("");
-			seeComments3.setDisable(true);
-		}
-		seeComments4.setText(ratingValues.get(3) + " comments");
-		if(seeComments4.getText().contains("nix")){
-			seeComments4.setText("");
-			seeComments4.setDisable(true);
-		}
-		seeComments5.setText(ratingValues.get(4) + " comments");
-		if(seeComments5.getText().contains("nix")){
-			seeComments5.setText("");
-			seeComments5.setDisable(true);
-		}
-		
-	}
+				textArea.setEditable(false);
+				if(!isCommentButtonsPushed()) {
+					textArea.setText("You have not selected to show any comments.");
+				}
+				if(lecture.getEvaluationsRating1().isEmpty()) {
+					seeComments1.setDisable(true);
+				}
+				if(lecture.getEvaluationsRating2().isEmpty()) {
+					seeComments2.setDisable(true);
+				}
+				if(lecture.getEvaluationsRating3().isEmpty()) {
+					seeComments3.setDisable(true);
+				}
+				if(lecture.getEvaluationsRating4().isEmpty()) {
+					seeComments4.setDisable(true);
+				}
+				if(lecture.getEvaluationsRating5().isEmpty()) {
+					seeComments5.setDisable(true);
+				}
+				
+				seeComments1.setText(ratingValues.get(0) + " comments");
+				if(seeComments1.getText().contains("nix")){
+					seeComments1.setText("");
+					seeComments1.setDisable(true);
+				}
+				seeComments2.setText(ratingValues.get(1) + " comments");
+				if(seeComments2.getText().contains("nix")){
+					seeComments2.setText("");
+					seeComments2.setDisable(true);
+				}
+				seeComments3.setText(ratingValues.get(2) + " comments");
+				if(seeComments3.getText().contains("nix")){
+					seeComments3.setText("");
+					seeComments3.setDisable(true);
+				}
+				seeComments4.setText(ratingValues.get(3) + " comments");
+				if(seeComments4.getText().contains("nix")){
+					seeComments4.setText("");
+					seeComments4.setDisable(true);
+				}
+				seeComments5.setText(ratingValues.get(4) + " comments");
+				if(seeComments5.getText().contains("nix")){
+					seeComments5.setText("");
+					seeComments5.setDisable(true);
+				}
+				
+			}
 
 }

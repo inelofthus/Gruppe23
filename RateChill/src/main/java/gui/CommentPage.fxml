@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CommentPageController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="441.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="441.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
@@ -74,5 +74,6 @@
          </items>
       </ToolBar>
       <Text layoutX="204.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Lecture Comments" textAlignment="CENTER" wrappingWidth="271.4700927734375" />
+      <Button fx:id="customize1" layoutX="438.0" layoutY="140.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>
