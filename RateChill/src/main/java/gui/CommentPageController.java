@@ -66,6 +66,14 @@ public class CommentPageController implements Initializable {
 		return allComment;
 	}
 	
+	public String createStringAll() {
+		ArrayList<String> als = showAllComments();
+		String comments = ""; 
+		for (String string:als){
+			comments += string + "\n";
+		}
+		return comments;
+	}
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -152,7 +160,50 @@ public class CommentPageController implements Initializable {
 	}
 	
 	
-	
+	public ArrayList<String> showAllComments() {
+		ArrayList<String> current = new ArrayList<String>();
+		ArrayList<Evaluation> Evaluations1 = lecture.getEvaluationsRating1();
+		ArrayList<Evaluation> Evaluations2 = lecture.getEvaluationsRating2();
+		ArrayList<Evaluation> Evaluations3 = lecture.getEvaluationsRating3();
+		ArrayList<Evaluation> Evaluations4 = lecture.getEvaluationsRating4();
+		ArrayList<Evaluation> Evaluations5 = lecture.getEvaluationsRating5();
+		if (!Evaluations1.isEmpty()) {
+			current.add(ratingValues.get(0) + " comments:");
+			for (Evaluation eval:Evaluations1) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations2.isEmpty()) {
+			current.add(ratingValues.get(1) + " comments:");
+			for (Evaluation eval:Evaluations2) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations3.isEmpty()) {
+			current.add(ratingValues.get(2) + " comments:");
+			for (Evaluation eval:Evaluations3) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations4.isEmpty()) {
+			current.add(ratingValues.get(3) + " comments:");
+			for (Evaluation eval:Evaluations4) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		if (!Evaluations5.isEmpty()) {
+			current.add(ratingValues.get(4) + " comments:");
+			for (Evaluation eval:Evaluations5) {
+				current.add(eval.getComment());
+			}
+			current.add("");
+		}
+		return current;
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -161,15 +212,21 @@ public class CommentPageController implements Initializable {
 			userButtons(event, stage);
 			return;
 		}
-		else if (event.getSource() == customize || event.getSource()==customize1) {
+		else if (event.getSource() == customize) {
 			stack.push("CommentPage.fxml");
 			loadNextScene(customize, stage, "CustomizeButtons.fxml");
 			return;
 		}
-		else if (event.getSource() == showAllComments) {
-			//make every comment appear
+		else if (event.getSource()==customize1) {
+			stack.push("CommentPage.fxml");
+			loadNextScene(customize1, stage, "CustomizeButtons.fxml");
 			return;
 		}
+		else if (event.getSource() == showAllComments) {
+			textArea.setText(createStringAll());
+			return;
+		}
+		
 		if (isCommentButtonsPushed()){
 			textArea.setText(createString());
 		}
