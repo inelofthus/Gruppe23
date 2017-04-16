@@ -14,6 +14,7 @@ public class StudentTest {
 		DBController dummyDBC = new DummyDBController();
 		Student stud = new Student("karimj", dummyDBC);
 		
+		
 		@Test
 		public void testgetCourseIDNames() {
 			HashMap<String, String> actual = stud.getCourseIDNames();
@@ -47,9 +48,36 @@ public class StudentTest {
 			assertEquals(expected, actual);
 		}
 		
+		@Test
 		public void testgetCourseIDs() {
 			ArrayList<String> actual = stud.getCourseIDs();
 			ArrayList<String> expected = new ArrayList<>(Arrays.asList("TDT4140"));
+			
+			assertEquals(expected, actual);
+		}
+		
+		@Test
+		public void testaddCourse(){
+			stud.addCourse("TDT1234", "testCourse");
+			ArrayList<String> expectedCourseIDs = new ArrayList<>(Arrays.asList("TDT4140", "TDT1234"));
+			ArrayList<String> actualCourseIDs = stud.getCourseIDs();
+			
+			assertEquals(expectedCourseIDs, actualCourseIDs);
+		}
+		
+		@Test
+		public void testremoveCourse(){
+			stud.removeCourse("TDT1234");
+			ArrayList<String> expectedCourseIDs = new ArrayList<>(Arrays.asList("TDT4140" ));
+			ArrayList<String> actualCourseIDs = stud.getCourseIDs();
+			
+			assertEquals(expectedCourseIDs, actualCourseIDs);
+		}
+		
+		@Test
+		public void testhasEvaluationLecture(){
+			boolean actual = stud.hasEvaluatedLecture(1);
+			boolean expected = true;
 			
 			assertEquals(expected, actual);
 		}

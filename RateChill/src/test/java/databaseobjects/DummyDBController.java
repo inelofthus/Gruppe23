@@ -318,10 +318,10 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public boolean studentHasEvaluatedLecture(String studentEmail, int lecID) {
+	public boolean studentHasEvaluatedLecture(String studentUsername, int lecID) {
 		boolean ans = false;
 			
-			if(studentEmail == "karimj@stud.ntnu.no" && lecID == 1)
+			if(studentUsername == "karimj" && lecID == 1)
 				ans = true;
 			
 		return ans;

@@ -8,8 +8,15 @@ COURSE VALUES:
 		
 	private ArrayList<Integer> lectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
 	private ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));;
-	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate; 1:<2017-01-01, 08:00:00> , 2:<2017-01-02, 08:00:00> , 3:<2017-01-03, 08:00:00>
+	private LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate; 1:<2017-01-01, 08:00:00> , 2:<2017-01-02, 08:00:00> , 3:<2017-01-03, 08:00:00>, 5:<2017-02-02, 08:00:00>, , 6:<2017-03-03, 08:00:00>, ... ,  15:<2017-12-12, 08:00:00> 
+	
 
+	Course2:
+	 -PROF = testProf
+	 -COURSENAME = testCourse
+	 -lecIds = 4
+	
+	
 EVALUATION VALUES:
 	private String rating = "Ok";
 	private String comment = "yeah it was ok";
