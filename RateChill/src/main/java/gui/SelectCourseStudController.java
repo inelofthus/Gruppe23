@@ -17,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -78,23 +80,33 @@ public class SelectCourseStudController implements Initializable {
 			loadNextScene(logout, stage, "CourseStud.fxml");
 		}
 	}
+	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			handleSearch();
+		}
+	}
+	
+	private void handleSearch(){
+		// get a list of courses that matches search then add to listview
+					badChoice.setText("");
+					badSearch.setText("");
+					errorBar.setVisible(false);
+					ArrayList<String> searchResult = getSearchresult(searchText.getText());
+					options.getItems().clear();
+					if (searchResult.isEmpty()) {
+						badSearch.setText("No courses matching your search");
+						errorBar.setFill(myRed);
+						errorBar.setVisible(true);
+					}
+					options.getItems().addAll(searchResult);
+	}
 
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
 		errorBar.setVisible(false);
 		if (event.getSource() == search) {
-			// get a list of courses that matches search then add to listview
-			badChoice.setText("");
-			badSearch.setText("");
-			errorBar.setVisible(false);
-			ArrayList<String> searchResult = getSearchresult(searchText.getText());
-			options.getItems().clear();
-			if (searchResult.isEmpty()) {
-				badSearch.setText("No courses matching your search");
-				errorBar.setFill(myRed);
-				errorBar.setVisible(true);
-			}
-			options.getItems().addAll(searchResult);
+			handleSearch();
 		}
 
 		if (event.getSource() == sendRight) {
