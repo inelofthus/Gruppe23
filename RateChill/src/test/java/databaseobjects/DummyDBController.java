@@ -80,23 +80,125 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public Course loadCourseInfo(Course course) {
+		
+		if(course.getCourseCode().equals("TDT4140")){
 		course.setCourseName("Programvareutvikling");
 		course.setNumLectureHours(4);
 		course.setProfessorUsernames(new ArrayList<>(Arrays.asList("pekkaa")));
-		course.setLectureIDs(new ArrayList<>(Arrays.asList(1, 2, 3)));
+		course.setLectureIDs(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)));
 		course.setTaughtInAutumn(true);
 		course.setTaughtInSpring(false);
 		
-		ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3));
+		ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
 		LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
 		completedLecturesIDDate.put(1, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
 		completedLecturesIDDate.put(2, new ArrayList<String>(Arrays.asList("2017-01-02", "08:00:00")));
 		completedLecturesIDDate.put(3, new ArrayList<String>(Arrays.asList("2017-01-03", "08:00:00")));
+		completedLecturesIDDate.put(5, new ArrayList<String>(Arrays.asList("2017-02-02", "08:00:00")));
+		completedLecturesIDDate.put(6, new ArrayList<String>(Arrays.asList("2017-03-03", "08:00:00")));
+		completedLecturesIDDate.put(7, new ArrayList<String>(Arrays.asList("2017-04-04", "08:00:00")));
+		completedLecturesIDDate.put(8, new ArrayList<String>(Arrays.asList("2017-05-05", "08:00:00")));
+		completedLecturesIDDate.put(9, new ArrayList<String>(Arrays.asList("2017-06-06", "08:00:00")));
+		completedLecturesIDDate.put(10, new ArrayList<String>(Arrays.asList("2017-07-07", "08:00:00")));
+		completedLecturesIDDate.put(11, new ArrayList<String>(Arrays.asList("2017-08-08", "08:00:00")));
+		completedLecturesIDDate.put(12, new ArrayList<String>(Arrays.asList("2017-09-09", "08:00:00")));
+		completedLecturesIDDate.put(13, new ArrayList<String>(Arrays.asList("2017-10-10", "08:00:00")));
+		completedLecturesIDDate.put(14, new ArrayList<String>(Arrays.asList("2017-11-11", "08:00:00")));
+		completedLecturesIDDate.put(15, new ArrayList<String>(Arrays.asList("2017-12-12", "08:00:00")));
 		
 		course.setCompletedLectureIDs(completedLectureIDs);
 		course.setCompletedLecturesIDDate(completedLecturesIDDate);
 		
+		} else if(course.getCourseCode().equals("TDT1234")){
+			course.setCourseName("testCourse");
+			course.setNumLectureHours(4);
+			course.setProfessorUsernames(new ArrayList<>(Arrays.asList("testProf")));
+			course.setLectureIDs(new ArrayList<>(Arrays.asList(4)));
+			course.setTaughtInAutumn(true);
+			course.setTaughtInSpring(false);
+			
+			ArrayList<Integer> completedLectureIDs = new ArrayList<>(Arrays.asList(4));
+			LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate = new LinkedHashMap<>();
+			completedLecturesIDDate.put(4, new ArrayList<String>(Arrays.asList("2017-01-01", "08:00:00")));
+			
+			course.setCompletedLectureIDs(completedLectureIDs);
+			course.setCompletedLecturesIDDate(completedLecturesIDDate);
+		}
+		
 		return course;
+	}
+
+	@Override
+	public ArrayList<String> getStringArrayNC(String query) {
+		// TODO Auto-generated method stub
+		return super.getStringArrayNC(query);
+	}
+
+	@Override
+	public String changeDateFormat(String date) {
+		// TODO Auto-generated method stub
+		return super.changeDateFormat(date);
+	}
+
+	@Override
+	public void insertCourseNC(String courseCode, String courseName, int lectureHours, boolean taughtInSpring,
+			boolean taughtInAutumn) {
+		// TODO Auto-generated method stub
+		super.insertCourseNC(courseCode, courseName, lectureHours, taughtInSpring, taughtInAutumn);
+	}
+
+	@Override
+	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode) {
+		// TODO Auto-generated method stub
+		return super.getLectureDateAndTimeForCourse(courseCode);
+	}
+
+	@Override
+	public ArrayList<String> getAllCourses() {
+		// TODO Auto-generated method stub
+		return super.getAllCourses();
+	}
+
+	@Override
+	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3,
+			String rating4, String rating5) {
+		// TODO Auto-generated method stub
+		super.insertCourseRatingValues(courseCode, rating1, rating2, rating3, rating4, rating5);
+	}
+
+	@Override
+	public void deleteLecturesForPeriod(String courseCode, String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		super.deleteLecturesForPeriod(courseCode, startDate, endDate);
+	}
+
+	@Override
+	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat,
+			String professorUsername) throws SQLException {
+		//here lectures should be added to database
+	}
+
+	@Override
+	public void insertProfessorNC(String professorUsername, String password) {
+		// TODO Auto-generated method stub
+		super.insertProfessorNC(professorUsername, password);
+	}
+
+	@Override
+	public void updateProfessor(String username, String hashPassword) {
+		// TODO Auto-generated method stub
+		super.updateProfessor(username, hashPassword);
+	}
+
+	@Override
+	public void insertCourseProfessorNC(String professorUsername, String courseCode) {
+		// TODO Auto-generated method stub
+		super.insertCourseProfessorNC(professorUsername, courseCode);
+	}
+
+	@Override
+	public void deleteCourseStudent(String username, String courseCode) {
+		// courses should be deleted from database
 	}
 
 	@Override

@@ -28,13 +28,13 @@ public class Course extends DatabaseUser{
 	//Constructor1
 	public Course(String courseCode) {
 		// loads a course object with the newest semester
-		this.courseCode = courseCode;
+		setCourseCode(courseCode);
 		DBC.loadCourseInfo(this);
 		this.semester = getCurrentSemester();
 	}
 	
 	public Course(String courseCode, String semester) {
-		// loads a course object with the newest semester
+		// loads a course object with the chosen semester
 		this.courseCode = courseCode;
 		this.semester = semester;
 		DBC.loadCourseInfoForSemester(this, semester);
@@ -117,11 +117,13 @@ public class Course extends DatabaseUser{
 	}
 	
 	public String getLectureDate(int lecID){
+		String date = null;
+		
 		if(completedLectureIDs.contains(lecID))	{
-			return completedLecturesIDDate.get(lecID).get(0);	
+			date = completedLecturesIDDate.get(lecID).get(0);	
 		}
 		
-		return null;
+		return date;
 		
 	}
 	
