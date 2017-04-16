@@ -126,7 +126,7 @@ public class AddLecturesController implements Initializable {
 				|| !validate(startTime.getText()) || (repeat.isSelected() && endDate.getValue() == null)){
 			String errorText = "";
 			if (startDate.getValue() == null){
-				errorText += "Pick a date. ";
+				errorText += "Pick a date (dd.mm.yyyy). ";
 			}
 			if  (startTime.getText().length() == 0){
 				errorText += "Pick a time. ";

@@ -21,6 +21,7 @@ public class MainController {
 	private Course course;
 	private Lecture lecture;
 	private Stack<String> stack = new Stack<String>();
+	boolean createUser = false;
 	
 	
 	public Stack<String> getStack() {

@@ -81,10 +81,12 @@ public class SelectCourseStudController implements Initializable {
 
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
+		errorBar.setVisible(false);
 		if (event.getSource() == search) {
 			// get a list of courses that matches search then add to listview
 			badChoice.setText("");
 			badSearch.setText("");
+			errorBar.setVisible(false);
 			ArrayList<String> searchResult = getSearchresult(searchText.getText());
 			options.getItems().clear();
 			if (searchResult.isEmpty()) {
@@ -120,6 +122,7 @@ public class SelectCourseStudController implements Initializable {
 			badSearch.setText("");
 			System.out.println("sendLeft pressed");
 			String s = choices.getSelectionModel().getSelectedItem();
+			if (s == null){return;}
 			String[] stringSplit = s.split("\\s+"); // splits into array with
 													// courseCode and courseName
 			String courseCode = stringSplit[0];

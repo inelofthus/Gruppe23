@@ -58,45 +58,52 @@ public class CreateProfUserController implements Initializable {
 		
 		
 		if (event.getSource() == finish){
-			Professor prof = new Professor(username.getText());
-			
+			boolean errors = false;
 			if (username.getText().isEmpty()) {
 				badUsername.setText("Please create a username");
-				return;
-			}else badUsername.setText("");
-			if (prof.hasPassword()) {
-				badUsername.setText("This professor already has a user");
+				errors = true;
 				return;
 			}else badUsername.setText("");
 			if (password.getText().isEmpty()) {
 				passwordNoMatch.setText("Please set a password");
+				errors = true;
 				return;
 			}else passwordNoMatch.setText("");
 			if (RepeatPassword.getText().isEmpty()) {
 				passwordNoMatch.setText("Please repeat the password");
+				errors = true;
 				return;
 			}else passwordNoMatch.setText("");
 			if(username.getText().length() > 10){
 				badUsername.setText("Username too long (max 10 characters)");
-				return;
-			}else badUsername.setText("");
-			if(!prof.existsInDB()) {
-				badUsername.setText("not a valid professor username");
+				errors = true;
 				return;
 			}else badUsername.setText("");
 			if (!password.getText().equals(RepeatPassword.getText())) {
 				passwordNoMatch.setText("Passwords don't match");
+				errors = true;
 				return;
 			}else passwordNoMatch.setText("");
 			if (password.getText().length()<3) {
 				passwordNoMatch.setText("Your password is too short");
+				errors = true;
 				return;
 			}else passwordNoMatch.setText("");
 			
-						
-			
-			DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));;
-			loadNextScene(finish, stage, "LoginProf.fxml");
+			if (!errors){			
+				Professor prof = new Professor(username.getText());
+				if (prof.hasPassword()) {
+					badUsername.setText("This professor already has a user");
+					return;
+				}else badUsername.setText("");
+				if(!prof.existsInDB()) {
+					badUsername.setText("Not a valid professor username");
+					return;
+				}else badUsername.setText("");
+				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
+				MainController.getInstance().createUser = true;
+				loadNextScene(finish, stage, "LoginProf.fxml");
+			}
 		}			
 	}
 	

@@ -94,6 +94,7 @@ public class CreateUserController implements Initializable {
 			
 			if(validInput){
 				createStudentUser(username.getText());
+				MainController.getInstance().createUser = true;
 				loadNextScene(finish, stage, "LoginStud.fxml");
 			}
 			

@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -45,6 +47,9 @@ public class CustomizeButtonsController implements Initializable {
 	public TextField buttonText4;
 	public TextField buttonText5;
 	public Text errorText;
+	public Rectangle errorBar;
+	
+	public Color MYRED = new Color(0.937, 0.290, 0.290, 1);
 	
 	
 	DBController DBC = new DBController();
@@ -153,6 +158,7 @@ public class CustomizeButtonsController implements Initializable {
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		errorText.setText("");
+		errorBar.setVisible(false);
 		if (isUserButtonPushed(event)) {
 			userButtons(event, stage);
 			return;
@@ -163,15 +169,21 @@ public class CustomizeButtonsController implements Initializable {
 		}
 		else if (event.getSource() == submitChanges){
 			if (!haveMadeButtonChanges()) {
+				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
+				errorBar.setVisible(true);
 				errorText.setText("You have not made any changes");
 				return;
 			}			
 			ArrayList<String> inputValues = makeListOfValues();
 			if(tooLongInput(inputValues)){
-				errorText.setText("Too long text. There max length of a rating value is 20characters. ");
+				errorBar.setFill(MYRED);
+				errorBar.setVisible(true);
+				errorText.setText("Text is too long. The maximum length of a rating value is 20 characters.");
 				return;
 			}
 			if (equalRatings(inputValues)) {
+				errorBar.setFill(MYRED);
+				errorBar.setVisible(true);
 				errorText.setText("There exists duplicate rating-values, please make them unique");
 				return;
 			}

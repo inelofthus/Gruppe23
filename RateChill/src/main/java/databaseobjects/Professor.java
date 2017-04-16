@@ -119,23 +119,4 @@ public class Professor extends DatabaseUser {
 		return !encryptedPassword.equals("np");
 	}
 	
-	//////////////END OF USEFUL CODE ////////////////////////////
-	
-	//OLD LOAD FUNCTION	
-	
-	/*public void loadInfo(){
-		try {
-			courseIDs = DBC.getCoursesTaughtByProfessor(username);
-			
-		} catch (Exception e) {
-			
-			if (!existsInDB()) {
-				throw new NoSuchElementException("No courses exists for this professor");
-			}
-			System.out.println(e.getMessage());
-		}
-	}*/
-	
-	
-	
 }

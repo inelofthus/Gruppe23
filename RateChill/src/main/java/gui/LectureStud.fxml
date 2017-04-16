@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureStudController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="231.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="231.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@RateChillLogo.png" />
          </image>
@@ -27,7 +27,10 @@
             <Font size="25.0" />
          </font>
       </Button>
-      <Text fx:id="errorMsg" fill="#f20202" layoutX="184.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="287.0" />
+      <Text fx:id="errorMsg" fill="#ff4b4b" layoutX="140.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="375.0">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="96.0" layoutX="-7.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
       <ToolBar layoutX="-1.0" prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
          <items>
