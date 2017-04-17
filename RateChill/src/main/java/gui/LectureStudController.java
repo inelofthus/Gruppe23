@@ -17,6 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -77,12 +79,23 @@ public class LectureStudController implements Initializable {
 	    else if(event.getSource() == lecture2 && numberOfLectures>1){
 	    	MainController.getInstance().setChosenStudentLecture(getKeyLec2());
 	    	loadNextScene(lecture2, stage, "EvaluationStud.fxml");
-	    }
-	    
+	    } 
 	} 
+	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		Stage stage = null;
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			if (lecture1.isFocused()){
+				MainController.getInstance().setChosenStudentLecture(getKeyLec1());
+				loadNextScene(lecture1, stage, "EvaluationStud.fxml");
+			}
+			else if (lecture2.isFocused()) {
+				MainController.getInstance().setChosenStudentLecture(getKeyLec2());
+				loadNextScene(lecture2, stage, "EvaluationStud.fxml");
+			}
+		}
+	}
 	   
-	
-	
 	private int getKeyLec2() {
 		// helper method that returns the lectureID of the first lecture of lastTwoLectures		
 		LinkedHashMap<Integer, ArrayList<String>> map = MainController.getInstance().getLastTwoLecturesStudent();

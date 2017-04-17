@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -76,7 +78,6 @@ public class CourseProfController implements Initializable {
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
-	    
 		//the number of courses a professor has
 	    int numberOfCourses = MainController.getInstance().getProfessor().getCourseIDs().size();
 	    userButtons(event, stage);
@@ -134,6 +135,31 @@ public class CourseProfController implements Initializable {
 	    	}
 	    	
 	    	loadNextScene(fag4, stage, "LectureProf.fxml");
+		}
+	}
+	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		Stage stage = null;
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			if (fag1.isFocused()){
+				Course course = new Course(loadCourseCode(0));
+		    	loadCourse(course);
+		    	loadNextScene(fag4, stage, "LectureProf.fxml");
+			}
+			else if (fag2.isFocused()){
+				Course course = new Course(loadCourseCode(1));
+		    	loadCourse(course);
+		    	loadNextScene(fag2, stage, "LectureProf.fxml");
+			}
+			else if (fag3.isFocused()){
+				Course course = new Course(loadCourseCode(2));
+		    	loadCourse(course);
+		    	loadNextScene(fag3, stage, "LectureProf.fxml");
+			}else if (fag4.isFocused()){
+				Course course = new Course(loadCourseCode(3));
+		    	loadCourse(course);
+		    	loadNextScene(fag4, stage, "LectureProf.fxml");		
+			}
 		}
 	}
 	

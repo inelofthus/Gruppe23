@@ -10,10 +10,6 @@ ListView, InputField {
     -fx-border-color: #cccccc;
     }
 
-.button:hover {
-    -fx-background-color: #b3b3b3;
-    }
-
 .button:focused{
 	-fx-border-color: #ef4a4a;
 }
@@ -24,9 +20,7 @@ ListView, InputField {
     -fx-border-width: 2px;
     -fx-border-color: #cccccc;
     -fx-border-radius: 0px;
-
-
-    }
+}
 
 .toggle {
 	-fx-background-color : #ffffff;
@@ -37,11 +31,7 @@ ListView, InputField {
     
 }
 
-.toggle-button:hover {
-    -fx-background-color : #b3b3b3;
-    }
-
-.toggle-button:selected {
+.toggle-button:selected, .toggle-button:hover, .button:hover {
     -fx-background-color:
         -fx-shadow-highlight-color,
         linear-gradient(to bottom, derive(-fx-color,-22%) 0%, derive(-fx-color,-15%) 100%),
@@ -49,11 +39,14 @@ ListView, InputField {
 
 }
 
-.toggle-button:selected:focused {
-    -fx-background-color: #b3b3b3;
+.toggle-button:focused{
+	-fx-border-color: #ef4a4a;
+}
+
+.toggle-button:selected{
     -fx-border-style: solid;
     -fx-border-width: 2px;
-    -fx-border-color: #d11d1d;
+    -fx-border-color: #ef4a4a;
 }
 
 .menuBar {

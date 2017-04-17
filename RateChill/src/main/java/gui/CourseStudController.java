@@ -15,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
@@ -128,6 +130,42 @@ public class CourseStudController implements Initializable {
 	    	setLectures(course);
 	    	loadNextScene(fag4, stage, "LectureStud.fxml");
 	    	
+		}
+	}
+	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		Stage stage = null;
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			if (fag1.isFocused()){
+				Course course = new Course(loadCourseCode(0));
+		        loadCourse(course);
+		    	
+		    	setLectures(course);
+		        loadNextScene(fag1, stage, "LectureStud.fxml");
+			}
+			else if (fag2.isFocused()){
+				Course course = new Course(loadCourseCode(1));
+		        loadCourse(course);
+		    	
+		    	setLectures(course);
+		        loadNextScene(fag2, stage, "LectureStud.fxml");
+			}
+			else if (fag3.isFocused()){
+				Course course = new Course(loadCourseCode(2));
+		        loadCourse(course);
+		    	
+		    	setLectures(course);
+		        loadNextScene(fag3, stage, "LectureStud.fxml");
+			}else if (fag4.isFocused()){
+				Course course = new Course(loadCourseCode(3));
+		        loadCourse(course);
+		    	
+		    	setLectures(course);
+		        loadNextScene(fag4, stage, "LectureStud.fxml");
+			}else if (chooseCourses.isFocused()){
+				loadNextScene(chooseCourses, stage, "SelectCourseStud.fxml");
+			}
+				
 		}
 	}
 	
