@@ -21,8 +21,10 @@ public class MainController {
 	private Course course;
 	private Lecture lecture;
 	private Stack<String> stack = new Stack<String>();
-	boolean createUser = false;
 	
+	boolean createUser = false;
+	boolean buttonsSaved = false;
+	String buttonsSavedOrigin = "";
 	
 	public Stack<String> getStack() {
 		return stack;

@@ -25,7 +25,7 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <LineChart fx:id="lineChart" layoutX="9.0" layoutY="134.0" prefHeight="352.0" prefWidth="453.0">
+      <LineChart fx:id="lineChart" layoutX="14.0" layoutY="140.0" prefHeight="359.0" prefWidth="453.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -50,7 +50,12 @@
             </HBox>
          </items>
       </ToolBar>
-      <Text fx:id="debugText" layoutX="315.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="26.66668701171875" />
       <Text layoutX="62.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Evaluations Over Time" textAlignment="CENTER" wrappingWidth="530.000001937151" />
+      <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="25.0" layoutX="-3.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="666.0" />
+      <Text fx:id="errorText" layoutX="86.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="481.15948486328125">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

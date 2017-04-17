@@ -20,6 +20,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,11 +29,14 @@ public class EvaluationsOverTimeController implements Initializable {
 
 	//fxml objects
 	@FXML
-	public Text debugText;
 	public Button home;
 	public Button logout;
 	public Button back;
 	public Button customize;
+	
+	@FXML
+	public Text errorText;
+	public Rectangle errorBar;
 	
 	
 	@FXML
@@ -153,6 +158,14 @@ public class EvaluationsOverTimeController implements Initializable {
 		
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Percent");
+		
+		if (MainController.getInstance().buttonsSaved == true && 
+				MainController.getInstance().buttonsSavedOrigin.equals("EvaluationsOverTime.fxml")){
+			errorBar.setVisible(true);
+			errorBar.setFill(Color.DARKSEAGREEN);
+			errorText.setText("Evaluation buttons successfully customized.");
+			MainController.getInstance().buttonsSaved = false;
+		}
 		
 		
 		

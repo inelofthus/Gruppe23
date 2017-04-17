@@ -35,6 +35,7 @@ public class CustomizeButtonsController implements Initializable {
 	
 	
 	public Button submitChanges;
+	public Button cancel;
 	public Button preview;
 	public ToggleButton button1;
 	public ToggleButton button2;
@@ -89,7 +90,7 @@ public class CustomizeButtonsController implements Initializable {
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "CourseProf.fxml");
 		}
-		if (event.getSource() == back) {
+		if (event.getSource() == back || event.getSource() == cancel) {
 			loadNextScene(back, stage, stack.pop());
 			return;
 		}
@@ -99,7 +100,7 @@ public class CustomizeButtonsController implements Initializable {
 	}
 	
 	public boolean isUserButtonPushed(ActionEvent event) {
-		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == cancel || event.getSource() == logout) {
 			return true;
 		}
 		return false;
@@ -189,7 +190,9 @@ public class CustomizeButtonsController implements Initializable {
 			}
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
-			loadNextScene(submitChanges, stage, stack.pop());
+			MainController.getInstance().buttonsSaved = true;
+			MainController.getInstance().buttonsSavedOrigin = stack.pop();
+			loadNextScene(submitChanges, stage, MainController.getInstance().buttonsSavedOrigin); 
 			course.setRatingValues(inputValues);
 			MainController.getInstance().setCourse(course);
 		}

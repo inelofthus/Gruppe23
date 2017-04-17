@@ -21,6 +21,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,14 +31,17 @@ public class EvaluationProfController implements Initializable {
 	//fxml objects
 	@FXML
 	public Button seeComments;
-	public Text debugText;
 	public Text submitted;
 	public Text overwriteText;
 	public Button home;
 	public Button back;
 	public Button logout;
 	public Button customize;
-
+	
+	@FXML
+	public Text errorText;
+	public Rectangle errorBar;
+	
 	@FXML
 	public BarChart<String, Integer> barchart;
 	public CategoryAxis xAxis;
@@ -138,6 +143,15 @@ public class EvaluationProfController implements Initializable {
 		numbersList.addAll(Arrays.asList(numRating1, numRating2,numRating3, numRating4,numRating5));
 		
 		setEvaluationData(createSeries(numbersList));
+		
+		//Gives feedback for updated evaluation buttons
+		if (MainController.getInstance().buttonsSaved == true && 
+				MainController.getInstance().buttonsSavedOrigin.equals("IndividualCharts.fxml")){
+			errorBar.setVisible(true);
+			errorBar.setFill(Color.DARKSEAGREEN);
+			errorText.setText("Evaluation buttons successfully customized.");
+			MainController.getInstance().buttonsSaved = false;
+		}
 	}
 
 }

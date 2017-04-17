@@ -87,7 +87,7 @@
          <font>
             <Font size="14.0" />
          </font></Text>
-      <Button fx:id="submitChanges" accessibleRole="TEXT" layoutX="14.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="628.0" text="Submit button-changes">
+      <Button fx:id="submitChanges" accessibleRole="TEXT" layoutX="363.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="279.0" text="Submit button-changes">
          <font>
             <Font size="18.0" />
          </font>
@@ -110,5 +110,10 @@
          </items>
       </ToolBar>
       <Text layoutX="92.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Customize Evaluation Buttons" textAlignment="CENTER" wrappingWidth="472.66665435768664" />
+      <Button fx:id="cancel" accessibleRole="TEXT" layoutX="122.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="206.0" text="Cancel">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
