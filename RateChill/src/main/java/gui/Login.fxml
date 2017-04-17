@@ -19,12 +19,12 @@
          <font>
             <Font size="48.0" />
          </font></Text>
-      <Button fx:id="student" layoutX="78.0" layoutY="330.0" mnemonicParsing="false" onAction="#whichUser" prefHeight="64.0" prefWidth="218.0" text="Student">
+      <Button fx:id="student" layoutX="78.0" layoutY="330.0" onKeyPressed="#handleKeyActionLogin" mnemonicParsing="false" onAction="#whichUser" prefHeight="64.0" prefWidth="218.0" text="Student">
          <font>
             <Font size="36.0" />
          </font>
       </Button>
-      <Button fx:id="professor" layoutX="358.0" layoutY="330.0" mnemonicParsing="false" onAction="#whichUser" prefHeight="64.0" prefWidth="218.0" text="Professor">
+      <Button fx:id="professor" layoutX="358.0" layoutY="330.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionLogin" onAction="#whichUser" prefHeight="64.0" prefWidth="218.0" text="Professor">
          <font>
             <Font size="36.0" />
          </font>

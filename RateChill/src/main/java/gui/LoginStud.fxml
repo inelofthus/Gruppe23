@@ -34,7 +34,7 @@
             <Font size="14.0" />
          </font>
       </Hyperlink>
-      <Button fx:id="loginStud" layoutX="199.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="64.0" prefWidth="257.0" text="Log in">
+      <Button fx:id="loginStud" layoutX="199.0" layoutY="378.0" mnemonicParsing="false"	onKeyPressed="#handleKeyActionStud" onAction="#handleButtonAction" prefHeight="64.0" prefWidth="257.0" text="Log in">
          <font>
             <Font size="24.0" />
          </font>

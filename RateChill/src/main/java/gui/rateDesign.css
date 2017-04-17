@@ -11,8 +11,12 @@ ListView, InputField {
     }
 
 .button:hover {
-    -fx-background-color : #b3b3b3;
+    -fx-background-color: #b3b3b3;
     }
+
+.button:focused{
+	-fx-border-color: #ef4a4a;
+}
 
 .inputSection {
     -fx-background-color : #f9f7f7;

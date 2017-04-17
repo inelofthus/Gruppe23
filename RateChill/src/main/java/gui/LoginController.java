@@ -5,6 +5,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
+import database.DBController;
 import databaseobjects.Professor;
 import databaseobjects.Student;
 import javafx.event.ActionEvent;
@@ -43,6 +44,7 @@ public class LoginController implements Initializable {
 	public Text errorText;
 	public Rectangle errorBar;
 	
+	DBController dbc = new DBController();
 	
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
 		stage=(Stage) button.getScene().getWindow();
@@ -78,6 +80,18 @@ public class LoginController implements Initializable {
 		
 	}
 	
+	public void handleKeyActionLogin(KeyEvent ke) throws IOException{
+		Stage stage = null;
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			if (professor.isFocused()){
+				loadNextScene(professor, stage, "LoginProf.fxml");
+			}
+			else if (student.isFocused()) {
+				loadNextScene(student, stage, "LoginStud.fxml");
+			}
+		}
+	}
+	
 	//returns you to login.fxml
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
@@ -95,21 +109,31 @@ public class LoginController implements Initializable {
 	
 	private void loginProf() throws IOException {
 		Stage stage = null;
-		String errorMsg = "User does not exist. Try again";
-		
+		usernameError.setText("");
+		passwordError.setText("");
+    	if (profUsername.getText().isEmpty() || password.getText().isEmpty() ){
+    		if (profUsername.getText().isEmpty()){
+    			usernameError.setText("Please type in a username");
+    		}
+    		if (password.getText().isEmpty()){
+    			passwordError.setText("Please type in a password");
+    		}
+    		return;
+    	}
+		if (!dbc.professorExists(profUsername.getText())){
+    		usernameError.setText("Wrong username or password");
+    		return;
+    	}
 		Professor prof = new Professor(profUsername.getText());
 		if(prof.existsInDB() && prof.hasPassword()) {
-			usernameError.setText("");
 			if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
 				MainController.getInstance().setProfessor(prof);
 				loadNextScene(loginProf, stage, "CourseProf.fxml");
 			}
-			passwordError.setText("Incorrect password, try again");
+			passwordError.setText("Incorrect password, try again");	
 			return;
 		}
-		passwordError.setText("");
-		usernameError.setText(errorMsg);
-		return;
+		
 		
 	}
 
@@ -149,29 +173,7 @@ public class LoginController implements Initializable {
 	    }
 	    
 	    else if (event.getSource()==loginProf){
-			usernameError.setText("");
-			passwordError.setText("");
-	    	if (profUsername.getText().isEmpty() || password.getText().isEmpty() ){
-	    		if (profUsername.getText().isEmpty()){
-	    			usernameError.setText("Please type in a username");
-	    		}
-	    		if (password.getText().isEmpty()){
-	    			passwordError.setText("Please type in a password");
-	    		}
-	    		return;
-	    	}
-			Professor prof = new Professor(profUsername.getText());
-			if(prof.existsInDB() && prof.hasPassword()) {
-				if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
-					MainController.getInstance().setProfessor(prof);
-					loadNextScene(loginProf, stage, "CourseProf.fxml");
-				}
-				passwordError.setText("Incorrect password, try again");
-				return;
-			}
-			passwordError.setText("");
-			usernameError.setText(errorMsg);
-			return;
+			loginProf();
 		}
 		
 		else if (event.getSource()==newStudent){
