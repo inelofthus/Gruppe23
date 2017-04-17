@@ -1,16 +1,15 @@
 package database;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -19,10 +18,16 @@ import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
 import databaseobjects.Professor;
 import databaseobjects.Student;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class DBController {
 
 	Connection conn = null;
+	
 
 	public void connect() {
 		try {
@@ -31,7 +36,23 @@ public class DBController {
 			// System.out.println("connection succesfull :) ");
 
 		} catch (SQLException ex) {
-			System.out.println("SQLeXCEPTION: " + ex.getMessage());
+			try {
+				
+				final FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup.fxml"));
+				Parent root = loader.load();
+				Scene scene = new Scene(root);
+				Stage primaryStage = new Stage();
+				primaryStage.setTitle("RateChill");
+				primaryStage.setScene(scene);
+				primaryStage.initModality(Modality.APPLICATION_MODAL);
+				primaryStage.setResizable(false);
+				primaryStage.show();	
+	
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 	}
