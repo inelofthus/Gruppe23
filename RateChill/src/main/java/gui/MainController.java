@@ -22,6 +22,17 @@ public class MainController {
 	private Lecture lecture;
 	private Stack<String> stack = new Stack<String>();
 	
+	public boolean isConnectionPopupOpen() {
+		return connectionPopupOpen;
+	}
+
+
+	public void setConnectionPopupOpen(boolean connectionPopupOpen) {
+		this.connectionPopupOpen = connectionPopupOpen;
+	}
+
+	private boolean connectionPopupOpen = false;
+	
 	boolean createUser = false;
 	boolean buttonsSaved = false;
 	String buttonsSavedOrigin = "";
