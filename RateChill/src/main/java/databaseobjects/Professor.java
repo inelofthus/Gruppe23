@@ -22,14 +22,16 @@ public class Professor extends DatabaseUser {
 	}
 	
 	public boolean isCorrectPassword(String encryptedPassword) {
-				
+			
+		boolean ans = false;
+		
 		try {
-			return DBC.checkProfessorPassword(username, encryptedPassword);
+			ans = DBC.checkProfessorPassword(username, encryptedPassword);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return ans;
 	}
 
 	// Constructor2 for use in testing
@@ -37,6 +39,7 @@ public class Professor extends DatabaseUser {
 		this.username = professorUsername;
 		switchDBC(newDBC);
 		DBC.loadProfessorInfo(this);
+		this.encryptedPassword = DBC.getStringArray("select professorPassword from Professor Where professorUsername = '" + professorUsername + "';").get(0);
 	}
 	
 	public boolean existsInDB(){

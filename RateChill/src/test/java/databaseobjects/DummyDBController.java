@@ -53,8 +53,14 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public ArrayList<String> getStringArray(String query) {
-		// TODO Auto-generated method stub
-		return super.getStringArray(query);
+		ArrayList<String> ans = new ArrayList<>();
+		
+		if(query.equals("select professorPassword from Professor Where professorUsername = 'pekkaa';")){
+			ans.add(Professor.hashPassword("thePassword"));
+		}if(query.equals("select professorPassword from Professor Where professorUsername = 'testProf';")){
+			ans.add("np");
+		}
+		return ans;
 	}
 
 
@@ -250,6 +256,11 @@ public class DummyDBController extends DBController{
 		HashMap<String, String> courseIDNames = new HashMap<>();
 		courseIDNames.put("TDT4140", "Programvareutvikling");
 		
+//		if(prof.getUsername().equals("testProf")){
+//			courseIDs.add("TDT1234");
+//			courseIDNames.put("TDT1234", "anotherCourse");
+//		}
+		
 		prof.setCourseIDs(courseIDs);
 		prof.setCourseIDNames(courseIDNames);
 		
@@ -258,7 +269,7 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername) {
-		return null;
+		return new ArrayList<>(Arrays.asList("TDT4140"));
 	}
 
 	@Override
@@ -278,7 +289,12 @@ public class DummyDBController extends DBController{
 
 	@Override
 	public ArrayList<Integer> getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername) {
-		return new ArrayList<>(Arrays.asList(1));
+		ArrayList<Integer> ans = new ArrayList<>();
+		ans.add(1);
+		if(professorUsername.equals("testProf")){
+			ans.add(2);
+		}
+		return ans;
 	}
 
 	@Override

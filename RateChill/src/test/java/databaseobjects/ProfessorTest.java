@@ -1,6 +1,7 @@
 package databaseobjects;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class ProfessorTest {
 	// A dummy DBC has no interaction with database. It just sets values as described in exampleValues.txt
 		DBController dummyDBC = new DummyDBController();
 		Professor prof = new Professor("pekkaa", Professor.hashPassword("thePassword"), dummyDBC);
+		Professor prof2 = new Professor("testProf", "np", dummyDBC);
 		
 		
 		@Test
@@ -37,6 +39,11 @@ public class ProfessorTest {
 		public void testgetLastTwoCompletedLecturesForCourse() {
 			ArrayList<Integer> actual = prof.getLastTwoCompletedLecturesForCourse("TDT4140");
 			ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(1));
+			
+			assertEquals(expected, actual);
+			
+			actual = prof2.getLastTwoCompletedLecturesForCourse("TDT4140");
+			expected = new ArrayList<>(Arrays.asList(1,2));
 			
 			assertEquals(expected, actual);
 		}
@@ -78,5 +85,10 @@ public class ProfessorTest {
 			boolean expected2 =  false;
 			
 			assertEquals(expected2, actual2);
+		}
+		
+		@Test
+		public void testhasPassword(){
+			assertTrue(prof.hasPassword());
 		}
 }
