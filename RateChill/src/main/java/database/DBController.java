@@ -1,5 +1,6 @@
 package database;
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,32 +31,52 @@ public class DBController {
 	
 
 	public void connect() {
+		boolean success = false;
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
 			// System.out.println("connection succesfull :) ");
+			success = true;
 
 		} catch (SQLException ex) {
-			try {
-				
-				final FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup.fxml"));
-				Parent root = loader.load();
-				Scene scene = new Scene(root);
-				Stage primaryStage = new Stage();
-				primaryStage.setTitle("RateChill");
-				primaryStage.setScene(scene);
-				primaryStage.initModality(Modality.APPLICATION_MODAL);
-				primaryStage.setResizable(false);
-				primaryStage.show();	
-	
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//			try {
+//				showPopup();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}finally{
+			if(!success){
+				conn = null;	
+				try {
+					showPopup();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-
+			
+			
 		}
 	}
+	
+	
+
+	private void showPopup() throws IOException {
+		
+		final FXMLLoader loader = new FXMLLoader(getClass().getResource("Popup.fxml"));
+		Parent root = loader.load();
+		Scene scene = new Scene(root);
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("RateChill");
+		primaryStage.setScene(scene);
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.setResizable(false);
+		primaryStage.show();	
+		
+	}
+
+
 
 	public void close() {
 		if (rs != null) {
