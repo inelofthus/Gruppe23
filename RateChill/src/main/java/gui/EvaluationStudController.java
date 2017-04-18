@@ -4,6 +4,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import databaseobjects.Course;
@@ -179,6 +180,14 @@ public class EvaluationStudController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
+		ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>(Arrays.asList(rating1,rating2,rating3,rating4,rating5));
+
+		ArrayList<String> ratingValues = course.getRatingValues();
+		for(int i =0;i<5;i++) {
+			buttons.get(i).setText(ratingValues.get(i));
+		}
+		
+		
 		rec.setFill(Color.TRANSPARENT);
 		if(!MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Submit");
@@ -187,17 +196,18 @@ public class EvaluationStudController implements Initializable {
 			
 			Evaluation eval = new Evaluation(lectureID, stud.getUsername());
 			feedback.setText(eval.getComment());
+			String lastRating = eval.getRating();
+			for (int i =0;i<5;i++) {
+				if (lastRating.equalsIgnoreCase(ratingValues.get(i))) {
+					buttons.get(i).setSelected(true);
+				}
+			}
+			
 			
 			submit.setText("Overwrite");
 			rec.setFill(Color.CORNFLOWERBLUE);
 			errorText.setText("Evaluation already given, overwrite?");
 		}
-		ArrayList<String> ratingValues = course.getRatingValues();
-		rating1.setText(ratingValues.get(0));
-		rating2.setText(ratingValues.get(1));
-		rating3.setText(ratingValues.get(2));
-		rating4.setText(ratingValues.get(3));
-		rating5.setText(ratingValues.get(4));
 	}
 
 }
