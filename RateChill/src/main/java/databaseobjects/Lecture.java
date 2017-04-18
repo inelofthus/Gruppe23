@@ -24,7 +24,7 @@ public class Lecture extends DatabaseUser {
 	
 	//Constructor 1
 	public Lecture (int lectureID) {
-		this.lectureID = lectureID;
+		setLectureID(lectureID);
 		DBC.loadLectureInfo(this);
 	}
 	
