@@ -21,6 +21,7 @@ public class PopupController implements Initializable {
 		if(event.getSource() == closeButton){
 			Stage stage = (Stage) closeButton.getScene().getWindow();
 			stage.close();
+			MainController.getInstance().setConnectionPopupOpen(false);
 		}
 	}
 	
