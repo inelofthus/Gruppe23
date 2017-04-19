@@ -38,7 +38,7 @@ public class DBController {
 		    while (thread.isAlive()) {
 		        if (System.currentTimeMillis() > endTimeMillis) {
 			        mc.setConnectionFail(true);
-			        thread.stop();
+//			        thread.stop();
 			        conn = null;
 			        break;
 		    }

@@ -1,10 +1,7 @@
 package database;
 
-import java.io.IOException;
 import java.sql.SQLException;
-
 import gui.MainController;
-import javafx.application.Platform;
 
 public class CustomRunnable implements Runnable {
 
