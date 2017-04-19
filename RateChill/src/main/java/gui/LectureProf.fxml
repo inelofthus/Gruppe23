@@ -78,7 +78,7 @@
           <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
             <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
-                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Customize evaluation buttons" textAlignment="CENTER">
+                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Change students' options" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>
