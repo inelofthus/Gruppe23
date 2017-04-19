@@ -112,13 +112,10 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	@FXML
 	private void submitAddLecture(ActionEvent event){
 		if (startDate.getValue() == null || startTime.getText().length() == 0 
-				|| !validate(startTime.getText()) || (repeat.isSelected() && endDate.getValue() == null) || startDate.getValue().isAfter( endDate.getValue())){
+				|| !validate(startTime.getText())){
 			String errorText = "";
 			if (startDate.getValue() == null){
 				errorText += "Pick a date (dd.mm.yyyy). ";
-			}
-			if (startDate.getValue().isAfter(endDate.getValue())){
-				errorText += "Start date must be before end date. ";
 			}
 			if  (startTime.getText().length() == 0){
 				errorText += "Pick a time. ";
@@ -126,18 +123,27 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			else if (!validate(startTime.getText())){
 				errorText += "Write time on format hh:mm. ";
 			}
-			if (repeat.isSelected() && endDate.getValue() == null){
-				errorText += "Select an end date or uncheck weekly repetition. ";
-			}
 			errorBar.setFill(myRed);
 			errorMessage.setText(errorText);
-			errorBar.setVisible(true);
-			
+			errorBar.setVisible(true);		
 		}
 		
 		else{
 			if(!repeat.isSelected()){
 				endDate.setValue(startDate.getValue());
+			}else {
+				if (endDate.getValue() == null){
+					String errorText = "Select an end date or uncheck weekly repetition. ";
+					errorBar.setFill(myRed);
+					errorMessage.setText(errorText);
+					errorBar.setVisible(true);
+				}
+				else if (startDate.getValue().isAfter(endDate.getValue())){
+					String errorText = "Start date must be before end date. ";
+					errorBar.setFill(myRed);
+					errorMessage.setText(errorText);
+					errorBar.setVisible(true);
+				}
 			}
 			try {
 				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
@@ -184,25 +190,28 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	
 	@FXML
 	public void deleteLectureAction(ActionEvent e){
-		String row = listView.getSelectionModel().getSelectedItem();
-		String[] rowArr = row.split("\t \t");
-		SimpleDateFormat fromUser = new SimpleDateFormat("dd.MM.yyyy");
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
+			String row = listView.getSelectionModel().getSelectedItem();
+			String[] rowArr = row.split("\t \t");
+			SimpleDateFormat fromUser = new SimpleDateFormat("dd.MM.yyyy");
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 			rowArr[0] = myFormat.format(fromUser.parse(rowArr[0]));
+			ArrayList<String> dateTime = new ArrayList<String>();
+			dateTime.addAll(Arrays.asList(rowArr));
+			dbc.deleteLecture(dbc.getLectureID(dateTime, courseCode));
+			listView.getItems().clear();
+			listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
+			errorBar.setFill(Color.DARKSEAGREEN);
+			errorMessage.setText("Lecture successfully deleted");
+			errorBar.setVisible(true);
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return;
+		} catch (Exception e2){
+			errorBar.setVisible(true);
+			errorBar.setFill(myRed);
+			errorMessage.setText("Select a lecture from the list. ");
 		}
-		ArrayList<String> dateTime = new ArrayList<String>();
-		dateTime.addAll(Arrays.asList(rowArr));
-		dbc.deleteLecture(dbc.getLectureID(dateTime, courseCode));
-		listView.getItems().clear();
-		listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
-		errorBar.setFill(Color.DARKSEAGREEN);
-		errorMessage.setText("Lecture successfully deleted");
-		errorBar.setVisible(true);
-		
 	}
 	
 	public boolean validate(final String time){
