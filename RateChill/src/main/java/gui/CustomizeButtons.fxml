@@ -109,7 +109,7 @@
             </HBox>
          </items>
       </ToolBar>
-      <Text layoutX="92.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Customize Evaluation Buttons" textAlignment="CENTER" wrappingWidth="472.66665435768664" />
+      <Text layoutX="70.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Change students' evaluation options" textAlignment="CENTER" wrappingWidth="537.6666543576866" />
       <Button fx:id="cancel" accessibleRole="TEXT" layoutX="122.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="206.0" text="Cancel">
          <font>
             <Font size="18.0" />
