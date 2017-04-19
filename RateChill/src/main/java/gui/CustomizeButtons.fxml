@@ -102,7 +102,7 @@
                </font>
             </Text>
             <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="530.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
                   <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
                </children>
