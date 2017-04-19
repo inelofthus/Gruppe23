@@ -46,7 +46,7 @@ public class MainController {
 	boolean createUser = false;
 	String createProfUsername = "";
 	String createStudUsername = "";
-	boolean buttonsSaved = false;
+	String buttonsSaved = "";
 	String buttonsSavedOrigin = "";
 	String coursesUpdated = "";
 	

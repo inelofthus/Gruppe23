@@ -341,13 +341,18 @@ public class LectureProfController implements Initializable {
 		lectures.getItems().addAll(thisMonthsLectures);
 		
 		//Gives feedback for updated evaluation buttons
-		if (MainController.getInstance().buttonsSaved == true && 
+		if (MainController.getInstance().buttonsSaved == "true" && 
 				MainController.getInstance().buttonsSavedOrigin.equals("LectureProf.fxml")){
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.DARKSEAGREEN);
 			errorText.setText("Evaluation buttons successfully customized.");
-			MainController.getInstance().buttonsSaved = false;
+		}else if (MainController.getInstance().buttonsSaved == "false" && 
+			MainController.getInstance().buttonsSavedOrigin.equals("LectureProf.fxml")){
+			errorBar.setVisible(true);
+			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
+			errorText.setText("No changes were made to student evaluation options");
 		}
+		MainController.getInstance().buttonsSaved = "";
 		
 	}
 

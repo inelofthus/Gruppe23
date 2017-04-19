@@ -145,13 +145,19 @@ public class EvaluationsOverTimeController extends CommonMethods implements Init
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Percent");
 		
-		if (MainController.getInstance().buttonsSaved == true && 
+		if (MainController.getInstance().buttonsSaved == "true" && 
 				MainController.getInstance().buttonsSavedOrigin.equals("EvaluationsOverTime.fxml")){
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.DARKSEAGREEN);
 			errorText.setText("Evaluation buttons successfully customized.");
-			MainController.getInstance().buttonsSaved = false;
 		}
+		else if (MainController.getInstance().buttonsSaved == "false" && 
+				MainController.getInstance().buttonsSavedOrigin.equals("EvaluationsOverTime.fxml")){
+			errorBar.setVisible(true);
+			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
+			errorText.setText("No changes were made to student evaluation options");
+		}
+		MainController.getInstance().buttonsSaved = "";
 		
 		
 		

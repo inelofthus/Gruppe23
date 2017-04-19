@@ -79,7 +79,9 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 			loadNextScene(home, stage, "CourseProf.fxml");
 		}
 		if (event.getSource() == back || event.getSource() == cancel) {
-			loadNextScene(back, stage, stack.pop());
+			MainController.getInstance().buttonsSaved = "false";
+			MainController.getInstance().buttonsSavedOrigin = stack.pop();
+			loadNextScene(back, stage, MainController.getInstance().buttonsSavedOrigin);
 			return;
 		}
 		if (event.getSource() == logout) {
@@ -178,7 +180,7 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 			}
 			
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
-			MainController.getInstance().buttonsSaved = true;
+			MainController.getInstance().buttonsSaved = "true";
 			MainController.getInstance().buttonsSavedOrigin = stack.pop();
 			loadNextScene(submitChanges, stage, MainController.getInstance().buttonsSavedOrigin); 
 			course.setRatingValues(inputValues);
@@ -186,10 +188,6 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 		}
 		return;
 	}
-	
-	
-	
-	
 	
 	
 	private boolean tooLongInput(ArrayList<String> inputValues) {
