@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -90,6 +92,40 @@ public class LectureProfController implements Initializable {
 		}
 	}
 	
+	public void handleKeyAction(KeyEvent ke) throws IOException{
+		if(ke.getCode().equals(KeyCode.ENTER)){
+			if (indivLecture.isFocused()){
+				loadIndividualLecture();
+			}
+			else if (allLectures.isFocused()){
+				loadAllLectures();
+			}
+		}
+	}
+	
+	void loadIndividualLecture(){
+		Stage stage = null;
+		try{
+			int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); 
+			Lecture lec = new Lecture(lecID);
+			loadLecture(lec);
+			MainController.getInstance().setChosenProfessorLecture(lecID);
+			stack.push("LectureProf.fxml");
+			loadNextScene(indivLecture, stage, "IndividualCharts.fxml");	
+		}
+		catch(Exception e){
+			errorText.setText("Choose a lecture from the calendar, or see graph for lectures over time");
+			Color myRed = new Color(0.937, 0.290, 0.290, 1);
+			errorBar.setFill(myRed);
+			errorBar.setVisible(true);
+		}
+	}
+	
+	void loadAllLectures() throws IOException{
+		Stage stage = null;
+		stack.push("LectureProf.fxml");
+		loadNextScene(allLectures, stage, "EvaluationsOverTime.fxml");
+	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
@@ -97,27 +133,11 @@ public class LectureProfController implements Initializable {
 		userButtons(event, stage);
 		
 		if(event.getSource() == indivLecture){
-			try{
-			int lecID = course.getLectureIDsMonth(monthNum).get(lectures.getSelectionModel().getSelectedIndex()); 
-			Lecture lec = new Lecture(lecID);
-			loadLecture(lec);
-			MainController.getInstance().setChosenProfessorLecture(lecID);
-			stack.push("LectureProf.fxml");
-			loadNextScene(indivLecture, stage, "IndividualCharts.fxml");
-			
-			}
-			catch(Exception e){
-				errorText.setText("Choose a lecture from the calendar, or see graph for lectures over time");
-				Color myRed = new Color(0.937, 0.290, 0.290, 1);
-				errorBar.setFill(myRed);
-				errorBar.setVisible(true);
-			}
+			loadIndividualLecture();
 		}
 		
 		else if(event.getSource() == allLectures){
-			System.out.println("Button pressed");
-			stack.push("LectureProf.fxml");
-			loadNextScene(allLectures, stage, "EvaluationsOverTime.fxml");
+			loadAllLectures();
 		}
 		
 		else if (event.getSource() == customize) {
