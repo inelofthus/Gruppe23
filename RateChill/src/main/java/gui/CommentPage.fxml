@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CommentPageController">
+<AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655.0" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CommentPageController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="441.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -60,9 +60,9 @@
                </font>
             </Text>
             <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="530.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
-                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="174.0" styleClass="menuButton" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="customize" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="225.0" styleClass="menuButton" text="Change students' options" textAlignment="CENTER" wrapText="true" />
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="| ">
                      <font>
                         <Font size="14.0" />
@@ -74,6 +74,6 @@
          </items>
       </ToolBar>
       <Text layoutX="204.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Lecture Comments" textAlignment="CENTER" wrappingWidth="271.4700927734375" />
-      <Button fx:id="customize1" layoutX="438.0" layoutY="140.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Customize evaluation buttons" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="customize1" layoutX="438.0" layoutY="140.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="71.0" prefWidth="206.0" text="Change students' options" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

@@ -94,6 +94,7 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 					badUsername.setText("");
 				
 				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
+				MainController.getInstance().createProfUsername = username.getText();
 				MainController.getInstance().createUser = true;
 				loadNextScene(finish, stage, "LoginProf.fxml");
 				

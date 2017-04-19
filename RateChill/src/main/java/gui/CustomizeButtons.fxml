@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomizeButtonsController">
+<AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomizeButtonsController">
    <children>
       <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="31.0" layoutX="-15.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="686.0" />
       <TextField fx:id="buttonText1" layoutX="122.0" layoutY="193.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
@@ -102,14 +102,14 @@
                </font>
             </Text>
             <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="530.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
                   <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
                </children>
             </HBox>
          </items>
       </ToolBar>
-      <Text layoutX="92.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Customize Evaluation Buttons" textAlignment="CENTER" wrappingWidth="472.66665435768664" />
+      <Text layoutX="70.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Change students' evaluation options" textAlignment="CENTER" wrappingWidth="537.6666543576866" />
       <Button fx:id="cancel" accessibleRole="TEXT" layoutX="122.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="206.0" text="Cancel">
          <font>
             <Font size="18.0" />

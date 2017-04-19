@@ -24,24 +24,24 @@
             <Image url="@RateChillLogo.png" />
          </image>
       </ImageView>
-      <TextField fx:id="profUsername" layoutX="199.0" layoutY="255.0" onKeyPressed="#handleKeyActionProf" prefHeight="39.0" prefWidth="257.0" promptText="Username" styleClass="inputSection">
+      <TextField fx:id="profUsername" layoutX="199.0" layoutY="286.0" onKeyPressed="#handleKeyActionProf" prefHeight="39.0" prefWidth="257.0" promptText="Username" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Text fx:id="usernameError" fill="#f62323" layoutX="458.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
-      <PasswordField fx:id="password" layoutX="199.0" layoutY="301.0" onKeyPressed="#handleKeyActionProf" prefHeight="39.0" prefWidth="257.0" promptText="Password" styleClass="inputSection">
+      <Text fx:id="usernameError" fill="#f62323" layoutX="458.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
+      <PasswordField fx:id="password" layoutX="199.0" layoutY="332.0" onKeyPressed="#handleKeyActionProf" prefHeight="39.0" prefWidth="257.0" promptText="Password" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font>
       </PasswordField>
-      <Text fx:id="passwordError" fill="#f62323" layoutX="458.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
-      <Hyperlink fx:id="newProfessor" contentDisplay="CENTER" layoutX="259.0" layoutY="347.0" onAction="#handleButtonAction" prefHeight="28.0" prefWidth="147.0" text="Create new professor" textAlignment="CENTER">
+      <Text fx:id="passwordError" fill="#f62323" layoutX="458.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
+      <Hyperlink fx:id="newProfessor" contentDisplay="CENTER" layoutX="199.0" layoutY="250.0" onAction="#handleButtonAction" prefHeight="33.0" prefWidth="257.0" text="Don't have a username? Click here" textAlignment="CENTER">
          <font>
-            <Font size="14.0" />
+            <Font size="16.0" />
          </font>
       </Hyperlink>
-      <Button fx:id="loginProf" layoutX="199.0" layoutY="383.0" mnemonicParsing="false" onKeyPressed="#handleKeyActionProf" onAction="#handleButtonAction" prefHeight="62.0" prefWidth="257.0" text="Log in">
+      <Button fx:id="loginProf" layoutX="199.0" layoutY="383.0" mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyActionProf" prefHeight="62.0" prefWidth="257.0" text="Log in">
          <font>
             <Font size="24.0" />
          </font>

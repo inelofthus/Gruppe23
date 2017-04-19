@@ -23,20 +23,20 @@
             <Image url="@RateChillLogo.png" />
          </image>
       </ImageView>
-      <TextField fx:id="studUsername" layoutX="199.0" layoutY="283.0" onKeyPressed="#handleKeyActionStud" prefHeight="39.0" prefWidth="257.0" promptText="Username" styleClass="inputSection">
+      <TextField fx:id="studUsername" layoutX="199.0" layoutY="310.0" onKeyPressed="#handleKeyActionStud" prefHeight="39.0" prefWidth="257.0" promptText="Type in existing username" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Text fx:id="usernameError" fill="#f62323" layoutX="458.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
-      <Hyperlink fx:id="newStudent" layoutX="273.0" layoutY="336.0" onAction="#handleButtonAction" text="Create new user">
+      <Text fx:id="usernameError" fill="#f62323" layoutX="456.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000524520874" />
+      <Hyperlink fx:id="newStudent" layoutX="201.0" layoutY="269.0" onAction="#handleButtonAction" text="Don't have a username? Click here">
          <font>
-            <Font size="14.0" />
+            <Font size="16.0" />
          </font>
       </Hyperlink>
-      <Button fx:id="loginStud" layoutX="199.0" layoutY="378.0" mnemonicParsing="false"	onKeyPressed="#handleKeyActionStud" onAction="#handleButtonAction" prefHeight="64.0" prefWidth="257.0" text="Log in">
+      <Button fx:id="loginStud" layoutX="199.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyActionStud" prefHeight="64.0" prefWidth="257.0" text="Log in" wrapText="true">
          <font>
-            <Font size="24.0" />
+            <Font size="28.0" />
          </font>
       </Button>
       <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="31.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="686.0" />
