@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomizeButtonsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="655" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomizeButtonsController">
    <children>
       <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="31.0" layoutX="-15.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="686.0" />
       <TextField fx:id="buttonText1" layoutX="122.0" layoutY="193.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">

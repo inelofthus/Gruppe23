@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureProfController">
+<AnchorPane maxHeight="500" maxWidth="655" minHeight="500" minWidth="655" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureProfController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="94.0" layoutX="-18.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
       <Text layoutX="1.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="See evaluations" textAlignment="CENTER" wrappingWidth="654.999993990139">
@@ -52,12 +52,12 @@
             <Font size="16.0" />
          </font></Hyperlink>
       <ListView fx:id="lectures" layoutX="109.0" layoutY="235.0" prefHeight="200.0" prefWidth="219.0" />
-      <Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0" mnemonicParsing="false" onKeyPressed="#handleKeyAction" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyAction" prefHeight="94.0" prefWidth="166.0" text="See selected lecture" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="allLectures" layoutX="382.0" layoutY="341.0" mnemonicParsing="false" onKeyPressed="#handleKeyAction" onAction="#handleButtonAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="allLectures" layoutX="382.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyAction" prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
@@ -76,7 +76,7 @@
                </font>
             </Text>
           <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="530.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
                   <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Customize evaluation buttons" textAlignment="CENTER">
                      <HBox.margin>
@@ -88,7 +88,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Button fx:id="editLectures" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="20.0" prefWidth="94.0" styleClass="menuButton" text="Edit lectures" textAlignment="CENTER" wrapText="true">
+                  <Button fx:id="editLectures" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="106.0" styleClass="menuButton" text="Edit lectures" textAlignment="CENTER" wrapText="true">
                      <HBox.margin>
                         <Insets right="4.0" />
                      </HBox.margin>
