@@ -26,16 +26,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class EvaluationProfController implements Initializable {
+public class EvaluationProfController extends CommonMethods implements Initializable {
 
 	//fxml objects
 	@FXML
 	public Button seeComments;
 	public Text submitted;
 	public Text overwriteText;
-	public Button home;
-	public Button back;
-	public Button logout;
 	public Button customize;
 	
 	@FXML
@@ -50,20 +47,6 @@ public class EvaluationProfController implements Initializable {
 	private ObservableList<String> evaluationTypes = FXCollections.observableArrayList();	
 	private Lecture lecture = MainController.getInstance().getLecture();
 	private Stack<String> stack = MainController.getInstance().getStack();
-	
-	
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();	
-	}
-	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {

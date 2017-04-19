@@ -22,7 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LectureStudController implements Initializable {
+public class LectureStudController extends CommonMethods implements Initializable {
 
 	
 	@FXML
@@ -34,18 +34,6 @@ public class LectureStudController implements Initializable {
 	public Text errorMsg;
 	
 	private DBController DBC = new DBController();
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();	
-	}
-	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {

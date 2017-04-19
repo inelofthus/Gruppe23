@@ -22,7 +22,7 @@ import javafx.scene.text.Text;
 
 import gui.MainController;
 
-public class CourseStudController implements Initializable {
+public class CourseStudController extends CommonMethods implements Initializable {
 
 	
 	@FXML
@@ -64,17 +64,6 @@ public class CourseStudController implements Initializable {
 		fagButton.setText(courseCodeName);
 	}
 	
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();	
-	}
 	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{

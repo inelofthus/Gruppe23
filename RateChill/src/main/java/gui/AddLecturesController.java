@@ -37,7 +37,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 //import testingDBObjects.DummyDBController;
 
-public class AddLecturesController implements Initializable {
+public class AddLecturesController extends CommonMethods implements Initializable {
 
 	// fxml objects
 	
@@ -84,17 +84,6 @@ public class AddLecturesController implements Initializable {
 	
 	Color myRed = new Color(0.937, 0.290, 0.290, 1);
 
-
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
-		stage = (Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-
-		// create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 
 	public void userButtons(ActionEvent event, Stage stage) throws IOException {
 		if (event.getSource() == home) {
@@ -218,7 +207,7 @@ public class AddLecturesController implements Initializable {
 	/*public addLecturesController(String str) {
 	// dummyDBC is only for testing. It does not access the database
 		this.dbc = new DummyDBController();
-		this.mainCon = new DummyMainController();
+		this.mainCon = DummyMainController().getInstance();
 	}
 	*/
 	
