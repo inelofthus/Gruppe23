@@ -20,7 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateProfUserController implements Initializable {
+public class CreateProfUserController extends CommonMethods implements Initializable {
 
 	//fxml objects
 	@FXML
@@ -33,19 +33,7 @@ public class CreateProfUserController implements Initializable {
 	public PasswordField password;
 	public PasswordField RepeatPassword;
 	
-	DBController DBC = new DBController();
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();	
-	}
-	
+	DBController DBC = new DBController();	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {

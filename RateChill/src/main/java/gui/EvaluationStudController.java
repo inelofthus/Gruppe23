@@ -27,7 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class EvaluationStudController implements Initializable {
+public class EvaluationStudController extends CommonMethods implements Initializable {
 
 	//fxml objects
 	@FXML
@@ -130,19 +130,6 @@ public class EvaluationStudController implements Initializable {
 		}
 		return rating;
 	}
-	
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-	    
-	    //create a new scene with root and set the stage
-	    Scene scene = new Scene(root);
-	    stage.setScene(scene);
-	    stage.show();
-	}
-	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {

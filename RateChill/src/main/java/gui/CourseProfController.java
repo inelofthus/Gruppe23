@@ -19,7 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CourseProfController implements Initializable {
+public class CourseProfController extends CommonMethods implements Initializable {
 
 	
 	@FXML
@@ -54,20 +54,7 @@ public class CourseProfController implements Initializable {
 		fagButton.setText(courseCodeName);
 		System.out.println(courseCodeName);
 	}
-	
-	//method to go to next GUI
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
 		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "Login.fxml");

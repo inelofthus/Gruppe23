@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class CustomizeButtonsController implements Initializable {
+public class CustomizeButtonsController extends CommonMethods implements Initializable {
 
 	//fxml objects
 	@FXML
@@ -72,19 +72,7 @@ public class CustomizeButtonsController implements Initializable {
 		buttons.add(button3);
 		buttons.add(button4);
 		buttons.add(button5);
-	}
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();	
-	}
-	
+	}	
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {

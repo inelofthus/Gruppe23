@@ -218,7 +218,7 @@ public class CourseTest {
 	public void TestgetRatingValues(){
 		
 		ArrayList<String> actual = course.getRatingValues();
-		ArrayList<String> expected = new ArrayList<>(Arrays.asList("Perfect","Ok","Too Fast!","Too Slow!","Confused.. ?"));
+		ArrayList<String> expected = new ArrayList<>(Arrays.asList("Excellent","Good","Ok","Poor","Unsatisfactory"));
 		
 		assertEquals(expected, actual);
 	}

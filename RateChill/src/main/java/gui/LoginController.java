@@ -25,7 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable {
+public class LoginController extends CommonMethods implements Initializable {
 
 	
 	@FXML
@@ -46,27 +46,6 @@ public class LoginController implements Initializable {
 	
 	DBController dbc = new DBController();
 	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	public void loadNextSceneHyperlink(Hyperlink hyper, Stage stage, String string) throws IOException{
-			stage=(Stage) hyper.getScene().getWindow();
-			Parent root;
-			root = FXMLLoader.load(getClass().getResource(string));
-			
-			//create a new scene with root and set the stage
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-	}
 	
 	//method for loading next scene based on user 
 	public void whichUser (ActionEvent event) throws IOException {

@@ -12,7 +12,7 @@ import database.DBController;
 
 public class Course extends DatabaseUser{
 	
-	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Perfect","Ok","Too Fast!","Too Slow!","Confused.. ?"));
+	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Excellent","Good","Ok","Poor","Unsatisfactory"));
 	private String courseCode;
 	private String courseName;
 	private int numLectureHours;
