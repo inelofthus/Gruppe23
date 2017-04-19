@@ -34,7 +34,7 @@ public class DBController {
 	public void connect(){
 		Thread thread = new Thread(new CustomRunnable(this));
 		thread.start();
-		 long endTimeMillis = System.currentTimeMillis() + 1000;
+		 long endTimeMillis = System.currentTimeMillis() + 2000;
 		    while (thread.isAlive()) {
 		        if (System.currentTimeMillis() > endTimeMillis) {
 			        mc.setConnectionFail(true);
