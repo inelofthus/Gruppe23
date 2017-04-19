@@ -112,10 +112,13 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	@FXML
 	private void submitAddLecture(ActionEvent event){
 		if (startDate.getValue() == null || startTime.getText().length() == 0 
-				|| !validate(startTime.getText()) || (repeat.isSelected() && endDate.getValue() == null)){
+				|| !validate(startTime.getText()) || (repeat.isSelected() && endDate.getValue() == null) || startDate.getValue().isAfter( endDate.getValue())){
 			String errorText = "";
 			if (startDate.getValue() == null){
 				errorText += "Pick a date (dd.mm.yyyy). ";
+			}
+			if (startDate.getValue().isAfter(endDate.getValue())){
+				errorText += "Start date must be before end date. ";
 			}
 			if  (startTime.getText().length() == 0){
 				errorText += "Pick a time. ";
@@ -142,7 +145,11 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 				listView.getItems().clear();
 				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
 				errorBar.setFill(Color.DARKSEAGREEN);
-				errorMessage.setText("Lecture successfully added");
+				if (repeat.isSelected()){
+					errorMessage.setText("Lectures successfully added");
+				}else{
+					errorMessage.setText("Lecture successfully added");
+				}
 				errorBar.setVisible(true);
 			} catch (SQLException e) {
 				System.out.println("Lecture already exists for this date and time" + e.getMessage());
@@ -160,6 +167,10 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
 			
+		} else if (removeStart.getValue().isAfter( removeEnd.getValue())){
+			errorMessage.setText("Start date must be before end date. ");
+			errorBar.setFill(myRed);
+			errorBar.setVisible(true);
 		}
 		else{
 			dbc.deleteLecturesForPeriod(courseCode, removeStart.getValue().toString(), removeEnd.getValue().toString());
