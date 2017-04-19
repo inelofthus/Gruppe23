@@ -17,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
@@ -34,6 +36,8 @@ public class CourseStudController extends CommonMethods implements Initializable
 	public Button logout;
 	public Button chooseCourses;
 	public Button exit;
+	public Text errorText;
+	public Rectangle errorBar;
 	
 	
 	//creates a list of buttons to iterate over in initializer
@@ -52,7 +56,6 @@ public class CourseStudController extends CommonMethods implements Initializable
 		MainController.getInstance().setCourse(course);
 	}
 	
-	//
 	public String loadCourseName(int x){
 		Student stud = MainController.getInstance().getStudents();
 		return stud.getCourseNameForCourse(stud.getCourseIDs().get(x));
@@ -175,6 +178,9 @@ public class CourseStudController extends CommonMethods implements Initializable
 			setSubjectButtonText(x, buttons.get(x));
 			buttons.get(x).setVisible(true);
 		}
+		errorBar.setVisible(true);
+		errorBar.setFill(Color.DARKSEAGREEN);
+		errorText.setText("You are logged in as "+ MainController.getInstance().getStudents().getUsername());
 	}
 
 }
