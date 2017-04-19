@@ -34,7 +34,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="badUsername" fill="RED" layoutX="442.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text fx:id="badUsername" fill="RED" layoutX="457.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
       <Text layoutX="78.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Create New Student User" textAlignment="CENTER" wrappingWidth="508.80340576171875" />
       <Label layoutX="201.0" layoutY="277.0" prefHeight="17.0" prefWidth="195.0" text="Create a unique username" />
    </children>

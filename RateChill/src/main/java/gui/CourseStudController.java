@@ -181,6 +181,18 @@ public class CourseStudController extends CommonMethods implements Initializable
 		errorBar.setVisible(true);
 		errorBar.setFill(Color.DARKSEAGREEN);
 		errorText.setText("You are logged in as "+ MainController.getInstance().getStudents().getUsername());
+		
+		String coursesUpdated = MainController.getInstance().coursesUpdated;
+		if (!coursesUpdated.isEmpty()){
+			if (coursesUpdated == "true"){
+				errorText.setText("Your courses were updated");
+			}
+			else if (coursesUpdated == "false"){
+				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
+				errorText.setText("No changes were made to your courses");
+			}
+			MainController.getInstance().coursesUpdated = "";
+		}
 	}
 
 }

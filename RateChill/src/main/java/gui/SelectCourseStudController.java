@@ -127,6 +127,7 @@ public class SelectCourseStudController implements Initializable {
 				options.getSelectionModel().clearSelection();
 				options.getItems().remove(s);
 				choices.getItems().add(s);
+				MainController.getInstance().coursesUpdated = "true";
 			}
 		}
 		if (event.getSource() == sendLeft) {
@@ -145,6 +146,7 @@ public class SelectCourseStudController implements Initializable {
 				options.getSelectionModel().clearSelection();
 				choices.getItems().remove(s);
 				options.getItems().add(s);
+				MainController.getInstance().coursesUpdated = "true";
 			}
 		}
 
@@ -187,6 +189,7 @@ public class SelectCourseStudController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		MainController.getInstance().coursesUpdated = "false";
 		allCourses = DBC.getAllCourses();
 		options.getItems().clear();
 		options.getItems().addAll(allCourses);

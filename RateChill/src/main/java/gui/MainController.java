@@ -48,6 +48,7 @@ public class MainController {
 	String createStudUsername = "";
 	boolean buttonsSaved = false;
 	String buttonsSavedOrigin = "";
+	String coursesUpdated = "";
 	
 	public Stack<String> getStack() {
 		return stack;
