@@ -32,7 +32,17 @@ public class MainController {
 	}
 
 	private boolean connectionPopupOpen = false;
+	private boolean connectionFail = false;
 	
+	public boolean isConnectionFail() {
+		return connectionFail;
+	}
+
+
+	public void setConnectionFail(boolean connectionFail) {
+		this.connectionFail = connectionFail;
+	}
+
 	boolean createUser = false;
 	boolean buttonsSaved = false;
 	String buttonsSavedOrigin = "";

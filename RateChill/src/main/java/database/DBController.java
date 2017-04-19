@@ -29,29 +29,38 @@ import javafx.stage.Stage;
 public class DBController {
 
 	Connection conn = null;
-	MainController mc = new MainController().getInstance();
+	MainController mc = MainController.getInstance();
 
-	public void connect() {
-		boolean success = false;
-		try {
+	public void connect(){
+		Thread thread = new Thread(new CustomRunnable(this));
+		thread.start();
+		 long endTimeMillis = System.currentTimeMillis() + 1000;
+		    while (thread.isAlive()) {
+		        if (System.currentTimeMillis() > endTimeMillis) {
+			        mc.setConnectionFail(true);
+			        thread.stop();
+			        conn = null;
+			        break;
+		    }
+		  
+		        if(mc.isConnectionFail()){
+		        	try {
+						showPopup();
+					} catch (IOException e) {
+						System.out.println("error in connect " + e.getMessage());
+					}finally {
+						mc.setConnectionFail(false);
+					}
+		        }
+		        
+		        
+		    }
+	}
+	
+	public void connectTry() throws SQLException {
+		
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
-			success = true;
-
-		} catch (SQLException ex) {
-
-		}finally{
-			if(!success){
-				conn = null;	
-				try {
-					showPopup();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			
-		}
 	}
 	
 	
