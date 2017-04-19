@@ -99,7 +99,7 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 				loadNextScene(finish, stage, "LoginProf.fxml");
 				
 			}else{
-				badUsername.setText("Not a valid professor username");
+				badUsername.setText("The professor username is not valid. Please write in your ntnu username.");
 					return;
 			}
 			

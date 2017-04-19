@@ -36,7 +36,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="badUsername" fill="RED" layoutX="477.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text fx:id="badUsername" fill="RED" layoutX="477.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
       <Text fx:id="passwordNoMatch" fill="RED" layoutX="477.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
       <Text layoutX="74.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Create New Professor User" textAlignment="CENTER" wrappingWidth="508.80340576171875" />
    </children>
