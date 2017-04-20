@@ -152,7 +152,7 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 		if(event.getSource() == info){
 			Stage stage = new Stage();
 			mc.setPopupTitle("Customize Student Buttons Info");
-			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on.");
+			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on. The changes will take effect starting from your next lecture. You will still be able to see the individual lecture graphs for old rating values. \n NB: After changing rating values, you will no longer be able to see the lectures over time graph for old rating values");
 			loadPopupHyperLink(info, stage, "InfoPopup.fxml");
 		}
 	}

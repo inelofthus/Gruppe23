@@ -287,7 +287,7 @@ public class DBController {
 		
 		connect();
 		try {
-			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues order by setDate desc;"; 
+			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues where courseCode = ? order by setDate desc;"; 
 			
 			prepStmt = conn.prepareStatement(query);
 			prepStmt.setString(1, course.getCourseCode());

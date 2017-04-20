@@ -39,6 +39,11 @@ public class InfoPopupController implements Initializable{
 		title.setText(mc.getPopupTitle());
 		message.setText(mc.getPopupMessage());
 		
+		if(mc.getPopupTitle().equals("Customize Student Buttons Info")){
+			closeButton.setVisible(false);
+			keepGoing.setVisible(false);
+		}
+		
 	}
 
 
