@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
@@ -33,10 +34,10 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	public Button back;
 	public Button logout;
 	
-	
 	public Button submitChanges;
 	public Button cancel;
 	public Button preview;
+	public Button revert;
 	public ToggleButton button1;
 	public ToggleButton button2;
 	public ToggleButton button3;
@@ -49,10 +50,11 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	public TextField buttonText5;
 	public Text errorText;
 	public Rectangle errorBar;
+	public Hyperlink info;
 	
 	public Color MYRED = new Color(0.937, 0.290, 0.290, 1);
 	
-	
+	MainController mc = MainController.getInstance();
 	DBController DBC = new DBController();
 	Course course = MainController.getInstance().getCourse();
 	ArrayList<String> ratings = course.getRatingValues();
@@ -146,6 +148,16 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	}
 	
 	@FXML
+	private void handleHyperLinkAction(ActionEvent event) throws IOException{
+		if(event.getSource() == info){
+			Stage stage = new Stage();
+			mc.setPopupTitle("Customize Student Buttons Info");
+			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on.");
+			loadPopupHyperLink(info, stage, "InfoPopup.fxml");
+		}
+	}
+	
+	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		errorText.setText("");
@@ -157,6 +169,18 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 		else if(event.getSource() == preview) {
 			setPreviewTexts(makeListOfValues());
 			return;
+		}else if (event.getSource() == revert){
+			ArrayList<String> defaultRatings = course.getDefaultRatingValues();
+			buttonText1.setText(defaultRatings.get(0));
+			buttonText2.setText(defaultRatings.get(1));
+			buttonText3.setText(defaultRatings.get(2));
+			buttonText4.setText(defaultRatings.get(3));
+			buttonText5.setText(defaultRatings.get(4));
+			
+			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
+			errorBar.setVisible(true);
+			setPreviewTexts(makeListOfValues());
+			errorText.setText("Previewing default rating values. Press submit to confirm this change");
 		}
 		else if (event.getSource() == submitChanges){
 			if (!haveMadeButtonChanges()) {

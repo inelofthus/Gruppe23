@@ -13,6 +13,7 @@ import database.DBController;
 public class Course extends DatabaseUser{
 	
 	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Excellent","Good","Ok","Poor","Unsatisfactory"));
+	private ArrayList<String> defaultRatingValues = ratingValues;
 	private String courseCode;
 	private String courseName;
 	private int numLectureHours;
@@ -458,6 +459,10 @@ public class Course extends DatabaseUser{
 			break;
 		}
 		return result;
+	}
+
+	public ArrayList<String> getDefaultRatingValues() {
+		return defaultRatingValues;
 	}
 
 }

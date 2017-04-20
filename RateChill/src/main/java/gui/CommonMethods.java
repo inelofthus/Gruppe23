@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public abstract class CommonMethods {
@@ -35,6 +36,18 @@ public abstract class CommonMethods {
 		//create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void loadPopupHyperLink(Hyperlink hyper, Stage stage, String string) throws IOException{
+		stage = new Stage();
+		Parent root;
+		root = FXMLLoader.load(getClass().getResource(string));
+		
+		//create a new scene with root and set the stage
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
 	}
 	

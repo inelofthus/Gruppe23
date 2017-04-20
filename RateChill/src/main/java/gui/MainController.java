@@ -21,7 +21,19 @@ public class MainController {
 	private Course course;
 	private Lecture lecture;
 	private Stack<String> stack = new Stack<String>();
+	private String popupTitle;
+	private String popupMessage;
 	
+	public String getPopupMessage() {
+		return popupMessage;
+	}
+
+
+	public void setPopupMessage(String popupMessage) {
+		this.popupMessage = popupMessage;
+	}
+
+
 	public boolean isConnectionPopupOpen() {
 		return connectionPopupOpen;
 	}
@@ -137,6 +149,16 @@ public class MainController {
 	
 	public void setLecture(Lecture lecture) {
 		this.lecture = lecture;
+	}
+
+
+	public String getPopupTitle() {
+		return popupTitle;
+	}
+
+
+	public void setPopupTitle(String popupTitle) {
+		this.popupTitle = popupTitle;
 	}
 	
 }
