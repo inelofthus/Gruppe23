@@ -189,7 +189,10 @@ public class CourseTest {
 	@Test
 	public void  TestgetDateArrayForGraph() {
 		ArrayList<String> actual = course.getDateArrayForGraph();
-		ArrayList<String> expected = new ArrayList<>(Arrays.asList("12.12", "11.11", "10.10","09.09","08.08","07.07","06.06","05.05", "04.04", "03.03","02.02", "03.01","02.01","01.01" ));
+		ArrayList<String> expected = new ArrayList<>(Arrays.asList("12/12\n08:00", "11/11\n08:00",
+				"10/10\n08:00","09/09\n08:00","08/08\n08:00","07/07\n08:00","06/06\n08:00",
+				"05/05\n08:00", "04/04\n08:00", "03/03\n08:00","02/02\n08:00", "03/01\n08:00",
+				"02/01\n08:00","01/01\n08:00" ));
 		
 		assertEquals(expected, actual);
 	}
