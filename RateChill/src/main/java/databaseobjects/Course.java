@@ -267,7 +267,10 @@ public class Course extends DatabaseUser{
 			String[] dateSplit = date.split("-");
 			String MM = dateSplit[1];
 			String DD = dateSplit[2];
-			date = DD + "." + MM;
+			date = DD + "/" + MM;
+			
+			//Add time of lecture as well:
+			date = date + "\n" + completedLecturesIDDate.get(lecID).get(1).substring(0,5);
 			
 			dates.add(date);
 		}

@@ -142,7 +142,7 @@ public class EvaluationsOverTimeController extends CommonMethods implements Init
 		
 		lineChart.setCreateSymbols(false);
 		
-		xAxis.setLabel("Date");
+		xAxis.setLabel("Lecture Date and Time");
 		yAxis.setLabel("Percent");
 		
 		if (MainController.getInstance().buttonsSaved == "true" && 
