@@ -50,7 +50,7 @@ ListView, InputField {
     -fx-border-style: solid;
     -fx-border-width: 2px;
     -fx-border-color: #cccccc;
-    -fx-border-radius: 0px;
+    -fx-border-radius: 4px;
 }
 
 .menuBar {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -10,86 +11,81 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Hyperlink?>
 
 <AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomizeButtonsController">
    <children>
       <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="31.0" layoutX="-15.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="686.0" />
-      <TextField fx:id="buttonText1" layoutX="122.0" layoutY="193.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
+      <TextField fx:id="buttonText1" layoutX="122.0" layoutY="202.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <TextField fx:id="buttonText2" layoutX="122.0" layoutY="240.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
+      <TextField fx:id="buttonText2" layoutX="122.0" layoutY="249.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <TextField fx:id="buttonText3" layoutX="122.0" layoutY="287.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
+      <TextField fx:id="buttonText3" layoutX="122.0" layoutY="296.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <TextField fx:id="buttonText4" layoutX="122.0" layoutY="335.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
+      <TextField fx:id="buttonText4" layoutX="122.0" layoutY="343.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <TextField fx:id="buttonText5" layoutX="122.0" layoutY="382.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
+      <TextField fx:id="buttonText5" layoutX="122.0" layoutY="391.0" prefHeight="37.0" prefWidth="206.0" promptText="Change buttontext" styleClass="inputSection">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Label layoutX="14.0" layoutY="201.0" text="First button">
+      <Label layoutX="14.0" layoutY="210.0" text="First button">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="249.0" text="Second button">
+      <Label layoutX="14.0" layoutY="256.0" text="Second button">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="295.0" text="Third button">
+      <Label layoutX="14.0" layoutY="302.0" text="Third button">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="343.0" text="Fourth button">
+      <Label layoutX="14.0" layoutY="350.0" text="Fourth button">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="390.0" text="Fifth button">
+      <Label layoutX="14.0" layoutY="397.0" text="Fifth button">
          <font>
             <Font size="14.0" />
          </font></Label>
-	<Button fx:id="preview" layoutX="363.0" layoutY="151.0"
-		mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0"
-		prefWidth="141.0" text="Preview buttons">
+	<Button fx:id="preview" layoutX="363.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="34.0" prefWidth="135.0" text="Preview buttons">
 		<font>
 			<Font size="14.0" />
 		</font>
 	</Button>
-	<Button fx:id="revert" layoutX="14.0" layoutY="151.0"
-		mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="31.0"
-		prefWidth="279.0" text="Revert to default options">
+	<Button fx:id="revert" layoutX="502.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="34.0" prefWidth="135.0" text="Revert to default">
 		<font>
 			<Font size="14.0" />
 		</font>
 	</Button>
-      <ToggleButton fx:id="button1" layoutX="363.0" layoutY="190.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
+      <ToggleButton fx:id="button1" layoutX="363.0" layoutY="197.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button2" layoutX="363.0" layoutY="237.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
+      <ToggleButton fx:id="button2" layoutX="363.0" layoutY="244.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button3" layoutX="363.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
+      <ToggleButton fx:id="button3" layoutX="363.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button4" layoutX="363.0" layoutY="332.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
+      <ToggleButton fx:id="button4" layoutX="363.0" layoutY="339.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton fx:id="button5" layoutX="363.0" layoutY="379.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
+      <ToggleButton fx:id="button5" layoutX="363.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="37.0" prefWidth="279.0" styleClass="toggle">
          <font>
             <Font size="18.0" />
          </font>
@@ -103,12 +99,6 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Hyperlink fx:id="info" layoutX="620" layoutY="436.0"
-			onAction="#handleHyperLinkAction" text="?">
-			<font>
-				<Font size="16.0" />
-			</font>
-		</Hyperlink>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="94.0" layoutX="-9.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
       <ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
          <items>
@@ -127,10 +117,20 @@
          </items>
       </ToolBar>
       <Text layoutX="70.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Change students' evaluation options" textAlignment="CENTER" wrappingWidth="537.6666543576866" />
+      <Text layoutX="12.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Changing evaluation options has consequences." wrappingWidth="246.33331959322095">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
       <Button fx:id="cancel" accessibleRole="TEXT" layoutX="122.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="51.0" prefWidth="206.0" text="Cancel">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <Hyperlink fx:id="info" layoutX="126.0" layoutY="162.0" onAction="#handleHyperLinkAction" prefHeight="19.0" prefWidth="160.0" text="Click here for more info.">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Hyperlink>
    </children>
 </AnchorPane>
