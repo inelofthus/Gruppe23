@@ -170,22 +170,6 @@ public class DBController {
 		return timeConstraint;
 	}
 
-	private boolean tableHasValue(String table, String columnName, String value) {
-		String query = "select " + columnName + " from " + table + " WHERE " +columnName + "= '" + value + "';";
-		System.out.println(query);
-		
-		try {
-			prepStmt = conn.prepareStatement(query);
-			rs = prepStmt.executeQuery();
-			return rs.next();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	public String changeDateFormat(String date){
 		String[] dateSplit = date.split("-");
 		String yyyy = dateSplit[0];
@@ -303,19 +287,21 @@ public class DBController {
 		
 		connect();
 		try {
-			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues WHERE courseCode = ?"; 
+			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues order by setDate desc;"; 
 			
 			prepStmt = conn.prepareStatement(query);
 			prepStmt.setString(1, course.getCourseCode());
 			rs = prepStmt.executeQuery();
 			
-			rs.next();
-			
-			for(int i = 1; i < 6; i++){
-				ratingValues.add(rs.getString(i));
+			if(rs.next()){
+				for (int i = 1; i < 6; i++) {
+					ratingValues.add(rs.getString(i));
+				}
+
+				course.setRatingValues(ratingValues);
 			}
 			
-			course.setRatingValues(ratingValues);
+			
 			
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -580,14 +566,10 @@ public class DBController {
 
 	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3, String rating4, String rating5) {
 		// inserts new rating values for a given course into the database
+		
 		connect();
 		try {
 			String query ="insert into CourseRatingValues (courseCode, rating1, rating2, rating3, rating4, rating5) VALUES(?,?,?,?,?,?)";
-			
-			if(tableHasValue("CourseRatingValues", "courseCode", courseCode)){
-				query =  "UPDATE CourseRatingValues SET courseCode = ?, rating1 = ?, rating2 = ?, rating3 = ?, rating4 = ?, rating5 = ?";
-				System.out.println(query);
-			}
 			
 			prepStmt = conn.prepareStatement(query);
 			prepStmt.setString(1, courseCode);
@@ -663,41 +645,20 @@ public class DBController {
 		ArrayList<Evaluation> Evaluations5 = new ArrayList<>();
 
 		try {
-
-			String query = "select rating from Evaluation where lectureID = "
-					+ lecture.getLectureID() + ";";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			rs.next();
 			
-			String rating = rs.getString(1);
-
-
-			if (!ratingValues.contains(rating)){ 
-
-				// checks if the ratingsValues are different from the course's current rating values 
-				ratingValues = getStringArrayNC("select DISTINCT rating from Evaluation where lectureID =" + lecture.getLectureID() + " ;");
-				System.out.println(ratingValues);
-				System.out.println(ratingValues.size());
-				
-				// size of ratingValues must be 5
-				if(ratingValues.size() < 5){
-					System.out.println("BOLLELLE");
-					int i = 1;
-					
-					while(ratingValues.size() != 5){
-						ratingValues.add("nix" + i);
-						i++;
-					}
-				}
-				
-				if(ratingValues.size() > 5){
-					System.out.println("hello");
-					ratingValues = 	new ArrayList<>(ratingValues.subList(0, 5));
-				}
-				}
+			String query = "select rating1, rating2, rating3, rating4, rating5 from CourseRatingValues where setDate < ? order by setDate desc;";
+			prepStmt = conn.prepareStatement(query);
+			String lecDateTime = lecture.getLectureDate() + " " + lecture.getLectureTime();
+			prepStmt.setString(1, lecDateTime);
+			rs = prepStmt.executeQuery();
+			if(rs.next()){
+				ratingValues.clear();
+				ratingValues.add(rs.getString(1));
+				ratingValues.add(rs.getString(2));
+				ratingValues.add(rs.getString(3));
+				ratingValues.add(rs.getString(4));
+				ratingValues.add(rs.getString(5));
+			}
 
 			query = "select studentUsername, rating, studentComment from Evaluation where lectureID = "
 					+ lecture.getLectureID() + ";";
@@ -708,7 +669,7 @@ public class DBController {
 			while (rs.next()) {
 
 				String studentUsername = rs.getString(1);
-				rating = rs.getString(2);
+				String rating = rs.getString(2);
 				String studentComment = rs.getString(3);
 				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
