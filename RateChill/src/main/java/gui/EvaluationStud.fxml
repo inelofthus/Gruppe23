@@ -48,7 +48,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextArea fx:id="feedback" layoutX="334.0" layoutY="200.0" prefHeight="218.0" prefWidth="287.0" promptText="Write comment..." styleClass="inputSection" wrapText="true">
+      <TextArea fx:id="evaluationComment" layoutX="334.0" layoutY="200.0" prefHeight="218.0" prefWidth="287.0" promptText="Write comment..." styleClass="inputSection" wrapText="true">
          <font>
             <Font size="19.0" />
          </font></TextArea>

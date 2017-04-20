@@ -32,7 +32,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 
 	//fxml objects
 	@FXML
-	public TextArea feedback;
+	public TextArea evaluationComment;
 	public ToggleButton rating1;
 	public ToggleButton rating2;	
 	public ToggleButton rating3;
@@ -74,17 +74,14 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		rating3.setDisable(false);
 		rating4.setDisable(false);
 		rating5.setDisable(false);
-		feedback.setDisable(false);
+		evaluationComment.setDisable(false);
 		submit.setDisable(false);
 		enableOverwrite.setVisible(false);
 		overwriteBack.setVisible(false);
-		errorText.setText("Give a new evluation or press back to cancel. ");
-		
+		errorText.setText("Give a new evluation or press back to cancel. ");	
 	}
 	
 	private void submitButton() {
-		Stage stage = null;
-		
 		//checks if something is selected and gives error message
 		if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
 				|| rating1.isSelected())) {
@@ -93,40 +90,26 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 			rec.setFill(myRed);
 			return;
 		}
-		
-		
 		//if the user already has submitted one or more evaluations on the subject, it gets overwritten
 		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
-			
-			
-			String comment = feedback.getText();
-			
-			//the actual overwriting function
-			overwriting(lectureID, selectedButton(), comment);
-			
-			//removing other messages the GUI displays and setting the overwritten text
+			String comment = evaluationComment.getText();
+			overwriting(lectureID, selectedButton(), comment); //the actual overwriting function
 			rec.setFill(Color.DARKSEAGREEN);
 			String overwritten = "Your submission has been overwritten";
 			errorText.setText(overwritten);
 			return;
 		}
-		//checks which rating-button is selected and sets the rating to the selected value
-		//stores the feedback comment
-		String comment = feedback.getText();
+		String comment = evaluationComment.getText(); //stores the evaluationComment comment
+		createEvaluation(lectureID, selectedButton(), comment); //insertEvaluation into database
 		
-		//insertEvaluation into database
-		createEvaluation(lectureID, selectedButton(), comment);
-		
-		//visual confirmation that the evaluation has been submitted
+		//confirmation that the evaluation has been submitted
 		rec.setFill(Color.DARKSEAGREEN);
 		errorText.setText("Submitted!");
 		
-		//sets the text on the submit-button to overwrite
-		submit.setText("Overwrite");
-		
-		
+		submit.setText("Overwrite");		
 	}
 
+	
 	private String selectedButton() {
 		String rating = "";
 		if (rating4.isSelected()){
@@ -147,75 +130,60 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		return rating;
 	}
 	
+	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
 			loadNextScene(home, stage, "CourseStud.fxml");
 		}
-		
 		if (event.getSource() == back || event.getSource() == overwriteBack) {
 			loadNextScene(back ,stage, "LectureStud.fxml");
 		}
-		
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "Login.fxml");
 		}
 	}
 	
+	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
 		Stage stage = null;
 		userButtons(event, stage);
-		
 		if (event.getSource() == submit){
-			
 			submitButton();
-			
-
-			}
-			
-
-		
+		}		
 	}
-	//
-	
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method
 		ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>(Arrays.asList(rating1,rating2,rating3,rating4,rating5));
-
 		ArrayList<String> ratingValues = course.getRatingValues();
 		for(int i =0;i<5;i++) {
 			buttons.get(i).setText(ratingValues.get(i));
 		}
-		
-		
 		rec.setFill(Color.TRANSPARENT);
 		if(!MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			submit.setText("Submit");
 		}
 		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
-			
 			rating1.setDisable(true);
 			rating2.setDisable(true);
 			rating3.setDisable(true);
 			rating4.setDisable(true);
 			rating5.setDisable(true);
-			feedback.setDisable(true);
+			evaluationComment.setDisable(true);
 			submit.setDisable(true);
 			enableOverwrite.setVisible(true);
 			overwriteBack.setVisible(true);
+			
 			Evaluation eval = new Evaluation(lectureID, stud.getUsername());
-			feedback.setText(eval.getComment());
+			evaluationComment.setText(eval.getComment());
 			String lastRating = eval.getRating();
-			for (int i =0;i<5;i++) {
+			for (int i = 0; i < 5; i++) {
 				if (lastRating.equalsIgnoreCase(ratingValues.get(i))) {
 					buttons.get(i).setSelected(true);
 				}
 			}
-			
-			
 			submit.setText("Overwrite");
 			rec.setFill(Color.LIGHTGOLDENRODYELLOW);
 			errorText.setText("Evaluation already given, overwrite?");
