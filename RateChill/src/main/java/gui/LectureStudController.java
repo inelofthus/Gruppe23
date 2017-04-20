@@ -114,17 +114,31 @@ public class LectureStudController extends CommonMethods implements Initializabl
 			return;
 		}
 		else if(numberOfLectures<2) {
-			lecture1.setText(DBC.changeDateFormat(getLectureDateText(getKeyLec1()))  );
+			lecture1.setText(DBC.changeDateFormat(getLectureDateText(getKeyLec1())) + "\n" + getLectureTimeText(getKeyLec1()));
 		}
 		else {
-			lecture1.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec1())) );
-			lecture2.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec2())) );
+			lecture1.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec1())) + "\n" + getLectureTimeText(getKeyLec1()));
+			lecture2.setText( DBC.changeDateFormat(getLectureDateText(getKeyLec2())) + "\n" + getLectureTimeText(getKeyLec2()) );
 			
 		}
 		
 		
 	}
 
+
+
+	private String getLectureTimeText(int lecID) {
+		String time = "";
+		
+		try {
+		ArrayList<String> dateTime = MainController.getInstance().getCourse().getCompletedLecturesIDDate().get(lecID);	
+		time = dateTime.get(1).substring(0,5);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+				
+		return time;
+	}
 
 
 	private String getLectureDateText(int lecID) {
