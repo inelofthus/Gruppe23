@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -45,6 +46,8 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 	public Button logout;
 	public Button exit;
 	public Rectangle rec;
+	public Hyperlink enableOverwrite;
+	public Hyperlink overwriteBack;
 	
 	Student stud = MainController.getInstance().getStudents();
 	Course course = MainController.getInstance().getCourse();
@@ -65,6 +68,19 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		}
 	}
 	
+	public void enableOverwriteAction(ActionEvent event){
+		rating1.setDisable(false);
+		rating2.setDisable(false);
+		rating3.setDisable(false);
+		rating4.setDisable(false);
+		rating5.setDisable(false);
+		feedback.setDisable(false);
+		submit.setDisable(false);
+		enableOverwrite.setVisible(false);
+		overwriteBack.setVisible(false);
+		errorText.setText("Give a new evluation or press back to cancel. ");
+		
+	}
 	
 	private void submitButton() {
 		Stage stage = null;
@@ -136,7 +152,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 			loadNextScene(home, stage, "CourseStud.fxml");
 		}
 		
-		if (event.getSource() == back) {
+		if (event.getSource() == back || event.getSource() == overwriteBack) {
 			loadNextScene(back ,stage, "LectureStud.fxml");
 		}
 		
@@ -181,6 +197,15 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		}
 		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			
+			rating1.setDisable(true);
+			rating2.setDisable(true);
+			rating3.setDisable(true);
+			rating4.setDisable(true);
+			rating5.setDisable(true);
+			feedback.setDisable(true);
+			submit.setDisable(true);
+			enableOverwrite.setVisible(true);
+			overwriteBack.setVisible(true);
 			Evaluation eval = new Evaluation(lectureID, stud.getUsername());
 			feedback.setText(eval.getComment());
 			String lastRating = eval.getRating();
@@ -192,7 +217,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 			
 			
 			submit.setText("Overwrite");
-			rec.setFill(Color.CORNFLOWERBLUE);
+			rec.setFill(Color.LIGHTGOLDENRODYELLOW);
 			errorText.setText("Evaluation already given, overwrite?");
 		}
 	}
