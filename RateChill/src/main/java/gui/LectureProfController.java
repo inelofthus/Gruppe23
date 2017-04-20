@@ -209,7 +209,7 @@ public class LectureProfController implements Initializable {
 		
 		month.setText(getMonthText(monthNum));
 		ArrayList<Integer> lecIDs = course.getLectureIDsMonth(monthNum);
-		thisMonthsLectures = getLectureDates(lecIDs);
+		thisMonthsLectures = getLectureDateTimes(lecIDs);
 		lectures.getItems().clear();
 		lectures.getItems().addAll(thisMonthsLectures);
 		
@@ -252,13 +252,15 @@ public class LectureProfController implements Initializable {
 	      return monthString;
 	}
 
-	private ArrayList<String> getLectureDates(ArrayList<Integer> lecIDs) {
-		ArrayList<String> date = new ArrayList<>();
+	private ArrayList<String> getLectureDateTimes(ArrayList<Integer> lecIDs) {
+		ArrayList<String> dateTime = new ArrayList<>();
+		String time = "";
 		
 		for(int lecID:lecIDs){
-			date.add(DBC.changeDateFormat( course.getLectureDate(lecID) ) ) ;
+			time = course.getCompletedLecturesIDDate().get(lecID).get(1).substring(0,5);
+			dateTime.add(DBC.changeDateFormat(course.getLectureDate(lecID)) + "\t" + time ) ;
 		}				
-		return date;
+		return dateTime;
 	}
 	
 	
@@ -327,7 +329,7 @@ public class LectureProfController implements Initializable {
 		
 		ArrayList<Integer> lecIDs = course.getLectureIDsMonth(monthNum);
 		
-		thisMonthsLectures = getLectureDates(lecIDs);
+		thisMonthsLectures = getLectureDateTimes(lecIDs);
 		
 		while(thisMonthsLectures.isEmpty()){
 			if(monthNum == 1 || monthNum == 7 || monthNum < 0){
