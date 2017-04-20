@@ -5,38 +5,27 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-//import GUItest.DummyMainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import database.DBController;
 import databaseobjects.Course;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-//import testingDBObjects.DummyDBController;
-
 public class AddLecturesController extends CommonMethods implements Initializable {
 
 	// fxml objects
@@ -51,23 +40,15 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	
 	@FXML
 	public TextField startTime;
-	
-	@FXML
 	public DatePicker startDate;
 	public DatePicker endDate;
 	public DatePicker removeStart;
 	public DatePicker removeEnd;
 	
-	@FXML 
+	@FXML
 	public CheckBox repeat;
-	
-	@FXML
 	public Rectangle errorBar;
-	
-	@FXML
 	public Text errorMessage;
-
-	@FXML
 	public ListView<String> listView;
 	
 	MainController mainCon = MainController.getInstance();
@@ -91,7 +72,6 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 		}
 		if (event.getSource() == back) {
 			loadNextScene(back, stage, "LectureProf.fxml");
-			//loadNextScene(back, stage, mainController.getInstance().getStack().pop());
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, stage, "LoginProf.fxml");
@@ -100,7 +80,6 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			loadNextScene(logout, stage, "LectureProf.fxml");
 		}
 	}
-
 
 
 	@FXML
@@ -126,12 +105,10 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			errorBar.setFill(myRed);
 			errorMessage.setText(errorText);
 			errorBar.setVisible(true);		
-		}
-		
-		else{
+		}else{
 			if(!repeat.isSelected()){
 				endDate.setValue(startDate.getValue());
-			}else {
+			} else {
 				if (endDate.getValue() == null){
 					String errorText = "Select an end date or uncheck weekly repetition. ";
 					errorBar.setFill(myRed);
@@ -177,8 +154,7 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			errorMessage.setText("Start date must be before end date. ");
 			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
-		}
-		else{
+		} else {
 			dbc.deleteLecturesForPeriod(courseCode, removeStart.getValue().toString(), removeEnd.getValue().toString());
 			errorMessage.setText("Lectures successfully deleted");
 			errorBar.setFill(Color.DARKSEAGREEN);
@@ -222,17 +198,6 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	public AddLecturesController() {
 
 	}
-	
-	//Constructor for testing
-	/*public addLecturesController(String str) {
-	// dummyDBC is only for testing. It does not access the database
-		this.dbc = new DummyDBController();
-		this.mainCon = DummyMainController().getInstance();
-	}
-	*/
-	
-	
-	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
