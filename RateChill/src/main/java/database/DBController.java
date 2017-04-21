@@ -26,9 +26,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * <h1>Database Controller</h1> DBController --- DBController (DBC) is a class
- * that performs all interactions with the database. Other classes can use an
- * instance of this class to read and write to the database
+ * DBController --- DBController (DBC) is a class that performs all interactions
+ * with the database. Other classes can use an instance of this class to read
+ * and write to the database
  * 
  * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
  *         Cappelen Michelet, Magnus Tvilde
@@ -171,7 +171,7 @@ public class DBController {
 	}
 
 	/**
-	 * generates appropriate sql query string for time constraint. The time
+	 * generates appropriate SQL query string for time constraint. The time
 	 * constraint makes sure you only get results that have passed and that are
 	 * in the same semester as the course.
 	 * 
@@ -357,7 +357,6 @@ public class DBController {
 		return course;
 	}
 
-	
 	private void setRatingValues(Course course) {
 		ArrayList<String> ratingValues = new ArrayList<>();
 
@@ -385,10 +384,11 @@ public class DBController {
 
 	}
 
-
+	/*
+	 * This creates the list and linked Hash map with the last 2 completed
+	 * lectures and their dates and sets the result in the course object
+	 */
 	private void setCompletedLecturesForCourse(Course course) {
-		// This creates the list and linked Hash map with the last 2 completed
-		// lectures and their dates and sets the result in the course object
 		try {
 
 			ArrayList<Integer> completedLectureIDs = new ArrayList<>();
@@ -431,9 +431,11 @@ public class DBController {
 
 	}
 
+	/*
+	 * This retrieves a list of lectureIDs for the course and sets the results
+	 * in the course object
+	 */
 	private void setLectureIDsForCourse(Course course) {
-		// This retrieves a list of lectureIDs for the course and sets the
-		// results in the course object
 
 		try {
 			ArrayList<Integer> lectures = new ArrayList<>();
@@ -455,9 +457,11 @@ public class DBController {
 
 	}
 
+	/*
+	 * setCourseNameLecHoursAndSemester sets courseName, location and number of
+	 * lecture hours for this specific course and sets result in course object.
+	 */
 	private void setCourseNameLecHoursAndSemester(Course course) {
-		// This sets courseName, location and number of lecture hours for this
-		// specific course and sets result in course object.
 		String query = "SELECT courseName, lectureHours, taughtInSpring, taughtInAutumn FROM Course WHERE courseCode = "
 				+ "'" + course.getCourseCode() + "';";
 
@@ -485,6 +489,13 @@ public class DBController {
 
 	}
 
+	/**
+	 * Retrieves the lecture dates and times for a lectures in a course. Returns
+	 * the result as a list of strings with the newest lecture first.
+	 * 
+	 * @param courseCode
+	 * @return list of strings in format DD.MM.YYY hh:mm:ss
+	 */
 	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode) {
 		connect();
 
@@ -496,10 +507,14 @@ public class DBController {
 			prepStmt.setString(1, courseCode);
 			rs = prepStmt.executeQuery();
 
+			String date;
+			String time;
+			String result;
+
 			while (rs.next()) {
-				String date = rs.getString(1);
-				String time = rs.getString(2);
-				String result = String.format("%s \t \t %s", changeDateFormat(date), time);
+				date = rs.getString(1);
+				time = rs.getString(2);
+				result = String.format("%s \t \t %s", changeDateFormat(date), time);
 				lectures.add(result);
 			}
 
@@ -510,6 +525,12 @@ public class DBController {
 		close();
 		return lectures;
 	}
+
+	/**
+	 * Retrieves all the courses that exist in the database
+	 * 
+	 * @return a list of course codes and names.
+	 */
 
 	public ArrayList<String> getAllCourses() {
 		ArrayList<String> courses = new ArrayList<>();
@@ -526,7 +547,7 @@ public class DBController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("SQLException in getCoursesStartingWith: " + e.getMessage());
+			System.out.println("SQLException in getAllCourses: " + e.getMessage());
 		}
 
 		close();
@@ -534,9 +555,19 @@ public class DBController {
 		return courses;
 	}
 
+	/**
+	 * inserts new rating values for a given course into the database. Database
+	 * automatically places a time stamp on when it was inserted.
+	 * 
+	 * @param courseCode
+	 * @param rating1
+	 * @param rating2
+	 * @param rating3
+	 * @param rating4
+	 * @param rating5
+	 */
 	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3,
 			String rating4, String rating5) {
-		// inserts new rating values for a given course into the database
 
 		connect();
 		try {
@@ -560,12 +591,17 @@ public class DBController {
 	}
 
 	// ----- LECTURE ----- //
+
+	/**
+	 * This method takes in a Lecture object with a specific lectureID. It
+	 * collects all the information about this lecture and fills in the rest of
+	 * the course details. Finally It will return the loaded leture object.
+	 * 
+	 * @param lecture with a specified lectureId
+	 * @return lecture with all associated information
+	 */
 	public void loadLectureInfo(Lecture lecture) {
 		connect();
-
-		// date format: "YYYY-MM-DD"
-		// time format: "hh:mm:ss"
-		// dateTime format: "YYYY-MM-DD#hh:mm:ss"
 
 		String courseCode = null;
 
@@ -574,14 +610,14 @@ public class DBController {
 
 			String query = "SELECT lectureDate, lectureTime, courseCode, professorUsername FROM Lecture WHERE lectureID = "
 					+ lecture.getLectureID() + ";";
-			// System.out.println(query);
+
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
 
 			rs.next();
-			String date = rs.getString(1);
-			String time = rs.getString(2);
+			String date = rs.getString(1); 	// date format: "YYYY-MM-DD"
+			String time = rs.getString(2); 	// time format: "hh:mm:ss"
 			ArrayList<String> dateTime = new ArrayList<String>();
 			dateTime.add(date);
 			dateTime.add(time);
@@ -634,13 +670,17 @@ public class DBController {
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
+			
+			String studentUsername;
+			String rating;
+			String studentComment;
+			Evaluation eval;
 
 			while (rs.next()) {
-
-				String studentUsername = rs.getString(1);
-				String rating = rs.getString(2);
-				String studentComment = rs.getString(3);
-				Evaluation eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
+				studentUsername = rs.getString(1);
+				rating = rs.getString(2);
+				studentComment = rs.getString(3);
+				eval = new Evaluation(rating, studentComment, lecture.getLectureID(), studentUsername);
 				evaluations.add(eval);
 
 				if (rating.equals(ratingValues.get(0))) {
@@ -675,6 +715,14 @@ public class DBController {
 
 	}
 
+	/**
+	 * Inserts a new Lecture into the database with the specified parameters
+	 * @param date
+	 * @param time
+	 * @param courseCode
+	 * @param professorUsername
+	 * @throws SQLException
+	 */
 	public void insertLecture(String date, String time, String courseCode, String professorUsername)
 			throws SQLException {
 		// Date format: "YYYY-MM-DD"
@@ -682,7 +730,6 @@ public class DBController {
 		connect();
 
 		String query = buildLectureQuery(date, time, courseCode, professorUsername);
-		// System.out.println(query);
 
 		stmt = conn.createStatement();
 		stmt.executeUpdate(query);
@@ -690,6 +737,28 @@ public class DBController {
 		close();
 	}
 
+	/*
+	 * Helper function for insertLecture. Builds the required query.
+	 */
+	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername) {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO Lecture (lectureDate, lectureTime, Lecture.courseCode, professorUsername) ")
+				.append("SELECT '").append(date).append("','").append(time)
+				.append("',Course.courseCode, Professor.professorUsername ").append("FROM Course, Professor ")
+				.append("WHERE courseCode = '").append(courseCode).append("' AND professorUsername =  '")
+				.append(professorUsername).append("';");
+
+		String query = sb.toString();
+		return query;
+
+	}
+	
+	/**
+	 * @param dateTime: a list where first element is date (format: YYYY-MM-DD) and second element is time (format: HH:MM:SS)
+	 * @param courseCode
+	 * @return lectureID
+	 */
 	public int getLectureID(ArrayList<String> dateTime, String courseCode) {
 		connect();
 		int id = -1;
@@ -708,7 +777,7 @@ public class DBController {
 			id = rs.getInt(1);
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in getLectureID: " + e.getMessage());
 
 		} finally {
 			close();
@@ -717,6 +786,10 @@ public class DBController {
 		return id;
 	}
 
+	/**
+	 * Removes the lecture with the specified lectureID from the database
+	 * @param lectureID
+	 */
 	public void deleteLecture(int lectureID) {
 		connect();
 		try {
@@ -732,6 +805,11 @@ public class DBController {
 		close();
 	}
 
+	/**
+	 * Checks in the database if there exists a lecture with the specified lectureID
+	 * @param lectureID
+	 * @return lectureExists (true or false)
+	 */
 	public boolean lectureExists(int lectureID) {
 		connect();
 		boolean hasNext = false;
@@ -747,30 +825,19 @@ public class DBController {
 			hasNext = rs.next();
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in lectureExists: " + e.getMessage());
 		}
 		close();
 		return hasNext;
 	}
 
-	private String buildLectureQuery(String date, String time, String courseCode, String professorUsername) {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO Lecture (lectureDate, lectureTime, Lecture.courseCode, professorUsername) ")
-				.append("SELECT '").append(date).append("','").append(time)
-				.append("',Course.courseCode, Professor.professorUsername ").append("FROM Course, Professor ")
-				.append("WHERE courseCode = '").append(courseCode).append("' AND professorUsername =  '")
-				.append(professorUsername).append("';");
-
-		String query = sb.toString();
-		// System.out.println(query);
-		return query;
-
-	}
-
+	/**
+	 * deletes all of this courses lectures during this period.
+	 * @param courseCode
+	 * @param startDate
+	 * @param endDate
+	 */
 	public void deleteLecturesForPeriod(String courseCode, String startDate, String endDate) {
-		// deletes lectudeleteLecturesForPeriodres for this period.
-
 		connect();
 
 		String query = "DELETE FROM Lecture WHERE courseCode = ? AND lectureDate >= ? AND lectureDate <= ? ";
@@ -784,13 +851,22 @@ public class DBController {
 			prepStmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("SQL exception in deleteLecturesForPeriod: " + e.getMessage());
 		}
 
 		close();
 	}
 
+	/**
+	 * Adds new lectures into the database. Can add single lectures or lectures that repeat weekly.
+	 * @param courseCode
+	 * @param startTime
+	 * @param startDate
+	 * @param endDate
+	 * @param repeat: a boolean value that specifies if the lecture should repeat weekly
+	 * @param professorUsername
+	 * @throws SQLException
+	 */
 	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat,
 			String professorUsername) throws SQLException {
 
@@ -801,7 +877,7 @@ public class DBController {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		LocalDate start = LocalDate.of(year, mmStart, ddStart);
 
-		if (repeat) {
+		if (repeat) { //if lectures repeat weekly
 			String[] endDateSplit = endDate.split("-");
 			int mmEnd = Integer.valueOf(endDateSplit[1]);
 			int ddEnd = Integer.valueOf(endDateSplit[2]);
@@ -810,9 +886,12 @@ public class DBController {
 			numWeeks = (int) ChronoUnit.WEEKS.between(start, end);
 		}
 
+		int MM;
+		int DD;
+		
 		for (int i = 0; i < numWeeks + 1; i++) {
-			int MM = start.getMonthValue();
-			int DD = start.getDayOfMonth();
+			MM = start.getMonthValue();
+			DD = start.getDayOfMonth();
 			String date = year + "-" + MM + "-" + DD;
 			insertLecture(date, startTime, courseCode, professorUsername);
 
@@ -822,10 +901,11 @@ public class DBController {
 
 	// ----- PROFESSOR ----- //
 
+	/**
+	 * Retrieves relevant professor information from the database and updates the professor object accordingly.
+	 * @param prof: professor object with a specified username.
+	 */
 	public void loadProfessorInfo(Professor prof) {
-		// Must retrieve and update the following info from DB:
-		// courseIDs = list of all courses that professor teaches
-		// courseIDNames = hashmap that maps courseIDs to corresponding names
 
 		String username = prof.getUsername();
 		ArrayList<String> courseIDs = new ArrayList<>();
@@ -860,40 +940,23 @@ public class DBController {
 
 	}
 
-	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername) {
-		ArrayList<String> courses = new ArrayList<>();
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseCode FROM CourseProfessor WHERE professorUsername = '" + professorUsername
-					+ "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				courses.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		// System.out.println(courses);
-		return courses;
-	}
-
+	/**
+	 * Inserts a new professor into database with the specified username and password. Password should already be encrypted.
+	 * @param professorUsername
+	 * @param password
+	 */
 	public void insertProfessor(String professorUsername, String password) {
-		// inserts a new professor into database
 		connect();
 		insertProfessorNC(professorUsername, password);
 		close();
 	}
 
+	/**
+	 * Inserts a new professor into database with the specified username and password. A connection must already have been made in order to use this method.
+	 * @param professorUsername
+	 * @param password
+	 */
 	public void insertProfessorNC(String professorUsername, String password) {
-		// inserts a new professor into database
 		try {
 
 			String query = "INSERT INTO Professor VALUES(?,?)";
@@ -962,7 +1025,6 @@ public class DBController {
 		}
 		close();
 
-		// System.out.println(courses);
 		return lectures;
 
 	}

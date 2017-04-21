@@ -261,11 +261,6 @@ public class DummyDBController extends DBController{
 	}
 
 	@Override
-	public ArrayList<String> getCoursesTaughtByProfessor(String professorUsername) {
-		return new ArrayList<>(Arrays.asList("TDT4140"));
-	}
-
-	@Override
 	public void insertProfessor(String professorUsername, String password) {
 		// do nothing
 	}

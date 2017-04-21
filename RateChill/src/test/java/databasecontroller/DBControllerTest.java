@@ -179,8 +179,6 @@ public class DBControllerTest {
 		ArrayList<String> profCourses = new ArrayList<String>();
 		profCourses.add("TEST0001");
 		
-		assertEquals(dbc.getCoursesTaughtByProfessor("testProf"), profCourses);
-		
 		ArrayList<String> dateTime = new ArrayList<>(Arrays.asList("2017-01-21","08:00:00"));
 		int lectureID = dbc.getLectureID(dateTime, "TEST0001");
 		ArrayList<Integer> compLec = new ArrayList<Integer>();
