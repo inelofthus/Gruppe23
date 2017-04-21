@@ -19,11 +19,6 @@ public class DummyDBController extends DBController{
 		//Does nothing
 	}
 
-	@Override
-	public Course loadCourseInfoForSemester(Course course, String semester) {
-		// TODO Auto-generated method stub
-		return super.loadCourseInfoForSemester(course, semester);
-	}
 
 	@Override
 	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
