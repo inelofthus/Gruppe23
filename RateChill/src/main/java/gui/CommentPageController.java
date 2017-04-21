@@ -61,7 +61,9 @@ public class CommentPageController extends CommonMethods implements Initializabl
 		ArrayList<String> als = selectedButtons();
 		String allComment = ""; 
 		for (String string:als){
-			allComment += string + "\n";
+			if (!string.equals("")) {
+				allComment += string + "\n";	
+			}
 		}
 		return allComment;
 	}
