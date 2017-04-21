@@ -272,7 +272,6 @@ public class DBController {
 			e.printStackTrace();
 		}
 		setCourseNameLecHoursAndSemester(course);
-		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course);
 		setRatingValues(course);
@@ -328,7 +327,6 @@ public class DBController {
 			e.printStackTrace();
 		}
 		setCourseNameLecHoursAndSemester(course);
-		setProfessorIDsForCourse(course);
 		setLectureIDsForCourse(course);
 		setCompletedLecturesForCourse(course, semester);
 		setRatingValues(course);
@@ -460,30 +458,6 @@ public class DBController {
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setLectureIDsForCourse:" + e.getMessage());
 		}
-
-	}
-
-	private void setProfessorIDsForCourse(Course course) {
-		// This retrieves a list of all the professorIDs for this course and
-		// sets result in course object
-		ArrayList<String> professor = new ArrayList<>();
-
-		try {
-			String query2 = "SELECT professorUsername FROM CourseProfessor WHERE courseCode = '"
-					+ course.getCourseCode() + "';";
-			if (stmt.execute(query2)) {
-				rs = stmt.getResultSet();
-			}
-
-			while (rs.next()) {
-				professor.add(rs.getString(1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("error in helper function DBC.setProfessorIDsForCourse:" + e.getMessage());
-		}
-
-		course.setProfessorUsernames(professor);
 
 	}
 

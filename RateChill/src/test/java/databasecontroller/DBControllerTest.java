@@ -37,7 +37,6 @@ public class DBControllerTest {
 		assertEquals("TestName", course.getCourseName());
 		assertEquals(4, course.getNumLectureHours());
 		
-		assertTrue(course.existsInDB());
 		assertTrue(dbc.courseExists("TEST0001"));
 		
 		//Update
@@ -50,9 +49,7 @@ public class DBControllerTest {
 		
 		//Delete
 		dbc.deleteCourse("TEST0001");
-		assertFalse(dbc.courseExists("TEST0001"));
-		assertFalse(course.existsInDB());
-			
+		assertFalse(dbc.courseExists("TEST0001"));			
 	}
 	
 	@Test

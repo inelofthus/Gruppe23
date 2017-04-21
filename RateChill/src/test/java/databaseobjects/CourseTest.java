@@ -21,19 +21,6 @@ public class CourseTest {
 	Course course2 = new Course("TDT1234", dummyDBC);
 	
 	@Test
-	public void TestExistsInDB(){
-		boolean actual = course.existsInDB();
-		boolean expected = true;
-		
-		assertEquals(expected, actual);
-		
-		actual = course2.existsInDB();
-		expected = false;
-		
-		assertEquals(expected, actual);
-	}
-	
-	@Test
 	public void testGetCompletedLectureIDs() {
 		ArrayList<Integer> actual = course.getCompletedLectureIDs();
 		ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
@@ -127,14 +114,6 @@ public class CourseTest {
 	public void  TestisTaughtInAutumn() {
 		boolean actual = course.isTaughtInAutumn();
 		boolean expected = true;
-		
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	public void  TestgetProfessorUsernames() {
-		ArrayList<String> actual = course.getProfessorUsernames();
-		ArrayList<String> expected = new ArrayList<>(Arrays.asList("pekkaa")) ;
 		
 		assertEquals(expected, actual);
 	}

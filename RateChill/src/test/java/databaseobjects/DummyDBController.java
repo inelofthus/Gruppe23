@@ -90,7 +90,6 @@ public class DummyDBController extends DBController{
 		if(course.getCourseCode().equals("TDT4140")){
 		course.setCourseName("Programvareutvikling");
 		course.setNumLectureHours(4);
-		course.setProfessorUsernames(new ArrayList<>(Arrays.asList("pekkaa")));
 		course.setLectureIDs(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)));
 		course.setTaughtInAutumn(true);
 		course.setTaughtInSpring(false);
@@ -118,7 +117,6 @@ public class DummyDBController extends DBController{
 		} else if(course.getCourseCode().equals("TDT1234")){
 			course.setCourseName("testCourse");
 			course.setNumLectureHours(4);
-			course.setProfessorUsernames(new ArrayList<>(Arrays.asList("testProf")));
 			course.setLectureIDs(new ArrayList<>(Arrays.asList(4)));
 			course.setTaughtInAutumn(true);
 			course.setTaughtInSpring(false);
