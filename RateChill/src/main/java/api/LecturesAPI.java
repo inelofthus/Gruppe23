@@ -85,10 +85,10 @@ public class LecturesAPI {
 	}
 	
 	/**
-	 * This method takes in an JsonArray of weeks and/or week intervals and the day of week (1-7)
+	 * This method takes in an JsonArray of weeks and/or week intervals and the day of week 
 	 * a lecture is taught. It outputs an ArrayList of lecture dates
-	 * @param weeksList
-	 * @param day
+	 * @param weeksList List of week numbers and/or week number intervals separated by hyphen 
+	 * @param day Day of the week where 1 is Monday and 7 is Sunday
 	 * @return lecture dates
 	 */
 	public ArrayList<String> getLectureDates(JsonArray weeksList, int day){
