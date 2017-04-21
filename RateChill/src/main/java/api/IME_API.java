@@ -4,24 +4,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import database.DBController;
 
+/**
+ * This class contains the necessary methods to insert all information about courses and lectures
+ * into the database.
+ * @author Ine L. Arnesen, Kari M. Johannessen, Nicolai C. Michelet, Magnus Tvilde
+ */
 public class IME_API {
-	
-	DBController dbc = new DBController();
-	LecturesAPI lecAPI = new LecturesAPI();
+	private DBController dbc = new DBController();
+	private LecturesAPI lecAPI = new LecturesAPI();
 	
 	/**
-	 * This function retrieves information about courses and lectures from two different APIs,
+	 * This method retrieves the list of courses from the IME API
+	 * and calls helper methods to retrieve information about courses from the IME API 
+	 * and information about lectures from the LectureAPI class
 	 * and inserts into the database
 	 */
 	public void getApiInfo() throws IOException{
@@ -35,23 +38,24 @@ public class IME_API {
 	    JsonParser jp = new JsonParser(); //from gson
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
-	    
 	    JsonArray course = rootobj.getAsJsonArray("course");
-	    
-	    
 	    dbc.connect();
 	    for (int i = 0; i < course.size(); i++){
-	    	
 	    	loadAndSetCourseInfo(course.get(i).getAsJsonObject().get("code").getAsString());
-	    	
 	    }
 	    dbc.close();
 	    request.disconnect();
-
 	}
 	
-	public void loadAndSetCourseInfo(String courseCode) throws IOException{
-		
+	
+	/**
+	 * This method is a helper method for getApiInfo that retrieves course info from
+	 * the IME API, calls the getApiInfo from the LectureAPI class to retrieve lecture information
+	 * and inserts into the database
+	 * @param courseCode
+	 * @throws IOException
+	 */
+	private void loadAndSetCourseInfo(String courseCode) throws IOException{
 	    String sURL = "";
 		
 		if (courseCode.contains("/")){
@@ -59,9 +63,7 @@ public class IME_API {
 		}else{
 			sURL = "http://www.ime.ntnu.no/api/course/en/" + URLEncoder.encode(courseCode, "utf-8");
 		}
-	    
 	    URL url = new URL(sURL);
-	    
 	    HttpURLConnection request = (HttpURLConnection) url.openConnection();
 	    request.connect();
 
@@ -94,22 +96,11 @@ public class IME_API {
 		    dbc.insertCourseProfessorNC(professorUsername, courseCode);
 	    	
 		    lecAPI.getApiInfoAndInsertToDB(courseCode, professorUsername);
-		    
-		    System.out.println(courseCode);
 	    } catch (IllegalArgumentException iae) {
 	    	System.out.println("Course not taught in Trondheim");
 		} catch (Exception e) {
 			System.out.println("One or more fields are missing");
-		}
-	    
-	}
-	
-	public static void main(String[] args) throws IOException {
-		IME_API api = new IME_API();
-		long startTime = System.nanoTime();
-		api.getApiInfo();
-		long endTime = System.nanoTime();
-		System.out.println(endTime-startTime);
+		}    
 	}
 }
 

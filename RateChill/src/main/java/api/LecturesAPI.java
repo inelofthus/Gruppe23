@@ -17,8 +17,23 @@ import com.google.gson.JsonParser;
 
 import database.DBController;
 
+/**
+ * <h1>Lectures API</h1>
+ * This class contains methods to retrieve lectures for a given course from the
+ * 1024 calendar API and insert them into the RateChill database.
+ * 
+ * @author Ine L. Arnesen, Kari M. Johannessen, Nicolai C. Michelet, Magnus Tvilde
+ */
 public class LecturesAPI {
 	DBController dbc = new DBController();
+	
+	/**
+	 * This method retrieves all lectures for the specified course
+	 * and inserts them into the database 
+	 * @param courseCode
+	 * @param professorUsername
+	 * @throws IOException
+	 */
 	public void getApiInfoAndInsertToDB(String courseCode, String professorUsername) throws IOException{
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		if (!courseCode.contains("/")){
@@ -45,15 +60,13 @@ public class LecturesAPI {
 	    dbc.connect();
 	    try {
 		    JsonArray lectures = rootobj.getAsJsonObject("course").getAsJsonArray("summarized");
+		    
 		    for (int i = 0; i < lectures.size(); i++){
 	    		if (lectures.get(i).getAsJsonObject().get("acronym").getAsString().equals("FOR")){ //Do not want lab hours
 		    		String lectureStart = lectures.get(i).getAsJsonObject().get("from").getAsString();
 		    		JsonArray weeks = lectures.get(i).getAsJsonObject().get("weeks").getAsJsonArray();
 		    		int day = lectures.get(i).getAsJsonObject().get("dayNum").getAsInt();
 		    		ArrayList<String> lectureDates = getLectureDates(weeks, day);
-		    		System.out.println(day + " " + lectureStart);
-		    		System.out.println(lectureDates);
-		    		
 		    		
 		    		for (int j = 0; j < lectureDates.size(); j++){
 		    			try {
@@ -68,10 +81,16 @@ public class LecturesAPI {
 		} catch (Exception e) {
 			System.out.println("Course not in API");
 		}
-	    dbc.close();
-	    
+	    dbc.close();    
 	}
 	
+	/**
+	 * This method takes in an JsonArray of weeks and/or week intervals and the day of week (1-7)
+	 * a lecture is taught. It outputs an ArrayList of lecture dates
+	 * @param weeksList
+	 * @param day
+	 * @return lecture dates
+	 */
 	public ArrayList<String> getLectureDates(JsonArray weeksList, int day){
 	    ArrayList<String> lectureDates = new ArrayList<String>();
 		
@@ -94,7 +113,6 @@ public class LecturesAPI {
 		case 7: cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 				break;
 		}
-	    
 		for (int i = 0; i < weeksList.size(); i++){
 			if (weeksList.get(i).getAsString().contains("-")){
 				String[] weeks = weeksList.get(i).getAsString().split("-");
@@ -111,11 +129,5 @@ public class LecturesAPI {
 			}
 		}
 		return lectureDates;
-	}
-	
-	public static void main(String[] args) throws IOException {
-		LecturesAPI lect = new LecturesAPI();
-		lect.getApiInfoAndInsertToDB("TMM4140", "afroozb");
-		
 	}
 }
