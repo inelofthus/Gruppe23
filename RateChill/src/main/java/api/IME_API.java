@@ -26,6 +26,7 @@ public class IME_API {
 	 * and calls helper methods to retrieve information about courses from the IME API 
 	 * and information about lectures from the LectureAPI class
 	 * and inserts into the database
+	 * @throws IOException
 	 */
 	public void getApiInfo() throws IOException{
 		String sURL = "http://www.ime.ntnu.no/api/course/en/-";
@@ -52,7 +53,7 @@ public class IME_API {
 	 * This method is a helper method for getApiInfo that retrieves course info from
 	 * the IME API, calls the getApiInfo from the LectureAPI class to retrieve lecture information
 	 * and inserts into the database
-	 * @param courseCode
+	 * @param courseCode The course's course code in java.util.String format
 	 * @throws IOException
 	 */
 	private void loadAndSetCourseInfo(String courseCode) throws IOException{
