@@ -73,6 +73,7 @@ public class DBController {
 	 * CustomRunnable.
 	 * 
 	 * @throws SQLException
+	 *             if there is a problem establishing a connection
 	 */
 	public void connectTry() throws SQLException {
 		conn = DriverManager
@@ -128,11 +129,38 @@ public class DBController {
 
 	// ----- Frequently used SQL methods ----- //
 
+	/*
+	 * Helper function for various exist functions (courseExists,
+	 * professorExists etc.)
+	 */
+	private boolean exists(String query) {
+		connect();
+		boolean exists = false;
+
+		try {
+			stmt = conn.createStatement();
+
+			if (stmt.execute(query)) {
+				rs = stmt.getResultSet();
+			}
+
+			exists = rs.next(); // rs.next() will be true if the given query
+								// returns any rows
+
+		} catch (Exception e) {
+			System.out.println("SQLException in courseExists: " + e.getMessage());
+		}
+		close();
+		return exists;
+
+	}
+
 	/**
 	 * takes an SQL query as input. Returns a string that contains all data from
 	 * first column of table
 	 * 
 	 * @param query
+	 *            SQL query to be executed
 	 * @return ArrayList<String> result of SQL query
 	 */
 	public ArrayList<String> getStringArray(String query) {
@@ -147,6 +175,7 @@ public class DBController {
 	 * that contains all data from first column of table
 	 * 
 	 * @param query
+	 *            SQL query to be executed
 	 * @return ArrayList<String> result of SQL query
 	 */
 	public ArrayList<String> getStringArrayNC(String query) {
@@ -287,27 +316,12 @@ public class DBController {
 	 * Checks in the database if a course with given courseCode exists.
 	 * 
 	 * @param courseCode
-	 * @return
+	 *            course code for the course
+	 * @return boolean true if course exists. False otherwise
 	 */
 	public boolean courseExists(String courseCode) {
-		connect();
-		boolean hasNext = false;
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode + "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException in courseExists: " + e.getMessage());
-		}
-		close();
-		return hasNext;
+		String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode + "';";
+		return exists(query);
 	}
 
 	/**
@@ -531,7 +545,6 @@ public class DBController {
 	 * 
 	 * @return a list of course codes and names.
 	 */
-
 	public ArrayList<String> getAllCourses() {
 		ArrayList<String> courses = new ArrayList<>();
 
@@ -597,7 +610,8 @@ public class DBController {
 	 * collects all the information about this lecture and fills in the rest of
 	 * the course details. Finally It will return the loaded leture object.
 	 * 
-	 * @param lecture with a specified lectureId
+	 * @param lecture
+	 *            with a specified lectureId
 	 * @return lecture with all associated information
 	 */
 	public void loadLectureInfo(Lecture lecture) {
@@ -616,8 +630,8 @@ public class DBController {
 			}
 
 			rs.next();
-			String date = rs.getString(1); 	// date format: "YYYY-MM-DD"
-			String time = rs.getString(2); 	// time format: "hh:mm:ss"
+			String date = rs.getString(1); // date format: "YYYY-MM-DD"
+			String time = rs.getString(2); // time format: "hh:mm:ss"
 			ArrayList<String> dateTime = new ArrayList<String>();
 			dateTime.add(date);
 			dateTime.add(time);
@@ -670,7 +684,7 @@ public class DBController {
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
-			
+
 			String studentUsername;
 			String rating;
 			String studentComment;
@@ -717,11 +731,17 @@ public class DBController {
 
 	/**
 	 * Inserts a new Lecture into the database with the specified parameters
+	 * 
 	 * @param date
+	 *            String of format (YYYY-MM-DD)
 	 * @param time
+	 *            String of format (HH:MM:SS)
 	 * @param courseCode
+	 *            courseCode for the course
 	 * @param professorUsername
+	 *            professor username from NTNU
 	 * @throws SQLException
+	 *             is thrown if there is an SQL exception
 	 */
 	public void insertLecture(String date, String time, String courseCode, String professorUsername)
 			throws SQLException {
@@ -753,11 +773,14 @@ public class DBController {
 		return query;
 
 	}
-	
+
 	/**
-	 * @param dateTime: a list where first element is date (format: YYYY-MM-DD) and second element is time (format: HH:MM:SS)
+	 * @param dateTime
+	 *            a list where first element is date (format: YYYY-MM-DD) and
+	 *            second element is time (format: HH:MM:SS)
 	 * @param courseCode
-	 * @return lectureID
+	 *            courseCode for the course
+	 * @return lectureID lectureID for this particular lecture
 	 */
 	public int getLectureID(ArrayList<String> dateTime, String courseCode) {
 		connect();
@@ -788,7 +811,9 @@ public class DBController {
 
 	/**
 	 * Removes the lecture with the specified lectureID from the database
+	 * 
 	 * @param lectureID
+	 *            lecture ID for the lecture to be deleted
 	 */
 	public void deleteLecture(int lectureID) {
 		connect();
@@ -806,36 +831,29 @@ public class DBController {
 	}
 
 	/**
-	 * Checks in the database if there exists a lecture with the specified lectureID
+	 * Checks in the database if there exists a lecture with the specified
+	 * lectureID
+	 * 
 	 * @param lectureID
+	 *            lecture ID for lecture to be checked
 	 * @return lectureExists (true or false)
 	 */
 	public boolean lectureExists(int lectureID) {
-		connect();
-		boolean hasNext = false;
-		try {
-			stmt = conn.createStatement();
+		String query = "SELECT lectureID FROM Lecture WHERE lectureID = " + lectureID + ";";
+		return exists(query);
 
-			String query = "SELECT lectureID FROM Lecture WHERE lectureID = " + lectureID + ";";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException in lectureExists: " + e.getMessage());
-		}
-		close();
-		return hasNext;
 	}
 
 	/**
 	 * deletes all of this courses lectures during this period.
+	 * 
 	 * @param courseCode
+	 *            courseCode for the course
 	 * @param startDate
+	 *            The date of the first lecture to be deleted.
+	 *            Format(YYYY-MM-DD)
 	 * @param endDate
+	 *            The date of the last lecture to be deleted. Format(YYYY-MM-DD)
 	 */
 	public void deleteLecturesForPeriod(String courseCode, String startDate, String endDate) {
 		connect();
@@ -858,14 +876,22 @@ public class DBController {
 	}
 
 	/**
-	 * Adds new lectures into the database. Can add single lectures or lectures that repeat weekly.
+	 * Adds new lectures into the database. Can add single lectures or lectures
+	 * that repeat weekly.
+	 * 
 	 * @param courseCode
+	 *            the course's course code
 	 * @param startTime
+	 *            the startTime of the lecture. Format (HH:MM:SS)
 	 * @param startDate
-	 * @param endDate
-	 * @param repeat: a boolean value that specifies if the lecture should repeat weekly
+	 *            the date of the first lecture to be added. Format (YYYY-MM-DD)
+	 * @param repeat:
+	 *            a boolean value that specifies if the lecture should repeat
+	 *            weekly
 	 * @param professorUsername
+	 *            The professor's username from NTNU
 	 * @throws SQLException
+	 *             is thrown if the query throws an sql exception.
 	 */
 	public void addLectures(String courseCode, String startTime, String startDate, String endDate, boolean repeat,
 			String professorUsername) throws SQLException {
@@ -877,7 +903,7 @@ public class DBController {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		LocalDate start = LocalDate.of(year, mmStart, ddStart);
 
-		if (repeat) { //if lectures repeat weekly
+		if (repeat) { // if lectures repeat weekly
 			String[] endDateSplit = endDate.split("-");
 			int mmEnd = Integer.valueOf(endDateSplit[1]);
 			int ddEnd = Integer.valueOf(endDateSplit[2]);
@@ -888,7 +914,7 @@ public class DBController {
 
 		int MM;
 		int DD;
-		
+
 		for (int i = 0; i < numWeeks + 1; i++) {
 			MM = start.getMonthValue();
 			DD = start.getDayOfMonth();
@@ -902,8 +928,11 @@ public class DBController {
 	// ----- PROFESSOR ----- //
 
 	/**
-	 * Retrieves relevant professor information from the database and updates the professor object accordingly.
-	 * @param prof: professor object with a specified username.
+	 * Retrieves relevant professor information from the database and updates
+	 * the professor object accordingly.
+	 * 
+	 * @param prof:
+	 *            professor object with a specified username.
 	 */
 	public void loadProfessorInfo(Professor prof) {
 
@@ -941,9 +970,13 @@ public class DBController {
 	}
 
 	/**
-	 * Inserts a new professor into database with the specified username and password. Password should already be encrypted.
+	 * Inserts a new professor into database with the specified username and
+	 * password. Password should already be encrypted.
+	 * 
 	 * @param professorUsername
+	 *            The professor's username from NTNU
 	 * @param password
+	 *            Professors password that has been hashed.
 	 */
 	public void insertProfessor(String professorUsername, String password) {
 		connect();
@@ -952,9 +985,14 @@ public class DBController {
 	}
 
 	/**
-	 * Inserts a new professor into database with the specified username and password. A connection must already have been made in order to use this method.
+	 * Inserts a new professor into database with the specified username and
+	 * password. A connection must already have been made in order to use this
+	 * method.
+	 * 
 	 * @param professorUsername
+	 *            The professor's username from NTNU.
 	 * @param password
+	 *            Professors password that has been hashed.
 	 */
 	public void insertProfessorNC(String professorUsername, String password) {
 		try {
@@ -972,33 +1010,31 @@ public class DBController {
 		}
 	}
 
+	/**
+	 * Checks if a professor with the given username exists in the database.
+	 * 
+	 * @param professorUsername
+	 *            The professor's username from NTNU.
+	 * @return boolean true if the professor exists in the database. False
+	 *         otherwise.
+	 */
 	public boolean professorExists(String professorUsername) {
-		boolean hasNext = false;
-
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT professorUsername FROM Professor WHERE professorUsername = '" + professorUsername
-					+ "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return hasNext;
+		String query = "SELECT professorUsername FROM Professor WHERE professorUsername = '" + professorUsername + "';";
+		return exists(query);
 	}
 
+	/**
+	 * Returns lectureIDs for all lectures given by this professor that have
+	 * already passed in specified course ordered by the newest lecture first
+	 * 
+	 * @param courseCode
+	 *            The courseCode of the course that lectures should be retrieved
+	 *            from
+	 * @param professorUsername
+	 *            The professors username from NTNU
+	 * @return
+	 */
 	public ArrayList<Integer> getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername) {
-		// returns lectureIDs for all lectures given by this professor that have
-		// already passed in specified course
-		// Order is with the newest lecture first
 
 		ArrayList<Integer> lectures = new ArrayList<>();
 
@@ -1021,7 +1057,7 @@ public class DBController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in getCompletedLecturesForCourseByProfessor: " + e.getMessage());
 		}
 		close();
 
@@ -1029,6 +1065,12 @@ public class DBController {
 
 	}
 
+	/**
+	 * Deletes the professor from the database
+	 * 
+	 * @param username
+	 *            The professor's username from NTNU
+	 */
 	public void deleteProfessor(String username) {
 		connect();
 		try {
@@ -1039,11 +1081,25 @@ public class DBController {
 			stmt.executeUpdate(query);
 
 		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLException in deleteProfessor: " + e.getMessage());
 		}
 		close();
 	}
 
+	/**
+	 * Checks the given encrypted password and compares it to the encrypted
+	 * password that is saved in the database.
+	 * 
+	 * @param professorUsername
+	 *            The professor's username from NTNU
+	 * @param encryptedPassword
+	 *            Password to be checked. The password should have already been
+	 *            encrypted with a hash function
+	 * @return boolean True if the password is correct and false otherwise.
+	 * @throws SQLException
+	 *             An SQLException is thrown if the running the query gives an
+	 *             SQL exception
+	 */
 	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
 
 		try {
@@ -1064,6 +1120,15 @@ public class DBController {
 		return rs.next();
 	}
 
+	/**
+	 * Updates the professor's password in the database with a new encrypted
+	 * password
+	 * 
+	 * @param username
+	 *            The professor's username from NTNU
+	 * @param hashPassword
+	 *            The new password that has been hashed with a hash function
+	 */
 	public void updateProfessor(String username, String hashPassword) {
 		connect();
 		try {
@@ -1082,17 +1147,17 @@ public class DBController {
 
 	// ----- STUDENT ----- //
 
+	/**
+	 * Takes in a Student object with a preset username. This Method then reads
+	 * all relevant information about this student and sets the instance's
+	 * attributes accordingly.
+	 * 
+	 * @param student
+	 *            A Student object with a preset username.
+	 */
 	public void loadStudentInfo(Student student) {
-		// Need to get following info about student and update Student Object
-		// accordingly:
-
-		// String studyProgram;
-		// ArrayList<String> courseIDs;
-		// HashMap<int, String> courseIDNames;
-
 		connect();
 		try {
-
 			// First students studyProgram is retrieved from DB
 			stmt = conn.createStatement();
 
@@ -1105,7 +1170,7 @@ public class DBController {
 			rs.next();
 			student.setStudyProgram(rs.getString(1));
 
-			// next find the courseCodes and corresponding courseNames for this
+			// Find the courseCodes and corresponding courseNames for this
 			// student
 			String query2 = "select c.courseCode, courseName FROM Course c JOIN CourseStudent cs ON c.courseCode = cs.courseCode WHERE studentUsername = '"
 					+ student.getUsername() + "';";
@@ -1136,8 +1201,16 @@ public class DBController {
 
 	}
 
+	/**
+	 * Inserts a new student into the database with the given username and study
+	 * program code.
+	 * 
+	 * @param studentUsername
+	 *            The Student's username
+	 * @param studyProgramCode
+	 *            The code for this student's program of study
+	 */
 	public void insertStudent(String studentUsername, String studyProgramCode) {
-
 		connect();
 		try {
 
@@ -1149,23 +1222,18 @@ public class DBController {
 			int i = prepStmt.executeUpdate();
 			System.out.println(i + " records inserted");
 
-			// StringBuilder sb = new StringBuilder();
-			// sb.append("INSERT INTO Student
-			// VALUES('").append(studentUsername).append("','")
-			// .append(studyProgramCode).append("');");
-			//
-			// String query = sb.toString();
-			// // System.out.println(query);
-			//
-			// stmt = conn.createStatement();
-			// stmt.executeUpdate(query);
-
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		close();
 	}
 
+	/**
+	 * Removes the student with the specified username from the database
+	 * 
+	 * @param studentUsername
+	 *            The student's username
+	 */
 	public void deleteStudent(String studentUsername) {
 		connect();
 		try {
@@ -1181,47 +1249,20 @@ public class DBController {
 		close();
 	}
 
+	/**
+	 * 
+	 * @param studentUsername
+	 * @return
+	 */
 	public boolean studentExists(String studentUsername) {
-		boolean hasNext = false;
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT studentUsername FROM Student WHERE studentUsername = '" + studentUsername + "';";
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return hasNext;
+		String query = "SELECT studentUsername FROM Student WHERE studentUsername = '" + studentUsername + "';";
+		return exists(query);
 	}
 
 	public boolean studentHasEvaluatedLecture(String studentUsername, int lecID) {
-		boolean hasNext = false;
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT * FROM Evaluation WHERE studentUsername = '" + studentUsername + "' AND lectureID ="
-					+ lecID + ";";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return hasNext;
-
+		String query = "SELECT * FROM Evaluation WHERE studentUsername = '" + studentUsername + "' AND lectureID ="
+				+ lecID + ";";
+		return exists(query);
 	}
 
 	// ----- COURSE PROFESSOR ----- //
@@ -1373,23 +1414,6 @@ public class DBController {
 
 			int i = prepStmt.executeUpdate();
 			System.out.println(i + " records inserted");
-
-			// StringBuilder sb = new StringBuilder();
-			// sb.append("Insert into Evaluation (studentUsername, lectureID,
-			// rating, studentComment)")
-			// .append(" SELECT Student.studentUsername, Lecture.lectureID,
-			// '").append(rating).append("', '")
-			// .append(studentComment).append("'").append(" FROM Student,
-			// Lecture")
-			// .append(" WHERE studentUsername =
-			// '").append(studentUsername).append("' AND lectureID = ")
-			// .append(lectureID).append(";");
-			//
-			// String query = sb.toString();
-			// System.out.println(query);
-			//
-			// stmt = conn.createStatement();
-			// stmt.executeUpdate(query);
 
 		} catch (Exception e) {
 			System.out.println("SQLException in insertEvaluation: " + e.getMessage());
