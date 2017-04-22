@@ -130,10 +130,26 @@ public class DBController {
 	// ----- Frequently used SQL methods ----- //
 
 	/*
-	 * Helper function for various exist functions (courseExists,
-	 * professorExists etc.)
+	 * Helper method that executes a query in the database and returns void
 	 */
-	private boolean exists(String query) {
+
+	private void executeVoidQuery(String query, String callerFunction) {
+		connect();
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (Exception e) {
+			System.out.println("SQLException: " + callerFunction + e.getMessage());
+		}
+		close();
+	}
+
+	/*
+	 * Helper function for various exist methods (courseExists, professorExists
+	 * etc.) Can be used to see if a particular sql query has any resulting
+	 * rows.
+	 */
+	private boolean hasResult(String query) {
 		connect();
 		boolean exists = false;
 
@@ -161,7 +177,7 @@ public class DBController {
 	 * 
 	 * @param query
 	 *            SQL query to be executed
-	 * @return ArrayList<String> result of SQL query
+	 * @return List A list of strings that result from SQL query execution
 	 */
 	public ArrayList<String> getStringArray(String query) {
 		connect();
@@ -176,7 +192,7 @@ public class DBController {
 	 * 
 	 * @param query
 	 *            SQL query to be executed
-	 * @return ArrayList<String> result of SQL query
+	 * @return List A list of strings that result from SQL query execution
 	 */
 	public ArrayList<String> getStringArrayNC(String query) {
 
@@ -255,13 +271,11 @@ public class DBController {
 	 * The insertCourse method inserts a new row in Course table of database
 	 * with the values specified in parameters
 	 * 
-	 * @param courseCode
-	 * @param courseName
-	 * @param lectureHours
-	 * @param taughtInSpring:
-	 *            int 0 for false, int 1 for true
-	 * @param taughtInAutumn:
-	 *            int 0 for false, int 1 for true
+	 * @param courseCode The course code for the course
+	 * @param courseName The name of the course
+	 * @param lectureHours The number of lecture hours per week for this course
+	 * @param taughtInSpring int 0 for false, int 1 for true
+	 * @param taughtInAutumn int 0 for false, int 1 for true
 	 */
 	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring,
 			int taughtInAutumn) {
@@ -287,10 +301,15 @@ public class DBController {
 	 * made.
 	 * 
 	 * @param courseCode
+	 *            The course's course code
 	 * @param courseName
+	 *            The name of the course
 	 * @param lectureHours
+	 *            The number of lecture hours each week in this course
 	 * @param taughtInSpring
+	 *            boolean true or false
 	 * @param taughtInAutumn
+	 *            boolean true or false
 	 */
 	public void insertCourseNC(String courseCode, String courseName, int lectureHours, boolean taughtInSpring,
 			boolean taughtInAutumn) {
@@ -321,27 +340,18 @@ public class DBController {
 	 */
 	public boolean courseExists(String courseCode) {
 		String query = "SELECT courseCode FROM Course WHERE courseCode = '" + courseCode + "';";
-		return exists(query);
+		return hasResult(query);
 	}
 
 	/**
 	 * Removes the course with the given courseCode from the database
 	 * 
 	 * @param courseCode
+	 *            The course code for the course
 	 */
 	public void deleteCourse(String courseCode) {
-		connect();
-		try {
-			String query = "DELETE FROM Course WHERE courseCode='" + courseCode + "'";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-
+		String query = "DELETE FROM Course WHERE courseCode='" + courseCode + "'";
+		executeVoidQuery(query, "deleteCourse");
 	}
 
 	/**
@@ -351,7 +361,9 @@ public class DBController {
 	 * loaded course object.
 	 * 
 	 * @param course
-	 * @return
+	 *            a course object with a preset courseCode
+	 * @return course a course object with all course details for the specified
+	 *         course.
 	 */
 	public Course loadCourseInfo(Course course) {
 		connect();
@@ -507,8 +519,8 @@ public class DBController {
 	 * Retrieves the lecture dates and times for a lectures in a course. Returns
 	 * the result as a list of strings with the newest lecture first.
 	 * 
-	 * @param courseCode
-	 * @return list of strings in format DD.MM.YYY hh:mm:ss
+	 * @param courseCode the course code for the course
+	 * @return list a list of strings in format DD.MM.YYY hh:mm:ss
 	 */
 	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode) {
 		connect();
@@ -543,7 +555,7 @@ public class DBController {
 	/**
 	 * Retrieves all the courses that exist in the database
 	 * 
-	 * @return a list of course codes and names.
+	 * @return courses a list of course codes and names.
 	 */
 	public ArrayList<String> getAllCourses() {
 		ArrayList<String> courses = new ArrayList<>();
@@ -573,11 +585,17 @@ public class DBController {
 	 * automatically places a time stamp on when it was inserted.
 	 * 
 	 * @param courseCode
+	 *            The course code for this course
 	 * @param rating1
+	 *            the first rating value
 	 * @param rating2
+	 *            the second rating value
 	 * @param rating3
+	 *            the third rating value
 	 * @param rating4
+	 *            the fourth rating value
 	 * @param rating5
+	 *            the fifth rating value
 	 */
 	public void insertCourseRatingValues(String courseCode, String rating1, String rating2, String rating3,
 			String rating4, String rating5) {
@@ -611,8 +629,7 @@ public class DBController {
 	 * the course details. Finally It will return the loaded leture object.
 	 * 
 	 * @param lecture
-	 *            with a specified lectureId
-	 * @return lecture with all associated information
+	 *            A lecture object with a specified lectureId
 	 */
 	public void loadLectureInfo(Lecture lecture) {
 		connect();
@@ -748,13 +765,20 @@ public class DBController {
 		// Date format: "YYYY-MM-DD"
 		// Time format: "HH:MM:SS"
 		connect();
+		insertLectureNC(date, time, courseCode, professorUsername);
+		close();
+	}
+
+	public void insertLectureNC(String date, String time, String courseCode, String professorUsername)
+			throws SQLException {
+		// Date format: "YYYY-MM-DD"
+		// Time format: "HH:MM:SS"
 
 		String query = buildLectureQuery(date, time, courseCode, professorUsername);
 
 		stmt = conn.createStatement();
 		stmt.executeUpdate(query);
 
-		close();
 	}
 
 	/*
@@ -816,18 +840,8 @@ public class DBController {
 	 *            lecture ID for the lecture to be deleted
 	 */
 	public void deleteLecture(int lectureID) {
-		connect();
-		try {
-
-			String query = "DELETE FROM Lecture WHERE lectureID='" + lectureID + "'";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
+		String query = "DELETE FROM Lecture WHERE lectureID='" + lectureID + "'";
+		executeVoidQuery(query, "deleteLecture");
 	}
 
 	/**
@@ -840,7 +854,7 @@ public class DBController {
 	 */
 	public boolean lectureExists(int lectureID) {
 		String query = "SELECT lectureID FROM Lecture WHERE lectureID = " + lectureID + ";";
-		return exists(query);
+		return hasResult(query);
 
 	}
 
@@ -885,6 +899,7 @@ public class DBController {
 	 *            the startTime of the lecture. Format (HH:MM:SS)
 	 * @param startDate
 	 *            the date of the first lecture to be added. Format (YYYY-MM-DD)
+	 * @param endDate If lectures repeat weakly, the date that they will repeat until. Format(YYYY-MM-DD)
 	 * @param repeat:
 	 *            a boolean value that specifies if the lecture should repeat
 	 *            weekly
@@ -915,14 +930,16 @@ public class DBController {
 		int MM;
 		int DD;
 
+		connect();
 		for (int i = 0; i < numWeeks + 1; i++) {
 			MM = start.getMonthValue();
 			DD = start.getDayOfMonth();
 			String date = year + "-" + MM + "-" + DD;
-			insertLecture(date, startTime, courseCode, professorUsername);
+			insertLectureNC(date, startTime, courseCode, professorUsername);
 
 			start = start.plusWeeks(1);
 		}
+		close();
 	}
 
 	// ----- PROFESSOR ----- //
@@ -931,7 +948,7 @@ public class DBController {
 	 * Retrieves relevant professor information from the database and updates
 	 * the professor object accordingly.
 	 * 
-	 * @param prof:
+	 * @param prof
 	 *            professor object with a specified username.
 	 */
 	public void loadProfessorInfo(Professor prof) {
@@ -1020,7 +1037,7 @@ public class DBController {
 	 */
 	public boolean professorExists(String professorUsername) {
 		String query = "SELECT professorUsername FROM Professor WHERE professorUsername = '" + professorUsername + "';";
-		return exists(query);
+		return hasResult(query);
 	}
 
 	/**
@@ -1032,7 +1049,7 @@ public class DBController {
 	 *            from
 	 * @param professorUsername
 	 *            The professors username from NTNU
-	 * @return
+	 * @return list A list for lectureIDs for lectures that have been compeleted
 	 */
 	public ArrayList<Integer> getCompletedLecturesForCourseByProfessor(String courseCode, String professorUsername) {
 
@@ -1072,18 +1089,8 @@ public class DBController {
 	 *            The professor's username from NTNU
 	 */
 	public void deleteProfessor(String username) {
-		connect();
-		try {
-
-			String query = "DELETE FROM Professor WHERE professorUsername='" + username + "'";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException in deleteProfessor: " + e.getMessage());
-		}
-		close();
+		String query = "DELETE FROM Professor WHERE professorUsername='" + username + "'";
+		executeVoidQuery(query, "deleteProfessor");
 	}
 
 	/**
@@ -1101,23 +1108,9 @@ public class DBController {
 	 *             SQL exception
 	 */
 	public boolean checkProfessorPassword(String professorUsername, String encryptedPassword) throws SQLException {
-
-		try {
-			connect();
-
-			stmt = conn.createStatement();
-
-			String query = "select * from Professor where professorUsername = '" + professorUsername
-					+ "' and professorPassword = '" + encryptedPassword + "';";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-		} catch (Exception e) {
-			System.out.println("error in DBC.checkProfessorPassword: " + e.getMessage());
-		}
-
-		return rs.next();
+		String query = "select * from Professor where professorUsername = '" + professorUsername
+				+ "' and professorPassword = '" + encryptedPassword + "';";
+		return hasResult(query);
 	}
 
 	/**
@@ -1235,44 +1228,66 @@ public class DBController {
 	 *            The student's username
 	 */
 	public void deleteStudent(String studentUsername) {
-		connect();
-		try {
-
-			String query = "DELETE FROM Student WHERE studentUsername='" + studentUsername + "'";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
+		String query = "DELETE FROM Student WHERE studentUsername='" + studentUsername + "'";
+		executeVoidQuery(query, "deleteStudent");
 	}
 
 	/**
+	 * Checks in the database if a student with the specified username exists in
+	 * the database
 	 * 
 	 * @param studentUsername
-	 * @return
+	 *            the student's username
+	 * @return boolean True if the student exists and false otherwise
 	 */
 	public boolean studentExists(String studentUsername) {
 		String query = "SELECT studentUsername FROM Student WHERE studentUsername = '" + studentUsername + "';";
-		return exists(query);
+		return hasResult(query);
 	}
 
+	/**
+	 * Checks in the database whether a student has given an evaluation for a
+	 * specific lecture
+	 * 
+	 * @param studentUsername
+	 *            The student's usernmae
+	 * @param lecID
+	 *            the lecture ID of the lecture to be checked
+	 * @return boolean True if the student has evaluated the lecture and false
+	 *         otherwise
+	 */
 	public boolean studentHasEvaluatedLecture(String studentUsername, int lecID) {
 		String query = "SELECT * FROM Evaluation WHERE studentUsername = '" + studentUsername + "' AND lectureID ="
 				+ lecID + ";";
-		return exists(query);
+		return hasResult(query);
 	}
 
 	// ----- COURSE PROFESSOR ----- //
 
+	/**
+	 * Inserts a new course-professor relationship in the database
+	 * 
+	 * @param professorUsername
+	 *            The professor's username
+	 * @param courseCode
+	 *            the course code for the course taught by the professor
+	 */
 	public void insertCourseProfessor(String professorUsername, String courseCode) {
 		connect();
 		insertCourseProfessorNC(professorUsername, courseCode);
 		close();
 	}
 
+	/**
+	 * Does the same as insertCourseProfessor except making and closing the
+	 * connection to the database. To use the function, you must already be
+	 * connected.
+	 * 
+	 * @param professorUsername
+	 *            the Professor's username
+	 * @param courseCode
+	 *            the course code for the course
+	 */
 	public void insertCourseProfessorNC(String professorUsername, String courseCode) {
 		// already connected
 		try {
@@ -1296,47 +1311,51 @@ public class DBController {
 
 	// ----- COURSE STUDENT ----- //
 
+	/**
+	 * Inserts a new course-student relationship in the database
+	 * 
+	 * @param studentUsername
+	 *            the students username
+	 * @param courseCode
+	 *            the course code for the course
+	 */
 	public void insertCourseStudent(String studentUsername, String courseCode) {
-		connect();
-		try {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Insert into CourseStudent (studentUsername, courseCode)")
+				.append(" SELECT Student.studentUsername, Course.courseCode").append(" FROM Course, Student")
+				.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND studentUsername = '")
+				.append(studentUsername).append("'");
 
-			StringBuilder sb = new StringBuilder();
-			sb.append("Insert into CourseStudent (studentUsername, courseCode)")
-					.append(" SELECT Student.studentUsername, Course.courseCode").append(" FROM Course, Student")
-					.append(" WHERE courseCode = '").append(courseCode).append("'").append("AND studentUsername = '")
-					.append(studentUsername).append("'");
-
-			String query = sb.toString();
-			// System.out.println(query);
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
+		String query = sb.toString();
+		executeVoidQuery(query, "insertCourseStudent");
 	}
 
+	/**
+	 * Removes the course- student relationship in the database
+	 * 
+	 * @param username
+	 *            the student's username
+	 * @param courseCode
+	 *            the course code for the course
+	 */
 	public void deleteCourseStudent(String username, String courseCode) {
-		connect();
-		try {
-			String query = "DELETE FROM CourseStudent WHERE courseCode='" + courseCode + "' AND studentUsername ='"
-					+ username + "';";
-
-			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
+		String query = "DELETE FROM CourseStudent WHERE courseCode='" + courseCode + "' AND studentUsername ='"
+				+ username + "';";
+		executeVoidQuery(query, "deleteCourseStudent");
 	}
 
 	// ----- EVALUATION ----- //
 
+	/**
+	 * Takes in an evaluation object with a preset studentUsername and
+	 * lectureID. The relevant information about this evaluation is read from
+	 * the database and set to the evaluation objects attributes accordingly.
+	 * 
+	 * @param evaluation
+	 *            An evaluation object with a preset studentUsername and
+	 *            lectureID
+	 */
 	public void loadEvaluationInfo(Evaluation evaluation) {
-
 		connect();
 		try {
 			stmt = conn.createStatement();
@@ -1359,14 +1378,26 @@ public class DBController {
 
 	}
 
-	public void overwriteEvaluation(String email, int lectureID, String rating, String comment) {
+	/**
+	 * Overwrites a previously given evaluation for a lecture
+	 * 
+	 * @param username
+	 *            the student's username
+	 * @param lectureID
+	 *            the lecture ID for the lecture
+	 * @param rating
+	 *            the rating that was given
+	 * @param comment
+	 *            the comment about the lecture given by the student
+	 */
+	public void overwriteEvaluation(String username, int lectureID, String rating, String comment) {
 		connect();
 
 		try {
 
 			// delete Evaluation for this student for this lecture
 			StringBuilder sb1 = new StringBuilder();
-			sb1.append("DELETE FROM Evaluation WHERE studentUsername = '").append(email).append("' ")
+			sb1.append("DELETE FROM Evaluation WHERE studentUsername = '").append(username).append("' ")
 					.append("AND lectureID =").append(lectureID).append(";");
 
 			String query1 = sb1.toString();
@@ -1378,7 +1409,7 @@ public class DBController {
 			sb.append("Insert into Evaluation (studentUsername, lectureID, rating, studentComment)")
 					.append(" SELECT Student.studentUsername, Lecture.lectureID, '").append(rating).append("', '")
 					.append(comment).append("'").append(" FROM Student, Lecture").append(" WHERE studentUsername = '")
-					.append(email).append("' AND lectureID = ").append(lectureID).append(";");
+					.append(username).append("' AND lectureID = ").append(lectureID).append(";");
 
 			String query2 = sb.toString();
 			// System.out.println(query);
@@ -1393,16 +1424,21 @@ public class DBController {
 
 	}
 
+	/**
+	 * Inserts a new evaluation into the database
+	 * 
+	 * @param studentUsername
+	 *            the student's username
+	 * @param lectureID
+	 *            the lectureID for the lecture that was evaluated
+	 * @param rating
+	 *            the rating that was given
+	 * @param studentComment
+	 *            the students comment about the lecture
+	 */
 	public void insertEvaluation(String studentUsername, int lectureID, String rating, String studentComment) {
 		connect();
 		try {
-
-			// String query = "Insert into Evaluation (studentUsername,
-			// lectureID, rating, studentComment) SELECT
-			// Student.studentUsername,"
-			// + " Lecture.lectureID, (?,?) FROM Student, Lecture WHERE
-			// studentUsername = (?) "
-			// + "AND lectureID = (?);";
 
 			String query = "Insert into Evaluation (studentUsername, lectureID, rating, studentComment) VALUES(?,?,?,?)";
 
@@ -1421,37 +1457,37 @@ public class DBController {
 		close();
 	}
 
+	/**
+	 * Checks if an evaluation by a specific student for a specific lecture
+	 * exists in the database
+	 * 
+	 * @param lectureid
+	 *            the lecture ID for the lecture
+	 * @param studentUsername
+	 *            the student's username
+	 * @return boolean true if the evaluation exists and false otherwise
+	 */
 	public boolean evaluationExists(int lectureid, String studentUsername) {
-		boolean hasNext = false;
-		connect();
-		try {
-			stmt = conn.createStatement();
-
-			String query = "SELECT lectureID FROM Evaluation WHERE lectureID = " + lectureid + " AND studentUsername ='"
-					+ studentUsername + "' ;";
-
-			if (stmt.execute(query)) {
-				rs = stmt.getResultSet();
-			}
-
-			hasNext = rs.next();
-
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-		}
-		close();
-		return hasNext;
+		String query = "SELECT lectureID FROM Evaluation WHERE lectureID = " + lectureid + " AND studentUsername ='"
+				+ studentUsername + "' ;";
+		return hasResult(query);
 	}
 
+	/**
+	 * Sets values to the course attributes needed to generate the lectures over
+	 * time graph
+	 * 
+	 * @param course
+	 *            A course object for the course to be generated a graph for
+	 */
 	public void setCourseRatingsOverTime(Course course) {
-		// must set: HashMap<Integer, Integer> lecIDtoRatingCount1-5 in
-		// courseObject
-		// This creates the list and linked Hash map with the completed lectures
-		// in a given semester and their dates and sets the result in the course
-		// object
 
+		// Maps lectureID to the total number of evaluations given for that
+		// lecture
 		HashMap<Integer, Integer> lecIDtoNumRatings = new HashMap<>();
 
+		// Maps lectureID to the total number of evaluations given for that
+		// lecture with a specific rating
 		HashMap<Integer, Integer> lecIDtoRatingCount1 = new HashMap<>();
 		HashMap<Integer, Integer> lecIDtoRatingCount2 = new HashMap<>();
 		HashMap<Integer, Integer> lecIDtoRatingCount3 = new HashMap<>();
