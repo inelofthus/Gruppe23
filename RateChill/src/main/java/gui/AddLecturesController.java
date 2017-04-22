@@ -72,8 +72,7 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	private Color myRed = new Color(0.937, 0.290, 0.290, 1);
 
 	@FXML
-	private void userButtons(ActionEvent event) throws IOException {
-		Stage stage = null;
+	public void userButtons(ActionEvent event) throws IOException {
 		if (event.getSource() == home) {
 			loadNextScene(home, "CourseProf.fxml");
 		}
@@ -194,7 +193,7 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	}
 
 	/**
-	 * Initializes the AddLectures.fxml gui 
+	 * Initialises the AddLectures.fxml gui 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
