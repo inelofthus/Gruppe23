@@ -40,36 +40,30 @@ public class CourseStudController extends CommonMethods implements Initializable
 	public Rectangle errorBar;
 	
 	
-	//creates a list of buttons to iterate over in initializer
-	ArrayList<Button> buttons = new ArrayList<Button>();
+	//A list of buttons to iterate over in initializer
+	private ArrayList<Button> buttons = new ArrayList<Button>();
 	
+	private MainController mc = MainController.getInstance();
+	private Student stud = mc.getStudents();
 	
-	public String loadCourseCode(int x) {
-		return MainController.getInstance().getStudents().getCourseIDs().get(x);
+	private void setLectures (Course course) {
+		mc.setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	}
 	
-	public void setLectures (Course course) {
-		MainController.getInstance().setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
+	private String loadCourseName(int courseNum){
+		return stud.getCourseNameForCourse(stud.getCourseIDs().get(courseNum));
 	}
 	
-	public void loadCourse(Course course) {
-		MainController.getInstance().setCourse(course);
-	}
-	
-	public String loadCourseName(int x){
-		Student stud = MainController.getInstance().getStudents();
-		return stud.getCourseNameForCourse(stud.getCourseIDs().get(x));
-	}
-	
-	public void setSubjectButtonText(int x, Button fagButton){
-		String courseCode = loadCourseCode(x);
-		String courseCodeName = courseCode + "\n" + loadCourseName(x);
+	private void setSubjectButtonText(int courseNum, Button fagButton){
+		String courseCode = stud.getCourseIDs().get(courseNum);
+		String courseCodeName = courseCode + "\n" + loadCourseName(courseNum);
 		fagButton.setText(courseCodeName);
 	}
 	
-	
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+	/**
+	 * takes user to the correct page if user buttons (logout or chooseCourses) are pressed
+	 */
+	public void userButtons(ActionEvent event) throws IOException{
 		if (event.getSource() == logout) {
 			loadNextScene(logout,  "Login.fxml");
 		}if (event.getSource() == chooseCourses) {
@@ -78,94 +72,76 @@ public class CourseStudController extends CommonMethods implements Initializable
 	}
 	
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage = null; 
-		
+	private void handleButtonAction(ActionEvent event) throws IOException{		
 		//the number of courses a student has
-	    int numberOfCourses = MainController.getInstance().getStudents().getCourseIDs().size();
-	    
-	    userButtons(event, stage);
-	    
+	    int numberOfCourses = stud.getCourseIDs().size();	    
+	    userButtons(event);	    
 	    if(numberOfCourses == 0) {
 	    	return;
-	    }
-	    
+	    }	    
 	    else if(event.getSource()==fag1 && numberOfCourses>0){
-	    	
-	    	Course course = new Course(loadCourseCode(0));
-	        loadCourse(course);
-	    	
+	    	Course course = new Course(stud.getCourseIDs().get(0));
+	        mc.setCourse(course);
 	    	setLectures(course);
-	        loadNextScene(fag1,  "LectureStud.fxml");
-	        
+	        loadNextScene(fag1,  "LectureStud.fxml");       
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
-	    	Course course = new Course(loadCourseCode(1));
-	    	loadCourse(course);
-	    	
+	    	Course course = new Course(stud.getCourseIDs().get(1));
+	    	mc.setCourse(course);	    	
 	    	setLectures(course);
 	    	loadNextScene(fag2,  "LectureStud.fxml");
-	    }
-	    
+	    }	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
-	    	Course course = new Course(loadCourseCode(2));
-	    	loadCourse(course);
-
+	    	Course course = new Course(stud.getCourseIDs().get(2));
+	    	mc.setCourse(course);
 	    	setLectures(course);
-	    	loadNextScene(fag3,  "LectureStud.fxml");
-	    	
+	    	loadNextScene(fag3,  "LectureStud.fxml");	    	
 		}
 	    else if (event.getSource()==fag4 && numberOfCourses>3){
-	    	Course course = new Course(loadCourseCode(3));
-	    	loadCourse(course);
-	    	
+	    	Course course = new Course(stud.getCourseIDs().get(3));
+	    	mc.setCourse(course);	    	
 	    	setLectures(course);
-	    	loadNextScene(fag4,  "LectureStud.fxml");
-	    	
+	    	loadNextScene(fag4,  "LectureStud.fxml");	    	
 		}
 	}
 	
-	public void handleKeyAction(KeyEvent ke) throws IOException{
-		Stage stage = null;
+	@FXML
+	private void handleKeyAction(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			if (fag1.isFocused()){
-				Course course = new Course(loadCourseCode(0));
-		        loadCourse(course);
-		    	
+				Course course = new Course(stud.getCourseIDs().get(0));
+		        mc.setCourse(course);		    	
 		    	setLectures(course);
 		        loadNextScene(fag1,  "LectureStud.fxml");
 			}
 			else if (fag2.isFocused()){
-				Course course = new Course(loadCourseCode(1));
-		        loadCourse(course);
-		    	
+				Course course = new Course(stud.getCourseIDs().get(1));
+		        mc.setCourse(course);		    	
 		    	setLectures(course);
 		        loadNextScene(fag2,  "LectureStud.fxml");
 			}
 			else if (fag3.isFocused()){
-				Course course = new Course(loadCourseCode(2));
-		        loadCourse(course);
-		    	
+				Course course = new Course(stud.getCourseIDs().get(2));
+		        mc.setCourse(course);		    	
 		    	setLectures(course);
 		        loadNextScene(fag3,  "LectureStud.fxml");
 			}else if (fag4.isFocused()){
-				Course course = new Course(loadCourseCode(3));
-		        loadCourse(course);
-		    	
+				Course course = new Course(stud.getCourseIDs().get(3));
+		        mc.setCourse(course);		    	
 		    	setLectures(course);
 		        loadNextScene(fag4,  "LectureStud.fxml");
 			}else if (chooseCourses.isFocused()){
 				loadNextScene(chooseCourses,  "SelectCourseStud.fxml");
-			}
-				
+			}				
 		}
 	}
 	
+	/**
+	 * Initialises the CourseStud.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		//System.out.println(mainController.getInstance().getStudents().getCourseIDs().get(0));
-		int numberOfCourses = MainController.getInstance().getStudents().getCourseIDs().size();
+		int numberOfCourses = stud.getCourseIDs().size();
 		if(numberOfCourses == 0) {
 	    	errorNumber.setText("You don't have any courses yet!");
 		}
@@ -182,12 +158,12 @@ public class CourseStudController extends CommonMethods implements Initializable
 		errorBar.setFill(Color.DARKSEAGREEN);
 		errorText.setText("You are logged in as "+ MainController.getInstance().getStudents().getUsername());
 		
-		String coursesUpdated = MainController.getInstance().coursesUpdated;
+		String coursesUpdated = mc.coursesUpdated;
 		if (!coursesUpdated.isEmpty()){
-			if (coursesUpdated == "true"){
+			if (coursesUpdated.equals("true")){
 				errorText.setText("Your courses were updated");
 			}
-			else if (coursesUpdated == "false"){
+			else if (coursesUpdated.equals("false")){
 				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 				errorText.setText("No changes were made to your courses");
 			}
