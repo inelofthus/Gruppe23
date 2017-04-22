@@ -153,7 +153,7 @@ public class CourseProfController extends CommonMethods implements Initializable
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		int numberOfCourses = MainController.getInstance().getProfessor().getCourseIDs().size();
+		int numberOfCourses = prof.getCourseIDs().size();
 		buttons.add(fag1);
 		buttons.add(fag2);
 		buttons.add(fag3);
@@ -161,7 +161,7 @@ public class CourseProfController extends CommonMethods implements Initializable
 		
 		errorBar.setVisible(true);
 		errorBar.setFill(Color.DARKSEAGREEN);
-		errorText.setText("You are logged in as "+ MainController.getInstance().getProfessor().getUsername());
+		errorText.setText("You are logged in as "+ prof.getUsername());
 		
 		if(numberOfCourses == 0) {
 			errorNumber.setText("You don't have any courses!");
