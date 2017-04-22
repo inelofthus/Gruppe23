@@ -27,6 +27,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * CommentPageController --- CommentPageController is a class that controls all
+ * interaction user interacion with the CommentPage.fxml gui
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
+
 public class CommentPageController extends CommonMethods implements Initializable {
 
 	//fxml objects
@@ -49,16 +57,13 @@ public class CommentPageController extends CommonMethods implements Initializabl
 	public Text text = null;
 	public VBox vBox;
 	
-    Integer lectureID = MainController.getInstance().getChosenProfessorLecture();
-	
+    private Integer lectureID = MainController.getInstance().getChosenProfessorLecture();
 	private Lecture lecture = new Lecture(lectureID);
-	private Course course = MainController.getInstance().getCourse();
 	private ArrayList<String> ratingValues = lecture.getRatingValues();
 	private Stack<String> stack = MainController.getInstance().getStack();
 	
 	
-	public String createString() {
-		ArrayList<String> als = selectedButtons();
+	private String createString(ArrayList<String> als) {
 		String allComment = ""; 
 		for (String string:als){
 			if (!string.equals("")) {
@@ -68,15 +73,9 @@ public class CommentPageController extends CommonMethods implements Initializabl
 		return allComment;
 	}
 	
-	public String createStringAll() {
-		ArrayList<String> als = showAllComments();
-		String comments = ""; 
-		for (String string:als){
-			comments += string + "\n";
-		}
-		return comments;
-	}	
-	
+	/**
+	 * takes user to the correct page if user buttons (home, back or logout) are pressed
+	 */
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "CourseProf.fxml");
@@ -89,21 +88,21 @@ public class CommentPageController extends CommonMethods implements Initializabl
 		}
 	}
 	
-	public boolean isUserButtonPushed(ActionEvent event) {
+	private boolean isUserButtonPushed(ActionEvent event) {
 		if (event.getSource() == home || event.getSource() == back || event.getSource() == logout) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isCommentButtonsPushed() {
+	private boolean isCommentButtonsPushed() {
 		if (seeComments1.isSelected() || seeComments2.isSelected() || seeComments3.isSelected() || seeComments4.isSelected() || seeComments5.isSelected()) {
 			return true;
 		}
 		return false;
 	}
 	
-	public ArrayList<String> selectedButtons() {
+	private ArrayList<String> selectedButtons() {
 		ArrayList<String> currentEvaluations = new ArrayList<String>();
 		if (seeComments1.isSelected()){
 			currentEvaluations.add(ratingValues.get(0) + " comments:");
@@ -150,7 +149,7 @@ public class CommentPageController extends CommonMethods implements Initializabl
 	}
 	
 	
-	public ArrayList<String> showAllComments() {
+	private ArrayList<String> showAllComments() {
 		ArrayList<String> current = new ArrayList<String>();
 		ArrayList<Evaluation> Evaluations1 = lecture.getEvaluationsRating1();
 		ArrayList<Evaluation> Evaluations2 = lecture.getEvaluationsRating2();
@@ -213,21 +212,21 @@ public class CommentPageController extends CommonMethods implements Initializabl
 			return;
 		}
 		else if (event.getSource() == showAllComments) {
-			textArea.setText(createStringAll());
+			textArea.setText(createString(showAllComments()));
 			return;
 		}
 		
 		if (isCommentButtonsPushed()){
-			textArea.setText(createString());
+			textArea.setText(createString(selectedButtons()));
 		}
 		else {
 			textArea.setText("You have not selected to show any comments.");
 		}
 	}
 	
-	
-	
-	
+	/**
+	 * Initialises the CommentPage.fxml gui 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
