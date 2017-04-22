@@ -33,23 +33,26 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 	public PasswordField password;
 	public PasswordField RepeatPassword;
 	
-	DBController DBC = new DBController();	
+	private DBController DBC = new DBController();	
+	private MainController mc = MainController.getInstance();
 	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+	/**
+	 * takes user to the correct page if user button (back) is
+	 */
+	public void userButtons(ActionEvent event) throws IOException{
 		if (event.getSource() == back) {
 			loadNextScene(back,  "LoginProf.fxml");
 		}
 	}
 	
-	public void handleKeyAction(KeyEvent ke) throws IOException{
+	@FXML
+	private void handleKeyAction(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			handleCreateProf();
 		}
 	}
 	
 	private void handleCreateProf() throws IOException{
-		Stage stage = null;
-		
 		boolean errors = false;
 		if (username.getText().isEmpty()) {
 			badUsername.setText("Please write your NTNU username");
@@ -81,49 +84,40 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 			errors = true;
 			return;
 		}else passwordNoMatch.setText("");
-		
 		if (!errors){	
-			
 			if (DBC.professorExists(username.getText())) {
 				Professor prof = new Professor(username.getText());
-
 				if (prof.hasPassword()) {
 					badUsername.setText("This professor already has a user");
 					return;
 				} else
 					badUsername.setText("");
-				
 				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
-				MainController.getInstance().createProfUsername = username.getText();
-				MainController.getInstance().createUser = true;
-				loadNextScene(finish,  "LoginProf.fxml");
+				mc.createProfUsername = username.getText();
+				mc.createUser = true;
+				loadNextScene(finish, "LoginProf.fxml");
 				
 			}else{
 				badUsername.setText("The professor username is not valid. Please write in your ntnu username.");
 					return;
-			}
-			
-			
-			
+			}			
 		}
 	}
 	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage = null;
-		userButtons(event, stage);
-		
-		
+		userButtons(event);
 		if (event.getSource() == finish){
 			handleCreateProf();
 		}			
 	}
-	
-	
+
+	/**
+	 * Initialises the CreateProfUser.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method
-		
+		// No changes needed to default		
 	}
 
 }
