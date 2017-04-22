@@ -19,7 +19,7 @@
 
 <AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655.0" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddLecturesController">
    <children>
-      <Button fx:id="finish" layoutX="164.0" layoutY="421.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="65.0" prefWidth="331.0" text="Finish">
+      <Button fx:id="finish" layoutX="164.0" layoutY="421.0" mnemonicParsing="false" onAction="#userButtons" prefHeight="65.0" prefWidth="331.0" text="Finish">
          <font>
             <Font size="24.0" />
          </font></Button>
@@ -79,16 +79,16 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="96.0" layoutX="-16.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
       <ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
          <items>
-            <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Home" textAlignment="CENTER" />
+            <Button fx:id="home" mnemonicParsing="false" onAction="#userButtons" styleClass="menuButton" text="Home" textAlignment="CENTER" />
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
+            <Button fx:id="back" mnemonicParsing="false" onAction="#userButtons" styleClass="menuButton" text="Back" textAlignment="CENTER" />
             <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
-                  <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#userButtons" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
                </children>
             </HBox>
          </items>

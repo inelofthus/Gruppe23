@@ -26,10 +26,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+/**
+ * AddLecturesController --- AddLecturesController is a class that controls all
+ * interaction user interacion with the AddLectures.fxml gui
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
+
 public class AddLecturesController extends CommonMethods implements Initializable {
 
 	// fxml objects
-	
 	@FXML
 	public Button home;
 	public Button back;
@@ -37,36 +45,35 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	public Button addLecture;
 	public Button finish;
 	public Button removeLectures;
-	
+
 	@FXML
 	public TextField startTime;
 	public DatePicker startDate;
 	public DatePicker endDate;
 	public DatePicker removeStart;
 	public DatePicker removeEnd;
-	
+
 	@FXML
 	public CheckBox repeat;
 	public Rectangle errorBar;
 	public Text errorMessage;
 	public ListView<String> listView;
-	
-	MainController mainCon = MainController.getInstance();
-	Course course = mainCon.getCourse();
-	String courseCode = course.getCourseCode();
-	String prof = mainCon.getProfessor().getUsername();
-	DBController dbc = new DBController(); 
-	
+
+	private MainController mainCon = MainController.getInstance();
+	private Course course = mainCon.getCourse();
+	private String courseCode = course.getCourseCode();
+	private String prof = mainCon.getProfessor().getUsername();
+	private DBController dbc = new DBController();
+
 	private Pattern pattern;
 	private Matcher matcher;
-	
-	private static final String TIME24HOURS_PATTERN =
-	           "([01]?[0-9]|2[0-3]):[0-5][0-9]";
-	
-	Color myRed = new Color(0.937, 0.290, 0.290, 1);
 
+	private static final String TIME24HOURS_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+	private Color myRed = new Color(0.937, 0.290, 0.290, 1);
 
-	public void userButtons(ActionEvent event, Stage stage) throws IOException {
+	@FXML
+	private void userButtons(ActionEvent event) throws IOException {
+		Stage stage = null;
 		if (event.getSource() == home) {
 			loadNextScene(home, stage, "CourseProf.fxml");
 		}
@@ -81,41 +88,31 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 		}
 	}
 
-
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException {
-		Stage stage = null;
-		userButtons(event, stage);
-	}
-	
-	@FXML
-	private void submitAddLecture(ActionEvent event){
-		if (startDate.getValue() == null || startTime.getText().length() == 0 
-				|| !validate(startTime.getText())){
+	private void submitAddLecture(ActionEvent event) {
+		if (startDate.getValue() == null || startTime.getText().length() == 0 || !validate(startTime.getText())) {
 			String errorText = "";
-			if (startDate.getValue() == null){
+			if (startDate.getValue() == null) {
 				errorText += "Pick a date (dd.mm.yyyy). ";
 			}
-			if  (startTime.getText().length() == 0){
+			if (startTime.getText().length() == 0) {
 				errorText += "Pick a time. ";
-			}
-			else if (!validate(startTime.getText())){
+			} else if (!validate(startTime.getText())) {
 				errorText += "Write time on format hh:mm. ";
 			}
 			errorBar.setFill(myRed);
 			errorMessage.setText(errorText);
-			errorBar.setVisible(true);		
-		}else{
-			if(!repeat.isSelected()){
+			errorBar.setVisible(true);
+		} else {
+			if (!repeat.isSelected()) {
 				endDate.setValue(startDate.getValue());
 			} else {
-				if (endDate.getValue() == null){
+				if (endDate.getValue() == null) {
 					String errorText = "Select an end date or uncheck weekly repetition. ";
 					errorBar.setFill(myRed);
 					errorMessage.setText(errorText);
 					errorBar.setVisible(true);
-				}
-				else if (startDate.getValue().isAfter(endDate.getValue())){
+				} else if (startDate.getValue().isAfter(endDate.getValue())) {
 					String errorText = "Start date must be before end date. ";
 					errorBar.setFill(myRed);
 					errorMessage.setText(errorText);
@@ -123,14 +120,15 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 				}
 			}
 			try {
-				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(), repeat.isSelected(), prof);
+				course.addLectures(startTime.getText(), startDate.getValue().toString(), endDate.getValue().toString(),
+						repeat.isSelected(), prof);
 				MainController.getInstance().setCourse(new Course(courseCode));
 				listView.getItems().clear();
 				listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
 				errorBar.setFill(Color.DARKSEAGREEN);
-				if (repeat.isSelected()){
+				if (repeat.isSelected()) {
 					errorMessage.setText("Lectures successfully added");
-				}else{
+				} else {
 					errorMessage.setText("Lecture successfully added");
 				}
 				errorBar.setVisible(true);
@@ -142,15 +140,15 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			}
 		}
 	}
-	
+
 	@FXML
-	public void removeLecturesInPeriod(ActionEvent e){
-		if (removeStart.getValue() == null || removeEnd.getValue() == null){
+	private void removeLecturesInPeriod(ActionEvent e) {
+		if (removeStart.getValue() == null || removeEnd.getValue() == null) {
 			errorMessage.setText("Select a period");
 			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
-			
-		} else if (removeStart.getValue().isAfter( removeEnd.getValue())){
+
+		} else if (removeStart.getValue().isAfter(removeEnd.getValue())) {
 			errorMessage.setText("Start date must be before end date. ");
 			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
@@ -163,9 +161,9 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 			listView.getItems().addAll(dbc.getLectureDateAndTimeForCourse(courseCode));
 		}
 	}
-	
+
 	@FXML
-	public void deleteLectureAction(ActionEvent e){
+	private void deleteLectureAction(ActionEvent e) {
 		try {
 			String row = listView.getSelectionModel().getSelectedItem();
 			String[] rowArr = row.split("\t \t");
@@ -183,36 +181,34 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 			return;
-		} catch (Exception e2){
+		} catch (Exception e2) {
 			errorBar.setVisible(true);
 			errorBar.setFill(myRed);
 			errorMessage.setText("Select a lecture from the list. ");
 		}
 	}
-	
-	public boolean validate(final String time){
-	  matcher = pattern.matcher(time);
-	  return matcher.matches();
-	}
-	
-	public AddLecturesController() {
 
+	private boolean validate(final String time) {
+		matcher = pattern.matcher(time);
+		return matcher.matches();
 	}
-	
+
+	/**
+	 * Initializes the AddLectures.fxml gui 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		pattern = Pattern.compile(TIME24HOURS_PATTERN);
 		ArrayList<String> lectures = dbc.getLectureDateAndTimeForCourse(courseCode);
 		listView.getItems().clear();
 		listView.getItems().addAll(lectures);
-		
-		
+
 		repeat.selectedProperty().addListener(new ChangeListener<Boolean>() {
-		    @Override
-		    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		    	endDate.setDisable(oldValue);
-		    	endDate.setValue(startDate.getValue());
-		    }
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				endDate.setDisable(oldValue);
+				endDate.setValue(startDate.getValue());
+			}
 		});
 	}
 
