@@ -78,16 +78,16 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {
-			loadNextScene(home, stage, "CourseProf.fxml");
+			loadNextScene(home, "CourseProf.fxml");
 		}
 		if (event.getSource() == back || event.getSource() == cancel) {
 			MainController.getInstance().buttonsSaved = "false";
 			MainController.getInstance().buttonsSavedOrigin = stack.pop();
-			loadNextScene(back, stage, MainController.getInstance().buttonsSavedOrigin);
+			loadNextScene(back, MainController.getInstance().buttonsSavedOrigin);
 			return;
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout, "Login.fxml");
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 			Stage stage = new Stage();
 			mc.setPopupTitle("Customize Student Buttons Info");
 			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on. The changes will take effect starting from your next lecture. You will still be able to see the individual lecture graphs for old rating values. \n NB: After changing rating values, you will no longer be able to see the lectures over time graph for old rating values");
-			loadPopupHyperLink(info, stage, "InfoPopup.fxml");
+			loadPopupHyperLink("InfoPopup.fxml");
 		}
 	}
 	
@@ -206,7 +206,7 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
 			MainController.getInstance().buttonsSaved = "true";
 			MainController.getInstance().buttonsSavedOrigin = stack.pop();
-			loadNextScene(submitChanges, stage, MainController.getInstance().buttonsSavedOrigin); 
+			loadNextScene(submitChanges, MainController.getInstance().buttonsSavedOrigin); 
 			course.setRatingValues(inputValues);
 			MainController.getInstance().setCourse(course);
 		}

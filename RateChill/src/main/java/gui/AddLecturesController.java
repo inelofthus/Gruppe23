@@ -75,16 +75,16 @@ public class AddLecturesController extends CommonMethods implements Initializabl
 	private void userButtons(ActionEvent event) throws IOException {
 		Stage stage = null;
 		if (event.getSource() == home) {
-			loadNextScene(home, stage, "CourseProf.fxml");
+			loadNextScene(home, "CourseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "LectureProf.fxml");
+			loadNextScene(back, "LectureProf.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "LoginProf.fxml");
+			loadNextScene(logout,  "LoginProf.fxml");
 		}
 		if (event.getSource() == finish) {
-			loadNextScene(logout, stage, "LectureProf.fxml");
+			loadNextScene(logout,  "LectureProf.fxml");
 		}
 	}
 

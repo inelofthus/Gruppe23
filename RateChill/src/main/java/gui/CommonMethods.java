@@ -11,57 +11,85 @@ import javafx.scene.control.Hyperlink;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * CommonMethods --- CommonMethods is an abstract class that contains all
+ * methods that are commmon for the various guiControllers. All guiControllers extend this class
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public abstract class CommonMethods {
-	
+
 	public Button home;
 	public Button back;
 	public Button logout;
-	
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException{
-		stage=(Stage) button.getScene().getWindow();
+
+	/*
+	 * Helper function to loadNextScene methods
+	 */
+	private void loadNextScene(Stage stage, String fxmlName) throws IOException{
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
+		root = FXMLLoader.load(getClass().getResource(fxmlName));
+
+		// create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
 	
-	public void loadNextSceneHyperlink(Hyperlink hyper, Stage stage, String string) throws IOException{
-		stage=(Stage) hyper.getScene().getWindow();
-		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+	/**
+	 * Changes the scene from one fxml to the next. Uses a button to reference the stage
+	 * @param button A JavaFX Button on the stage
+	 * @param stage The JavaFX stage that is being worked on
+	 * @param fxmlName the name of the next FXML scene to be loaded
+	 * @throws IOException is thrown if there is a problem loading the new scene
+	 */
+	public void loadNextScene(Button button, String fxmlName) throws IOException {
+		Stage stage = (Stage) button.getScene().getWindow();
+		loadNextScene(stage, fxmlName);
 	}
 	
-	public void loadPopupHyperLink(Hyperlink hyper, Stage stage, String string) throws IOException{
-		stage = new Stage();
+	/**
+	 * Changes the scene from one fxml to the next. Uses a hyperlink to reference the stage
+	 * @param hyper A JavaFX Hyperlink on the stage
+	 * @param stage The JavaFX stage that is being worked on
+	 * @param fxmlName the name of the next FXML scene to be loaded
+	 * @throws IOException is thrown if there is a problem loading the new scene
+	 */
+	public void loadNextSceneHyperlink(Hyperlink hyper, String fxmlName) throws IOException {
+		Stage stage = (Stage) hyper.getScene().getWindow();
+		loadNextScene(stage, fxmlName);
+	}
+
+	/**
+	 * Opens a popup on top of the new stage
+	 * @param stage
+	 * @param fxmlName
+	 * @throws IOException
+	 */
+	public void loadPopupHyperLink(String fxmlName) throws IOException {
+		Stage stage = new Stage();
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource(string));
-		
-		//create a new scene with root and set the stage
+		root = FXMLLoader.load(getClass().getResource(fxmlName));
+
+		// create a new scene with root and set the stage
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
 	}
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
-		if(event.getSource() == home) {
-			loadNextScene(home, stage, "CourseStud.fxml");
+
+	public void userButtons(ActionEvent event, Stage stage) throws IOException {
+		if (event.getSource() == home) {
+			loadNextScene(home, "CourseStud.fxml");
 		}
-		
+
 		if (event.getSource() == back) {
-			loadNextScene(back ,stage, "LectureStud.fxml");
+			loadNextScene(back,"LectureStud.fxml");
 		}
-		
+
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout, "Login.fxml");
 		}
 	}
 }

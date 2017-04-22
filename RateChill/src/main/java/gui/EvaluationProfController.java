@@ -50,13 +50,13 @@ public class EvaluationProfController extends CommonMethods implements Initializ
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {
-			loadNextScene(home, stage, "CourseProf.fxml");
+			loadNextScene(home,  "CourseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, stack.pop());
+			loadNextScene(back,  stack.pop());
 		}		
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout,  "Login.fxml");
 		}
 	}
 	
@@ -76,11 +76,11 @@ public class EvaluationProfController extends CommonMethods implements Initializ
 		}
 		else if (event.getSource() == seeComments){
 			stack.push("IndividualCharts.fxml");
-			loadNextScene(seeComments, stage, "CommentPage.fxml");
+			loadNextScene(seeComments,  "CommentPage.fxml");
 		}
 		else if (event.getSource() == customize) {
 			stack.push("IndividualCharts.fxml");
-			loadNextScene(customize, stage, "CustomizeButtons.fxml");
+			loadNextScene(customize,  "CustomizeButtons.fxml");
 		}
 	}
 	

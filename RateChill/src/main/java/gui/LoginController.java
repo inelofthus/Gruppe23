@@ -51,10 +51,10 @@ public class LoginController extends CommonMethods implements Initializable {
 	public void whichUser (ActionEvent event) throws IOException {
 		Stage stage = null;
 		if (event.getSource()==student){
-			loadNextScene(student, stage, "LoginStud.fxml");
+			loadNextScene(student,  "LoginStud.fxml");
 		}
 		else if (event.getSource()==professor){
-			loadNextScene(professor, stage, "LoginProf.fxml");
+			loadNextScene(professor,  "LoginProf.fxml");
 		}
 		
 	}
@@ -63,10 +63,10 @@ public class LoginController extends CommonMethods implements Initializable {
 		Stage stage = null;
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			if (professor.isFocused()){
-				loadNextScene(professor, stage, "LoginProf.fxml");
+				loadNextScene(professor,  "LoginProf.fxml");
 			}
 			else if (student.isFocused()) {
-				loadNextScene(student, stage, "LoginStud.fxml");
+				loadNextScene(student,  "LoginStud.fxml");
 			}
 		}
 	}
@@ -75,7 +75,7 @@ public class LoginController extends CommonMethods implements Initializable {
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "Login.fxml");
+			loadNextScene(back,  "Login.fxml");
 		}
 	} 
 	
@@ -107,7 +107,7 @@ public class LoginController extends CommonMethods implements Initializable {
 		if(prof.existsInDB() && prof.hasPassword()) {
 			if (prof.isCorrectPassword(Professor.hashPassword(password.getText()))) {
 				MainController.getInstance().setProfessor(prof);
-				loadNextScene(loginProf, stage, "CourseProf.fxml");
+				loadNextScene(loginProf,  "CourseProf.fxml");
 			}
 			passwordError.setText("Incorrect password, try again");	
 			return;
@@ -131,7 +131,7 @@ public class LoginController extends CommonMethods implements Initializable {
     	//checks if the student username exists
 		if(stud.existsInDB()) {
 			MainController.getInstance().setStudent(stud);
-			loadNextScene(loginStud, stage, "CourseStud.fxml");
+			loadNextScene(loginStud,  "CourseStud.fxml");
 		}
 		
 		if (studUsername.getText().isEmpty()){
@@ -156,12 +156,12 @@ public class LoginController extends CommonMethods implements Initializable {
 		}
 		
 		else if (event.getSource()==newStudent){
-			loadNextSceneHyperlink(newStudent, stage, "CreateUser.fxml");
+			loadNextSceneHyperlink(newStudent,  "CreateUser.fxml");
 			return;
 		}
 		
 		else if (event.getSource()==newProfessor){
-			loadNextSceneHyperlink(newProfessor, stage, "CreateProfUser.fxml");
+			loadNextSceneHyperlink(newProfessor,  "CreateProfUser.fxml");
 			return;
 		}
 		

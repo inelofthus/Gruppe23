@@ -71,9 +71,9 @@ public class CourseStudController extends CommonMethods implements Initializable
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout,  "Login.fxml");
 		}if (event.getSource() == chooseCourses) {
-			loadNextScene(chooseCourses, stage, "SelectCourseStud.fxml");
+			loadNextScene(chooseCourses,  "SelectCourseStud.fxml");
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 	        loadCourse(course);
 	    	
 	    	setLectures(course);
-	        loadNextScene(fag1, stage, "LectureStud.fxml");
+	        loadNextScene(fag1,  "LectureStud.fxml");
 	        
 	    }
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
@@ -104,7 +104,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 	    	
 	    	setLectures(course);
-	    	loadNextScene(fag2, stage, "LectureStud.fxml");
+	    	loadNextScene(fag2,  "LectureStud.fxml");
 	    }
 	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
@@ -112,7 +112,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 
 	    	setLectures(course);
-	    	loadNextScene(fag3, stage, "LectureStud.fxml");
+	    	loadNextScene(fag3,  "LectureStud.fxml");
 	    	
 		}
 	    else if (event.getSource()==fag4 && numberOfCourses>3){
@@ -120,7 +120,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 	    	
 	    	setLectures(course);
-	    	loadNextScene(fag4, stage, "LectureStud.fxml");
+	    	loadNextScene(fag4,  "LectureStud.fxml");
 	    	
 		}
 	}
@@ -133,29 +133,29 @@ public class CourseStudController extends CommonMethods implements Initializable
 		        loadCourse(course);
 		    	
 		    	setLectures(course);
-		        loadNextScene(fag1, stage, "LectureStud.fxml");
+		        loadNextScene(fag1,  "LectureStud.fxml");
 			}
 			else if (fag2.isFocused()){
 				Course course = new Course(loadCourseCode(1));
 		        loadCourse(course);
 		    	
 		    	setLectures(course);
-		        loadNextScene(fag2, stage, "LectureStud.fxml");
+		        loadNextScene(fag2,  "LectureStud.fxml");
 			}
 			else if (fag3.isFocused()){
 				Course course = new Course(loadCourseCode(2));
 		        loadCourse(course);
 		    	
 		    	setLectures(course);
-		        loadNextScene(fag3, stage, "LectureStud.fxml");
+		        loadNextScene(fag3,  "LectureStud.fxml");
 			}else if (fag4.isFocused()){
 				Course course = new Course(loadCourseCode(3));
 		        loadCourse(course);
 		    	
 		    	setLectures(course);
-		        loadNextScene(fag4, stage, "LectureStud.fxml");
+		        loadNextScene(fag4,  "LectureStud.fxml");
 			}else if (chooseCourses.isFocused()){
-				loadNextScene(chooseCourses, stage, "SelectCourseStud.fxml");
+				loadNextScene(chooseCourses,  "SelectCourseStud.fxml");
 			}
 				
 		}

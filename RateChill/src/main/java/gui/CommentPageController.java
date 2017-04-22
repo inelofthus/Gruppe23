@@ -78,13 +78,13 @@ public class CommentPageController extends CommonMethods implements Initializabl
 	 */
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == home) {
-			loadNextScene(home, stage, "CourseProf.fxml");
+			loadNextScene(home, "CourseProf.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, stack.pop());
+			loadNextScene(back, stack.pop());
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout, "Login.fxml");
 		}
 	}
 	
@@ -203,12 +203,12 @@ public class CommentPageController extends CommonMethods implements Initializabl
 		}
 		else if (event.getSource() == customize) {
 			stack.push("CommentPage.fxml");
-			loadNextScene(customize, stage, "CustomizeButtons.fxml");
+			loadNextScene(customize, "CustomizeButtons.fxml");
 			return;
 		}
 		else if (event.getSource()==customize1) {
 			stack.push("CommentPage.fxml");
-			loadNextScene(customize1, stage, "CustomizeButtons.fxml");
+			loadNextScene(customize1, "CustomizeButtons.fxml");
 			return;
 		}
 		else if (event.getSource() == showAllComments) {

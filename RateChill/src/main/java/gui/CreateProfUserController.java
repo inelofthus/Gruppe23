@@ -37,7 +37,7 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "LoginProf.fxml");
+			loadNextScene(back,  "LoginProf.fxml");
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class CreateProfUserController extends CommonMethods implements Initializ
 				DBC.updateProfessor(username.getText(), Professor.hashPassword(password.getText()));
 				MainController.getInstance().createProfUsername = username.getText();
 				MainController.getInstance().createUser = true;
-				loadNextScene(finish, stage, "LoginProf.fxml");
+				loadNextScene(finish,  "LoginProf.fxml");
 				
 			}else{
 				badUsername.setText("The professor username is not valid. Please write in your ntnu username.");

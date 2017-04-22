@@ -133,13 +133,13 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
-			loadNextScene(home, stage, "CourseStud.fxml");
+			loadNextScene(home,  "CourseStud.fxml");
 		}
 		if (event.getSource() == back || event.getSource() == overwriteBack) {
-			loadNextScene(back ,stage, "LectureStud.fxml");
+			loadNextScene(back , "LectureStud.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout,  "Login.fxml");
 		}
 	}
 	

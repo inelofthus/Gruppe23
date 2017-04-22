@@ -37,13 +37,13 @@ public class LectureStudController extends CommonMethods implements Initializabl
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if(event.getSource() == home) {
-			loadNextScene(home, stage, "CourseStud.fxml");
+			loadNextScene(home,  "CourseStud.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "CourseStud.fxml");
+			loadNextScene(back,  "CourseStud.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout,  "Login.fxml");
 		}
 	}
 	
@@ -62,11 +62,11 @@ public class LectureStudController extends CommonMethods implements Initializabl
 		else if(event.getSource()==lecture1 && numberOfLectures>0){
 	    	//get reference to the button's stage         
 	        MainController.getInstance().setChosenStudentLecture(getKeyLec1());
-	        loadNextScene(lecture1, stage, "EvaluationStud.fxml");
+	        loadNextScene(lecture1,  "EvaluationStud.fxml");
 	    }
 	    else if(event.getSource() == lecture2 && numberOfLectures>1){
 	    	MainController.getInstance().setChosenStudentLecture(getKeyLec2());
-	    	loadNextScene(lecture2, stage, "EvaluationStud.fxml");
+	    	loadNextScene(lecture2,  "EvaluationStud.fxml");
 	    } 
 	} 
 	
@@ -75,11 +75,11 @@ public class LectureStudController extends CommonMethods implements Initializabl
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			if (lecture1.isFocused()){
 				MainController.getInstance().setChosenStudentLecture(getKeyLec1());
-				loadNextScene(lecture1, stage, "EvaluationStud.fxml");
+				loadNextScene(lecture1,  "EvaluationStud.fxml");
 			}
 			else if (lecture2.isFocused()) {
 				MainController.getInstance().setChosenStudentLecture(getKeyLec2());
-				loadNextScene(lecture2, stage, "EvaluationStud.fxml");
+				loadNextScene(lecture2,  "EvaluationStud.fxml");
 			}
 		}
 	}

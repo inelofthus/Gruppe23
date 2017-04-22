@@ -62,7 +62,7 @@ public class CourseProfController extends CommonMethods implements Initializable
 		
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "Login.fxml");
+			loadNextScene(logout, "Login.fxml");
 		}
 	}
 	
@@ -84,11 +84,11 @@ public class CourseProfController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 	        
 	        if (MainController.getInstance().getCourse().getLectureIDs().size() == 0) {
-	    		loadNextScene(fag1, stage, "AddLectures.fxml");
+	    		loadNextScene(fag1,  "AddLectures.fxml");
 	    		return;
 	    	}
 
-	        loadNextScene(fag1, stage, "LectureProf.fxml");
+	        loadNextScene(fag1,  "LectureProf.fxml");
 	    }
 	    
 	    else if (event.getSource()==fag2 && numberOfCourses>1){
@@ -96,11 +96,11 @@ public class CourseProfController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 
 	    	if (MainController.getInstance().getCourse().getLectureIDs().size() == 0) {
-	    		loadNextScene(fag2, stage, "AddLectures.fxml");
+	    		loadNextScene(fag2,  "AddLectures.fxml");
 	    		return;
 	    	}
 
-	    	loadNextScene(fag2, stage, "LectureProf.fxml");
+	    	loadNextScene(fag2,  "LectureProf.fxml");
 	    }
 	    
 	    else if (event.getSource()==fag3 && numberOfCourses>2){
@@ -108,11 +108,11 @@ public class CourseProfController extends CommonMethods implements Initializable
 	    	loadCourse(course);
 	    	
 	    	if (MainController.getInstance().getCourse().getLectureIDs().size() == 0) {
-	    		loadNextScene(fag3, stage, "AddLectures.fxml");
+	    		loadNextScene(fag3,  "AddLectures.fxml");
 	    		return;
 	    	}
 
-	    	loadNextScene(fag3, stage, "LectureProf.fxml");
+	    	loadNextScene(fag3,  "LectureProf.fxml");
 	    	
 		}
 	    
@@ -122,11 +122,11 @@ public class CourseProfController extends CommonMethods implements Initializable
 	    	
 	    
 	    	if (MainController.getInstance().getCourse().getLectureIDs().size() == 0) {
-	    		loadNextScene(fag4, stage, "AddLectures.fxml");
+	    		loadNextScene(fag4,  "AddLectures.fxml");
 	    		return;
 	    	}
 	    	
-	    	loadNextScene(fag4, stage, "LectureProf.fxml");
+	    	loadNextScene(fag4,  "LectureProf.fxml");
 		}
 	}
 	
@@ -136,21 +136,21 @@ public class CourseProfController extends CommonMethods implements Initializable
 			if (fag1.isFocused()){
 				Course course = new Course(loadCourseCode(0));
 		    	loadCourse(course);
-		    	loadNextScene(fag4, stage, "LectureProf.fxml");
+		    	loadNextScene(fag4,  "LectureProf.fxml");
 			}
 			else if (fag2.isFocused()){
 				Course course = new Course(loadCourseCode(1));
 		    	loadCourse(course);
-		    	loadNextScene(fag2, stage, "LectureProf.fxml");
+		    	loadNextScene(fag2,  "LectureProf.fxml");
 			}
 			else if (fag3.isFocused()){
 				Course course = new Course(loadCourseCode(2));
 		    	loadCourse(course);
-		    	loadNextScene(fag3, stage, "LectureProf.fxml");
+		    	loadNextScene(fag3,  "LectureProf.fxml");
 			}else if (fag4.isFocused()){
 				Course course = new Course(loadCourseCode(3));
 		    	loadCourse(course);
-		    	loadNextScene(fag4, stage, "LectureProf.fxml");		
+		    	loadNextScene(fag4,  "LectureProf.fxml");		
 			}
 		}
 	}

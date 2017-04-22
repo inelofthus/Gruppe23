@@ -48,7 +48,7 @@ public class CreateUserController extends CommonMethods implements Initializable
 	
 	public void userButtons(ActionEvent event, Stage stage) throws IOException{
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "LoginStud.fxml");
+			loadNextScene(back,  "LoginStud.fxml");
 		}
 	}
 
@@ -89,7 +89,7 @@ public class CreateUserController extends CommonMethods implements Initializable
 			createStudentUser(username.getText());
 			MainController.getInstance().createStudUsername = username.getText();
 			MainController.getInstance().createUser = true;
-			loadNextScene(finish, stage, "LoginStud.fxml");
+			loadNextScene(finish,  "LoginStud.fxml");
 		}
 		
 	}			
