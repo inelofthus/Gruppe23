@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  * CommonMethods --- CommonMethods is an abstract class that contains all
- * methods that are commmon for the various guiControllers. All guiControllers
+ * methods that are common for the various guiControllers. All guiControllers
  * extend this class
  * 
  * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai

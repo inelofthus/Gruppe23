@@ -16,6 +16,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+/**
+ * CreateProfUserController --- CreateProfUserController is a class that controls all
+ * interaction user interaction with the CreateProfUser.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class CreateProfUserController extends CommonMethods implements Initializable {
 
 	//fxml objects
