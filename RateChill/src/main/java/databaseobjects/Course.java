@@ -92,7 +92,7 @@ public class Course extends DatabaseUser{
 	}
 
 	/**
-	 * @return An ArrayList<Integer> of the IDs for all completed lectures in the course
+	 * @return An ArrayList of the IDs for all completed lectures in the course
 	 */
 	public ArrayList<Integer> getCompletedLectureIDs() {
 		return completedLectureIDs;
