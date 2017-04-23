@@ -212,13 +212,14 @@ public class Course extends DatabaseUser{
 	}
 	
 	/**
-	 * Returns a list of 
-	 * @param i
-	 * @return
+	 * Returns a list of the percentage of a given lecture rating (button) chosen
+	 * for every completed lecture
+	 * @param buttonNumber The lecture rating (button) to count
+	 * @return The percentage of the given rating for every completed lecture
 	 */
-	public ArrayList<Integer> getLecRatingCounts(int i){
+	public ArrayList<Integer> getLecRatingCounts(int buttonNumber){
 		ArrayList<Integer> count = new ArrayList<>();
-			switch (i) {
+			switch (buttonNumber) {
 			case 1:
 				count = createCountArray(lecIDtoRatingCount1);
 				break;
@@ -240,6 +241,11 @@ public class Course extends DatabaseUser{
 		return count;
 	}
 
+	/**
+	 * Returns an ArrayList of all completed lectures' date and time, to be used
+	 * in evaluation over time graph. 
+	 * @return Lecture dates and times for evaluation over time graph
+	 */
 	public ArrayList<String> getDateArrayForGraph(){
 		ArrayList<String> dates = new ArrayList<String>(); 
 		Collections.reverse(completedLectureIDs);
@@ -249,7 +255,7 @@ public class Course extends DatabaseUser{
 			String[] dateSplit = date.split("-");
 			String MM = dateSplit[1];
 			String DD = dateSplit[2];
-			date = DD + "/" + MM;
+			date = DD + "." + MM;
 			
 			//Add time of lecture as well:
 			date = date + "\n" + completedLecturesIDDate.get(lecID).get(1).substring(0,5);
@@ -259,10 +265,19 @@ public class Course extends DatabaseUser{
 		return dates;
 	}
 	
+	/**
+	 * @return The rating values for the course
+	 */
 	public ArrayList<String> getRatingValues() {
 		return ratingValues;
 	}
 
+	
+	/**
+	 * Returns an ArrayList of lecture IDs for the given month
+	 * @param monthNum Month
+	 * @return ArrayList of lecture IDs
+	 */
 	public ArrayList<Integer> getLectureIDsMonth(int monthNum){
 		ArrayList<Integer> result = new ArrayList<>();
 		
@@ -312,54 +327,101 @@ public class Course extends DatabaseUser{
 	
 	//Setters
 
+	/**
+	 * @param taughtInSpring Whether or not the course is taught in spring
+	 */
 	public void setTaughtInSpring(boolean taughtInSpring) {
 		this.taughtInSpring = taughtInSpring;
 	}
-
+	
+	/**
+	 * @param taughtInAutumn Whether or not the course is taught in autumn
+	 */
 	public void setTaughtInAutumn(boolean taughtInAutumn) {
 		this.taughtInAutumn = taughtInAutumn;
 	}
 	
+	/**
+	 * @param completedLectureIDs An ArrayList of IDs for completed lectures
+	 */
 	public void setCompletedLectureIDs(ArrayList<Integer> completedLectureIDs) {
 		this.completedLectureIDs = completedLectureIDs;
 	}
 
+	/**
+	 * @param completedLecturesIDDate A LinkedHashMap of IDs for completed lectures and their dates
+	 */
 	public void setCompletedLecturesIDDate(LinkedHashMap<Integer, ArrayList<String>> completedLecturesIDDate) {
 		this.completedLecturesIDDate = completedLecturesIDDate;
 	}
 	
+	/**
+	 * @param courseCode The course's course code
+	 */
 	public void setCourseCode(String courseCode) {
 		this.courseCode = courseCode;
 	}
 
+	/**
+	 * @param courseName The course's english name
+	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-
+	
+	/**
+	 * @param numLectureHours The number of hours the course is taught in a week
+	 */
 	public void setNumLectureHours(int numLectureHours) {
 		this.numLectureHours = numLectureHours;
 	}
 
+	/**
+	 * @param lectureIDs ArrayList of all lectures in the course this semester
+	 */
 	public void setLectureIDs(ArrayList<Integer> lectureIDs) {
 		this.lectureIDs = lectureIDs;
 	}
 	
+	/**
+	 * Calls {@link database.DBController#setCourseRatingsOverTime(Course)} method
+	 */
 	public void setRatingsOverTime(){
 		DBC.setCourseRatingsOverTime(this);
 	}
 	
+	/**
+	 * @return Whether or not the course is taught in autumn
+	 */
 	public boolean isTaughtInAutumn() {
 		return taughtInAutumn;
 	}
 	
+	/**
+	 * @return Whether or not the course is taught in spring
+	 */
 	public boolean isTaughtInSpring() {
 		return taughtInSpring;
 	}
 	
+	/**
+	 * Calls {@link database.DBController#addLectures(String, String, String, String, boolean, String)} method
+	 * @param startTime The lectures start time
+	 * @param startDate The first date the lecture is taught
+	 * @param endDate The last day the lecture is taught
+	 * @param repeat Whether or not the lecture should be repeated every week
+	 * @param professorUsername Name of the professor holding the lecture
+	 * @throws SQLException
+	 */
 	public void addLectures(String startTime, String startDate, String endDate, boolean repeat, String professorUsername) throws SQLException{
 		DBC.addLectures(courseCode, startTime, startDate, endDate, repeat, professorUsername);
 	}
 
+	/**
+	 * Helper method for {@link #getLecRatingCounts(int)}. 
+	 * @param lecIDtoRatingCountHash HashMap containing lecture IDs and number of ratings for a certain rating type
+	 * @return ArrayList of percentage of a given rating for each lecture
+	 */
 	private ArrayList<Integer> createCountArray(HashMap<Integer, Integer> lecIDtoRatingCountHash) {
 		ArrayList<Integer> count = new ArrayList<>();
 		
@@ -377,10 +439,16 @@ public class Course extends DatabaseUser{
 		return count;
 	}
 	
+	/**
+	 * @param lecIDtoNumRatings HashMap containing lecture IDs and number of ratings for a certain rating type
+	 */
 	public void setLecIDtoNumRatings(HashMap<Integer, Integer> lecIDtoNumRatings) {
 		this.lecIDtoNumRatings = lecIDtoNumRatings;
 	}
 
+	/**
+	 * @param ratingValues ArrayList containing the five rating types/values
+	 */
 	public void setRatingValues(ArrayList<String> ratingValues) {
 		this.ratingValues = ratingValues;
 	}
@@ -405,6 +473,9 @@ public class Course extends DatabaseUser{
 		this.lecIDtoRatingCount5 = lecIDtoRatingCount5;
 	}
 	
+	/**
+	 * Sets the lecture IDs for each month
+	 */
 	public void setLectureByMonth(){
 		for(int lecID: completedLectureIDs){
 			String date = completedLecturesIDDate.get(lecID).get(0);
@@ -454,6 +525,9 @@ public class Course extends DatabaseUser{
 		}
 	}
 	
+	/**
+	 * @return Whether or not it is the current semester
+	 */
 	public boolean isCurrentsemester(){
 		char CourseSeason = semester.charAt(0);
 		int CourseYear = Integer.valueOf(semester.substring(1));
@@ -462,8 +536,8 @@ public class Course extends DatabaseUser{
 		char ActualSeason;
 		
 		if(Month <= 7)
-			ActualSeason = 'V';
-		else ActualSeason = 'H';
+			ActualSeason = 'S';
+		else ActualSeason = 'F';
 		
 		return (CourseSeason == ActualSeason && CourseYear == ActualYear);
 	}	
