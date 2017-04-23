@@ -10,10 +10,7 @@ import databaseobjects.Professor;
 import databaseobjects.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -23,11 +20,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
+/**
+ * LoginController --- LoginController is a class that controls all
+ * interaction user interaction with the login GUIs
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class LoginController extends CommonMethods implements Initializable {
 
-	
 	@FXML
 	public Button back;
 	public Button student;
@@ -44,12 +46,12 @@ public class LoginController extends CommonMethods implements Initializable {
 	public Text errorText;
 	public Rectangle errorBar;
 	
-	DBController dbc = new DBController();
-	
+	private DBController dbc = new DBController();
+	private MainController mc = MainController.getInstance();
 	
 	//method for loading next scene based on user 
-	public void whichUser (ActionEvent event) throws IOException {
-		Stage stage = null;
+	@FXML
+	private void whichUser (ActionEvent event) throws IOException {
 		if (event.getSource()==student){
 			loadNextScene(student,  "LoginStud.fxml");
 		}
@@ -59,8 +61,8 @@ public class LoginController extends CommonMethods implements Initializable {
 		
 	}
 	
-	public void handleKeyActionLogin(KeyEvent ke) throws IOException{
-		Stage stage = null;
+	@FXML
+	private void handleKeyActionLogin(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			if (professor.isFocused()){
 				loadNextScene(professor,  "LoginProf.fxml");
@@ -71,23 +73,25 @@ public class LoginController extends CommonMethods implements Initializable {
 		}
 	}
 	
-	//returns you to login.fxml
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+	/**
+	 * returns you to login.fxml
+	 */
+	public void userButtons(ActionEvent event) throws IOException{
 		if (event.getSource() == back) {
 			loadNextScene(back,  "Login.fxml");
 		}
 	} 
 	
-	public void handleKeyActionProf(KeyEvent ke) throws IOException{
+	// --- PROFESSOR LOGIN ---//
+	@FXML
+	private void handleKeyActionProf(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			System.out.println("login as prof");
 			loginProf();
 		}
 	}
-	
+		
 	private void loginProf() throws IOException {
-		Stage stage = null;
 		usernameError.setText("");
 		passwordError.setText("");
     	if (profUsername.getText().isEmpty() || password.getText().isEmpty() ){
@@ -112,25 +116,22 @@ public class LoginController extends CommonMethods implements Initializable {
 			passwordError.setText("Incorrect password, try again");	
 			return;
 		}
-		
-		
 	}
 
-	public void handleKeyActionStud(KeyEvent ke) throws IOException{
+	// --- STUDENT LOGIN ---//
+	@FXML
+	private void handleKeyActionStud(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			loginStud();
 		}
 	}
 	
 	private void loginStud() throws IOException {
-		Stage stage = null;
 		String errorMsg = "User does not exist. Try again";
 		Student stud = new Student(studUsername.getText());
 		
-		
-    	//checks if the student username exists
 		if(stud.existsInDB()) {
-			MainController.getInstance().setStudent(stud);
+			mc.setStudent(stud);
 			loadNextScene(loginStud,  "CourseStud.fxml");
 		}
 		
@@ -142,11 +143,9 @@ public class LoginController extends CommonMethods implements Initializable {
 		
 	}
 
-	public void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
-		Stage stage = null;
-		userButtons(event, stage);
-		String errorMsg = "User doesn't exist. Try again";
-		
+	@FXML
+	private void handleButtonAction(ActionEvent event) throws IOException, NoSuchAlgorithmException{
+		userButtons(event);
 		if(event.getSource()==loginStud  ){
 			loginStud();
 	    }
@@ -166,25 +165,28 @@ public class LoginController extends CommonMethods implements Initializable {
 		}
 		
 	}
-	
+
+	/**
+	 * Initialises the login GUIs
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			if (MainController.getInstance().createUser){
+			if (mc.createUser){
 				errorText.setText("User successfully created");
 				errorBar.setFill(Color.DARKSEAGREEN);
 				errorBar.setVisible(true);
-				MainController.getInstance().createUser = false;
+				mc.createUser = false;
 			}
-			if (!MainController.getInstance().createProfUsername.isEmpty()){
+			if (!mc.createProfUsername.isEmpty()){
 				profUsername.setText(MainController.getInstance().createProfUsername);
 			}
-			if (!MainController.getInstance().createStudUsername.isEmpty()){
+			if (!mc.createStudUsername.isEmpty()){
 				studUsername.setText(MainController.getInstance().createStudUsername);
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e.getMessage());
 		}
 
 	}
