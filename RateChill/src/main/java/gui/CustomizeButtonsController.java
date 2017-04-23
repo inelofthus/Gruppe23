@@ -7,15 +7,11 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Stack;
-
 import database.DBController;
 import databaseobjects.Course;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
@@ -25,7 +21,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
 public class CustomizeButtonsController extends CommonMethods implements Initializable {
 
 	//fxml objects
@@ -33,7 +28,6 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	public Button home;
 	public Button back;
 	public Button logout;
-	
 	public Button submitChanges;
 	public Button cancel;
 	public Button preview;
@@ -150,7 +144,6 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	@FXML
 	private void handleHyperLinkAction(ActionEvent event) throws IOException{
 		if(event.getSource() == info){
-			Stage stage = new Stage();
 			mc.setPopupTitle("Customize Student Buttons Info");
 			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on. The changes will take effect starting from your next lecture. You will still be able to see the individual lecture graphs for old rating values. \n NB: After changing rating values, you will no longer be able to see the lectures over time graph for old rating values");
 			loadPopupHyperLink("InfoPopup.fxml");

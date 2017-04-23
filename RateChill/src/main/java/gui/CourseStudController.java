@@ -5,27 +5,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import api.*;
 import databaseobjects.Course;
 import databaseobjects.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
 import gui.MainController;
 
 public class CourseStudController extends CommonMethods implements Initializable {
-
 	
 	@FXML
 	public Button fag1;
@@ -39,10 +33,8 @@ public class CourseStudController extends CommonMethods implements Initializable
 	public Text errorText;
 	public Rectangle errorBar;
 	
-	
 	//A list of buttons to iterate over in initializer
-	private ArrayList<Button> buttons = new ArrayList<Button>();
-	
+	private ArrayList<Button> buttons = new ArrayList<Button>();	
 	private MainController mc = MainController.getInstance();
 	private Student stud = mc.getStudents();
 	
@@ -156,7 +148,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 		}
 		errorBar.setVisible(true);
 		errorBar.setFill(Color.DARKSEAGREEN);
-		errorText.setText("You are logged in as "+ MainController.getInstance().getStudents().getUsername());
+		errorText.setText("You are logged in as "+ stud.getUsername());
 		
 		String coursesUpdated = mc.coursesUpdated;
 		if (!coursesUpdated.isEmpty()){
@@ -167,7 +159,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 				errorText.setText("No changes were made to your courses");
 			}
-			MainController.getInstance().coursesUpdated = "";
+			mc.coursesUpdated = "";
 		}
 	}
 
