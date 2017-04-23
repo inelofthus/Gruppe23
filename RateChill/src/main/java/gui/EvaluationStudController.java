@@ -12,10 +12,7 @@ import databaseobjects.Evaluation;
 import databaseobjects.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
@@ -26,7 +23,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class EvaluationStudController extends CommonMethods implements Initializable {
 
@@ -49,26 +45,20 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 	public Hyperlink enableOverwrite;
 	public Hyperlink overwriteBack;
 	
-	Student stud = MainController.getInstance().getStudents();
-	Course course = MainController.getInstance().getCourse();
-	Integer lectureID = MainController.getInstance().getChosenStudentLecture();
+	private MainController mc = MainController.getInstance();
+	private Student stud = mc.getStudents();
+	private Course course = mc.getCourse();
+	private Integer lectureID = mc.getChosenStudentLecture();
 	
-	//Creates an evaluation that can be inserted into the database
-	private void createEvaluation(int lecID, String rating, String comment){
-		MainController.getInstance().getStudents().giveEvaluation(lecID, rating, comment);
-	}
-	
-	private void overwriting(int lecID, String rating, String comment) {
-		MainController.getInstance().getStudents().overWriteEvaluation(lecID, rating, comment);
-	}
-	
-	public void handleKeyActionStud(KeyEvent ke) throws IOException{
+	@FXML
+	private void handleKeyActionStud(KeyEvent ke) throws IOException{
 		if(ke.getCode().equals(KeyCode.ENTER)){
 			submitButton();
 		}
 	}
 	
-	public void enableOverwriteAction(ActionEvent event){
+	@FXML
+	private void enableOverwriteAction(ActionEvent event){
 		rating1.setDisable(false);
 		rating2.setDisable(false);
 		rating3.setDisable(false);
@@ -81,6 +71,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		errorText.setText("Give a new evluation or press back to cancel. ");	
 	}
 	
+	// Controls what happens when the submit button is pressed
 	private void submitButton() {
 		//checks if something is selected and gives error message
 		if (!(rating4.isSelected() || rating5.isSelected() || rating3.isSelected() || rating2.isSelected()
@@ -93,14 +84,14 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		//if the user already has submitted one or more evaluations on the subject, it gets overwritten
 		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
 			String comment = evaluationComment.getText();
-			overwriting(lectureID, selectedButton(), comment); //the actual overwriting function
+			stud.overWriteEvaluation(lectureID, selectedButton(), comment); //the actual overwriting function
 			rec.setFill(Color.DARKSEAGREEN);
 			String overwritten = "Your submission has been overwritten";
 			errorText.setText(overwritten);
 			return;
 		}
 		String comment = evaluationComment.getText(); //stores the evaluationComment comment
-		createEvaluation(lectureID, selectedButton(), comment); //insertEvaluation into database
+		stud.giveEvaluation(lectureID, selectedButton(), comment); //insertEvaluation into database
 		
 		//confirmation that the evaluation has been submitted
 		rec.setFill(Color.DARKSEAGREEN);
@@ -109,7 +100,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		submit.setText("Overwrite");		
 	}
 
-	
+	//Gets the student's chosen rating value
 	private String selectedButton() {
 		String rating = "";
 		if (rating4.isSelected()){
@@ -130,8 +121,11 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		return rating;
 	}
 	
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+	/**
+	 * takes user to the correct page if user button (back, logout or home) is
+	 * pressed
+	 */
+	public void userButtons(ActionEvent event) throws IOException{
 		if(event.getSource() == home) {
 			loadNextScene(home,  "CourseStud.fxml");
 		}
@@ -143,17 +137,17 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 		}
 	}
 	
-	
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage = null;
-		userButtons(event, stage);
+		userButtons(event);
 		if (event.getSource() == submit){
 			submitButton();
 		}		
 	}
 	
-	
+	/**
+	 * Initialises the EvaluationStud.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>(Arrays.asList(rating1,rating2,rating3,rating4,rating5));
@@ -162,10 +156,10 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 			buttons.get(i).setText(ratingValues.get(i));
 		}
 		rec.setFill(Color.TRANSPARENT);
-		if(!MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+		if(!stud.hasEvaluatedLecture(lectureID)) {
 			submit.setText("Submit");
 		}
-		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+		if (stud.hasEvaluatedLecture(lectureID)) {
 			rating1.setDisable(true);
 			rating2.setDisable(true);
 			rating3.setDisable(true);
