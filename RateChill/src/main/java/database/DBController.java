@@ -504,7 +504,6 @@ public class DBController {
 					course.setTaughtInAutumn(true);
 				} else
 					course.setTaughtInAutumn(false);
-
 			}
 		} catch (Exception e) {
 			System.out.println("error in helper function DBC.setCourseNameLecHoursAndSemester:" + e.getMessage());
