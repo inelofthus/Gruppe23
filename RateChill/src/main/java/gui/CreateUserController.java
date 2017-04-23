@@ -15,7 +15,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class CreateUserController extends CommonMethods implements Initializable {
 
@@ -30,19 +29,24 @@ public class CreateUserController extends CommonMethods implements Initializable
 	public ToggleGroup toggleGroup;
 	public TextField username;
 
-	DBController DBC = new DBController();
-
-	public void userButtons(ActionEvent event, Stage stage) throws IOException {
+	private DBController DBC = new DBController();
+	private MainController mc = MainController.getInstance();
+	
+	/**
+	 * takes user to the correct page if user button (back) is pressed
+	 */
+	public void userButtons(ActionEvent event) throws IOException {
 		if (event.getSource() == back) {
 			loadNextScene(back, "LoginStud.fxml");
 		}
 	}
 
-	public void createStudentUser(String name) {
+	private void createStudentUser(String name) {
 		DBC.insertStudent(name, "");
 	}
 
-	public void handleKeyAction(KeyEvent ke) throws IOException {
+	@FXML
+	private void handleKeyAction(KeyEvent ke) throws IOException {
 		if (ke.getCode().equals(KeyCode.ENTER)) {
 			handleCreateUser();
 		}
@@ -72,26 +76,26 @@ public class CreateUserController extends CommonMethods implements Initializable
 
 		if (validInput) {
 			createStudentUser(username.getText());
-			MainController.getInstance().createStudUsername = username.getText();
-			MainController.getInstance().createUser = true;
+			mc.createStudUsername = username.getText();
+			mc.createUser = true;
 			loadNextScene(finish, "LoginStud.fxml");
 		}
 	}
 
 	@FXML
 	private void handleButtonAction(ActionEvent event) throws IOException {
-		Stage stage = null;
-		userButtons(event, stage);
-
+		userButtons(event);
 		if (event.getSource() == finish) {
 			handleCreateUser();
 		}
 	}
 
+	/**
+	 * Initialises the CreateUser.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method
-
 	}
 
 }
