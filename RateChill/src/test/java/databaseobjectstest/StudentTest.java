@@ -1,4 +1,4 @@
-package databaseobjects;
+package databaseobjectstest;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -36,14 +36,6 @@ public class StudentTest {
 		public void testgetUsername() {
 			String actual = stud.getUsername();
 			String expected = "karimj";
-			
-			assertEquals(expected, actual);
-		}
-		
-		@Test
-		public void testgetStudyProgram() {
-			String actual = stud.getStudyProgram();
-			String expected = "MTING";
 			
 			assertEquals(expected, actual);
 		}

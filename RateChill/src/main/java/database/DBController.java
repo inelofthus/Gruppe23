@@ -1157,7 +1157,6 @@ public class DBController {
 			}
 
 			rs.next();
-			student.setStudyProgram(rs.getString(1));
 
 			// Find the courseCodes and corresponding courseNames for this
 			// student

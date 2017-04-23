@@ -1,4 +1,4 @@
-package databaseobjects;
+package databaseobjectstest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -296,7 +296,6 @@ public class DummyDBController extends DBController{
 		HashMap<String, String> courseIDNames = new HashMap<>();
 		courseIDNames.put("TDT4140", "Programvareutvikling");
 		
-		student.setStudyProgram("MTING");
 		student.setCourseIDs(courseIDs);
 		student.setCourseIDNames(courseIDNames);
 	}

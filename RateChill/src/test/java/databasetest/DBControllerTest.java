@@ -1,12 +1,9 @@
-package databasecontroller;
+package databasetest;
 
 import static org.junit.Assert.*;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-
 import org.junit.Test;
 import database.DBController;
 import databaseobjects.Course;
@@ -15,8 +12,8 @@ import databaseobjects.Lecture;
 import databaseobjects.Professor;
 import databaseobjects.Student;
 
-/** This class contains CRUD tests for 
- * 	the tables in the database.
+/*
+ * This class contains CRUD tests for the tables in the database
  */
 
 public class DBControllerTest {
@@ -62,7 +59,6 @@ public class DBControllerTest {
 		dbc.loadStudentInfo(stud);
 		
 		assertEquals("testStud", stud.getUsername());
-		assertEquals("BIT", stud.getStudyProgram());
 		
 		assertTrue(dbc.studentExists("testStud"));
 		assertTrue(stud.existsInDB());

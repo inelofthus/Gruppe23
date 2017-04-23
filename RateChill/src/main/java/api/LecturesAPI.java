@@ -30,8 +30,8 @@ public class LecturesAPI {
 	/**
 	 * This method retrieves all lectures for the specified course
 	 * and inserts them into the database 
-	 * @param courseCode
-	 * @param professorUsername
+	 * @param courseCode The course's course code
+	 * @param professorUsername The username of the professor teaching the course
 	 * @throws IOException
 	 */
 	public void getApiInfoAndInsertToDB(String courseCode, String professorUsername) throws IOException{
