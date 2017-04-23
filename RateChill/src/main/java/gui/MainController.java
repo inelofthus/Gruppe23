@@ -21,6 +21,8 @@ public class MainController {
 
 	// The instance that every class will use
 	private static MainController instance = new MainController();
+	
+	// Attributes and objects set by user activity
 	private Student student;
 	private Professor professor;
 	private Course course;
@@ -48,50 +50,99 @@ public class MainController {
 		return instance;
 	}
 
+	/**
+	 * gets the Student object for the student that has logged in to the application
+	 * @return student A student object for the student that has logged in to the application
+	 */
 	public Student getStudent() {
 		return student;
 	}
 
+	
+	/**
+	 * sets the Student object to the student that has logged in to the application
+	 * @param student A student object with information about the logged in student
+	 */
 	public void setStudent(Student student) {
 		this.student = student;
 	}
 
+	/**
+	 * gets the Professor object for the professor that has logged in to the application
+	 * @return professor A Professor object for the professor that has logged in to the application
+	 */
 	public Professor getProfessor() {
 		return professor;
 	}
 
+	/**
+	 * sets the Professor object to the professor that has logged in to the application
+	 * @param professor A professor object with information about the logged in professor
+	 */
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-
+	
+	/**
+	 * gets the current Course object being used in the application
+	 * @return course The course object being used in the application
+	 */
 	public Course getCourse() {
 		return course;
 	}
 
+	/**
+	 * Sets the Course object to the course chosen by the user
+	 * @param course A course object containing information about th chosen course
+	 */
 	public void setCourse(Course course) {
 		this.course = course;
 	}
 
+	/**
+	 * gets the current Lecture object being used in the application
+	 * @return Lecture The lecture object currently in use in the application
+	 */
 	public Lecture getLecture() {
 		return lecture;
 	}
 
+	/**
+	 * Sets the lecture object that is currently being used in the application
+	 * @param lecture The lecture object that is being used in the application
+	 */
 	public void setLecture(Lecture lecture) {
 		this.lecture = lecture;
 	}
 
+	/**
+	 * Gets the Stack object that is used to keep track of which GUI was previously accessed
+	 * @return Stack The stack object that contains the previously accessed GUIs
+	 */
 	public Stack<String> getStack() {
 		return stack;
 	}
 
+	/**
+	 * Sets the Stack object that is used to keep track of which GUI was previously accessed
+	 * @param stack The stack object that contains the previously accessed GUIs
+	 */
 	public void setStack(Stack<String> stack) {
 		this.stack = stack;
 	}
 
+	/**
+	 * Gets the title to be displayed on the InfoPopup to be displayed
+	 * @return title The title to be set in the InfoPopup
+	 */
 	public String getPopupTitle() {
 		return popupTitle;
 	}
 
+	/**
+	 * Sets the title to be displayed on the InfoPopup to be displayed
+	 * @param popupTitle The title to be set in the InfoPopup
+	 */
 	public void setPopupTitle(String popupTitle) {
 		this.popupTitle = popupTitle;
 	}
