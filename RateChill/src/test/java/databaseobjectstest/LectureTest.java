@@ -1,10 +1,11 @@
-package databaseobjects;
+package databaseobjectstest;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Test;
 import database.DBController;
+import databaseobjects.Evaluation;
 import databaseobjects.Lecture;
 
 public class LectureTest {

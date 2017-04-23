@@ -1,4 +1,4 @@
-package database;
+package databasetest;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;

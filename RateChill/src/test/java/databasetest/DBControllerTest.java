@@ -1,4 +1,4 @@
-package database;
+package databasetest;
 
 import static org.junit.Assert.*;
 import java.sql.SQLException;

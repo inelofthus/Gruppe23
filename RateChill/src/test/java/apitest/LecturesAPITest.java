@@ -1,4 +1,4 @@
-package api;
+package apitest;
 
 import static org.junit.Assert.*;
 
