@@ -116,7 +116,6 @@ public class DBControllerTest {
 		//assertEquals(calendar, lect.getLectureDateAndTime()); 
 		assertEquals("testProf", lect.getProfessor());
 		
-		assertTrue(lect.existsInDB());
 		assertTrue(dbc.lectureExists(lectureID));
 		
 		dbc.addLectures("TEST0001", "08:00:00", "2017-01-01", "2017-01-16", true, "testProf");
@@ -128,7 +127,6 @@ public class DBControllerTest {
 		
 		dbc.deleteLecture(lectureID);
 		TestData.deleteTestData();
-		assertFalse(lect.existsInDB());
 		assertFalse(dbc.lectureExists(lectureID));
 		
 	}
