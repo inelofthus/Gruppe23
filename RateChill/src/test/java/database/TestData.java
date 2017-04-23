@@ -1,4 +1,4 @@
-package databasecontroller;
+package database;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import database.DBController;
 import databaseobjects.Professor;
 
-/**
+/*
  * Methods for creating and deleting rows in
  * each table of the database for testing
  * 
