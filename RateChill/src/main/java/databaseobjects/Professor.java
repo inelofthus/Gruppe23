@@ -8,21 +8,31 @@ import java.util.HashMap;
 import database.DBController;
 
 
+/**
+ * 
+ * @author Ine L. Arnesen, Kari M. Johannessen, Magnus Tvilde, Nicolai C. Michelet
+ */
 public class Professor extends DatabaseUser {
 	private String username;
-	String encryptedPassword;
-	ArrayList<String> courseIDs;
-	HashMap<String, String> courseIDNames;
+	private String encryptedPassword;
+	private ArrayList<String> courseIDs;
+	private HashMap<String, String> courseIDNames;
 	
-	// Constructor 1
+	/**
+	 * Professor constructor.
+	 * @param professorUsername The professor's username
+	 */
 	public Professor(String professorUsername) {
 		this.username = professorUsername;
 		DBC.loadProfessorInfo(this);
 		this.encryptedPassword = DBC.getStringArray("select professorPassword from Professor Where professorUsername = '" + professorUsername + "';").get(0);
 	}
 	
+	/**
+	 * @param encryptedPassword The encrypted password 
+	 * @return Whether or not the encrypted password was correct
+	 */
 	public boolean isCorrectPassword(String encryptedPassword) {
-			
 		boolean ans = false;
 		
 		try {
@@ -34,7 +44,12 @@ public class Professor extends DatabaseUser {
 		return ans;
 	}
 
-	// Constructor2 for use in testing
+	/**
+	 * Professor constructor used in testing.
+	 * @param professorUsername Professor's username
+	 * @param encryptedPassword The professor's encrypted password
+	 * @param newDBC The database controller switched to
+	 */
 	public Professor(String professorUsername, String encryptedPassword, DBController newDBC) {
 		this.username = professorUsername;
 		switchDBC(newDBC);
@@ -42,24 +57,37 @@ public class Professor extends DatabaseUser {
 		this.encryptedPassword = DBC.getStringArray("select professorPassword from Professor Where professorUsername = '" + professorUsername + "';").get(0);
 	}
 	
+	/**
+	 * @return Whether or not the professor exists in the database
+	 */
 	public boolean existsInDB(){
 		return DBC.professorExists(username);
 	}
 	
+	
 	// Getters
+	
 	public HashMap<String, String> getCourseIDNames() {
 		return courseIDNames;
 	}
 
+	/**
+	 * Returns lecture IDs for all lectures given by this professor in the specified course
+	 * that have already passed ordered by newest lecture
+	 * @param courseCode The course's course code
+	 * @return Lecture IDs for all completed lectures ordered by newest lecture
+	 */
 	public ArrayList<Integer> getLecturesForCourse(String courseCode){
-		// returns lectureIDs for all lectures given by this professor that have already passed
-		// Order is with the newest lecture first
 		return DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);
 	}
 	
+	/**
+	 * Returns lecture IDs for last two lectures given by this professor that have 
+	 * already passed in specified course ordered by newest lecture 
+	 * @param courseCode The course's course code
+	 * @return Lecture IDs for last two lectures for the specified course
+	 */
 	public ArrayList<Integer> getLastTwoCompletedLecturesForCourse(String courseCode){
-		// returns lectureIDs for last two lectures given by this professor that have already passed in specified course
-		// Order is with the newest lecture first
 		ArrayList<Integer> lastTwoCompleteLectures = new ArrayList<>();
 		ArrayList<Integer> allCompletedLectures = DBC.getCompletedLecturesForCourseByProfessor(courseCode, username);
 		
@@ -82,12 +110,17 @@ public class Professor extends DatabaseUser {
 		return courseIDs;
 	}
 	
+	/**
+	 * @param courseCode The course's course code
+	 * @return The course's name
+	 */
 	public String getCourseNameForCourse(String courseCode) {
-		// will give the corresponding courseName for the students Course
 		return courseIDNames.get(courseCode);
 	}
 	
+	
 	//Setters
+	
 	public void setCourseIDNames(HashMap<String, String> courseIDNames) {
 		this.courseIDNames = courseIDNames;
 	}
@@ -96,7 +129,11 @@ public class Professor extends DatabaseUser {
 		this.courseIDs = courseIDs;
 	}
 
-	
+	/**
+	 * Method for hashing passwords
+	 * @param password The password to be hashed
+	 * @return The password in hashed form
+	 */
 	public static String hashPassword(String password) {
 		MessageDigest md = null;
 		try {
@@ -113,12 +150,14 @@ public class Professor extends DatabaseUser {
 			sb.append(Integer.toHexString(b1 & 0xff).toString());
 		}
 		
-		
 		return sb.toString();
 	}
 
+	/**
+	 * Checks if the professor user has set a password yet
+	 * @return Whether or not professor has set a password
+	 */
 	public boolean hasPassword() {
-		
 		return !encryptedPassword.equals("np");
 	}
 	
