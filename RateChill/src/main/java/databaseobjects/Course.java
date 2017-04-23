@@ -10,6 +10,11 @@ import java.util.LinkedHashMap;
 
 import database.DBController;
 
+
+/**
+ * Class defining the Course object.
+ * @author Ine L. Arnesen, Kari M. Johannessen, Magnus Tvilde, Nicolai C. Michelet
+ */
 public class Course extends DatabaseUser{
 	
 	private ArrayList<String> ratingValues = new ArrayList<>(Arrays.asList("Excellent","Good","Ok","Poor","Unsatisfactory"));
@@ -25,7 +30,7 @@ public class Course extends DatabaseUser{
 	private boolean taughtInAutumn;
 	
 	//To be used to generate lectures over time graph:
-	public HashMap<Integer, Integer> lecIDtoNumRatings;
+	private HashMap<Integer, Integer> lecIDtoNumRatings;
 	private HashMap<Integer, Integer> lecIDtoRatingCount1;
 	private HashMap<Integer, Integer> lecIDtoRatingCount2;
 	private HashMap<Integer, Integer> lecIDtoRatingCount3;
@@ -46,14 +51,23 @@ public class Course extends DatabaseUser{
 	private ArrayList<Integer> lectureIDsMonth11= new ArrayList<>();
 	private ArrayList<Integer> lectureIDsMonth12 = new ArrayList<>();
 	
+	/**
+	 * The Course constructor initializes a Course and sets
+	 * the member variables with information from the database
+	 * for the current semester
+	 * @param courseCode The course's course code
+	 */
 	public Course(String courseCode) {
-		// loads a course object with the newest semester
 		setCourseCode(courseCode);
 		DBC.loadCourseInfo(this);
 		this.semester = getCurrentSemester();
 	}
 
-	//Constructor 2 ONLY FOR USE WITH TESTING
+	/**
+	 * This constructor is only for testing purposes
+	 * @param courseCode - The course's course code
+	 * @param newDBC - A mock database controller
+	 */
 	public Course(String courseCode, DBController newDBC) {
 			this.courseCode = courseCode;
 			switchDBC(newDBC);
@@ -63,38 +77,65 @@ public class Course extends DatabaseUser{
 
 	//Getters
 	
+	/**
+	 * @return The current semester
+	 */
 	public String getSemester() {
 		return semester;
 	}
-
+	
+	/**
+	 * @return The default rating values
+	 */
 	public ArrayList<String> getDefaultRatingValues() {
 		return defaultRatingValues;
 	}
 
+	/**
+	 * @return An ArrayList<Integer> of the IDs for all completed lectures in the course
+	 */
 	public ArrayList<Integer> getCompletedLectureIDs() {
 		return completedLectureIDs;
 	}
 	
+	/**
+	 * @return A LinkedHashMap of the IDs for completed lectures and their dates
+	 */
 	public LinkedHashMap<Integer, ArrayList<String>> getCompletedLecturesIDDate() {
 		return completedLecturesIDDate;
 	}
 	
+	/**
+	 * @return The Course object's course code
+	 */
 	public String getCourseCode() {
 		return courseCode;
 	}
 	
+	/**
+	 * @return The course object's course name
+	 */
 	public String getCourseName() {
 		return courseName;
 	}
 
+	/**
+	 * @return The number of lecture hours a week for the course
+	 */
 	public int getNumLectureHours() {
 		return numLectureHours;
 	}
 
+	/**
+	 * @return A list of all registered lectures for the course
+	 */
 	public ArrayList<Integer> getLectureIDs() {
 		return lectureIDs;
 	}
 	
+	/**
+	 * @return The IDs for the last two completed lectures
+	 */
 	public ArrayList<Integer> getLastTwoCompletedLectureIDs() {
 		ArrayList<Integer> lastTwo = new ArrayList<>();
 		if(completedLectureIDs.size() > 0 ){
@@ -105,10 +146,20 @@ public class Course extends DatabaseUser{
 		return lastTwo;
 	}
 	
+	/**
+	 * Returns the time a given lecture was or is to be held
+	 * @param lecID The lecture's ID
+	 * @return The time at which the lecture was or is to be held
+	 */
 	public String getLectureTime(int lecID){
 		return completedLecturesIDDate.get(lecID).get(1);
 	}
 	
+	/**
+	 * Returns the date a given lecture was or is to be held
+	 * @param lecID The lecture's ID
+	 * @return The date at which the lecture was or is to be held
+	 */
 	public String getLectureDate(int lecID){
 		String date = null;
 		if(completedLectureIDs.contains(lecID))	{
@@ -117,6 +168,10 @@ public class Course extends DatabaseUser{
 		return date;
 	}
 	
+	/**
+	 * Returns a LinkedHashMap containing the ID and time for the last two completed lectures
+	 * @return A LinkedHashMap containing the ID and time for the last two completed lectures
+	 */
 	public LinkedHashMap<Integer, ArrayList<String>> getLastTwoCompletedLectures() {
 		LinkedHashMap<Integer, ArrayList<String>> lastTwoHashMap = new LinkedHashMap<>();
 		int id;
@@ -136,35 +191,31 @@ public class Course extends DatabaseUser{
 		return lastTwoHashMap;
 	}
 	
+	/**
+	 * Calculates the current semester. Is to be used in the constructor
+	 * to set the semester member variable
+	 * @return The current semester and year, e.g. S2017
+	 */
 	private String getCurrentSemester(){
-		if(completedLectureIDs.size()>0){
-			String date = getLectureDate(completedLectureIDs.get(0));
-			String[] dateSplit = date.split("-");
-			String year = dateSplit[0];
-			String month = dateSplit[1];
-			char semester = 'H';
-			
-			if(Integer.valueOf(month) < 7){
-				semester = 'V';
-			}
-			return semester + year;
-		} 	
-		int Year = Calendar.getInstance().get(Calendar.YEAR);
-		int Month = Calendar.getInstance().get(Calendar.MONTH) +1;
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int month = Calendar.getInstance().get(Calendar.MONTH) +1;
 		char season;
 		
-		if (Month <= 7){
-			season = 'V';
+		if (month <= 7){
+			season = 'S';
 		} else {
-			season = 'H';
+			season = 'F';
 		}
-		
 		StringBuilder sb = new StringBuilder();
-		sb.append(season).append(Year);
-		
+		sb.append(season).append(year);
 		return sb.toString();
 	}
 	
+	/**
+	 * Returns a list of 
+	 * @param i
+	 * @return
+	 */
 	public ArrayList<Integer> getLecRatingCounts(int i){
 		ArrayList<Integer> count = new ArrayList<>();
 			switch (i) {

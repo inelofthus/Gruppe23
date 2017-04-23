@@ -233,17 +233,14 @@ public class DBController {
 			timeConstraint = "(lectureDate < now() OR (lectureDate = now()  AND lectureTime < now()))"
 					+ "AND  YEAR(lectureDate) = " + year;
 		} else {
-			if (season == 'V') {
+			if (season == 'S') {
 				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) < 7) AND YEAR(lectureDate) = "
 						+ year;
-
-			} else if (season == 'H') {
+			} else if (season == 'F') {
 				timeConstraint = " (lectureDate < now() OR (lectureDate = now()  AND lectureTime < now())) AND (MONTH(lectureDate) >= 7) AND YEAR(lectureDate) = "
 						+ year;
 			}
-
 		}
-
 		System.out.println(timeConstraint);
 		return timeConstraint;
 	}

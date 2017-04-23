@@ -179,7 +179,7 @@ public class CourseTest {
 	@Test
 	public void  TestgetSemester() {
 		String actual = course.getSemester();
-		String expected = "V2017";
+		String expected = "S2017";
 		
 		assertEquals(expected, actual);
 	}
