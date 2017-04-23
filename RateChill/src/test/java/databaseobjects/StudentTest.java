@@ -41,14 +41,6 @@ public class StudentTest {
 		}
 		
 		@Test
-		public void testgetStudyProgram() {
-			String actual = stud.getStudyProgram();
-			String expected = "MTING";
-			
-			assertEquals(expected, actual);
-		}
-		
-		@Test
 		public void testgetCourseIDs() {
 			ArrayList<String> actual = stud.getCourseIDs();
 			ArrayList<String> expected = new ArrayList<>(Arrays.asList("TDT4140"));

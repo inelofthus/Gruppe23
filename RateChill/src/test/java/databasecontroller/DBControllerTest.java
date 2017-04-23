@@ -62,7 +62,6 @@ public class DBControllerTest {
 		dbc.loadStudentInfo(stud);
 		
 		assertEquals("testStud", stud.getUsername());
-		assertEquals("BIT", stud.getStudyProgram());
 		
 		assertTrue(dbc.studentExists("testStud"));
 		assertTrue(stud.existsInDB());
