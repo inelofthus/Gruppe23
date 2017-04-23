@@ -19,11 +19,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class CustomizeButtonsController extends CommonMethods implements Initializable {
 
-	//fxml objects
+	// fxml objects
 	@FXML
 	public Button home;
 	public Button back;
@@ -45,18 +44,17 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 	public Text errorText;
 	public Rectangle errorBar;
 	public Hyperlink info;
-	
+
 	public Color MYRED = new Color(0.937, 0.290, 0.290, 1);
-	
-	MainController mc = MainController.getInstance();
-	DBController DBC = new DBController();
-	Course course = MainController.getInstance().getCourse();
-	ArrayList<String> ratings = course.getRatingValues();
-	ArrayList<TextField> texts = new ArrayList<TextField>();
-	ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
-	private Stack<String> stack = MainController.getInstance().getStack();
-	
-	
+
+	private MainController mc = MainController.getInstance();
+	private DBController DBC = new DBController();
+	private Course course = mc.getCourse();
+	private ArrayList<String> ratings = course.getRatingValues();
+	private ArrayList<TextField> texts = new ArrayList<TextField>();
+	private ArrayList<ToggleButton> buttons = new ArrayList<ToggleButton>();
+	private Stack<String> stack = mc.getStack();
+
 	private void createHelpingLists() {
 		texts.add(buttonText1);
 		texts.add(buttonText2);
@@ -68,122 +66,126 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 		buttons.add(button3);
 		buttons.add(button4);
 		buttons.add(button5);
-	}	
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
+	}
+
+	/**
+	 * takes user to the correct page if user button (back, cancel, logout or
+	 * home) is pressed
+	 */
+	public void userButtons(ActionEvent event) throws IOException {
 		if (event.getSource() == home) {
 			loadNextScene(home, "CourseProf.fxml");
 		}
 		if (event.getSource() == back || event.getSource() == cancel) {
-			MainController.getInstance().buttonsSaved = "false";
-			MainController.getInstance().buttonsSavedOrigin = stack.pop();
-			loadNextScene(back, MainController.getInstance().buttonsSavedOrigin);
+			mc.buttonsSaved = "false";
+			mc.buttonsSavedOrigin = stack.pop();
+			loadNextScene(back, mc.buttonsSavedOrigin);
 			return;
 		}
 		if (event.getSource() == logout) {
 			loadNextScene(logout, "Login.fxml");
 		}
 	}
-	
-	public boolean isUserButtonPushed(ActionEvent event) {
-		if (event.getSource() == home || event.getSource() == back || event.getSource() == cancel || event.getSource() == logout) {
+
+	private boolean isUserButtonPushed(ActionEvent event) {
+		if (event.getSource() == home || event.getSource() == back || event.getSource() == cancel
+				|| event.getSource() == logout) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean haveMadeButtonChanges() {
-		if (buttonIsChanged(buttonText1) || buttonIsChanged(buttonText2) || buttonIsChanged(buttonText3) || buttonIsChanged(buttonText4) || buttonIsChanged(buttonText5)) {
+
+	private boolean haveMadeButtonChanges() {
+		if (buttonIsChanged(buttonText1) || buttonIsChanged(buttonText2) || buttonIsChanged(buttonText3)
+				|| buttonIsChanged(buttonText4) || buttonIsChanged(buttonText5)) {
 			return true;
 		}
 		return false;
 	}
-	
-	
-	public void setPreviewTexts(ArrayList<String> array) {
-		for (int i = 0; i<5;i++) {
+
+	private void setPreviewTexts(ArrayList<String> array) {
+		for (int i = 0; i < 5; i++) {
 			buttons.get(i).setText(array.get(i));
 		}
 	}
-	
-	
-	public void initializePreview() {
-		for (int i = 0; i<5;i++) {
-			buttons.get(i).setText(ratings.get(i));
-		}
-	}
-	
-	public boolean buttonIsChanged(TextField text) {
-		if(text.getText().length()>0) {
+
+	private boolean buttonIsChanged(TextField text) {
+		if (text.getText().length() > 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	public ArrayList<String> makeListOfValues() {
+
+	/*
+	 * Makes a list of the new rating values: New value if something is typed in that field or old value otherwise
+	 */
+	private ArrayList<String> makeListOfValues() {
 		ArrayList<String> list = new ArrayList<String>();
-		for(int i = 0;i<5;i++) {
+		for (int i = 0; i < 5; i++) {
 			if (buttonIsChanged(texts.get(i))) {
 				list.add(texts.get(i).getText());
-			}
-			else {
+			} else {
 				list.add(ratings.get(i));
 			}
 		}
 		return list;
 	}
-	
-	public boolean equalRatings(ArrayList<String> checkList) {
+
+	/*
+	 * Checks if the input list has duplicate values
+	 */
+	private boolean equalRatings(ArrayList<String> checkList) {
 		Set<String> set = new HashSet<String>(checkList);
-		if(set.size()<checkList.size()) {
+		if (set.size() < checkList.size()) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	/*
+	 * Loads an info popup if the info hyperlink is pressed
+	 */
 	@FXML
-	private void handleHyperLinkAction(ActionEvent event) throws IOException{
-		if(event.getSource() == info){
+	private void handleHyperLinkAction(ActionEvent event) throws IOException {
+		if (event.getSource() == info) {
 			mc.setPopupTitle("Customize Student Buttons Info");
-			mc.setPopupMessage("Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on. The changes will take effect starting from your next lecture. You will still be able to see the individual lecture graphs for old rating values. \n NB: After changing rating values, you will no longer be able to see the lectures over time graph for old rating values");
+			mc.setPopupMessage(
+					"Customizing student buttons means that you change the rating values that the students can evaluate your lecture based on. The changes will take effect starting from your next lecture. You will still be able to see the individual lecture graphs for old rating values. \n NB: After changing rating values, you will no longer be able to see the lectures over time graph for old rating values");
 			loadPopupHyperLink("InfoPopup.fxml");
 		}
 	}
-	
+
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage = null;
+	private void handleButtonAction(ActionEvent event) throws IOException {
 		errorText.setText("");
 		errorBar.setVisible(false);
 		if (isUserButtonPushed(event)) {
-			userButtons(event, stage);
+			userButtons(event);
 			return;
-		}
-		else if(event.getSource() == preview) {
+		} else if (event.getSource() == preview) {
 			setPreviewTexts(makeListOfValues());
 			return;
-		}else if (event.getSource() == revert){
+		} else if (event.getSource() == revert) {
 			ArrayList<String> defaultRatings = course.getDefaultRatingValues();
 			buttonText1.setText(defaultRatings.get(0));
 			buttonText2.setText(defaultRatings.get(1));
 			buttonText3.setText(defaultRatings.get(2));
 			buttonText4.setText(defaultRatings.get(3));
 			buttonText5.setText(defaultRatings.get(4));
-			
+
 			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 			errorBar.setVisible(true);
 			setPreviewTexts(makeListOfValues());
 			errorText.setText("Previewing default rating values. Press submit to confirm this change");
-		}
-		else if (event.getSource() == submitChanges){
+		} else if (event.getSource() == submitChanges) {
 			if (!haveMadeButtonChanges()) {
 				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 				errorBar.setVisible(true);
 				errorText.setText("You have not made any changes");
 				return;
-			}			
+			}
 			ArrayList<String> inputValues = makeListOfValues();
-			if(tooLongInput(inputValues)){
+			if (tooLongInput(inputValues)) {
 				errorBar.setFill(MYRED);
 				errorBar.setVisible(true);
 				errorText.setText("Text is too long. The maximum length of a rating value is 20 characters.");
@@ -195,22 +197,21 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 				errorText.setText("There exists duplicate rating-values, please make them unique");
 				return;
 			}
-			
-			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1), inputValues.get(2), inputValues.get(3), inputValues.get(4));
-			MainController.getInstance().buttonsSaved = "true";
-			MainController.getInstance().buttonsSavedOrigin = stack.pop();
-			loadNextScene(submitChanges, MainController.getInstance().buttonsSavedOrigin); 
+
+			DBC.insertCourseRatingValues(course.getCourseCode(), inputValues.get(0), inputValues.get(1),
+					inputValues.get(2), inputValues.get(3), inputValues.get(4));
+			mc.buttonsSaved = "true";
+			mc.buttonsSavedOrigin = stack.pop();
+			loadNextScene(submitChanges, mc.buttonsSavedOrigin);
 			course.setRatingValues(inputValues);
-			MainController.getInstance().setCourse(course);
+			mc.setCourse(course);
 		}
 		return;
 	}
-	
-	
+
 	private boolean tooLongInput(ArrayList<String> inputValues) {
-		
-		for(String rv: inputValues){
-			if(rv.length() > 20){
+		for (String rv : inputValues) {
+			if (rv.length() > 20) {
 				return true;
 			}
 		}
@@ -219,9 +220,8 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method
 		createHelpingLists();
-		initializePreview();
+		setPreviewTexts(ratings);
 	}
 
 }
