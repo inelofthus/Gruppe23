@@ -15,13 +15,13 @@ import javafx.scene.text.Text;
  * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
  *         Cappelen Michelet, Magnus Tvilde
  */
-public class InfoPopupController implements Initializable{
+public class InfoPopupController implements Initializable {
 
 	@FXML
 	public Rectangle titleBar;
 	public Text title;
 	public Label message;
-	
+
 	MainController mc = MainController.getInstance();
 
 	/**
@@ -31,10 +31,6 @@ public class InfoPopupController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		title.setText(mc.getPopupTitle());
 		message.setText(mc.getPopupMessage());
-		
+
 	}
-
-
-		
-	}
-
+}
