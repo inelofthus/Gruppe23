@@ -2,29 +2,27 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
-
 import database.DBController;
+import databaseobjects.Course;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
+/**
+ * LectureStudController --- LectureStudController is a class that controls all
+ * interaction user interaction with the LectureStud.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class LectureStudController extends CommonMethods implements Initializable {
 
-	
 	@FXML
 	public Button lecture1;
 	public Button lecture2;
@@ -32,143 +30,110 @@ public class LectureStudController extends CommonMethods implements Initializabl
 	public Button back;
 	public Button logout;
 	public Text errorMsg;
-	
+
 	private DBController DBC = new DBController();
-	
-	public void userButtons(ActionEvent event, Stage stage) throws IOException{
-		if(event.getSource() == home) {
-			loadNextScene(home,  "CourseStud.fxml");
+	private MainController mc = MainController.getInstance();
+	private Course course = mc.getCourse();
+	private ArrayList<Integer> last2CompletedLectures = course.getLastTwoCompletedLectureIDs();
+	private int keyLec1, keyLec2;
+
+	/**
+	 * takes user to the correct page if user button (back, logout or home) is
+	 * pressed
+	 */
+	public void userButtons(ActionEvent event) throws IOException {
+		if (event.getSource() == home) {
+			loadNextScene(home, "CourseStud.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back,  "CourseStud.fxml");
+			loadNextScene(back, "CourseStud.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout,  "Login.fxml");
+			loadNextScene(logout, "Login.fxml");
 		}
 	}
-	
-	
+
 	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		Stage stage = null;
-		userButtons(event, stage);
-		
-		int numberOfLectures = MainController.getInstance().getCourse().getLectureIDs().size();
-		
-		if (numberOfLectures==0) {
-			
+	private void handleButtonAction(ActionEvent event) throws IOException {
+		userButtons(event);
+		int numberOfLectures = course.getLectureIDs().size();
+		if (numberOfLectures == 0) {
 			return;
+		} else if (event.getSource() == lecture1 && numberOfLectures > 0) {
+			mc.setChosenStudentLecture(keyLec1);
+			loadNextScene(lecture1, "EvaluationStud.fxml");
+		} else if (event.getSource() == lecture2 && numberOfLectures > 1) {
+			mc.setChosenStudentLecture(keyLec2);
+			loadNextScene(lecture2, "EvaluationStud.fxml");
 		}
-		else if(event.getSource()==lecture1 && numberOfLectures>0){
-	    	//get reference to the button's stage         
-	        MainController.getInstance().setChosenStudentLecture(getKeyLec1());
-	        loadNextScene(lecture1,  "EvaluationStud.fxml");
-	    }
-	    else if(event.getSource() == lecture2 && numberOfLectures>1){
-	    	MainController.getInstance().setChosenStudentLecture(getKeyLec2());
-	    	loadNextScene(lecture2,  "EvaluationStud.fxml");
-	    } 
-	} 
-	
-	public void handleKeyAction(KeyEvent ke) throws IOException{
-		Stage stage = null;
-		if(ke.getCode().equals(KeyCode.ENTER)){
-			if (lecture1.isFocused()){
-				MainController.getInstance().setChosenStudentLecture(getKeyLec1());
-				loadNextScene(lecture1,  "EvaluationStud.fxml");
-			}
-			else if (lecture2.isFocused()) {
-				MainController.getInstance().setChosenStudentLecture(getKeyLec2());
-				loadNextScene(lecture2,  "EvaluationStud.fxml");
+	}
+
+	@FXML
+	private void handleKeyAction(KeyEvent ke) throws IOException {
+		if (ke.getCode().equals(KeyCode.ENTER)) {
+			if (lecture1.isFocused()) {
+				mc.setChosenStudentLecture(keyLec1);
+				loadNextScene(lecture1, "EvaluationStud.fxml");
+			} else if (lecture2.isFocused()) {
+				mc.setChosenStudentLecture(keyLec2);
+				loadNextScene(lecture2, "EvaluationStud.fxml");
 			}
 		}
 	}
-	   
-	private int getKeyLec2() {
-		// helper method that returns the lectureID of the first lecture of lastTwoLectures		
-		LinkedHashMap<Integer, ArrayList<String>> map = MainController.getInstance().getLastTwoLecturesStudent();
-		Iterator<Integer> entries = map.keySet().iterator();
-		return entries.next();
+
+	private String getLectureTimeText(int lecID) {
+		String time = "";
+		try {
+			ArrayList<String> dateTime = course.getCompletedLecturesIDDate().get(lecID);
+			time = dateTime.get(1).substring(0, 5);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return time;
+	}
+
+	private String getLectureDateText(int lecID) {
+		String date = "";
+		try {
+		date = course.getLectureDate(lecID);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return date;
 	}
 	
-	private int getKeyLec1() {
-		// helper method that returns the lectureID of the second lecture of lastTwoLectures		
-		LinkedHashMap<Integer, ArrayList<String>> map = MainController.getInstance().getLastTwoLecturesStudent();
-		Iterator<Integer> entries = map.keySet().iterator();
-		entries.next();
-		return entries.next();
-		
-		
-	}
-
-
-
+	/**
+	 * Initialises the LectureStud.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Set text of buttons to contain date of lecture
-		int numberOfLectures = MainController.getInstance().getCourse().getLastTwoCompletedLectureIDs().size();
-		if (numberOfLectures==0) {
+		int numberOfLectures = last2CompletedLectures.size();
+		if (numberOfLectures == 0) {
 			errorMsg.setText("No completed lectures have been registered for this course yet");
 			lecture1.setVisible(false);
 			lecture2.setVisible(false);
 			return;
-		}
-		else if(numberOfLectures<2) {
-			lecture1.setText(DBC.changeDateFormat(getLectureDateText(getKeyLec1())) );
-		}
-		else {
-			int keyLec1 = getKeyLec1();
-			int keyLec2 = getKeyLec2();
-			
-			if(getLectureDateText(keyLec1).equals(getLectureDateText(keyLec2))){
+		} else if (numberOfLectures < 2) {
+			keyLec1 = last2CompletedLectures.get(0);
+			lecture1.setText(DBC.changeDateFormat(getLectureDateText(keyLec1)));
+		} else {
+			// If both lectures have the same date, the lecture time must also
+			// be presented
+			keyLec1 = last2CompletedLectures.get(1);
+			keyLec2 = last2CompletedLectures.get(0); 
+			if (getLectureDateText(keyLec1).equals(getLectureDateText(keyLec2))) {
 				lecture1.setText(
-						DBC.changeDateFormat(getLectureDateText(getKeyLec1())) + "\n" + getLectureTimeText(keyLec1));
+						DBC.changeDateFormat(getLectureDateText(keyLec1)) + "\n" + getLectureTimeText(keyLec1));
 				lecture2.setText(
-						DBC.changeDateFormat(getLectureDateText(getKeyLec2())) + "\n" + getLectureTimeText(keyLec2));
-			}else{
-				lecture1.setText(
-						DBC.changeDateFormat(getLectureDateText(getKeyLec1())) );
-				lecture2.setText(
-						DBC.changeDateFormat(getLectureDateText(getKeyLec2())) );
+						DBC.changeDateFormat(getLectureDateText(keyLec2)) + "\n" + getLectureTimeText(keyLec2));
+			} else {
+				lecture1.setText(DBC.changeDateFormat(getLectureDateText(keyLec1)));
+				lecture2.setText(DBC.changeDateFormat(getLectureDateText(keyLec2)));
 			}
-			
-			
+			course.getLectureDate(keyLec1);
 		}
-		
-		
+
 	}
-
-
-
-	private String getLectureTimeText(int lecID) {
-		String time = "";
-		
-		try {
-		ArrayList<String> dateTime = MainController.getInstance().getCourse().getCompletedLecturesIDDate().get(lecID);	
-		time = dateTime.get(1).substring(0,5);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-				
-		return time;
-	}
-
-
-	private String getLectureDateText(int lecID) {
-		// TODO Auto-generated method stub
-		String date = "";
-		
-		try {
-		date = MainController.getInstance().getCourse().getLectureDate(lecID);
-		System.out.println(date);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-				
-		return date;
-	}
-	
-	
-	
 
 }
