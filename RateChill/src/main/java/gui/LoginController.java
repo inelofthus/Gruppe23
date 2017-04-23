@@ -172,17 +172,17 @@ public class LoginController extends CommonMethods implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			if (mc.createUser){
+			if (mc.isCreateUser()){
 				errorText.setText("User successfully created");
 				errorBar.setFill(Color.DARKSEAGREEN);
 				errorBar.setVisible(true);
-				mc.createUser = false;
+				mc.setCreateUser(false);
 			}
-			if (!mc.createProfUsername.isEmpty()){
-				profUsername.setText(MainController.getInstance().createProfUsername);
+			if (!mc.getCreateProfUsername().isEmpty()){
+				profUsername.setText(mc.getCreateProfUsername());
 			}
-			if (!mc.createStudUsername.isEmpty()){
-				studUsername.setText(MainController.getInstance().createStudUsername);
+			if (!mc.getCreateStudUsername().isEmpty()){
+				studUsername.setText(MainController.getInstance().getCreateStudUsername());
 			}
 			
 		} catch (Exception e) {

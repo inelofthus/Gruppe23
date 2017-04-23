@@ -48,10 +48,11 @@ public class SelectCourseStudController implements Initializable {
 	public ListView<String> choices;
 
 	private ArrayList<String> allCourses;
-	Color myRed = new Color(0.937, 0.290, 0.290, 1);
+	private Color myRed = new Color(0.937, 0.290, 0.290, 1);
 	
-	private Student stud = MainController.getInstance().getStudents();
-	DBController DBC = new DBController();
+	private Student stud = MainController.getInstance().getStudent();
+	private DBController DBC = new DBController();
+	private MainController mc = MainController.getInstance();
 
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
 		stage = (Stage) button.getScene().getWindow();
@@ -127,7 +128,7 @@ public class SelectCourseStudController implements Initializable {
 				options.getSelectionModel().clearSelection();
 				options.getItems().remove(s);
 				choices.getItems().add(s);
-				MainController.getInstance().coursesUpdated = "true";
+				mc.setCoursesUpdated("true");
 			}
 		}
 		if (event.getSource() == sendLeft) {
@@ -146,7 +147,7 @@ public class SelectCourseStudController implements Initializable {
 				options.getSelectionModel().clearSelection();
 				choices.getItems().remove(s);
 				options.getItems().add(s);
-				MainController.getInstance().coursesUpdated = "true";
+				mc.setCoursesUpdated("true");
 			}
 		}
 
@@ -189,7 +190,7 @@ public class SelectCourseStudController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		MainController.getInstance().coursesUpdated = "false";
+		mc.setCoursesUpdated("false");
 		allCourses = DBC.getAllCourses();
 		options.getItems().clear();
 		options.getItems().addAll(allCourses);

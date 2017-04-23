@@ -53,7 +53,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 	public Hyperlink overwriteBack;
 	
 	private MainController mc = MainController.getInstance();
-	private Student stud = mc.getStudents();
+	private Student stud = mc.getStudent();
 	private Course course = mc.getCourse();
 	private Integer lectureID = mc.getChosenStudentLecture();
 	
@@ -89,7 +89,7 @@ public class EvaluationStudController extends CommonMethods implements Initializ
 			return;
 		}
 		//if the user already has submitted one or more evaluations on the subject, it gets overwritten
-		if (MainController.getInstance().getStudents().hasEvaluatedLecture(lectureID)) {
+		if (stud.hasEvaluatedLecture(lectureID)) {
 			String comment = evaluationComment.getText();
 			stud.overWriteEvaluation(lectureID, selectedButton(), comment); //the actual overwriting function
 			rec.setFill(Color.DARKSEAGREEN);

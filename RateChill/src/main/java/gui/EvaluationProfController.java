@@ -122,18 +122,18 @@ public class EvaluationProfController extends CommonMethods implements Initializ
 		setEvaluationData(createSeries(numbersList));
 
 		// Gives feedback for updated evaluation buttons
-		if (mc.buttonsSaved == "true"
-				&& mc.buttonsSavedOrigin.equals("IndividualCharts.fxml")) {
+		if (mc.getButtonsSaved() == "true"
+				&& mc.getButtonsSavedOrigin().equals("IndividualCharts.fxml")) {
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.DARKSEAGREEN);
 			errorText.setText("Evaluation buttons successfully customized.");
-		} else if (mc.buttonsSaved == "false"
-				&& mc.buttonsSavedOrigin.equals("IndividualCharts.fxml")) {
+		} else if (mc.getButtonsSaved() == "false"
+				&& mc.getButtonsSavedOrigin().equals("IndividualCharts.fxml")) {
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 			errorText.setText("No changes were made to student evaluation options");
 		}
-		MainController.getInstance().buttonsSaved = "";
+		mc.setButtonsSaved("");
 	}
 
 }

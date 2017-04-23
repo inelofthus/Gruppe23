@@ -43,10 +43,10 @@ public class CourseStudController extends CommonMethods implements Initializable
 	//A list of buttons to iterate over in initializer
 	private ArrayList<Button> buttons = new ArrayList<Button>();	
 	private MainController mc = MainController.getInstance();
-	private Student stud = mc.getStudents();
+	private Student stud = mc.getStudent();
 	
 	private void setLectures (Course course) {
-		mc.setlastTwoLecturesStudent(course.getLastTwoCompletedLectures());
+		mc.setLastTwoLecturesStudent(course.getLastTwoCompletedLectures());
 	}
 	
 	private String loadCourseName(int courseNum){
@@ -157,7 +157,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 		errorBar.setFill(Color.DARKSEAGREEN);
 		errorText.setText("You are logged in as "+ stud.getUsername());
 		
-		String coursesUpdated = mc.coursesUpdated;
+		String coursesUpdated = mc.getCoursesUpdated();
 		if (!coursesUpdated.isEmpty()){
 			if (coursesUpdated.equals("true")){
 				errorText.setText("Your courses were updated");
@@ -166,7 +166,7 @@ public class CourseStudController extends CommonMethods implements Initializable
 				errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 				errorText.setText("No changes were made to your courses");
 			}
-			mc.coursesUpdated = "";
+			mc.setCoursesUpdated("");
 		}
 	}
 

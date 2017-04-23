@@ -83,8 +83,8 @@ public class CreateUserController extends CommonMethods implements Initializable
 
 		if (validInput) {
 			createStudentUser(username.getText());
-			mc.createStudUsername = username.getText();
-			mc.createUser = true;
+			mc.setCreateStudUsername(username.getText()); 
+			mc.setCreateUser(true); 
 			loadNextScene(finish, "LoginStud.fxml");
 		}
 	}

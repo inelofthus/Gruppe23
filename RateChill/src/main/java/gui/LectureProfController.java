@@ -363,18 +363,18 @@ public class LectureProfController extends CommonMethods implements Initializabl
 		}
 
 		// Gives feedback for updated evaluation buttons
-		if (mc.buttonsSaved == "true"
-				&& mc.buttonsSavedOrigin.equals("LectureProf.fxml")) {
+		if (mc.getButtonsSaved() == "true"
+				&& mc.getButtonsSavedOrigin().equals("LectureProf.fxml")) {
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.DARKSEAGREEN);
 			errorText.setText("Evaluation buttons successfully customized.");
-		} else if (mc.buttonsSaved == "false"
-				&& mc.buttonsSavedOrigin.equals("LectureProf.fxml")) {
+		} else if (mc.getButtonsSaved() == "false"
+				&& mc.getButtonsSavedOrigin().equals("LectureProf.fxml")) {
 			errorBar.setVisible(true);
 			errorBar.setFill(Color.LIGHTGOLDENRODYELLOW);
 			errorText.setText("No changes were made to student evaluation options");
 		}
-		mc.buttonsSaved = "";
+		mc.setButtonsSaved("");
 
 	}
 
