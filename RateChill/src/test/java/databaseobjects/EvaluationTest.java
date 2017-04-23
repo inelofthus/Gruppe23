@@ -13,17 +13,6 @@ public class EvaluationTest {
 	Evaluation eval2 = new Evaluation(1, "stupidStud", dummyDBC);
 	
 	@Test
-	public void TestexistsInDB(){
-		boolean actual = eval.existsInDB();
-		boolean expected = true;
-		
-		assertEquals(expected, actual);
-		
-		actual = eval2.existsInDB();
-		expected = false;
-	}
-	
-	@Test
 	public void TestgetRating() {
 		String actual = eval.getRating();
 		String expected = "Ok";
@@ -41,7 +30,7 @@ public class EvaluationTest {
 	
 	@Test
 	public void TestgetLectureid() {
-		int actual = eval.getLectureid();
+		int actual = eval.getLectureID();
 		int expected = 1;
 		
 		assertEquals(expected, actual);

@@ -1357,7 +1357,7 @@ public class DBController {
 			stmt = conn.createStatement();
 
 			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = "
-					+ evaluation.getLectureid() + " AND studentUsername ='" + evaluation.getstudentUsername() + "' ;";
+					+ evaluation.getLectureID() + " AND studentUsername ='" + evaluation.getstudentUsername() + "' ;";
 			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();

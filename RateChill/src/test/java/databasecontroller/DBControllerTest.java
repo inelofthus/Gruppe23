@@ -149,7 +149,8 @@ public class DBControllerTest {
 		assertEquals("Det var perfekt", eval.getComment());
 		assertEquals("testStud", eval.getstudentUsername());
 		
-		assertTrue(eval.existsInDB());
+		assertTrue(dbc.evaluationExists(eval.getLectureID(), eval.getstudentUsername()));
+		assertTrue(dbc.evaluationExists(lectureID, "testStud"));
 		
 
 		//Update
@@ -161,15 +162,15 @@ public class DBControllerTest {
 		assertEquals("Nesten perfekt, men det gikk litt for sakte", updatedEval.getComment());
 		assertEquals("testStud", updatedEval.getstudentUsername());
 		
-		assertTrue(updatedEval.existsInDB());
+		assertTrue(dbc.evaluationExists(updatedEval.getLectureID(), "testStud"));
 		assertTrue(dbc.studentHasEvaluatedLecture("testStud", lectureID));
 		assertTrue(dbc.evaluationExists(lectureID, "testStud"));
 		
 		//Delete
 		dbc.deleteCourseStudent("testStud", "TEST0001");
 		TestData.deleteTestData();
-		assertFalse(eval.existsInDB());
-		assertFalse(updatedEval.existsInDB());
+		assertFalse(dbc.evaluationExists(eval.getLectureID(), eval.getstudentUsername()));
+		assertFalse(dbc.evaluationExists(updatedEval.getLectureID(), updatedEval.getstudentUsername()));
 		assertFalse(dbc.evaluationExists(lectureID, "testStud"));
 	}
 	
