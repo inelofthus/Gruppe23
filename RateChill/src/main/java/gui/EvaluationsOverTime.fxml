@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -17,15 +14,7 @@
 <AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655.0" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EvaluationsOverTimeController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="94.0" layoutX="-19.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
-      <ImageView fitHeight="107.0" fitWidth="164.0" layoutX="471.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@RateChillLogo.png" />
-         </image>
-         <viewport>
-            <Rectangle2D />
-         </viewport>
-      </ImageView>
-      <LineChart fx:id="lineChart" layoutX="14.0" layoutY="140.0" prefHeight="359.0" prefWidth="453.0">
+      <LineChart fx:id="lineChart" layoutX="14.0" layoutY="140.0" prefHeight="359.0" prefWidth="624.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -33,7 +22,6 @@
           <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
       </LineChart>
-      <Button fx:id="customize" layoutX="473.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="61.0" prefWidth="153.0" text="Change students' options" textAlignment="CENTER" wrapText="true" />
       <ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
          <items>
             <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Home" textAlignment="CENTER" />
@@ -45,6 +33,12 @@
             <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
             <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
                <children>
+                  <Button fx:id="customize" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="61.0" prefWidth="153.0" styleClass="menuButton" text="Change students' options" textAlignment="CENTER" wrapText="true" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
                   <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
                </children>
             </HBox>
