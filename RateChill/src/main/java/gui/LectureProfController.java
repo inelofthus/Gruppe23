@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.Stack;
-
 import database.DBController;
 import databaseobjects.Course;
 import databaseobjects.Lecture;
