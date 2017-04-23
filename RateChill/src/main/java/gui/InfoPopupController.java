@@ -1,48 +1,36 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
+/**
+ * InfoPopupController --- InfoPopupController is a class that controls all
+ * interaction user interaction with the InfoPopup.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class InfoPopupController implements Initializable{
 
 	@FXML
 	public Rectangle titleBar;
-	public Button closeButton;
-	public Button keepGoing;
 	public Text title;
 	public Label message;
 	
 	MainController mc = MainController.getInstance();
 
-	@FXML
-	private void handleButtonAction(ActionEvent event) throws IOException{
-		
-	}
-
+	/**
+	 * Initialises the InfoPopup.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		title.setText(mc.getPopupTitle());
 		message.setText(mc.getPopupMessage());
-		
-		if(mc.getPopupTitle().equals("Customize Student Buttons Info")){
-			closeButton.setVisible(false);
-			keepGoing.setVisible(false);
-		}
 		
 	}
 
