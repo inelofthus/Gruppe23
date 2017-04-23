@@ -218,6 +218,9 @@ public class CustomizeButtonsController extends CommonMethods implements Initial
 		return false;
 	}
 
+	/**
+	 * Initialises the CustomizeButtons.fxml GUI
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createHelpingLists();
