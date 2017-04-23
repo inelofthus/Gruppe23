@@ -16,6 +16,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+/**
+ * CreateUserController --- CreateUserController is a class that controls all
+ * interaction user interaction with the CreateUser.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class CreateUserController extends CommonMethods implements Initializable {
 
 	// fxml objects

@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 /**
  * CommentPageController --- CommentPageController is a class that controls all
- * interaction user interacion with the CommentPage.fxml gui
+ * interaction user interaction with the CommentPage.fxml GUI
  * 
  * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
  *         Cappelen Michelet, Magnus Tvilde

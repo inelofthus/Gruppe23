@@ -16,6 +16,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * CourseProfController --- CourseProfController is a class that controls all
+ * interaction user interaction with the CourseProf.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class CourseProfController extends CommonMethods implements Initializable {
 
 	@FXML

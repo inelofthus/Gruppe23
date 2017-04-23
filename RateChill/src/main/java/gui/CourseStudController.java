@@ -19,6 +19,13 @@ import javafx.scene.text.Text;
 
 import gui.MainController;
 
+/**
+ * CourseStudController --- CourseStudController is a class that controls all
+ * interaction user interaction with the CourseStud.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class CourseStudController extends CommonMethods implements Initializable {
 	
 	@FXML

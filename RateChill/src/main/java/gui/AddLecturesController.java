@@ -28,7 +28,7 @@ import javafx.scene.text.Text;
 
 /**
  * AddLecturesController --- AddLecturesController is a class that controls all
- * interaction user interacion with the AddLectures.fxml gui
+ * interaction user interaction with the AddLectures.fxml GUI
  * 
  * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
  *         Cappelen Michelet, Magnus Tvilde

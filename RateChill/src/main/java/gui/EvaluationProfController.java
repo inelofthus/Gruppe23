@@ -20,6 +20,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * EvaluationProfController --- EvaluationProfController is a class that controls all
+ * interaction user interaction with the IndividualCharts.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class EvaluationProfController extends CommonMethods implements Initializable {
 
 	// fxml objects

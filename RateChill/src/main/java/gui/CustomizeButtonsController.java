@@ -20,6 +20,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * CustomizeButtonsController --- CustomizeButtonsController is a class that controls all
+ * interaction user interaction with the CustomizeButtons.fxml GUI
+ * 
+ * @author Group 23: Ine Lofthus Arnesen, Kari Meling Johannessen, Nicolai
+ *         Cappelen Michelet, Magnus Tvilde
+ */
 public class CustomizeButtonsController extends CommonMethods implements Initializable {
 
 	// fxml objects
