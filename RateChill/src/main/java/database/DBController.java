@@ -241,7 +241,6 @@ public class DBController {
 						+ year;
 			}
 		}
-		System.out.println(timeConstraint);
 		return timeConstraint;
 	}
 
@@ -426,7 +425,6 @@ public class DBController {
 					.append(" ORDER BY lectureDate DESC, lectureTime DESC;");
 
 			String query4 = sb.toString();
-			System.out.println(query4);
 
 			if (stmt.execute(query4)) {
 				rs = stmt.getResultSet();
@@ -812,7 +810,6 @@ public class DBController {
 			String time = dateTime.get(1);
 			String query = "SELECT lectureID FROM Lecture WHERE courseCode = '" + courseCode + "' and lectureDate='"
 					+ date + "' and lectureTime = '" + time + "';";
-			System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -959,7 +956,6 @@ public class DBController {
 
 			String query = "SELECT c.courseCode, c.courseName FROM Course c INNER JOIN CourseProfessor cp ON c.courseCode = cp.courseCode  WHERE cp. professorUsername = '"
 					+ username + "';";
-			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -1294,7 +1290,6 @@ public class DBController {
 					.append(professorUsername).append("'");
 
 			String query = sb.toString();
-			// System.out.println(query);
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
@@ -1357,7 +1352,6 @@ public class DBController {
 
 			String query = "SELECT rating, studentComment FROM Evaluation WHERE lectureID = "
 					+ evaluation.getLectureID() + " AND studentUsername ='" + evaluation.getstudentUsername() + "' ;";
-			// System.out.println(query);
 			if (stmt.execute(query)) {
 				rs = stmt.getResultSet();
 			}
@@ -1407,7 +1401,6 @@ public class DBController {
 					.append(username).append("' AND lectureID = ").append(lectureID).append(";");
 
 			String query2 = sb.toString();
-			// System.out.println(query);
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query2);
@@ -1502,7 +1495,6 @@ public class DBController {
 					.append(" GROUP BY e.rating, e.lectureID ORDER BY e.lectureID;");
 
 			String query4 = sb.toString();
-			System.out.println(query4);
 
 			if (stmt.execute(query4)) {
 				rs = stmt.getResultSet();
