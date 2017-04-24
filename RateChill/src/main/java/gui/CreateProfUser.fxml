@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CreateProfUserController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="96.0" layoutX="-6.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="667.0" />
+      <ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
+         <items>
+            <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
+         </items>
+      </ToolBar>
+      <ImageView fitHeight="83.0" fitWidth="135.0" layoutX="268.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RateChillLogo.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <TextField fx:id="username" layoutX="199.0" layoutY="229.0" onKeyPressed="#handleKeyAction" prefHeight="39.0" prefWidth="257.0" promptText="NTNU Username" styleClass="inputSection" />
+      <PasswordField fx:id="password" layoutX="199.0" layoutY="285.0" onKeyPressed="#handleKeyAction" prefHeight="39.0" prefWidth="257.0" promptText="password" styleClass="inputSection" />
+      <PasswordField fx:id="RepeatPassword" layoutX="199.0" layoutY="336.0" onKeyPressed="#handleKeyAction" prefHeight="39.0" prefWidth="257.0" promptText="repeat password" styleClass="inputSection" />
+      <Button fx:id="finish" layoutX="199.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="62.0" prefWidth="257.0" text="Finish">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Text fx:id="badUsername" fill="RED" layoutX="477.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text fx:id="passwordNoMatch" fill="RED" layoutX="477.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="135.0" />
+      <Text layoutX="74.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Create New Professor User" textAlignment="CENTER" wrappingWidth="508.80340576171875" />
+   </children>
+</AnchorPane>

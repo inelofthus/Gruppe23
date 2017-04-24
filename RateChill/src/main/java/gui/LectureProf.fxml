@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="500" maxWidth="655" minHeight="500"
+	minWidth="655" prefHeight="500.0" prefWidth="655.0" styleClass="background"
+	stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LectureProfController">
+	<children>
+		<Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343"
+			height="94.0" layoutX="-18.0" layoutY="22.0" stroke="BLACK"
+			strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
+		<Text layoutX="1.0" layoutY="91.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" styleClass="header" text="See evaluations"
+			textAlignment="CENTER" wrappingWidth="654.999993990139">
+			<font>
+				<Font size="48.0" />
+			</font>
+		</Text>
+		<Button fx:id="allLectures" layoutX="382.0" layoutY="341.0"
+			mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyAction"
+			prefHeight="94.0" prefWidth="166.0" text="See graph for lectures over time"
+			textAlignment="CENTER" wrapText="true">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+		<Button fx:id="indivLecture" layoutX="382.0" layoutY="235.0"
+			mnemonicParsing="false" onAction="#handleButtonAction" onKeyPressed="#handleKeyAction"
+			prefHeight="94.0" prefWidth="166.0" text="See selected lecture"
+			textAlignment="CENTER" wrapText="true">
+			<font>
+				<Font size="15.0" />
+			</font>
+		</Button>
+		<Hyperlink fx:id="month1" layoutX="114.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="Jan">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="month2" layoutX="144.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="Feb">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="month4" layoutX="213.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="Apr">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="month3" layoutX="177.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="Mar">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="month5" layoutX="246.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="May">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="month6" layoutX="286.0" layoutY="162.0"
+			onAction="#handleHyperLinkAction" text="Jun">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="prevMonth" layoutX="126.0" layoutY="193.0"
+			onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0"
+			style="-fx-font-weight: bold;" text="&lt;">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<Hyperlink fx:id="nextMonth" layoutX="288.0" layoutY="193.0"
+			onAction="#handleHyperLinkAction" prefHeight="35.0" prefWidth="18.0"
+			style="-fx-font-weight: bold;" text="&gt;">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Hyperlink>
+		<ListView fx:id="lectures" layoutX="109.0" layoutY="235.0"
+			prefHeight="200.0" prefWidth="219.0" />
+
+		<Text fx:id="month" layoutX="185.0" layoutY="219.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Month:" textAlignment="CENTER">
+			<font>
+				<Font size="21.0" />
+			</font>
+		</Text>
+		<ToolBar prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
+			<items>
+				<Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction"
+					styleClass="menuButton" text="Home" textAlignment="CENTER" />
+				<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
+					<font>
+						<Font size="14.0" />
+					</font>
+				</Text>
+				<Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction"
+					styleClass="menuButton" text="Back" textAlignment="CENTER" />
+				<HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
+					<children>
+						<Button fx:id="customize" mnemonicParsing="false"
+							onAction="#handleButtonAction" styleClass="menuButton"
+							text="Change students' options" textAlignment="CENTER">
+							<HBox.margin>
+								<Insets right="4.0" />
+							</HBox.margin>
+						</Button>
+						<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+							text="| ">
+							<font>
+								<Font size="14.0" />
+							</font>
+						</Text>
+						<Button fx:id="editLectures" mnemonicParsing="false"
+							onAction="#handleButtonAction" prefHeight="31.0" prefWidth="106.0"
+							styleClass="menuButton" text="Edit lectures" textAlignment="CENTER"
+							wrapText="true">
+							<HBox.margin>
+								<Insets right="4.0" />
+							</HBox.margin>
+						</Button>
+						<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+							text="| ">
+							<font>
+								<Font size="14.0" />
+							</font>
+						</Text>
+						<Button fx:id="logout" mnemonicParsing="false"
+							onAction="#handleButtonAction" styleClass="menuButton" text="Logout"
+							textAlignment="CENTER" />
+					</children>
+				</HBox>
+			</items>
+		</ToolBar>
+		<Hyperlink fx:id="editLecturesLink" layoutX="182.0" layoutY="435.0"
+			onAction="#handleButtonAction" text="Edit lectures" />
+		<Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0"
+			fill="#ff1f1f" height="25.0" layoutX="-2.0" layoutY="116.0" stroke="BLACK"
+			strokeType="INSIDE" strokeWidth="0.0" visible="false" width="666.0" />
+		<Text fx:id="errorText" layoutX="87.0" layoutY="134.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+			wrappingWidth="481.15948486328125">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Text>
+	</children>
+</AnchorPane>

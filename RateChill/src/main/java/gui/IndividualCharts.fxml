@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="500.0" maxWidth="655.0" minHeight="500.0" minWidth="655.0" prefHeight="500.0" prefWidth="655.0" styleClass="background" stylesheets="@rateDesign.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EvaluationProfController">
+   <children>
+      <BarChart fx:id="barchart" layoutY="134.0" legendVisible="false" prefHeight="352.0" prefWidth="453.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis forceZeroInRange="false" lowerBound="10.0" minorTickCount="4" minorTickLength="4.0" side="LEFT" tickLabelGap="8.0" tickLength="6.0" upperBound="500.0" />
+        </yAxis>
+      </BarChart>
+      <ImageView fitHeight="117.0" fitWidth="166.0" layoutX="470.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RateChillLogo.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <Button fx:id="customize" layoutX="470.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="86.0" prefWidth="166.0" text="Change students' options" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="seeComments" layoutX="470.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="86.0" prefWidth="166.0" text="See all comments" textAlignment="CENTER" wrapText="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#434343" height="94.0" layoutX="-10.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="675.0" />
+      <ToolBar layoutX="-1.0" prefHeight="41.0" prefWidth="657.0" styleClass="menuBar">
+         <items>
+            <Button fx:id="home" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Home" textAlignment="CENTER" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="|">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="back" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Back" textAlignment="CENTER" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="510.0">
+               <children>
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="menuButton" text="Logout" textAlignment="CENTER" />
+               </children>
+            </HBox>
+         </items>
+      </ToolBar>
+      <Text layoutX="185.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Lecture Evaluations" textAlignment="CENTER" wrappingWidth="295.4700927734375" />
+      <Rectangle fx:id="errorBar" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="25.0" layoutX="-4.0" layoutY="117.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="666.0" />
+      <Text fx:id="errorText" layoutX="85.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="481.15948486328125">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
