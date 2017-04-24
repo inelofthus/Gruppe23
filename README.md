@@ -29,8 +29,10 @@ For an indepth non-technical user guide, see UserGuide.pdf.
 
 ## Building the project
 
-Gradle is used to build the project and can be downloaded from eclipse
-marketplace. In order to build, locate the build task in Gradle Tasks.
+Gradle is used to build the project and can be downloaded 
+[here]https://gradle.org/install
+An Eclipse Gradle plugin can be installed from the marketplace.
+In order to build, locate the build task in Gradle Tasks.
 This will assemble and test the project. Make sure connection to the 
 NTNU network is established, as this is required by the database tests. 
 
