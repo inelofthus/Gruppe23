@@ -26,6 +26,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the gui where students select courses
+ * @author Ine L. Arnesen, Kari M. Johannessen, Magnus Tvilde, Nicolai C. Michelet
+ */
 public class SelectCourseStudController implements Initializable {
 
 	@FXML
@@ -54,6 +58,14 @@ public class SelectCourseStudController implements Initializable {
 	private DBController DBC = new DBController();
 	private MainController mc = MainController.getInstance();
 
+	
+	/**
+	 * Loads the relevant fxml file
+	 * @param button The button pressed calling the function
+	 * @param stage The stage
+	 * @param string The fxml file to be loaded
+	 * @throws IOException
+	 */
 	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
 		stage = (Stage) button.getScene().getWindow();
 		Parent root;
@@ -65,6 +77,11 @@ public class SelectCourseStudController implements Initializable {
 		stage.show();
 	}
 	
+	/**
+	 * Handles user buttons (home, back, logout, finish)
+	 * @param event Button ActionEvent 
+	 * @throws IOException
+	 */
 	@FXML
 	public void userButtons(ActionEvent event) throws IOException {
 		Stage stage = null;
@@ -88,19 +105,22 @@ public class SelectCourseStudController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Retrieves a list of courses that matches the search in the search field
+	 * and adds these to the listview
+	 */
 	private void handleSearch(){
-		// get a list of courses that matches search then add to listview
-					badChoice.setText("");
-					badSearch.setText("");
-					errorBar.setVisible(false);
-					ArrayList<String> searchResult = getSearchresult(searchText.getText());
-					options.getItems().clear();
-					if (searchResult.isEmpty()) {
-						badSearch.setText("No courses matching your search");
-						errorBar.setFill(myRed);
-						errorBar.setVisible(true);
-					}
-					options.getItems().addAll(searchResult);
+		badChoice.setText("");
+		badSearch.setText("");
+		errorBar.setVisible(false);
+		ArrayList<String> searchResult = getSearchresult(searchText.getText());
+		options.getItems().clear();
+		if (searchResult.isEmpty()) {
+			badSearch.setText("No courses matching your search");
+			errorBar.setFill(myRed);
+			errorBar.setVisible(true);
+		}
+		options.getItems().addAll(searchResult);
 	}
 
 	@FXML
@@ -109,54 +129,53 @@ public class SelectCourseStudController implements Initializable {
 		if (event.getSource() == search) {
 			handleSearch();
 		}
-
 		if (event.getSource() == sendRight) {
 			badChoice.setText("");
 			badSearch.setText("");
-			System.out.println("sendRight pressed");
-			String s = options.getSelectionModel().getSelectedItem();
+			String courseCodeAndName = options.getSelectionModel().getSelectedItem();
 			String courseCode = "";
 			String courseName = "";
-			if (s != null){
-				String[] stringSplit = s.split("\\s+",2); // splits into array with
-														// courseCode and courseName
+			
+			if (courseCodeAndName != null){
+				String[] stringSplit = courseCodeAndName.split("\\s+",2);// splits into array with courseCode and courseName
 				courseCode = stringSplit[0];
 				courseName = stringSplit[1];
-			}
-			if (s != null && checkCourseChoice(courseCode)) {
-				stud.addCourse(courseCode, courseName);
-				options.getSelectionModel().clearSelection();
-				options.getItems().remove(s);
-				choices.getItems().add(s);
-				mc.setCoursesUpdated("true");
+				if (checkCourseChoice(courseCode)) {
+					stud.addCourse(courseCode, courseName);
+					options.getSelectionModel().clearSelection();
+					options.getItems().remove(courseCodeAndName);
+					choices.getItems().add(courseCodeAndName);
+					mc.setCoursesUpdated("true");
+				}
 			}
 		}
 		if (event.getSource() == sendLeft) {
 			badChoice.setText("");
 			badSearch.setText("");
-			System.out.println("sendLeft pressed");
-			String s = choices.getSelectionModel().getSelectedItem();
-			if (s == null){return;}
-			String[] stringSplit = s.split("\\s+"); // splits into array with
-													// courseCode and courseName
+			String courseCodeAndName = choices.getSelectionModel().getSelectedItem();
+			if (courseCodeAndName == null){return;}
+			String[] stringSplit = courseCodeAndName.split("\\s+"); // splits into array with courseCode and courseName
 			String courseCode = stringSplit[0];
-			// String courseName = stringSplit[1];
-
-			if (s != null) {
+			if (courseCodeAndName != null) {
 				stud.removeCourse(courseCode);
 				options.getSelectionModel().clearSelection();
-				choices.getItems().remove(s);
-				options.getItems().add(s);
+				choices.getItems().remove(courseCodeAndName);
+				options.getItems().add(courseCodeAndName);
 				mc.setCoursesUpdated("true");
 			}
 		}
-
 		if (event.getSource() == finish) {
 			Stage stage = null;
 			loadNextScene(finish, stage, "CourseStud.fxml");
 		}
 	}
 
+	/**
+	 * Helper method for {@link #handleSearch()}. Returns an ArrayList of courses that
+	 * matches the text in the search field
+	 * @param text The text in the search field
+	 * @return An ArrayList of courses that matches search
+	 */
 	private ArrayList<String> getSearchresult(String text) {
 		ArrayList<String> result = new ArrayList<>();
 		
@@ -165,13 +184,20 @@ public class SelectCourseStudController implements Initializable {
 				result.add(course);
 			}
 		}
-	return result;
-}
+		return result;
+	}
 
-	private boolean checkCourseChoice(String s) {
+	/**
+	 * Checks whether or not the course can be added to selected courses.
+	 * If the course already is in the list of selected courses or four
+	 * courses are already chosen, false is returned.
+	 * @param courseCode the course's course code
+	 * @return Whether or not the course can be added to selected courses
+	 */
+	private boolean checkCourseChoice(String courseCode) {
 		boolean okChoice = true;
 
-		if (stud.getCourseIDs().contains(s)) {
+		if (stud.getCourseIDs().contains(courseCode)) {
 			badChoice.setText("This course is already added");
 			okChoice = false;
 			errorBar.setFill(myRed);
@@ -183,11 +209,12 @@ public class SelectCourseStudController implements Initializable {
 			errorBar.setFill(myRed);
 			errorBar.setVisible(true);
 		}
-
 		return okChoice;
-
 	}
 
+	/**
+	 * Initializes the SelectCourseStud.fxml gui
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mc.setCoursesUpdated("false");
