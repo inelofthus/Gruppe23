@@ -182,7 +182,7 @@ public class LoginController extends CommonMethods implements Initializable {
 				profUsername.setText(mc.getCreateProfUsername());
 			}
 			if (!mc.getCreateStudUsername().isEmpty()){
-				studUsername.setText(MainController.getInstance().getCreateStudUsername());
+				studUsername.setText(mc.getCreateStudUsername());
 			}
 			
 		} catch (Exception e) {
