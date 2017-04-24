@@ -1,15 +1,11 @@
 package databaseobjectstest;
 
 import static org.junit.Assert.assertEquals;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
-
 import org.junit.Test;
-
 import database.DBController;
 import databaseobjects.Course;
 
