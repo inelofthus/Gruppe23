@@ -12,12 +12,11 @@ Read more on NTNU's websites
 (https://innsida.ntnu.no/wiki/-/wiki/English/Install+VPN) about VPN
 installation.
 
-##Usage
+###Usage
 Ensure that Java SE Runtime Environment 1.8 is installed, and that the
 device is connected to the NTNU network. 
 Run the jar file in order to start the application.
-###Student
-###Professor
+
 
 
 
