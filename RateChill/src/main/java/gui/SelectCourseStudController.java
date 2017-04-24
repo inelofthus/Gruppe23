@@ -66,8 +66,8 @@ public class SelectCourseStudController implements Initializable {
 	 * @param string The fxml file to be loaded
 	 * @throws IOException
 	 */
-	public void loadNextScene(Button button, Stage stage, String string) throws IOException {
-		stage = (Stage) button.getScene().getWindow();
+	public void loadNextScene(Button button, String string) throws IOException {
+		Stage stage = (Stage) button.getScene().getWindow();
 		Parent root;
 		root = FXMLLoader.load(getClass().getResource(string));
 
@@ -86,16 +86,16 @@ public class SelectCourseStudController implements Initializable {
 	public void userButtons(ActionEvent event) throws IOException {
 		Stage stage = null;
 		if (event.getSource() == home) {
-			loadNextScene(home, stage, "CourseStud.fxml");
+			loadNextScene(home, "CourseStud.fxml");
 		}
 		if (event.getSource() == back) {
-			loadNextScene(back, stage, "CourseStud.fxml");
+			loadNextScene(back, "CourseStud.fxml");
 		}
 		if (event.getSource() == logout) {
-			loadNextScene(logout, stage, "LoginStud.fxml");
+			loadNextScene(logout, "LoginStud.fxml");
 		}
 		if (event.getSource() == finish) {
-			loadNextScene(logout, stage, "CourseStud.fxml");
+			loadNextScene(logout, "CourseStud.fxml");
 		}
 	}
 	
@@ -166,7 +166,7 @@ public class SelectCourseStudController implements Initializable {
 		}
 		if (event.getSource() == finish) {
 			Stage stage = null;
-			loadNextScene(finish, stage, "CourseStud.fxml");
+			loadNextScene(finish, "CourseStud.fxml");
 		}
 	}
 
