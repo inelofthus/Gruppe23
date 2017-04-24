@@ -41,15 +41,9 @@ public abstract class CommonMethods {
 	/**
 	 * Changes the scene from one fxml gui to the next. Uses a button to reference
 	 * the stage
-	 * 
-	 * @param button
-	 *            A JavaFX Button on the stage
-	 * @param stage
-	 *            The JavaFX stage that is being worked on
-	 * @param fxmlName
-	 *            the name of the next FXML scene to be loaded
-	 * @throws IOException
-	 *             is thrown if there is a problem loading the new scene
+	 * @param button A JavaFX Button on the stage
+	 * @param fxmlName The name of the next FXML scene to be loaded
+	 * @throws IOException Is thrown if there is a problem loading the new scene
 	 */
 	public void loadNextScene(Button button, String fxmlName) throws IOException {
 		Stage stage = (Stage) button.getScene().getWindow();
@@ -59,15 +53,9 @@ public abstract class CommonMethods {
 	/**
 	 * Changes the scene from one fxml gui to the next. Uses a hyperlink to
 	 * reference the stage
-	 * 
-	 * @param hyper
-	 *            A JavaFX Hyperlink on the stage
-	 * @param stage
-	 *            The JavaFX stage that is being worked on
-	 * @param fxmlName
-	 *            the name of the next FXML scene to be loaded
-	 * @throws IOException
-	 *             is thrown if there is a problem loading the new scene
+	 * @param hyper A JavaFX Hyperlink on the stage
+	 * @param fxmlName The name of the next FXML scene to be loaded
+	 * @throws IOException Is thrown if there is a problem loading the new scene
 	 */
 	public void loadNextSceneHyperlink(Hyperlink hyper, String fxmlName) throws IOException {
 		Stage stage = (Stage) hyper.getScene().getWindow();

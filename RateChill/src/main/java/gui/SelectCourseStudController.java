@@ -58,7 +58,6 @@ public class SelectCourseStudController implements Initializable {
 	/**
 	 * Loads the relevant fxml file
 	 * @param button The button pressed calling the function
-	 * @param stage The stage
 	 * @param string The fxml file to be loaded
 	 * @throws IOException
 	 */
