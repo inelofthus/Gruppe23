@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import database.DBController;
 import databaseobjects.Student;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -84,7 +80,6 @@ public class SelectCourseStudController implements Initializable {
 	 */
 	@FXML
 	public void userButtons(ActionEvent event) throws IOException {
-		Stage stage = null;
 		if (event.getSource() == home) {
 			loadNextScene(home, "CourseStud.fxml");
 		}
@@ -165,7 +160,6 @@ public class SelectCourseStudController implements Initializable {
 			}
 		}
 		if (event.getSource() == finish) {
-			Stage stage = null;
 			loadNextScene(finish, "CourseStud.fxml");
 		}
 	}
