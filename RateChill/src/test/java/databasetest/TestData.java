@@ -1,9 +1,6 @@
 package databasetest;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
-
 import database.DBController;
 import databaseobjects.Professor;
 
