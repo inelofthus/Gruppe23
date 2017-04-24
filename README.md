@@ -24,7 +24,7 @@ Read more about installing VPN on NTNU's websites
 Ensure that Java SE Runtime Environment 1.8 is installed, and that the
 device is connected to the NTNU network. 
 Run the RateChill.jar in order to start the application.
-For an indepth non-technical user guide, see UserGuide.pdf.
+For an in-depth non-technical user guide, see UserGuide.pdf.
 
 
 ## Building the project
