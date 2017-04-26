@@ -26,15 +26,32 @@ folder is required to run the RateChill.exe, so do not delete this.
 
 
 ## Usage
-
 Ensure that Java SE Runtime Environment 1.8 is installed, and that the
 device is connected to the NTNU network. 
 Run the RateChill.jar in order to start the application.
 For an in-depth non-technical user guide, see UserGuide.pdf.
 
 
-## Building the project
+## Editing source code
+We used Eclipse as IDE. The source code can be opened as a Java project
+or a Gradle project. To build the project it must be opened as a Gradle
+project.
 
+### Import as Gradle Project
+This required having Gradle installed.
+In Eclipse, click
+	File -> Import -> Gradle -> Existing Gradle Project
+Click next and set "Project root directory"
+to the RateChill_SourceCode folder. Click Finish. 
+
+### Import as Java Project
+In Eclipse, click
+	File -> New -> Java Project
+Uncheck "Use default location" and set "Location" to the RateChill_SourceCode
+folder. Click Finish.
+
+
+## Building the project
 Gradle is used to build the project and can be downloaded 
 [here](https://gradle.org/install).
 An Eclipse Gradle plugin can be installed from the marketplace.
