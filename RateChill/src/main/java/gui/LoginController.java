@@ -116,6 +116,9 @@ public class LoginController extends CommonMethods implements Initializable {
 			passwordError.setText("Incorrect password, try again");	
 			return;
 		}
+		else{
+			usernameError.setText("User does not exist. Create a user. ");
+		}
 	}
 
 	// --- STUDENT LOGIN ---//
