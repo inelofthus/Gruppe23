@@ -39,15 +39,19 @@ public class DBController {
 	Connection conn = null;
 	MainController mc = MainController.getInstance();
 
-	public void connectWithoutPopup(){
+	/**
+	 * This method will establish a connection to the database but will not show
+	 * an error popup if the connection process takes too long. To be used by non-gui classes such as those in api
+	 */
+	public void connectWithoutPopup() {
 		try {
-			conn = DriverManager
-					.getConnection("jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
 		} catch (SQLException e) {
 			System.out.println("SQL connection error:" + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * The connect method makes a connection to the database. If the connection
 	 * takes too long or an SQL exception is thrown, a popup with information is
@@ -276,11 +280,16 @@ public class DBController {
 	 * The insertCourse method inserts a new row in Course table of database
 	 * with the values specified in parameters
 	 * 
-	 * @param courseCode The course code for the course
-	 * @param courseName The name of the course
-	 * @param lectureHours The number of lecture hours per week for this course
-	 * @param taughtInSpring int 0 for false, int 1 for true
-	 * @param taughtInAutumn int 0 for false, int 1 for true
+	 * @param courseCode
+	 *            The course code for the course
+	 * @param courseName
+	 *            The name of the course
+	 * @param lectureHours
+	 *            The number of lecture hours per week for this course
+	 * @param taughtInSpring
+	 *            int 0 for false, int 1 for true
+	 * @param taughtInAutumn
+	 *            int 0 for false, int 1 for true
 	 */
 	public void insertCourse(String courseCode, String courseName, int lectureHours, int taughtInSpring,
 			int taughtInAutumn) {
@@ -522,7 +531,8 @@ public class DBController {
 	 * Retrieves the lecture dates and times for a lectures in a course. Returns
 	 * the result as a list of strings with the newest lecture first.
 	 * 
-	 * @param courseCode the course code for the course
+	 * @param courseCode
+	 *            the course code for the course
 	 * @return list a list of strings in format DD.MM.YYY hh:mm:ss
 	 */
 	public ArrayList<String> getLectureDateAndTimeForCourse(String courseCode) {
@@ -901,7 +911,9 @@ public class DBController {
 	 *            the startTime of the lecture. Format (HH:MM:SS)
 	 * @param startDate
 	 *            the date of the first lecture to be added. Format (YYYY-MM-DD)
-	 * @param endDate If lectures repeat weakly, the date that they will repeat until. Format(YYYY-MM-DD)
+	 * @param endDate
+	 *            If lectures repeat weakly, the date that they will repeat
+	 *            until. Format(YYYY-MM-DD)
 	 * @param repeat:
 	 *            a boolean value that specifies if the lecture should repeat
 	 *            weekly
