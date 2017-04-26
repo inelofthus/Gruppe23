@@ -9,6 +9,7 @@ and see all evaluations represented in different graphs.
 
 ## Installation
 
+### For all OS
 Running the RateChill.jar requires having Java SE Runtime Environment 1.8
 installed. This can be downloaded from Oracle's websites
 (http://www.oracle.com/technetwork/java/javase/downloads/).
@@ -17,6 +18,11 @@ Using the application requires connection to the NTNU network.
 If not connected to eduroam on NTNU campus, VPN must be used. 
 Read more about installing VPN on NTNU's websites
 (https://innsida.ntnu.no/wiki/-/wiki/English/Install+VPN).
+
+###For windows only
+Windows users can run the RateChill.jar or the RateChill.exe. RateChill.jar
+requires having Java SE Runtime Environment 1.8 installed. The bin
+folder is required to run the RateChill.exe, so do not delete this.
 
 
 ## Usage
