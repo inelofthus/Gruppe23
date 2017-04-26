@@ -57,7 +57,7 @@ public class LecturesAPI {
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
 	    
-	    dbc.connect();
+	    
 	    try {
 		    JsonArray lectures = rootobj.getAsJsonObject("course").getAsJsonArray("summarized");
 		    
@@ -80,8 +80,7 @@ public class LecturesAPI {
 		    }
 		} catch (Exception e) {
 			System.out.println("Course not in API");
-		}
-	    dbc.close();    
+		}   
 	}
 	
 	/**

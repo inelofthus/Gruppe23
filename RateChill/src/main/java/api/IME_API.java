@@ -40,7 +40,7 @@ public class IME_API {
 	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
 	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
 	    JsonArray course = rootobj.getAsJsonArray("course");
-	    dbc.connect();
+	    dbc.connectWithoutPopup();
 	    for (int i = 0; i < course.size(); i++){
 	    	loadAndSetCourseInfo(course.get(i).getAsJsonObject().get("code").getAsString());
 	    }
