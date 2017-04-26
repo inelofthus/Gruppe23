@@ -44,16 +44,15 @@ In Eclipse, click
 	File -> Import -> Gradle -> Existing Gradle Project
 
 Click next and set "Project root directory"
-to the RateChill_SourceCode folder. Click Finish. 
+to the RateChill folder. Click Finish. 
 
 ### Import as Java Project
 In Eclipse, click
 
 	File -> New -> Java Project
 
-Uncheck "Use default location" and set "Location" to the RateChill_SourceCode
+Uncheck "Use default location" and set "Location" to the RateChill
 folder. Click Finish.
-
 
 ## Building the project
 Gradle is used to build the project and can be downloaded 
