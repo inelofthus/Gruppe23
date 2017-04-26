@@ -781,6 +781,14 @@ public class DBController {
 		insertLectureNC(date, time, courseCode, professorUsername);
 		close();
 	}
+	public void insertLectureNoPopup(String date, String time, String courseCode, String professorUsername)
+			throws SQLException {
+		// Date format: "YYYY-MM-DD"
+		// Time format: "HH:MM:SS"
+		connectWithoutPopup();
+		insertLectureNC(date, time, courseCode, professorUsername);
+		close();
+	}
 
 	public void insertLectureNC(String date, String time, String courseCode, String professorUsername)
 			throws SQLException {

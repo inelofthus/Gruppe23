@@ -70,7 +70,7 @@ public class LecturesAPI {
 		    		
 		    		for (int j = 0; j < lectureDates.size(); j++){
 		    			try {
-		    				dbc.insertLecture(lectureDates.get(j), lectureStart, courseCode, professorUsername);
+		    				dbc.insertLectureNoPopup(lectureDates.get(j), lectureStart, courseCode, professorUsername);
 						} catch (Exception e) {
 							System.out.println(e);
 						}

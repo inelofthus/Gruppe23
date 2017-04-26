@@ -19,7 +19,7 @@ If not connected to eduroam on NTNU campus, VPN must be used.
 Read more about installing VPN on NTNU's websites
 (https://innsida.ntnu.no/wiki/-/wiki/English/Install+VPN).
 
-###For windows only
+### For windows only
 Windows users can run the RateChill.jar or the RateChill.exe. RateChill.jar
 requires having Java SE Runtime Environment 1.8 installed. The bin
 folder is required to run the RateChill.exe, so do not delete this.
