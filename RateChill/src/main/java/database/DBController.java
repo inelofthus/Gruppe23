@@ -39,6 +39,15 @@ public class DBController {
 	Connection conn = null;
 	MainController mc = MainController.getInstance();
 
+	public void connectWithoutPopup(){
+		try {
+			conn = DriverManager
+					.getConnection("jdbc:mysql://mysql.stud.ntnu.no/segroup23_db?user=segroup23_user&password=pekkabot");
+		} catch (SQLException e) {
+			System.out.println("SQL connection error:" + e.getMessage());
+		}
+	}
+	
 	/**
 	 * The connect method makes a connection to the database. If the connection
 	 * takes too long or an SQL exception is thrown, a popup with information is
